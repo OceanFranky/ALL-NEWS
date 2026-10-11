@@ -1,0 +1,1 @@
+ALTER TABLE publications VALIDATE CONSTRAINT publications_section_article_id_fk;

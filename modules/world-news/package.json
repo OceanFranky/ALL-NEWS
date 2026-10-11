@@ -1,0 +1,13 @@
+{
+  "name": "@aihot/world-news",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./server": "./server.ts",
+    "./rules": "./rules.ts"
+  },
+  "dependencies": {
+    "@aihot/backend": "*",
+    "@aihot/contracts": "*"
+  }
+}

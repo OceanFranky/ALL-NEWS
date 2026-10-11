@@ -35,16 +35,17 @@ export async function runsOverview(): Promise<Runs> {
         SELECT DISTINCT ON (job) job, started_at, finished_at, status, left(error, 400) AS error
         FROM job_runs
         -- Registered worker schedules and the modules' current external jobs; the timeline retains history.
-        WHERE EXISTS (SELECT 1 FROM pgboss.schedule s WHERE s.name = 'cron.' || job_runs.job)
-          OR job_runs.job = ANY(${currentJobs}::text[])
+        WHERE (section_id IS NULL OR section_id = 'ai') AND
+          (EXISTS (SELECT 1 FROM pgboss.schedule s WHERE s.name = 'cron.' || job_runs.job)
+          OR job_runs.job = ANY(${currentJobs}::text[]))
         ORDER BY job, started_at DESC, id DESC
       ), counts AS (
         SELECT job, count(*) FILTER (WHERE status = 'failed')::int AS failed_24h, count(*)::int AS runs_24h
-        FROM job_runs WHERE started_at > now() - interval '24 hours' GROUP BY job
+        FROM job_runs WHERE (section_id IS NULL OR section_id = 'ai') AND started_at > now() - interval '24 hours' GROUP BY job
       )
       SELECT latest.*, coalesce(counts.failed_24h, 0) AS failed_24h, coalesce(counts.runs_24h, 0) AS runs_24h
       FROM latest LEFT JOIN counts USING (job) ORDER BY job`,
-    sql<Runs["timeline"]>`SELECT id, job, started_at, finished_at, status, left(error, 300) AS error FROM job_runs ORDER BY started_at DESC, id DESC LIMIT 80`,
+    sql<Runs["timeline"]>`SELECT id, job, started_at, finished_at, status, left(error, 300) AS error FROM job_runs WHERE section_id IS NULL OR section_id = 'ai' ORDER BY started_at DESC, id DESC LIMIT 80`,
     sql<Runs["queues"]>`
       SELECT name, state, count(*)::int AS n, min(created_on) AS oldest FROM pgboss.job
       WHERE state IN ('created', 'retry', 'active') GROUP BY 1, 2 ORDER BY 1, 2`,

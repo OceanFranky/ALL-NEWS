@@ -49,7 +49,7 @@ export interface HotRanking {
 /** Administrative invalidation needs the saved references, including ones already hidden publicly. */
 export async function storedHotRanking(db: Db = sql): Promise<HotRanking | null> {
   const [row] = await db<{ id: number; computed_at: Date; rule_version: string; entries: HotEntry[]; evidence: Record<string, unknown> | null }[]>`
-    SELECT id, computed_at, rule_version, entries, evidence FROM hot_rankings WHERE published ORDER BY computed_at DESC LIMIT 1`;
+    SELECT id, computed_at, rule_version, entries, evidence FROM hot_rankings WHERE section_id = 'ai' AND published ORDER BY computed_at DESC LIMIT 1`;
   if (!row) return null;
   return { id: row.id, computedAt: row.computed_at.toISOString(), ruleVersion: row.rule_version, entries: row.entries, coverage: row.evidence };
 }

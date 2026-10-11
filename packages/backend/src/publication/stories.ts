@@ -126,7 +126,7 @@ async function storyContent(storyId: number, now: Date) {
 async function relatedStories(storyId: number, now: Date) {
   return sql<{ public_id: string; title: string; relation: "storyline" | "related" }[]>`
     SELECT st.public_id::text, st.title, l.relation FROM story_links l JOIN stories st ON st.id = l.other_id
-    WHERE l.story_id = ${storyId} AND st.merged_into IS NULL AND EXISTS (
+    WHERE l.section_id = 'ai' AND l.story_id = ${storyId} AND st.merged_into IS NULL AND EXISTS (
       SELECT 1 FROM facts f JOIN fact_articles fa ON fa.fact_id = f.id JOIN publications p ON p.article_id = fa.article_id
       JOIN sources s ON s.id = p.source_id
       WHERE f.story_id = st.id AND ${evidenceCondition()} AND ${storyReportCondition(now)}

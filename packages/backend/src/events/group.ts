@@ -232,7 +232,7 @@ export interface GroupOptions {
 export async function groupArticle(articleId: string, opts: GroupOptions = {}): Promise<GroupResult> {
   const input = await sql.begin(async tx => {
     const [current] = await tx<{ revision: number; grouping_status: string; selection_adds_value: boolean | null }[]>`
-      SELECT revision, grouping_status, selection_adds_value FROM articles WHERE id = ${articleId} FOR UPDATE`;
+      SELECT revision, grouping_status, selection_adds_value FROM articles WHERE id = ${articleId} AND section_id = 'ai' FOR UPDATE`;
     if (!current) return null;
     await tx`UPDATE articles SET grouping_status = 'pending', grouped_at = NULL, grouping_error = NULL, grouping_receipt_id = NULL WHERE id = ${articleId}`;
     // An unfinished decision (new material, a failure, an explicit regroup) must withdraw its old public

@@ -55,7 +55,7 @@ export async function modelsOverview(days = 7): Promise<BeforeJson<AdminModels>>
     sql<{ id: string; label: string; sample_size: number; prompt_version: string | null; models: string[]; summary: unknown; created_at: Date }[]>`
       SELECT id, label, sample_size, prompt_version, models,
              (SELECT coalesce(jsonb_object_agg(key, value - 'sweep'), '{}'::jsonb) FROM jsonb_each(r.summary)) AS summary,
-             created_at FROM selectbench_runs r ORDER BY created_at DESC LIMIT 8`,
+             created_at FROM selectbench_runs r WHERE r.section_id = 'ai' ORDER BY created_at DESC LIMIT 8`,
   ]);
   const serviceOf = (model: string) => Object.values(MODELS).find((m) => m.model === model || m.key === model)?.service ?? null;
   // Cached prompt tokens at the cache price, the rest at the input price; calls that carry their own cost

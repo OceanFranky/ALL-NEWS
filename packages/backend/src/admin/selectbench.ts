@@ -72,11 +72,11 @@ export async function listSelectBenchRuns(): Promise<BeforeJson<AdminSelectBench
            (SELECT coalesce(jsonb_object_agg(key, value - 'sweep'), '{}'::jsonb) FROM jsonb_each(r.summary)) AS summary,
            r.created_at, r.imported_by,
            (SELECT count(*)::int FROM selectbench_results x WHERE x.run_id = r.id) AS cases
-    FROM selectbench_runs r ORDER BY r.created_at DESC LIMIT 100`;
+    FROM selectbench_runs r WHERE r.section_id = 'ai' ORDER BY r.created_at DESC LIMIT 100`;
 }
 
 export async function selectBenchRun(id: string, f: { model?: string; outcome?: string; stratum?: string; disagree?: boolean }): Promise<BeforeJson<AdminSelectBenchCases> | null> {
-  const [run] = await sql<BeforeJson<AdminSelectBenchCases["run"]>[]>`SELECT * FROM selectbench_runs WHERE id = ${id}`;
+  const [run] = await sql<BeforeJson<AdminSelectBenchCases["run"]>[]>`SELECT * FROM selectbench_runs WHERE id = ${id} AND section_id = 'ai'`;
   if (!run) return null;
   const outcome = f.outcome ?? null;
   // One row per case with every model's decision, so disagreements are visible side by side.

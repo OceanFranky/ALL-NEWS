@@ -1,0 +1,1 @@
+ALTER TABLE publications VALIDATE CONSTRAINT publications_section_story_id_fk;

@@ -1,0 +1,1 @@
+ALTER TABLE selected_state VALIDATE CONSTRAINT selected_state_section_check;

@@ -1,0 +1,1 @@
+ALTER TABLE story_signals VALIDATE CONSTRAINT story_signals_section_story_id_fk;
