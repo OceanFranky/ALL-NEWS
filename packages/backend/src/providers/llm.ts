@@ -3,6 +3,8 @@
 // site, an environment variable or the admin's model page picks one of the site's named presets
 // (site/models.ts).
 import type { z } from "zod";
+import type { SectionId } from "@aihot/contracts/sections";
+import type { SectionResource } from "../sections/resources.ts";
 import { PRESETS } from "@aihot/site/models";
 import { config, credential } from "../config.ts";
 import { sha256 } from "../lib/ids.ts";
@@ -54,6 +56,8 @@ export const MODELS: Record<string, ModelSpec> = {
 export type ContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string } };
 
 export interface ChatJsonOptions<S extends z.ZodType> {
+  sectionId?: SectionId;
+  resource?: SectionResource;
   model: string;
   purpose: string;
   subject: string;
@@ -153,6 +157,8 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
 
   const receipt = await paidRequest(
     {
+      sectionId: opts.sectionId,
+      resource: opts.resource,
       service: spec.service,
       model: spec.model,
       purpose: opts.purpose,
@@ -205,7 +211,7 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
     const detail = response.choices?.[0]?.finish_reason === "length"
       ? `output token limit reached (finish_reason=length): a reasoning model may have spent it reasoning; give it room with ${spec.key === "default" ? "LLM_REASONING_TOKENS" : `reasoningTokens on preset ${spec.key}`}. ${String(error)}`
       : String(error);
-    await rejectReceivedResponse(receipt.receiptId, `unusable output: ${detail.slice(0, 500)}`);
+    await rejectReceivedResponse(receipt.receiptId, `unusable output: ${detail.slice(0, 500)}`, opts.sectionId);
     throw new ModelOutputError(`Model ${opts.model} returned unusable output for ${opts.subject}: ${detail.slice(0, 300)}`, receipt.receiptId);
   }
   return { data: parsed, receiptId: receipt.receiptId, reused: receipt.reused, model: spec.key, usage: response.usage ?? null };

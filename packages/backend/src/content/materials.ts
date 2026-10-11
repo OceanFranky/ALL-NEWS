@@ -191,6 +191,12 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   // concurrent first discoveries; after losing that insert, read and lock its winner.
   let existing = await lockMaterial(db, identityKey, sectionId);
   if (!existing) {
+    // During expand/cutover two unique indexes coexist. ON CONFLICT's section index alone cannot
+    // arbitrate the old global index's concurrent first insert; serialise only first discoveries.
+    await db`SELECT pg_advisory_xact_lock(hashtextextended(${`material:${sectionId}:${identityKey}`}, 0))`;
+    existing = await lockMaterial(db, identityKey, sectionId);
+  }
+  if (!existing) {
     const newId = m.id ?? newArticleId();
     const hash = contentHash({ title, bodyText: m.bodyText, excerpt: m.excerpt });
     const [inserted] = await db<{ id: string }[]>`

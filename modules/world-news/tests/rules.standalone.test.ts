@@ -87,6 +87,23 @@ test("a missing world file or include cannot fall back to an existing AI prompt"
   assert.throws(() => cycle.text("a"), /include cycle/);
 });
 
+test("detailed world prompts cover evidence, boundaries, writing and independent relation review", () => {
+  for (const name of ["prefilter", "selection-score", "structure", "understand", "summarize", "group-pair", "group-review", "story-digest"]) {
+    const rendered = WORLD_RULES.prompts.text(name);
+    assert.ok(rendered.length > 1000, `${name}: must contain detailed operational guidance`);
+    assert.match(rendered, /不可信材料/);
+    assert.match(rendered, /归属/);
+    assert.doesNotMatch(rendered, /\{\{(?:>|siteName)/);
+    assert.match(WORLD_RULES.prompts.version(name), /^world:/);
+  }
+  assert.match(WORLD_RULES.prompts.text("prefilter"), /UNKNOWN/);
+  assert.match(WORLD_RULES.prompts.text("structure"), /不能唯一承载/);
+  assert.match(WORLD_RULES.prompts.text("understand"), /百分比.*百分点/);
+  assert.match(WORLD_RULES.prompts.text("group-review"), /前一模型解释不是新的事实证据/);
+  assert.match(WORLD_RULES.prompts.text("selection-score"), /4、2、2、1、1/);
+  assert.match(WORLD_RULES.prompts.text("selection-score"), /3、3、2、1、1/);
+});
+
 // Recompute the old algorithm over every unchanged AI file, including its include graph.
 test("every existing AI prompt keeps its exact rendered text and receipt version", () => {
   const token = /\{\{(>\s*)?([A-Za-z][\w.-]*)\s*\}\}/g;

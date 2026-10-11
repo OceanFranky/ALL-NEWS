@@ -232,7 +232,7 @@ export async function registerExtractionJobs(boss: PgBoss) {
 export async function sweepUnprocessed(): Promise<{ enqueued: number }> {
   const rows = await sql<{ id: string }[]>`
     SELECT id FROM articles
-    WHERE processing_state = 'new' AND created_at < now() - interval '3 minutes'
+    WHERE section_id = 'ai' AND processing_state = 'new' AND created_at < now() - interval '3 minutes'
       AND (processing_retry_at IS NULL OR processing_retry_at <= now())
       AND (processing_queued_at IS NULL OR processing_queued_at < now() - ${QUEUED_STALE}::interval)
     ORDER BY discovered_at DESC LIMIT 500`;
@@ -255,7 +255,7 @@ export async function resumeAfterRelease(receipt: { purpose: string; subject: st
   const article = ARTICLE_STEPS.has(receipt.purpose) ? /^article:([^@:#]+)/.exec(receipt.subject ?? "")?.[1] : undefined;
   if (!article) return false;
   const [a] = await db`UPDATE articles SET processing_state = 'new', processing_attempts = 0, processing_retry_at = NULL, processing_error = NULL
-                        WHERE id = ${article} AND processing_state = 'failed' RETURNING id`;
+                        WHERE section_id = 'ai' AND id = ${article} AND processing_state = 'failed' RETURNING id`;
   return !!a && !!(await queueProcessing(article, { step: "analyze", db }));
 }
 
@@ -270,7 +270,7 @@ export const failureGroupSql = (column = "processing_error") =>
 export async function requeueFailed(group: string | null): Promise<{ requeued: number }> {
   const rows = await sql<{ id: string }[]>`
     UPDATE articles SET processing_state = 'new', processing_attempts = 0, processing_retry_at = NULL, processing_error = NULL
-    WHERE processing_state = 'failed' AND discovered_at > now() - interval '30 days'
+    WHERE section_id = 'ai' AND processing_state = 'failed' AND discovered_at > now() - interval '30 days'
       AND (${group}::text IS NULL OR ${failureGroupSql()} = ${group})
     RETURNING id`;
   for (const r of rows.slice(0, 500)) await queueProcessing(r.id);
