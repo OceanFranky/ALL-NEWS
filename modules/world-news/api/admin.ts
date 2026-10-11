@@ -12,12 +12,38 @@ import { searchContent,contentChain } from "@aihot/backend/admin/content";
 import { installWorldSources } from "../sources.ts";
 import { computeSectionHot } from '@aihot/backend/events/section-hot';
 import { currentSectionHot } from '@aihot/backend/publication/section-hot';
+import { SectionGroupingCorrection,SectionStoryParams,SectionStoryMerge } from '@aihot/contracts/section-events';
+import { correctSectionGrouping,mergeSectionStories } from '@aihot/backend/events/section-corrections';
+import { listSectionEvents,sectionEventDetail } from '@aihot/backend/admin/section-events';
+import { enqueueOn } from '@aihot/backend/jobs/queue';
+import { worldGroupQueue } from '../jobs.ts';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
   page:z.coerce.number().int().min(1).max(100000).optional() });
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.get('/api/admin/world/events',adminHandler(async req=>{
+    const { q,limit }=z.strictObject({ q:z.string().max(500).default(''),limit:z.coerce.number().int().min(1).max(100).default(100) }).parse(req.query);
+    return listSectionEvents('world',q,limit);
+  }));
+  app.get('/api/admin/world/events/:id',adminHandler(async(req,reply)=>
+    await sectionEventDetail('world',SectionStoryParams.parse(req.params).id) ?? reply.code(404).send({ error:'not_found' })));
+  app.post('/api/admin/world/events/:id/merge',adminHandler(async(req,reply,admin)=>{
+    try { return await mergeSectionStories('world',SectionStoryParams.parse(req.params).id,SectionStoryMerge.parse(req.body),actorOf(admin)); }
+    catch(error) {
+      if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
+      throw error;
+    }
+  }));
+  app.post('/api/admin/world/items/:id/grouping',adminHandler(async(req,reply,admin)=>{
+    try { return await correctSectionGrouping('world',Id.parse(req.params).id,SectionGroupingCorrection.parse(req.body),actorOf(admin),
+      (tx,articleId,requestId)=>enqueueOn(worldGroupQueue,{ sectionId:'world',articleId },{ singletonKey:`world:manual:group:${articleId}:${requestId}` },tx)); }
+    catch(error) {
+      if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
+      throw error;
+    }
+  }));
   app.get('/api/admin/world/hot',adminHandler(async()=>currentSectionHot('world',new Date(),true)));
   app.post('/api/admin/world/hot/generate',adminHandler(async(req,_reply,admin)=>{
     z.strictObject({}).parse(req.body ?? {});

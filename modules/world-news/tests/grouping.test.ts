@@ -51,12 +51,15 @@ test("new world occurrence creates scoped story, fact, membership and signal", a
 test("same occurrence requires two independent world judgments and reuses membership on rerun", async () => {
   const id = await article();
   const start = provider.hits();
+  const version=(await sql`SELECT version FROM stories WHERE id=${firstStory}`)[0]!.version;
   const result = await groupSectionArticle("world",id);
   assert.equal(result.storyId,firstStory);
   assert.equal(result.factId,firstFact);
   assert.equal(result.verdict,"SAME_OCCURRENCE");
+  assert.equal((await sql`SELECT version FROM stories WHERE id=${firstStory}`)[0]!.version,version+1);
   assert.equal(provider.hits()-start,2);
   assert.equal((await groupSectionArticle("world",id)).verdict,"existing");
+  assert.equal((await sql`SELECT version FROM stories WHERE id=${firstStory}`)[0]!.version,version+1);
   assert.equal(provider.hits()-start,2);
   assert.ok((await sql`SELECT section_id,status FROM receipts`).every(r => r.section_id==='world' && r.status==='completed'));
 });

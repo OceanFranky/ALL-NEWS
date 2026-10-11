@@ -36,7 +36,15 @@ export async function groupSectionArticle(sectionId: SectionId, articleId: strin
         AND input_revision=a.revision ORDER BY id DESC LIMIT 1) an ON true
       WHERE a.id=${articleId} AND a.section_id=${sectionId} AND an.relevance='pass'`;
     if (!a) return { verdict: "waiting" };
-    if ((await sql`SELECT 1 FROM grouping_overrides WHERE article_id=${articleId}`).length) return { verdict: "manual" };
+    const manual=(await sql`SELECT 1 FROM grouping_overrides WHERE article_id=${articleId}
+      UNION ALL SELECT 1 FROM fact_articles WHERE section_id=${sectionId} AND article_id=${articleId} AND manual LIMIT 1`).length>0;
+    if(manual) return await sql.begin(async tx=>{
+      const [current]=await tx<{ revision:number }[]>`SELECT revision FROM articles WHERE section_id=${sectionId} AND id=${articleId} FOR UPDATE`;
+      if(current!.revision!==a.revision) return { verdict:'stale' };
+      await tx`UPDATE articles SET grouping_status='complete',grouped_at=now(),grouping_error=NULL,grouping_receipt_id=NULL
+        WHERE section_id=${sectionId} AND id=${articleId}`;
+      return { verdict:'manual' };
+    });
     const [membership] = await sql<{ fact_id: number; story_id: number }[]>`
       SELECT fa.fact_id,f.story_id FROM fact_articles fa JOIN facts f ON f.id=fa.fact_id
       WHERE fa.section_id=${sectionId} AND fa.article_id=${articleId} AND fa.role<>'mention' LIMIT 1`;
@@ -125,6 +133,7 @@ export async function groupSectionArticle(sectionId: SectionId, articleId: strin
             ON CONFLICT (story_id,article_id) DO NOTHING`;
           await tx`UPDATE stories SET latest_at=greatest(latest_at,${a.published_at}),updated_at=now() WHERE id=${storyId} AND section_id=${sectionId}`;
         }
+        if(target) await tx`UPDATE stories SET version=version+1,updated_at=now() WHERE id=${storyId} AND section_id=${sectionId}`;
       }
       const verdict = mention ? target ? "mention" : "standalone-analysis" : target ? relation : "new";
       await tx`INSERT INTO grouping_decisions (article_id,fact_id,story_id,verdict,candidates,receipt_id)

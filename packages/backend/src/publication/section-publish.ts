@@ -34,7 +34,7 @@ export async function projectSectionArticle(sectionId: SectionId, articleId: str
   return sql.begin(tx => projectSectionArticleTx(tx,sectionId,articleId));
 }
 
-async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, articleId: string) {
+export async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, articleId: string) {
   const rules = nonLegacy(sectionId);
   // Serialize projection/review before ownership's shared lock: simultaneous lock upgrades deadlock.
   await tx`SELECT id FROM articles WHERE id=${articleId} FOR UPDATE`;

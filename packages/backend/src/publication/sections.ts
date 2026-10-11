@@ -55,15 +55,17 @@ export async function sectionStories(sectionId: SectionId,limit=40) {
 export async function sectionStory(sectionId:SectionId,publicId:string) {
   requireSectionId(sectionId);
   if (!/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(publicId)) return null;
-  const [story]=await sql<{ id:number;title:string;latest_at:Date|null }[]>`
-    SELECT id,title,latest_at FROM stories WHERE section_id=${sectionId} AND public_id=${publicId} AND merged_into IS NULL`;
+  const [story]=await sql<{ id:number;public_id:string;title:string;latest_at:Date|null }[]>`
+    SELECT st.id,st.public_id::text,st.title,st.latest_at FROM stories st
+    WHERE st.section_id=${sectionId} AND st.merged_into IS NULL AND (st.public_id=${publicId}
+      OR EXISTS (SELECT 1 FROM story_aliases alias WHERE alias.public_id=${publicId} AND alias.story_id=st.id))`;
   if (!story) return null;
   const rows=await sql<SectionItemRow[]>`SELECT DISTINCT ${columns} ${from}
     JOIN fact_articles fa ON fa.article_id=p.article_id AND fa.section_id=p.section_id
     JOIN facts f ON f.id=fa.fact_id AND f.section_id=fa.section_id
     WHERE f.story_id=${story.id} AND ${listedCondition(new Date(),sectionId)} AND ${evidenceCondition()}
     ORDER BY p.timeline_at DESC,p.article_id DESC LIMIT 100`;
-  return rows.length ? { sectionId,story:{ publicId,title:story.title,latestAt:story.latest_at?.toISOString() ?? null },reports:rows.map(shape) } : null;
+  return rows.length ? { sectionId,story:{ publicId:story.public_id,title:story.title,latestAt:story.latest_at?.toISOString() ?? null },reports:rows.map(shape) } : null;
 }
 
 export async function sectionHot(sectionId:SectionId) {
