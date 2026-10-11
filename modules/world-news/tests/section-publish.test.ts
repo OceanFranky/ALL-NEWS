@@ -115,6 +115,15 @@ test('world review endpoints reuse session and CSRF guards, reject invalid paylo
     const headers={ 'x-csrf-token':'dev' };
     assert.equal((await app.inject({ method:'POST',url,payload:{ ...payload,sectionId:'ai' },headers })).statusCode,400);
     assert.equal((await app.inject({ method:'POST',url,payload,headers })).statusCode,200);
+    const sourceView=await app.inject(`/api/admin/world/sources/${source}`);
+    assert.equal(sourceView.statusCode,200);
+    assert.equal(sourceView.json().sectionId,'world');
+    assert.equal(sourceView.json().permission.summary_allowed,true);
+    assert.equal(sourceView.json().permission.permission_reference,payload.reference);
+    assert.equal(sourceView.json().permission.reviewed_by,'dev:fixture admin');
+    assert.equal((await app.inject({ method:'POST',url,payload:{ summaryAllowed:false,reference:'Fixture revoked' },headers })).statusCode,200);
+    assert.equal((await app.inject(`/api/admin/world/sources/${source}`)).json().permission.summary_allowed,false);
+    assert.equal((await app.inject({ method:'POST',url,payload,headers })).statusCode,200);
     const id=await material();
     const reviewUrl=`/api/admin/world/items/${id}/review`;
     assert.equal((await app.inject({ method:'POST',url:reviewUrl,payload:{ revision:1,action:'approve',reason:'Fixture review' },headers })).statusCode,200);

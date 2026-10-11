@@ -20,6 +20,7 @@ import { worldGroupQueue } from '../jobs.ts';
 import { sectionRunsOverview } from '@aihot/backend/admin/section-runs';
 import { sectionModelsOverview,switchSectionModel,SectionModelSwitch } from '@aihot/backend/admin/section-models';
 import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
+import { sql } from '@aihot/backend/db';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
@@ -69,8 +70,11 @@ export function registerWorldAdmin(app:FastifyInstance) {
     return installWorldSources(actorOf(admin));
   }));
   app.get('/api/admin/world/sources/:id',adminHandler(async(req,reply)=>{
-    const result=await sourceDetail(Id.parse(req.params).id,'world');
-    return result ?? reply.code(404).send({ error:'not_found' });
+    const { id }=Id.parse(req.params),result=await sourceDetail(id,'world');
+    if(!result) return reply.code(404).send({ error:'not_found' });
+    const [permission]=await sql`SELECT summary_allowed,permission_reference,reviewed_by,reviewed_at
+      FROM section_source_permissions WHERE section_id='world' AND source_id=${id}`;
+    return { ...result,sectionId:'world',permission:permission ?? null };
   }));
   app.get('/api/admin/world/content',adminHandler(async(req)=>{
     const { q }=z.strictObject({ q:z.string().max(500).default('') }).parse(req.query);

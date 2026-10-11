@@ -86,6 +86,9 @@ test('world admin source and content reads are authenticated, reject invalid sco
     assert.equal(installed.json().results.filter((r:{ created:boolean })=>r.created).length,6);
     const sources=(await app.inject('/api/admin/world/sources')).json().rows;
     assert.ok(sources.every((r:{ id:string })=>r.id!==ai));
+    const sourceView=(await app.inject('/api/admin/world/sources/world-un-zh')).json();
+    assert.equal(sourceView.sectionId,'world');assert.equal(sourceView.permission,null);
+    assert.equal(sourceView.source.enabled,false);
   } finally { config.devAdmin=previous;await app.close(); }
 });
 
