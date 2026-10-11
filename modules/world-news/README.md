@@ -12,6 +12,7 @@
 - [材料快照](review/samples.json)：保留原文标题、RSS 文字、原文链接、原始日期，标签为空。
 - [六源与接入说明](../../docs/信息源.md)：来源地址、验证边界和接入顺序。
 - [六源真实读取报告](verification/2026-10-11-real-rss.md)与[首次真实模型报告](verification/2026-10-11-real-model.md)：真实网络／模型证据与费用边界，不是整个规划已验收。
+- [来源使用条款核对](verification/source-permissions.md)：官方依据、读取限制和待核实事项，没有自动授予许可。
 
 本目录只保存世界新闻专属内容。不得把六源写入 `industry/sources.json`，不得覆盖现有 AI 提示词、门槛或分类。
 
