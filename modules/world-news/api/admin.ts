@@ -103,8 +103,12 @@ export function registerWorldAdmin(app:FastifyInstance) {
     return { rows:await searchContent(q,'world') };
   }));
   app.get('/api/admin/world/content/:id',adminHandler(async(req,reply)=>{
-    const result=await contentChain(Id.parse(req.params).id,'world');
-    return result ?? reply.code(404).send({ error:'not_found' });
+    const { id }=Id.parse(req.params),result=await contentChain(id,'world');
+    if(!result) return reply.code(404).send({ error:'not_found' });
+    const [material]=await sql`SELECT excerpt,grouping_status FROM articles WHERE section_id='world' AND id=${id}`;
+    const analysisDetails=await sql`SELECT id,summary_zh,output FROM analyses WHERE section_id='world' AND article_id=${id}
+      ORDER BY created_at DESC,id DESC LIMIT 10`;
+    return { ...result,sectionId:'world',material,analysisDetails };
   }));
   app.get('/api/admin/world/daily/:date',adminHandler(async(req)=>{
     const { date }=SectionDailyParams.parse(req.params);

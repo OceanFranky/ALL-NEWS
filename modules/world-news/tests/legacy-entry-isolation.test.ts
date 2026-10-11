@@ -80,6 +80,10 @@ test('world admin source and content reads are authenticated, reject invalid sco
     const rows=(await app.inject(`/api/admin/world/content?q=${encodeURIComponent(url)}`)).json().rows;
     assert.deepEqual(rows.map((r:{ id:string })=>r.id),[world]);
     assert.equal((await app.inject(`/api/admin/world/content/${world}`)).statusCode,200);
+    const contentView=(await app.inject(`/api/admin/world/content/${world}`)).json();
+    assert.equal(contentView.sectionId,'world');
+    assert.equal(contentView.material.excerpt,(await sql`SELECT excerpt FROM articles WHERE id=${world}`)[0]!.excerpt);
+    assert.ok(Array.isArray(contentView.analysisDetails));
     const headers={ 'x-csrf-token':'dev' };
     const installed=await app.inject({ method:'POST',url:'/api/admin/world/sources/install',payload:{},headers });
     assert.equal(installed.statusCode,200);
