@@ -7,8 +7,9 @@ import { sql } from "../db.ts";
 import { capabilities, capabilityAcceptsModel, invalidateModelCache, modelSources } from "../editorial/models.ts";
 import { MODELS } from "../providers/llm.ts";
 import { audit } from "../audit.ts";
+import { requireSectionId,type SectionId } from '@aihot/contracts/sections';
 
-interface UsageRow {
+export interface UsageRow {
   purpose: string;
   model: string | null;
   prompt_version: string | null;
@@ -29,25 +30,29 @@ interface UsageRow {
   currency: string | null;
 }
 
+export async function sectionModelUsage(sectionId:SectionId,since:Date):Promise<UsageRow[]> {
+  requireSectionId(sectionId);
+  return sql<UsageRow[]>`
+    SELECT r.purpose,a.model,r.request->>'promptVersion' AS prompt_version,count(*)::int AS calls,
+      count(*) FILTER (WHERE a.status='received')::int AS ok,count(*) FILTER (WHERE a.status='failed')::int AS failed,
+      count(*) FILTER (WHERE a.status='unknown')::int AS unknown,
+      percentile_disc(0.5) WITHIN GROUP (ORDER BY a.latency_ms) AS p50,percentile_disc(0.95) WITHIN GROUP (ORDER BY a.latency_ms) AS p95,
+      sum((a.usage->>'prompt_tokens')::bigint) AS tokens_in,sum((a.usage->>'completion_tokens')::bigint) AS tokens_out,
+      sum((a.usage->>'prompt_tokens')::bigint) FILTER (WHERE a.cost IS NULL) AS tokens_in_uncosted,
+      sum((a.usage->>'completion_tokens')::bigint) FILTER (WHERE a.cost IS NULL) AS tokens_out_uncosted,
+      sum(coalesce((a.usage->'prompt_tokens_details'->>'cached_tokens')::bigint,(a.usage->>'prompt_cache_hit_tokens')::bigint,0))
+        FILTER (WHERE a.cost IS NULL) AS tokens_cached,
+      sum(a.cost) FILTER (WHERE a.cost_basis='actual') AS actual_cost,a.currency
+    FROM receipt_attempts a JOIN receipts r ON r.id=a.receipt_id
+    WHERE r.section_id=${sectionId} AND a.started_at>=${since} AND a.origin='live' AND a.model IS NOT NULL
+    GROUP BY 1,2,3,a.currency ORDER BY 1,4 DESC`;
+}
+
 export async function modelsOverview(days = 7): Promise<BeforeJson<AdminModels>> {
   const since = new Date(Date.now() - days * 86400_000);
   const [sources, usage, prices, history, benches] = await Promise.all([
     modelSources(),
-    sql<UsageRow[]>`
-      SELECT r.purpose, a.model, r.request->>'promptVersion' AS prompt_version, count(*)::int AS calls,
-             count(*) FILTER (WHERE a.status = 'received')::int AS ok,
-             count(*) FILTER (WHERE a.status = 'failed')::int AS failed,
-             count(*) FILTER (WHERE a.status = 'unknown')::int AS unknown,
-             percentile_disc(0.5) WITHIN GROUP (ORDER BY a.latency_ms) AS p50,
-             percentile_disc(0.95) WITHIN GROUP (ORDER BY a.latency_ms) AS p95,
-             sum((a.usage->>'prompt_tokens')::bigint) AS tokens_in, sum((a.usage->>'completion_tokens')::bigint) AS tokens_out,
-             sum((a.usage->>'prompt_tokens')::bigint) FILTER (WHERE a.cost IS NULL) AS tokens_in_uncosted,
-             sum((a.usage->>'completion_tokens')::bigint) FILTER (WHERE a.cost IS NULL) AS tokens_out_uncosted,
-             sum(coalesce((a.usage->'prompt_tokens_details'->>'cached_tokens')::bigint, (a.usage->>'prompt_cache_hit_tokens')::bigint, 0)) FILTER (WHERE a.cost IS NULL) AS tokens_cached,
-             sum(a.cost) FILTER (WHERE a.cost_basis = 'actual') AS actual_cost, max(a.currency) AS currency
-      FROM receipt_attempts a JOIN receipts r ON r.id = a.receipt_id
-      WHERE a.started_at >= ${since} AND a.origin = 'live' AND a.model IS NOT NULL
-      GROUP BY 1, 2, 3 ORDER BY 1, 4 DESC`,
+    sectionModelUsage('ai',since),
     sql<{ service: string; model: string; currency: string; input_per_mtok: string | null; cached_per_mtok: string | null; output_per_mtok: string | null }[]>`
       SELECT service, model, currency, input_per_mtok, cached_per_mtok, output_per_mtok FROM service_prices`,
     sql<BeforeJson<AdminModels["history"][number]>[]>`

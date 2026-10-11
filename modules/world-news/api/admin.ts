@@ -17,12 +17,26 @@ import { correctSectionGrouping,mergeSectionStories } from '@aihot/backend/event
 import { listSectionEvents,sectionEventDetail } from '@aihot/backend/admin/section-events';
 import { enqueueOn } from '@aihot/backend/jobs/queue';
 import { worldGroupQueue } from '../jobs.ts';
+import { sectionRunsOverview } from '@aihot/backend/admin/section-runs';
+import { sectionModelsOverview,switchSectionModel,SectionModelSwitch } from '@aihot/backend/admin/section-models';
+import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
   page:z.coerce.number().int().min(1).max(100000).optional() });
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.get('/api/admin/world/runs',adminHandler(async req=>{
+    z.strictObject({}).parse(req.query);return sectionRunsOverview('world');
+  }));
+  app.get('/api/admin/world/models',adminHandler(async req=>{
+    const { days }=z.strictObject({ days:z.coerce.number().int().min(1).max(90).default(7) }).parse(req.query);
+    return sectionModelsOverview('world',days);
+  }));
+  app.post('/api/admin/world/models/:step',adminHandler(async(req,_reply,admin)=>{
+    const { step }=z.strictObject({ step:z.enum(SECTION_MODEL_STEPS) }).parse(req.params);
+    return switchSectionModel('world',step,SectionModelSwitch.parse(req.body),actorOf(admin));
+  }));
   app.get('/api/admin/world/events',adminHandler(async req=>{
     const { q,limit }=z.strictObject({ q:z.string().max(500).default(''),limit:z.coerce.number().int().min(1).max(100).default(100) }).parse(req.query);
     return listSectionEvents('world',q,limit);

@@ -9,8 +9,9 @@ import { serverModules } from "../modules.ts";
 export async function navCounts(): Promise<AdminNavCounts> {
   const [c] = await sql<AdminNavCounts[]>`
     SELECT (SELECT count(*)::int FROM feedback WHERE status = 'new') AS feedback,
-           (SELECT count(*)::int FROM sources WHERE enabled AND health = 'failing') AS sources,
-           (SELECT count(*)::int FROM receipts WHERE status = 'unknown') + (SELECT count(*)::int FROM deliveries WHERE status = 'unknown') AS runs`;
-  for (const m of serverModules()) for (const [key, count] of Object.entries(m.admin?.counts ?? {})) c![key] = await count();
+           (SELECT count(*)::int FROM sources WHERE section_id='ai' AND enabled AND health = 'failing') AS sources,
+           (SELECT count(*)::int FROM receipts WHERE section_id='ai' AND status = 'unknown') + (SELECT count(*)::int FROM deliveries WHERE status = 'unknown') AS runs`;
+  for (const m of serverModules().filter(m=>!m.sections?.length || m.sections.some(s=>s.id==='ai')))
+    for (const [key, count] of Object.entries(m.admin?.counts ?? {})) c![key] = await count();
   return c ?? {};
 }
