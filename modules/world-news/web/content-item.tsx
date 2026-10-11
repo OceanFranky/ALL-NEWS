@@ -7,8 +7,8 @@ import { AdminPage,Badge,Button,Card,DataTable,Field,Input,Json,ReasonDialog,Tim
 
 type WorldContent=AdminContentChain & { sectionId:'world';material:{ excerpt:string|null;grouping_status:string };
   analysisDetails:Array<{ id:number;summary_zh:string|null;output:unknown }> };
-type Command={ action:'approve'|'withdraw'|'detach'|'move'|'regroup';id:string;revision:number;requestId:string };
-const labels={ approve:'审核发布',withdraw:'撤回内容',detach:'移出事件',move:'改归属',regroup:'重新归组' };
+type Command={ action:'approve'|'withdraw'|'detach'|'move'|'regroup'|'analyze';id:string;revision:number;requestId:string };
+const labels={ approve:'审核发布',withdraw:'撤回内容',detach:'移出事件',move:'改归属',regroup:'重新归组',analyze:'重新分析' };
 export async function loader({ request,params }:{ request:Request;params:Record<string,string|undefined> }) {
   return adminGet<WorldContent>(request,`/api/admin/world/content/${encodeURIComponent(params.id ?? '')}`);
 }
@@ -40,10 +40,12 @@ export default function WorldContentItem({ loaderData:m }:{ loaderData:WorldCont
         { key:'id',label:'回执',render:r=>`#${r.id}` },{ key:'model',label:'模型',render:r=>r.model ?? r.service },{ key:'state',label:'状态',render:r=>r.status },
       ]} />
     </Card>)}</div>
-    <ReasonDialog open={command!==null} title={command ? `世界内容 · ${labels[command.action]}` : ''} description="核对指定材料修订后执行。发布不能绕过来源许可或充分性检查；人工事件决定保留，评论不能变成已发生事实。"
+    <ReasonDialog open={command!==null} title={command ? `世界内容 · ${labels[command.action]}` : ''} description={command?.action==='analyze' ? '重新分析会排队执行新的付费判断，仍受世界模型配置、总预算和板块预算限制；存在结果未知的回执时先核对恢复。不会抓取原文或自动授予发布许可。' : '核对指定材料修订后执行。发布不能绕过来源许可或充分性检查；人工事件决定保留，评论不能变成已发生事实。'}
       busy={busy} danger={command?.action==='withdraw'} onClose={()=>setCommand(null)} onSubmit={async reason=>{
         if(!command) return false;
         const { id,revision,action,requestId }=command;
+        if(action==='analyze') return await run('POST',`/api/admin/world/items/${encodeURIComponent(id)}/rerun`,
+          { revision,requestId,reason },{ success:'世界新闻重新分析已排队' })!==null;
         const review=action==='approve' || action==='withdraw';
         return await run('POST',`/api/admin/world/items/${encodeURIComponent(id)}/${review?'review':'grouping'}`,
           review ? { revision,action,reason } : { revision,action,reason,requestId,...(action==='move'?{ factPublicId:fact.trim() }:{}) },{ success:'世界内容操作已完成' })!==null;

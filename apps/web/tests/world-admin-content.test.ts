@@ -15,7 +15,7 @@ test('world content review and manual grouping submit fixed revision and indepen
       let text='';for await(const chunk of req) text+=String(chunk);const body=JSON.parse(text);
       commands.push({ path:url.pathname,body,csrf:req.headers['x-csrf-token'] });
       if(url.pathname==='/api/admin/world/items/world-item/review') visibility=body.action==='approve'?'public':'private';
-      else if(url.pathname!=='/api/admin/world/items/world-item/grouping') { res.statusCode=400;return res.end('{}'); }
+      else if(!['/api/admin/world/items/world-item/grouping','/api/admin/world/items/world-item/rerun'].includes(url.pathname)) { res.statusCode=400;return res.end('{}'); }
       return res.end('{}');
     }
     reads.push(url.pathname);
@@ -36,9 +36,9 @@ test('world content review and manual grouping submit fixed revision and indepen
     page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{ if(['error','warning'].includes(m.type())) errors.push(m.text()); });
     await page.goto(`${web.origin}/admin/world/content`);await expect(page.getByRole('heading',{ name:'世界新闻内容',exact:true })).toBeVisible();
     await page.getByRole('link',{ name:'World content fixture',exact:true }).click();await expect(page).toHaveURL(/\/admin\/world\/content\/world-item$/);
-    assert.match(await page.title(),/世界内容详情/);await expect(page.getByText('Actual RSS evidence, not invented background.',{ exact:true })).toBeVisible();
+    await expect(page).toHaveTitle(/世界内容详情/);await expect(page.getByText('Actual RSS evidence, not invented background.',{ exact:true })).toBeVisible();
     await expect(page.getByText('World Chinese summary fixture',{ exact:true })).toBeVisible();
-    for(const [label,action] of [['审核发布','approve'],['撤回内容','withdraw'],['移出事件','detach'],['改归属','move'],['重新归组','regroup']] as const) {
+    for(const [label,action] of [['审核发布','approve'],['撤回内容','withdraw'],['移出事件','detach'],['改归属','move'],['重新归组','regroup'],['重新分析','analyze']] as const) {
       await page.getByRole('button',{ name:label,exact:true }).click();const dialog=page.getByRole('dialog');
       await expect(dialog.getByRole('button',{ name:'确认',exact:true })).toBeDisabled();
       if(action==='move') await dialog.getByRole('textbox',{ name:'目标事实公开 ID' }).fill('world-target-fact');
@@ -50,10 +50,11 @@ test('world content review and manual grouping submit fixed revision and indepen
     await page.setViewportSize({ width:390,height:844 });assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     const screenshot=join(tmpdir(),`world-admin-content-${process.pid}.png`);await page.screenshot({ path:screenshot });console.log(`Content UI evidence: ${screenshot}`);
     assert.equal(await page.locator('vite-error-overlay').count(),0);assert.deepEqual(errors,[]);
-    assert.equal(commands.length,5);assert.ok(commands.every(c=>c.path.startsWith('/api/admin/world/items/') && c.body.revision===3 && c.csrf==='dev'));
-    assert.deepEqual(commands.map(c=>c.body.action),['approve','withdraw','detach','move','regroup']);
+    assert.equal(commands.length,6);assert.ok(commands.every(c=>c.path.startsWith('/api/admin/world/items/') && c.body.revision===3 && c.csrf==='dev'));
+    assert.deepEqual(commands.slice(0,5).map(c=>c.body.action),['approve','withdraw','detach','move','regroup']);
+    assert.equal(commands[5]!.path,'/api/admin/world/items/world-item/rerun');assert.equal(commands[5]!.body.reason,'Local analyze');
     assert.equal(commands[3]!.body.factPublicId,'world-target-fact');
-    const ids=commands.slice(2).map(c=>c.body.requestId);assert.equal(new Set(ids).size,3);assert.ok(ids.every(id=>typeof id==='string' && id.length>=8));
+    const ids=commands.slice(2).map(c=>c.body.requestId);assert.equal(new Set(ids).size,4);assert.ok(ids.every(id=>typeof id==='string' && id.length>=8));
     assert.ok(!reads.includes('/api/admin/content') && !reads.includes('/api/admin/nav-counts'));
   } finally { await browser.close();await web.stop(); }
 });

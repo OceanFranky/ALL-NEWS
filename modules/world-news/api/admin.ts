@@ -23,12 +23,15 @@ import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
 import { sql } from '@aihot/backend/db';
 import { previewSectionSource } from '@aihot/backend/sources/section-collect';
 import { audit } from '@aihot/backend/audit';
+import { rerunWorldAnalysis } from '../operations.ts';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
   page:z.coerce.number().int().min(1).max(100000).optional() });
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.post('/api/admin/world/items/:id/rerun',adminHandler(async(req,reply,admin)=>
+    await rerunWorldAnalysis(Id.parse(req.params).id,req.body,actorOf(admin)) ?? reply.code(404).send({ error:'not_found' })));
   app.patch('/api/admin/world/sources/:id',adminHandler(async(req,reply,admin)=>{
     const { id }=Id.parse(req.params),input=z.strictObject({ version:z.iso.datetime(),reason:z.string().trim().min(1).max(1000),
       patch:z.strictObject({ enabled:z.boolean().optional(),interval_minutes:z.number().int().min(1).max(1440).optional() }).refine(p=>Object.keys(p).length>0) }).parse(req.body);
