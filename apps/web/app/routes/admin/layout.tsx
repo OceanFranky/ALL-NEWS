@@ -11,7 +11,8 @@ import type { AdminNavEntry } from "../../modules";
 import { webModules } from "../../site-modules";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const [me, counts] = await Promise.all([adminGet<AdminMe>(request, "/api/admin/me"), adminGet<AdminNavCounts>(request, "/api/admin/nav-counts").catch((): AdminNavCounts => ({}))]);
+  const section = activeSection(new URL(request.url).pathname);
+  const [me, counts] = await Promise.all([adminGet<AdminMe>(request, "/api/admin/me"), section === "ai" ? adminGet<AdminNavCounts>(request, "/api/admin/nav-counts").catch((): AdminNavCounts => ({})) : Promise.resolve<AdminNavCounts>({})]);
   return { me, counts };
 }
 
@@ -23,14 +24,21 @@ export const meta: Route.MetaFunction = () => [{ title: `${SITE.name} 后台` },
 export const headers: Route.HeadersFunction = () => ({ "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow" });
 
 /** The admin navigation: the modules' own groups first, their content entries after 信源. */
-const nav = (): Array<{ group: string; items: AdminNavEntry[] }> => [
-  ...webModules().flatMap((m) => m.admin?.groups ?? []),
+function activeSection(path: string): "ai" | "world" {
+  return webModules().find(m => m.admin?.section && (path === m.admin.section.prefix || path.startsWith(`${m.admin.section.prefix}/`)))?.admin?.section?.id ?? "ai";
+}
+
+const nav = (section: "ai" | "world"): Array<{ group: string; items: AdminNavEntry[] }> => {
+  const modules = webModules().filter(m => (m.admin?.section?.id ?? "ai") === section);
+  if (section !== "ai") return modules.flatMap(m => m.admin?.groups ?? []);
+  return [
+  ...modules.flatMap((m) => m.admin?.groups ?? []),
   {
     group: "内容",
     items: [
       { to: "/admin/content", label: "内容诊断" },
       { to: "/admin/sources", label: "信源", count: "sources", tone: "bad" },
-      ...webModules().flatMap((m) => m.admin?.content ?? []),
+      ...modules.flatMap((m) => m.admin?.content ?? []),
       { to: "/admin/feedback", label: "反馈", count: "feedback", tone: "accent" },
     ],
   },
@@ -45,6 +53,16 @@ const nav = (): Array<{ group: string; items: AdminNavEntry[] }> => [
     ],
   },
 ];
+};
+
+function SectionSwitch({ section }: { section: "ai" | "world" }) {
+  const entries = [{ id: "ai", label: "AI 热点", landing: "/admin/sources" }, ...webModules().flatMap(m => m.admin?.section && m.admin.section.id !== "ai" ? [m.admin.section] : [])];
+  if (entries.length < 2) return null;
+  return <nav aria-label="后台板块" className="mb-3 flex gap-1 rounded-control bg-bg-sunk p-1">
+    {entries.map(entry => <NavLink key={entry.id} to={entry.landing} aria-current={section === entry.id ? "page" : undefined}
+      className={`flex-1 rounded-control px-2 py-1.5 text-center text-[12px] ${section === entry.id ? "bg-surface font-medium text-ink ring-1 ring-line" : "text-ink-3"}`}>{entry.label}</NavLink>)}
+  </nav>;
+}
 
 function NavItem({ to, label, count, tone }: { to: string; label: string; count?: number; tone?: "bad" | "accent" }) {
   return (
@@ -66,7 +84,8 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
   const { me, counts } = loaderData;
   const navigation = useNavigation();
   const location = useLocation();
-  const groups = nav();
+  const section = activeSection(location.pathname);
+  const groups = nav(section);
   const flat = groups.flatMap((g) => g.items);
   return (
     <div className="flex min-h-dvh bg-bg">
@@ -76,6 +95,7 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
           <RingMark className="size-6 text-accent" />
           <span className="text-[15px] font-semibold tracking-tight text-ink">{`${SITE.name} 后台`}</span>
         </a>
+        <SectionSwitch section={section} />
         <nav className="scrollbar-thin flex-1 space-y-4 overflow-y-auto">
           {groups.map((g) => (
             <div key={g.group}>
@@ -105,6 +125,7 @@ export default function AdminLayout({ loaderData }: Route.ComponentProps) {
             <span className="text-[14px] font-semibold text-ink">{`${SITE.name} 后台`}</span>
             {me.dev && <span className="rounded bg-amber/15 px-1.5 text-[11px] font-medium text-amber">开发</span>}
           </div>
+          <div className="px-3 pt-2"><SectionSwitch section={section} /></div>
           <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 py-2">
             {flat.map((i) => {
               const active = location.pathname === i.to || location.pathname.startsWith(`${i.to}/`);

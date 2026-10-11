@@ -123,6 +123,8 @@ export interface WebModule {
   /** The 我的 page: rows ahead of the engine's tools. */
   tools?: Array<{ to: string; label: string; icon: ReactNode }>;
   admin?: {
+    /** A board's own navigation and landing page; entries without this remain in the AI backend. */
+    section?: { id: "ai" | "world"; label: string; prefix: string; landing: string };
     /** Navigation groups of its own, ahead of the engine's. */
     groups?: Array<{ group: string; items: AdminNavEntry[] }>;
     /** Entries in the 内容 group, after the engine's 信源. */
