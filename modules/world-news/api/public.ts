@@ -1,9 +1,17 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { sectionItems,sectionItem,sectionStories,sectionStory,sectionHot } from "@aihot/backend/publication/sections";
+import { SectionDailyParams } from "@aihot/contracts/section-daily";
+import { sectionDaily } from "@aihot/backend/publication/section-daily";
 
 const Query=z.strictObject({ limit:z.coerce.number().int().min(1).max(100).optional(),category:z.enum(["politics","economy","security"]).optional(),q:z.string().max(200).optional() });
 export function registerWorldPublic(app:FastifyInstance) {
+  app.get('/api/v1/world/daily/:date',async(req,reply)=>{
+    reply.header('Cache-Control','no-store');
+    const params=SectionDailyParams.safeParse(req.params);
+    if(!params.success) return reply.code(400).send({ error:'invalid_world_date' });
+    return await sectionDaily('world',params.data.date) ?? reply.code(404).send({ error:'not_found' });
+  });
   app.get("/api/v1/world/items",async(req,reply)=>{
     const parsed=Query.safeParse(req.query);
     if (!parsed.success) return reply.code(400).send({ error:"invalid_world_query" });

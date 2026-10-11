@@ -27,3 +27,5 @@
 `/api/v1/world/items`、`items/:id`、`stories`、`stories/:publicId`、`hot` 已注册，统一从 `publication/sections.ts` 读取，只提供摘要和原文链接。非法分类／参数拒绝，跨板块资源 404，撤回后不可读。热点未校准返回 `calibration-required`；这些公开接口不会触发模型。不代表文章已自动发布、来源已实际采集或后台页面完成。
 
 第四批增加 `publication/section-publish.ts`：归组后重建独立摘要投影，未校准默认不公开。管理员可通过 `/api/admin/world/sources/:id/permission` 记录摘要许可依据，再在 `/api/admin/world/items/:id/review` 审核具体原文修订或撤回；共用既有登录和 CSRF 保护。人工审核同时绑定分析 ID，不能绕过材料／日期／分类／归组检查；原文或分析变化、来源许可撤销立即隐藏旧投影。六源尚未创建真实许可记录，测试许可仅属于本地素材。
+
+第五批实现世界日报草稿与版本保存。`daily.ts` 独立维护六重点／六快讯／每源两重点，通用编排和修订写入在 `reports/section-daily.ts`，公开引用校验在 `publication/section-daily.ts`。后台通过 `/api/admin/world/daily/:date` 查看版本，`/generate` 新建草稿，`/review` 批准或撤回；`/api/v1/world/daily/:date` 只公开已批准版本。日期按首次可发布时间归入北京日，重建不刷新日期；不调用模型、不自动审批，也不创建 AI 报告记录。

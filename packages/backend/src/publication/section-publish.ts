@@ -63,18 +63,22 @@ async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, articleId: 
     && rules.categories.some(c=>c.key===analysis.category) && (approved || calibrated);
   // Selection is intentionally separate: source-tier AI thresholds never nominate world news.
   const visibility=override?.visibility ?? "public";
-  const [previous]=await tx<{ revision:number }[]>`SELECT revision FROM publications WHERE section_id=${sectionId} AND article_id=${articleId}`;
+  const [previous]=await tx<{ revision:number;section_admitted_at:Date|null }[]>`SELECT revision,section_admitted_at FROM publications WHERE section_id=${sectionId} AND article_id=${articleId}`;
+  const now=new Date();
+  const admittedAt=previous?.section_admitted_at ?? (eligible && visibility==='public' && !a.backfill
+    && a.published_at!.getTime()>=now.getTime()-48*3600*1000 ? now : null);
   await tx`INSERT INTO publications (section_id,article_id,analysis_id,revision,source_id,title,original_title,summary,reason,category,tags,score,
-    visibility,eligible,selected,selection_candidate,body_mode,syndicate,indexable,channel,url,published_at,discovered_at,timeline_at,sort_at,backfill,story_id,fact_id)
+    visibility,eligible,selected,selection_candidate,body_mode,syndicate,indexable,channel,url,published_at,discovered_at,timeline_at,sort_at,backfill,story_id,fact_id,section_admitted_at)
     VALUES (${sectionId},${articleId},${analysis?.id ?? null},${(previous?.revision ?? 0)+1},${a.source_id},${analysis?.title_zh ?? a.title},${a.title},
       ${analysis?.summary_zh ?? null},${analysis?.reason_zh ?? null},${analysis?.category ?? null},${analysis?.tags ?? []},${analysis?.score ?? null},
       ${visibility},${eligible},false,false,'summary',false,false,'news',${a.url},${a.published_at},${a.discovered_at},${a.timeline_at},${a.timeline_at},
-      ${a.backfill},${membership?.story_id ?? null},${membership?.fact_id ?? null})
+      ${a.backfill},${membership?.story_id ?? null},${membership?.fact_id ?? null},${admittedAt})
     ON CONFLICT (article_id) DO UPDATE SET analysis_id=EXCLUDED.analysis_id,revision=EXCLUDED.revision,title=EXCLUDED.title,
       original_title=EXCLUDED.original_title,summary=EXCLUDED.summary,reason=EXCLUDED.reason,category=EXCLUDED.category,tags=EXCLUDED.tags,
       score=EXCLUDED.score,visibility=EXCLUDED.visibility,eligible=EXCLUDED.eligible,selected=false,selection_candidate=false,
       body_mode='summary',syndicate=false,indexable=false,published_at=EXCLUDED.published_at,timeline_at=EXCLUDED.timeline_at,
-      sort_at=EXCLUDED.sort_at,backfill=EXCLUDED.backfill,story_id=EXCLUDED.story_id,fact_id=EXCLUDED.fact_id,updated_at=now()
+      sort_at=EXCLUDED.sort_at,backfill=EXCLUDED.backfill,story_id=EXCLUDED.story_id,fact_id=EXCLUDED.fact_id,
+      section_admitted_at=EXCLUDED.section_admitted_at,updated_at=now()
     WHERE publications.section_id=${sectionId}`;
   return { sectionId,articleId,eligible,visibility,selected:false,calibrationRequired:!calibrated };
 }

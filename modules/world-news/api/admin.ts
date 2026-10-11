@@ -3,8 +3,24 @@ import { SectionResourceParams as Id,SectionPermissionReview as Permission,Secti
 import { adminHandler } from "../../../apps/api/src/routes/admin-auth.ts";
 import { actorOf } from "@aihot/backend/admin/auth";
 import { reviewSectionPublication,reviewSectionSourcePermission } from "@aihot/backend/publication/section-publish";
+import { SectionDailyParams,SectionDailyReview,SectionDailyGenerate } from "@aihot/contracts/section-daily";
+import { listSectionDailyRevisions,reviewSectionDaily } from "@aihot/backend/reports/section-daily";
+import { generateWorldDaily } from "../daily.ts";
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.get('/api/admin/world/daily/:date',adminHandler(async(req)=>{
+    const { date }=SectionDailyParams.parse(req.params);
+    return { sectionId:'world',date,revisions:await listSectionDailyRevisions('world',date) };
+  }));
+  app.post('/api/admin/world/daily/:date/generate',adminHandler(async(req,_reply,admin)=>{
+    const { date }=SectionDailyParams.parse(req.params);
+    SectionDailyGenerate.parse(req.body ?? {});
+    return generateWorldDaily(date,actorOf(admin));
+  }));
+  app.post('/api/admin/world/daily/:date/review',adminHandler(async(req,_reply,admin)=>{
+    const { date }=SectionDailyParams.parse(req.params);
+    return reviewSectionDaily('world',date,{ ...SectionDailyReview.parse(req.body),actor:actorOf(admin) });
+  }));
   app.post('/api/admin/world/sources/:id/permission',adminHandler(async(req,reply,admin)=>{
     const { id }=Id.parse(req.params);
     const review=Permission.parse(req.body);
