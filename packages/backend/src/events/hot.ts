@@ -89,7 +89,7 @@ interface SourceClock {
 /** Scheduled sources and their last successful fetch (screenshot-reported and pushed sources cannot visibly fall behind). */
 export async function sourceClocks(): Promise<SourceClock[]> {
   const rows = await sql<{ id: string; last_ok_at: Date | null; interval_minutes: number }[]>`
-    SELECT id, last_ok_at, interval_minutes FROM sources WHERE enabled AND kind IN ('rss', 'web_list', 'json_list', 'x_search')`;
+    SELECT id, last_ok_at, interval_minutes FROM sources WHERE section_id = 'ai' AND enabled AND kind IN ('rss', 'web_list', 'json_list', 'x_search')`;
   return rows.map((r) => ({ id: r.id, lastOk: r.last_ok_at?.getTime() ?? null, graceMs: Math.max(r.interval_minutes * 3, 90) * 60_000 }));
 }
 
@@ -122,7 +122,7 @@ export const currentSignals = () => sql`(
     END AS participant_key
   FROM story_signals ss JOIN articles a ON a.id = ss.article_id JOIN sources s ON s.id = a.source_id
   LEFT JOIN publications p ON p.article_id = ss.article_id
-  WHERE s.participation_mode <> 'isolated' AND coalesce(p.visibility, 'public') <> 'withdrawn'
+  WHERE ss.section_id = 'ai' AND s.participation_mode <> 'isolated' AND coalesce(p.visibility, 'public') <> 'withdrawn'
     AND NOT EXISTS (SELECT 1 FROM grouping_overrides go WHERE go.article_id = ss.article_id AND go.mode = 'standalone')
     AND (s.participation_mode <> 'editorial' OR EXISTS (SELECT 1 FROM fact_articles fa JOIN facts f ON f.id = fa.fact_id
       WHERE fa.article_id = ss.article_id AND f.story_id = ss.story_id AND ${evidenceCondition()}))
@@ -259,7 +259,7 @@ export async function computeHotRanking(at = new Date()): Promise<{ id: number; 
             ${sql.json({ windowHours: WINDOW_HOURS, halfLifeHours: HALF_LIFE_HOURS, minParticipants: MIN_PARTICIPANTS, candidates: rows.length } as never)}, true)
     RETURNING id`;
   // Keep a bounded history of rankings.
-  await sql`DELETE FROM hot_rankings WHERE computed_at < now() - interval '30 days'`;
+  await sql`DELETE FROM hot_rankings WHERE section_id = 'ai' AND computed_at < now() - interval '30 days'`;
   return { id: row!.id, entries: entries.length };
 }
 
@@ -292,8 +292,8 @@ export async function snapshotHeat(at = new Date()): Promise<{ stories: number; 
   await saveHeat(rows, hour);
   let repaired = 0;
   const stale = await sql<{ hour: Date; stories: number[] }[]>`
-    SELECT hour, array_agg(story_id) AS stories FROM story_heat_hourly
-    WHERE NOT complete AND hour < ${hour} AND hour > ${new Date(hour.getTime() - WINDOW_HOURS * 3600000)} GROUP BY hour ORDER BY hour`;
+    SELECT h.hour, array_agg(h.story_id) AS stories FROM story_heat_hourly h JOIN stories st ON st.id = h.story_id
+    WHERE st.section_id = 'ai' AND NOT h.complete AND h.hour < ${hour} AND h.hour > ${new Date(hour.getTime() - WINDOW_HOURS * 3600000)} GROUP BY h.hour ORDER BY h.hour`;
   for (const s of stale) {
     const rows = await heatRows(s.hour, behindSources(clocks, s.hour.getTime(), false), s.stories.map(Number));
     repaired += await saveHeat(rows.filter((r) => Number(r.behind_participants) === 0), s.hour);

@@ -108,7 +108,7 @@ export async function ledgerEpoch(): Promise<string> {
 
 /** The ledger's latest sequence: a snapshot and a page of changes read up to it. */
 export async function ledgerWatermark(): Promise<number> {
-  const [row] = await sql<{ w: number }[]>`SELECT coalesce(max(seq), 0) AS w FROM selected_ledger`;
+  const [row] = await sql<{ w: number }[]>`SELECT coalesce(max(seq), 0) AS w FROM selected_ledger WHERE section_id = 'ai'`;
   return Number(row?.w ?? 0);
 }
 
@@ -170,10 +170,10 @@ export async function selectedSnapshot(q: SnapshotQuery, now = new Date()) {
   const rows = await sql<{ article_id: string; payload: V1ItemPayload }[]>`
     SELECT latest.article_id, ${ledgerPayload(fields === "minimal", sql`latest.payload`)} AS payload FROM (
       SELECT DISTINCT ON (article_id) article_id, op, payload FROM selected_ledger
-      WHERE seq <= ${w} AND article_id > ${afterId}
+      WHERE section_id = 'ai' AND seq <= ${w} AND article_id > ${afterId}
       ORDER BY article_id, seq DESC
     ) latest
-    JOIN selected_state st ON st.article_id = latest.article_id AND st.in_set
+    JOIN selected_state st ON st.article_id = latest.article_id AND st.section_id = 'ai' AND st.in_set
     WHERE latest.op = 'upsert'
     ORDER BY latest.article_id
     LIMIT ${q.limit + 1}`;
@@ -211,7 +211,7 @@ export async function selectedChanges(q: { cursor: string; limit: number }, now 
     SELECT l.seq, l.article_id, CASE WHEN p.article_id IS NULL THEN 'remove' ELSE l.op END AS op, l.changed_at,
       CASE WHEN p.article_id IS NOT NULL THEN ${ledgerPayload(c.f === "minimal", sql`l.payload`)} END AS payload
     FROM selected_ledger l LEFT JOIN publications p ON p.article_id = l.article_id AND ${listedCondition(now)}
-    WHERE l.seq > ${c.w} AND l.seq <= ${w}
+    WHERE l.section_id = 'ai' AND l.seq > ${c.w} AND l.seq <= ${w}
     ORDER BY l.seq LIMIT ${q.limit + 1}`;
   const page = rows.slice(0, q.limit);
   const hasMore = rows.length > q.limit;

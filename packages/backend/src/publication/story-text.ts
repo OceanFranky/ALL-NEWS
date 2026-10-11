@@ -36,7 +36,7 @@ export async function storyTexts(storyIds: number[], now = new Date()): Promise<
       WHERE f.story_id = st.id AND ${evidenceCondition()} AND ${listedCondition(now)}
       ORDER BY coalesce(p.published_at, p.discovered_at) DESC, p.article_id LIMIT 1
     ) latest ON true
-    WHERE st.id = ANY(${storyIds}::bigint[])`;
+    WHERE st.section_id = 'ai' AND st.id = ANY(${storyIds}::bigint[])`;
   const reports = await digestReports(sql, rows.filter((r) => r.current && r.digest && r.inputs_hash).map((r) => Number(r.id)), now);
   return new Map(rows.map((r) => {
     // New reports may extend an event without changing the evidence behind its saved digest.

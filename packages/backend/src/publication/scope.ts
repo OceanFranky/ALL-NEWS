@@ -4,6 +4,12 @@
 // rule in SQL, and grouping takes the composite rule from here too. What a publication holds is
 // derived once, at publish time, by publish.ts and rules.ts.
 import { sql } from "../db.ts";
+import { requireSectionId, type SectionId } from "@aihot/contracts/sections";
+
+/** Legacy public outlets belong to AI; an explicit invalid section never means all sections. */
+export function sectionCondition(sectionId: SectionId = "ai") {
+  return sql`p.section_id = ${requireSectionId(sectionId)}`;
+}
 
 /**
  * Only confirmed news enters p.selected (publish.ts). The release timestamp also supports
@@ -14,26 +20,26 @@ export function releasedCondition(now: Date) {
 }
 
 /** Listed on public surfaces at `now`: public, pool eligible, and released by then. */
-export function listedCondition(now: Date) {
-  return sql`p.visibility = 'public' AND p.eligible AND ${releasedCondition(now)}`;
+export function listedCondition(now: Date, sectionId: SectionId = "ai") {
+  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND p.eligible AND ${releasedCondition(now)}`;
 }
 
 /** Story reports include older editorial material outside the pool, but never withdrawn or not yet released content. */
-export function storyReportCondition(now: Date) {
-  return sql`p.visibility = 'public' AND s.participation_mode = 'editorial' AND ${releasedCondition(now)}`;
+export function storyReportCondition(now: Date, sectionId: SectionId = "ai") {
+  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND s.participation_mode = 'editorial' AND ${releasedCondition(now)}`;
 }
 
 /** Selected set as the website shows it (home timeline, reading groups, topics): every selected report. */
-export function selectedCondition(now: Date) {
-  return sql`p.visibility = 'public' AND p.selected AND p.visible_after <= ${now}`;
+export function selectedCondition(now: Date, sectionId: SectionId = "ai") {
+  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND p.selected AND p.visible_after <= ${now}`;
 }
 
 /**
  * The selected set as machines receive it (v1, RSS, the sync ledger): one seat per fact, held by its
  * representative (publish.ts settleSeats).
  */
-export function seatedCondition(now: Date) {
-  return sql`p.visibility = 'public' AND p.selected AND p.seat AND p.visible_after <= ${now}`;
+export function seatedCondition(now: Date, sectionId: SectionId = "ai") {
+  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND p.selected AND p.seat AND p.visible_after <= ${now}`;
 }
 
 /** The report was published from a composite (multi-topic) analysis: it only mentions facts. */

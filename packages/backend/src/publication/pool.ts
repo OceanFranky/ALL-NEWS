@@ -217,7 +217,7 @@ async function queryPool(query: PoolQuery, now: Date): Promise<PoolResponse> {
   const meta = one(await sql<{ today_count: number; updated_at: Date | null }[]>`
     SELECT (SELECT count(*) FROM publications p
       WHERE ${listedCondition(now)} AND p.timeline_at >= ${beijingMidnight(today)} ${filters}) AS today_count,
-      (SELECT max(p.updated_at) FROM publications p WHERE p.eligible) AS updated_at`);
+      (SELECT max(p.updated_at) FROM publications p WHERE p.section_id = 'ai' AND p.eligible) AS updated_at`);
 
   const holders = await seatHolders(rows, now);
   return {
