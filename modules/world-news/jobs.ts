@@ -5,6 +5,7 @@ import { analyzeSectionArticle } from "@aihot/backend/editorial/section-analyze"
 import { assertSectionResource } from "@aihot/backend/sections/resources";
 import { sql } from "@aihot/backend/db";
 import { groupSectionArticle } from "@aihot/backend/events/section-group";
+import { projectSectionArticle } from "@aihot/backend/publication/section-publish";
 
 export const WorldAnalysisTask = z.strictObject({ sectionId: z.literal("world"), articleId: z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/), attemptTag: z.string().max(100).optional() });
 export type WorldAnalysisTaskData = z.infer<typeof WorldAnalysisTask>;
@@ -32,7 +33,11 @@ export const worldAnalysisQueue = defineQueue<WorldAnalysisTaskData>({
 export const WorldGroupTask=WorldAnalysisTask.omit({ attemptTag:true });
 export async function runWorldGroupTask(raw:unknown) {
   const task=WorldGroupTask.parse(raw);
-  return recordRun("world-news.group",()=>groupSectionArticle(task.sectionId,task.articleId),"world");
+  return recordRun("world-news.group",async()=>{
+    const result=await groupSectionArticle(task.sectionId,task.articleId);
+    await projectSectionArticle(task.sectionId,task.articleId);
+    return result;
+  },"world");
 }
 export const worldGroupQueue=defineQueue<z.infer<typeof WorldGroupTask>>({
   name:"world-news.group",options:{ policy:"short",retryLimit:2,retryDelay:60,expireInSeconds:900 },

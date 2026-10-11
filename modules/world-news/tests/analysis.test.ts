@@ -5,7 +5,9 @@ import { sql, closeDb } from "@aihot/backend/db";
 import { installModules } from "@aihot/backend/modules";
 import { analyzeSectionArticle } from "@aihot/backend/editorial/section-analyze";
 import { worldNewsModule } from "../server.ts";
-import { runWorldAnalysisTask, queueWorldAnalysis } from "../jobs.ts";
+import { runWorldAnalysisTask, runWorldGroupTask, queueWorldAnalysis } from "../jobs.ts";
+import { reviewSectionPublication,reviewSectionSourcePermission } from "@aihot/backend/publication/section-publish";
+import { sectionItem } from "@aihot/backend/publication/sections";
 
 const T = tag();
 const source = `analysis-world-${T}`;
@@ -64,6 +66,15 @@ test("actual shared chat transport runs world prompts, independent scores, Chine
   assert.ok((await sql`SELECT section_id,status FROM receipts`).every(r => r.section_id === "world" && r.status === "completed"));
   await analyzeSectionArticle("world", id);
   assert.equal(provider.hits() - start, 5, "same revision reuses paid answers");
+  await sql`UPDATE articles SET published_at=now() WHERE id=${id}`;
+  const grouped=await runWorldGroupTask({ sectionId:'world',articleId:id });
+  assert.equal(grouped.verdict,'new');
+  assert.equal(await sectionItem('world',id),null,'group task projects but does not auto-publish uncalibrated content');
+  await reviewSectionSourcePermission('world',source,{ summaryAllowed:true,reference:'Synthetic local fixture permission',actor:'test' });
+  await reviewSectionPublication('world',id,{ revision:1,action:'approve',actor:'test',reason:'Synthetic fixture review' });
+  assert.equal((await sectionItem('world',id))?.item.title,'央行宣布降息');
+  assert.equal(await sectionItem('ai',id),null);
+  assert.equal(provider.hits()-start,5,'projection, permission review and public reads never call a model');
 });
 
 test("empty and title-only RSS materials wait without model calls or invented copy", async () => {

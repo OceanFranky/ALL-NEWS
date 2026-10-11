@@ -51,6 +51,14 @@ before(async () => {
       visibility,eligible,selected,seat,indexable,discovered_at,timeline_at,sort_at,visible_after,search_text)
       VALUES (${section},${id},${id},${story!.id},${fact!.id},${title},${title},'news',${`https://fixture.invalid/${id}`},
       'public',true,true,true,true,now(),now(),now(),now()-interval '1 minute',${title.toLowerCase()})`;
+    if(section==='world') {
+      const [analysis]=await sql`INSERT INTO analyses (section_id,article_id,input_revision,origin,relevance,title_zh,summary_zh)
+        VALUES ('world',${id},1,'rule','pass',${title},${title}) RETURNING id`;
+      await sql`UPDATE articles SET grouping_status='complete' WHERE id=${id}`;
+      await sql`UPDATE publications SET analysis_id=${analysis!.id} WHERE article_id=${id}`;
+      await sql`INSERT INTO section_source_permissions (section_id,source_id,summary_allowed,permission_reference,reviewed_by)
+        VALUES ('world',${id},true,'Local fixture permission; not a real source license','test')`;
+    }
     const content = { leadItemId: id, sections: [{ label: "fixture", items: [{ itemId: id, title, summary: title }] }] };
     await sql`INSERT INTO reports (section_id,kind,key,window_start,window_end,content,generated_at)
       VALUES (${section},'daily',${section === "ai" ? aiDate : worldDate},now()-interval '1 day',now(),${sql.json(content)},now())`;

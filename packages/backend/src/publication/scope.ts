@@ -21,7 +21,23 @@ export function releasedCondition(now: Date) {
 
 /** Listed on public surfaces at `now`: public, pool eligible, and released by then. */
 export function listedCondition(now: Date, sectionId: SectionId = "ai") {
-  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND p.eligible AND ${releasedCondition(now)}`;
+  return sql`${sectionCondition(sectionId)} AND p.visibility = 'public' AND p.eligible AND ${releasedCondition(now)} AND ${sectionProjectionCondition(sectionId)}`;
+}
+
+/** Non-legacy readers recheck the original, latest judgement and permission, even between tasks. */
+export function sectionProjectionCondition(sectionId: SectionId) {
+  requireSectionId(sectionId);
+  if (sectionId === "ai") return sql`true`;
+  return sql`EXISTS (SELECT 1 FROM articles current_article JOIN analyses current_analysis
+    ON current_analysis.section_id=current_article.section_id AND current_analysis.article_id=current_article.id
+      AND current_analysis.input_revision=current_article.revision
+    JOIN sources current_source ON current_source.section_id=current_article.section_id AND current_source.id=current_article.source_id
+    JOIN section_source_permissions permission ON permission.section_id=current_source.section_id AND permission.source_id=current_source.id
+    WHERE current_article.section_id=p.section_id AND current_article.id=p.article_id AND current_analysis.id=p.analysis_id
+      AND current_analysis.id=(SELECT max(latest.id) FROM analyses latest WHERE latest.section_id=p.section_id
+        AND latest.article_id=p.article_id AND latest.input_revision=current_article.revision)
+      AND current_analysis.relevance='pass' AND current_article.grouping_status='complete'
+      AND current_source.participation_mode='editorial' AND permission.summary_allowed)`;
 }
 
 /** Story reports include older editorial material outside the pool, but never withdrawn or not yet released content. */
