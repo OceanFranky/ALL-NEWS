@@ -11,6 +11,8 @@ import { loadItemShare } from "@aihot/backend/publication/og";
 import { storyTexts } from "@aihot/backend/publication/story-text";
 import { listedCondition, selectedCondition, seatedCondition, storyReportCondition } from "@aihot/backend/publication/scope";
 import { buildApp } from "../../../apps/api/src/app.ts";
+import { installModules } from "@aihot/backend/modules";
+import { worldNewsModule } from "../server.ts";
 
 const T = tag();
 const AI = `ai-public-${T}`;
@@ -20,6 +22,7 @@ const aiStory = randomUUID();
 const worldStory = randomUUID();
 const aiDate = "2098-01-01";
 const worldDate = "2098-01-02";
+installModules([worldNewsModule]);
 const app = await buildApp();
 let worldStoryId: number;
 
@@ -160,4 +163,25 @@ test("real loopback MCP transport uses AI-only latest, search, daily and story r
     app.server.closeAllConnections();
   }
   assert.equal((await sql`SELECT 1 FROM receipts`).length, 0);
+});
+
+test("world namespace only reads world; wrong section IDs and invalid categories never widen scope", async () => {
+  for (const path of ["/api/v1/world/items","/api/v1/world/stories",`/api/v1/world/items/${WORLD}`,`/api/v1/world/stories/${worldStory}`]) {
+    const response=await get(path);
+    assert.equal(response.statusCode,200,path);
+    assert.ok(response.body.includes(WORLD_TITLE),path);
+    assert.ok(!response.body.includes(AI),path);
+  }
+  assert.equal((await get(`/api/v1/world/items/${AI}`)).statusCode,404);
+  assert.equal((await get(`/api/v1/world/stories/${aiStory}`)).statusCode,404);
+  for (const path of ["/api/v1/world/items?category=ai-models","/api/v1/world/items?section=ai","/api/v1/world/items?limit=0"]) {
+    assert.equal((await get(path)).statusCode,400,path);
+  }
+  const hot=(await get("/api/v1/world/hot")).json();
+  assert.equal(hot.status,"calibration-required");
+  assert.deepEqual(hot.items,[]);
+  await sql`UPDATE publications SET visibility='withdrawn' WHERE article_id=${WORLD}`;
+  assert.equal((await get(`/api/v1/world/items/${WORLD}`)).statusCode,404);
+  assert.equal((await get(`/api/v1/world/stories/${worldStory}`)).statusCode,404);
+  assert.ok(!(await get("/api/v1/world/items")).body.includes(WORLD_TITLE));
 });

@@ -4,7 +4,8 @@
   "type": "module",
   "exports": {
     "./server": "./server.ts",
-    "./rules": "./rules.ts"
+    "./rules": "./rules.ts",
+    "./module": "./module.ts"
   },
   "dependencies": {
     "@aihot/backend": "*",
