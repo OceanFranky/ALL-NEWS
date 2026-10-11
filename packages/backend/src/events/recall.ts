@@ -52,7 +52,7 @@ async function recallPool(): Promise<PoolRow[]> {
     JOIN stories st ON st.id = f.story_id AND st.merged_into IS NULL
     JOIN articles a ON a.id = fa.article_id
     LEFT JOIN publications p ON p.article_id = a.id
-    WHERE fa.role IN ('primary', 'report') AND NOT ${latestCompositeCondition(sql`a.id`)} AND a.discovered_at > now() - make_interval(days => ${RECALL_DAYS})`;
+    WHERE a.section_id='ai' AND fa.role IN ('primary', 'report') AND NOT ${latestCompositeCondition(sql`a.id`)} AND a.discovered_at > now() - make_interval(days => ${RECALL_DAYS})`;
 }
 
 type ReadingRow = ReportView & { article_id: string; revision: number };
@@ -75,7 +75,7 @@ async function reportTexts(ids: string[]): Promise<Map<string, string>> {
     FROM articles a
     LEFT JOIN publications p ON p.article_id = a.id
     LEFT JOIN LATERAL (SELECT title_zh, summary_zh FROM analyses x WHERE x.article_id = a.id ORDER BY input_revision DESC, id DESC LIMIT 1) an ON true
-    WHERE a.id = ANY(${ids})`;
+    WHERE a.section_id='ai' AND a.id = ANY(${ids})`;
   return new Map(rows.map((r) => [r.id, reportText(r.title, r.summary)]));
 }
 
@@ -217,7 +217,7 @@ export async function candidateViews(recalled: Recalled[]): Promise<CandidateVie
     JOIN facts f ON f.id = fa.fact_id
     JOIN publications p ON p.article_id = fa.article_id
     JOIN sources s ON s.id = p.source_id
-    WHERE fa.fact_id = ANY(${ids}) AND fa.role IN ('primary', 'report') AND NOT ${latestCompositeCondition(sql`fa.article_id`)}
+    WHERE f.section_id='ai' AND fa.fact_id = ANY(${ids}) AND fa.role IN ('primary', 'report') AND NOT ${latestCompositeCondition(sql`fa.article_id`)}
     ORDER BY fa.fact_id, (fa.role = 'primary') DESC, p.timeline_at ASC`,
     sql<SelectedRow[]>`
       SELECT p.fact_id, p.article_id, p.title, p.summary, p.body_mode, p.score, p.timeline_at,
@@ -257,14 +257,14 @@ export async function relatedPosts(a: { id: string; url: string; x_post: { reply
     SELECT fa.article_id, fa.fact_id, f.story_id, f.title AS fact_title
     FROM articles b JOIN fact_articles fa ON fa.article_id = b.id AND fa.role IN ('primary', 'report')
     JOIN facts f ON f.id = fa.fact_id JOIN stories st ON st.id = f.story_id AND st.merged_into IS NULL
-    WHERE b.url = ${a.url} AND b.id <> ${a.id} AND NOT ${latestCompositeCondition(sql`fa.article_id`)} ORDER BY fa.created_at LIMIT 1`;
+    WHERE b.section_id='ai' AND b.url = ${a.url} AND b.id <> ${a.id} AND NOT ${latestCompositeCondition(sql`fa.article_id`)} ORDER BY fa.created_at LIMIT 1`;
   const ids = [a.x_post?.replyTo ?? null, a.x_post?.quoted?.url ? (/\/status\/(\d+)/.exec(a.x_post.quoted.url)?.[1] ?? null) : null].filter((x): x is string => !!x);
   const referenced = ids.length
     ? await sql<PoolRow[]>`
         SELECT fa.article_id, fa.fact_id, f.story_id, f.title AS fact_title
         FROM articles b JOIN fact_articles fa ON fa.article_id = b.id AND fa.role IN ('primary', 'report')
         JOIN facts f ON f.id = fa.fact_id JOIN stories st ON st.id = f.story_id AND st.merged_into IS NULL
-        WHERE b.identity_key = ANY(${ids.map((id) => `x:${id}`)}) AND b.id <> ${a.id} AND NOT ${latestCompositeCondition(sql`fa.article_id`)}`
+        WHERE b.section_id='ai' AND b.identity_key = ANY(${ids.map((id) => `x:${id}`)}) AND b.id <> ${a.id} AND NOT ${latestCompositeCondition(sql`fa.article_id`)}`
     : [];
   return { sameUrl: sameUrl ?? null, referenced };
 }

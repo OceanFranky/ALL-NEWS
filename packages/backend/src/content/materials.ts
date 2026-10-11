@@ -171,12 +171,6 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   const [source] = await db<{ section_id: SectionId }[]>`SELECT section_id FROM sources WHERE id = ${m.sourceId} FOR SHARE`;
   if (!source) throw new Error("material source not found");
   assertSameSection(sectionId, requireSectionId(source.section_id));
-  // Expand-only upgrades retain the old global unique key until every reader and worker is scoped.
-  if (sectionId === "world") {
-    const [legacy] = await db`SELECT 1 FROM pg_constraint
-      WHERE conrelid = 'articles'::regclass AND conname = 'articles_identity_key_key'`;
-    if (legacy) throw new Error("world material blocked: section identity cutover is not complete");
-  }
   m = { ...m,
     publishedAt: m.publishedAt && Number.isFinite(m.publishedAt.getTime()) ? m.publishedAt : null,
     sourceUpdatedAt: m.sourceUpdatedAt && Number.isFinite(m.sourceUpdatedAt.getTime()) ? m.sourceUpdatedAt : null,
@@ -191,8 +185,8 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   // concurrent first discoveries; after losing that insert, read and lock its winner.
   let existing = await lockMaterial(db, identityKey, sectionId);
   if (!existing) {
-    // During expand/cutover two unique indexes coexist. ON CONFLICT's section index alone cannot
-    // arbitrate the old global index's concurrent first insert; serialise only first discoveries.
+    // First discoveries have no row to lock. Serialise their identity within this section;
+    // another section may store the same original independently.
     await db`SELECT pg_advisory_xact_lock(hashtextextended(${`material:${sectionId}:${identityKey}`}, 0))`;
     existing = await lockMaterial(db, identityKey, sectionId);
   }

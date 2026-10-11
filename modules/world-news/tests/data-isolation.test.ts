@@ -25,11 +25,11 @@ const material = { sourceId: WORLD, sectionId: "world" as const, via: "fetch" as
 let aiId: string;
 let worldId: string;
 
-test("expand migrations are validated, preserve global uniqueness and default old records to AI", async () => {
+test("section migrations are validated, use board identity uniqueness and default old records to AI", async () => {
   const constraints = await sql`SELECT conname, convalidated FROM pg_constraint WHERE conname LIKE '%_section_%'`;
   assert.ok(constraints.length >= 34);
   assert.ok(constraints.every(row => row.convalidated));
-  assert.equal((await sql`SELECT 1 FROM pg_constraint WHERE conrelid='articles'::regclass AND conname='articles_identity_key_key'`).length, 1);
+  assert.equal((await sql`SELECT 1 FROM pg_constraint WHERE conrelid='articles'::regclass AND conname='articles_identity_key_key'`).length, 0);
   assert.equal((await sql`SELECT 1 FROM pg_index WHERE indexrelid='articles_section_identity_idx'::regclass AND indisvalid`).length, 1);
   await createSource(draft(AI), "test");
   const [source] = await sql`SELECT section_id FROM sources WHERE id=${AI}`;
@@ -53,19 +53,15 @@ test("source addresses and admin operations are scoped; world starts paused", as
   await assert.rejects(updateSource(WORLD, { patch: { enabled: true }, version: new Date(world.source.updated_at).toISOString() }, "test", "world"), /暂不能启用/);
 });
 
-test("source mismatches and an incomplete production cutover reject material", async () => {
+test("source mismatches reject material before any write", async () => {
   await assert.rejects(upsertMaterial({ ...material, sectionId: "ai" }), /mismatch/);
   await assert.rejects(upsertMaterial({ ...material, sectionId: undefined }), /mismatch/);
   await assert.rejects(upsertMaterial({ ...material, sourceId: AI }), /mismatch/);
-  await assert.rejects(upsertMaterial(material), /cutover/);
   assert.equal((await sql`SELECT 1 FROM articles WHERE source_id=${WORLD}`).length, 0);
 });
 
-test("TEST-ONLY cutover: same link is independent across sections, concurrent repeats and revisions stay scoped", async () => {
-  // The shipped expand batch deliberately never drops this constraint. Simulate the later cutover
-  // only inside the per-file disposable test database, never against deployment data.
+test("shipped cutover: same link is independent across sections, concurrent repeats and revisions stay scoped", async () => {
   assert.match(sql.options.database, /_f\d+_test$/);
-  await sql`ALTER TABLE articles DROP CONSTRAINT articles_identity_key_key`;
   aiId = (await upsertMaterial({ ...material, sectionId: undefined, sourceId: AI })).articleId;
   const results = await Promise.all(Array.from({ length: 12 }, () => upsertMaterial(material)));
   worldId = results[0]!.articleId;

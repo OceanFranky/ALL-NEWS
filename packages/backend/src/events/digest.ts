@@ -43,7 +43,7 @@ export function buildStoryDigestInput(story: { title: string; digest: string | n
  */
 export async function composeStoryDigest(storyId: number, opts: { rewrite?: boolean } = {}): Promise<{ updated: boolean; version?: number }> {
   const [story] = await sql<{ id: number; title: string; digest: string | null; version: number; origin: string }[]>`
-    SELECT id, title, digest, version, origin FROM stories WHERE id = ${storyId} AND merged_into IS NULL`;
+    SELECT id, title, digest, version, origin FROM stories WHERE id = ${storyId} AND section_id='ai' AND merged_into IS NULL`;
   if (!story) return { updated: false };
   const reports = await digestReports(sql, [storyId]);
   if (reports.length === 0) {

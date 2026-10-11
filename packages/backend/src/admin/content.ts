@@ -16,6 +16,7 @@ import { requestRegroup } from "../events/corrections.ts";
 import { computeHotRanking, storedHotRanking } from "../events/hot.ts";
 import { audit, auditHistory, Conflict } from "../audit.ts";
 import { sha256, stableJson } from "../lib/ids.ts";
+import { requireSectionId, type SectionId } from "@aihot/contracts/sections";
 
 interface PublicationDateMaterial {
   id: string;
@@ -53,7 +54,7 @@ export function publicationDateCorrectionPlan(article: PublicationDateMaterial, 
 
 /** Read-only plan for the operator's evidence and exact version/hash approval. */
 export async function previewPublicationDateCorrection(id: string, publishedAt: string) {
-  const [article] = await sql<PublicationDateMaterial[]>`SELECT * FROM articles WHERE id=${id}`;
+  const [article] = await sql<PublicationDateMaterial[]>`SELECT * FROM articles WHERE id=${id} AND section_id='ai'`;
   return article ? publicationDateCorrectionPlan(article, publishedAt) : null;
 }
 
@@ -69,7 +70,7 @@ export async function correctPublicationDate(id: string, input: { version: numbe
   z.object({ version: z.number().int().positive(), hash: z.string().regex(/^[0-9a-f]{64}$/), publishedAt: z.string(),
     requestId: z.string().regex(/^[\w-]{8,80}$/), reason: z.string().trim().min(1) }).parse(input);
   return sql.begin(async tx => {
-    const [article] = await tx<PublicationDateMaterial[]>`SELECT * FROM articles WHERE id=${id} FOR UPDATE`;
+    const [article] = await tx<PublicationDateMaterial[]>`SELECT * FROM articles WHERE id=${id} AND section_id='ai' FOR UPDATE`;
     if (!article) throw new Conflict("内容不存在");
     const [prior] = await tx<{ after: { publishedAt: string; result: PublicationDateCorrectionResult } }[]>`
       SELECT after FROM audit_log WHERE subject=${`content:${id}`} AND action='content.correct-publication-date'
@@ -103,14 +104,15 @@ export async function correctPublicationDate(id: string, input: { version: numbe
   });
 }
 
-export async function searchContent(q: string): Promise<BeforeJson<AdminContentRow>[]> {
+export async function searchContent(q: string, sectionId:SectionId='ai'): Promise<BeforeJson<AdminContentRow>[]> {
+  requireSectionId(sectionId);
   const term = q.trim();
   if (!term) return [];
   const read = (where: ReturnType<typeof sql>) => sql<BeforeJson<AdminContentRow>[]>`
     SELECT a.id, coalesce(p.title, a.title) AS title, a.url, s.name AS source, a.discovered_at, a.processing_state,
            p.visibility, p.selected, p.score
     FROM articles a JOIN sources s ON s.id = a.source_id LEFT JOIN publications p ON p.article_id = a.id
-    WHERE ${where} ORDER BY a.discovered_at DESC, a.id LIMIT 50`;
+    WHERE a.section_id=${sectionId} AND (${where}) ORDER BY a.discovered_at DESC, a.id LIMIT 50`;
   // Exact lookups use the identity indexes; a title search must not force a full-table join for an ID.
   if (ARTICLE_ID_PATTERN.test(term)) {
     const found = await read(sql`a.id = ${term}`);
@@ -123,12 +125,13 @@ export async function searchContent(q: string): Promise<BeforeJson<AdminContentR
 
 type Chain = BeforeJson<AdminContentChain>;
 
-export async function contentChain(id: string): Promise<Chain | null> {
+export async function contentChain(id: string, sectionId:SectionId='ai'): Promise<Chain | null> {
+  requireSectionId(sectionId);
   const [article] = await sql<Chain["article"][]>`
     SELECT a.id, a.source_id, a.url, a.identity_key, a.title, a.author, a.language, a.published_at, a.published_at_claim, a.discovered_at,
            a.timeline_at, a.backfill, a.body_status, a.revision, a.processing_state, a.processing_error, a.grouped_at, length(a.body_text) AS body_chars,
            s.name AS source_name, s.kind AS source_kind, s.tier, s.participation_mode, s.site_fulltext, s.syndicate_fulltext
-    FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${id}`;
+    FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${id} AND a.section_id=${sectionId}`;
   if (!article) return null;
   const [discoveries, revisions, analyses, publication, override, ledger, membership, decisions, deliveries, history] = await Promise.all([
     sql<Chain["discoveries"]>`SELECT source_id, via, discovered_at FROM article_discoveries WHERE article_id = ${id} ORDER BY discovered_at`,
@@ -147,7 +150,7 @@ export async function contentChain(id: string): Promise<Chain | null> {
       FROM fact_articles fa JOIN facts f ON f.id = fa.fact_id LEFT JOIN stories st ON st.id = f.story_id WHERE fa.article_id = ${id}`,
     sql<Chain["decisions"]>`SELECT verdict, fact_id, story_id, receipt_id, candidates, created_at FROM grouping_decisions WHERE article_id = ${id} ORDER BY created_at DESC LIMIT 5`,
     sql<Chain["deliveries"]>`SELECT target_key, dedupe_key, status, attempts, response, created_at, sent_at FROM deliveries WHERE subject_id = ${id} ORDER BY created_at DESC`,
-    auditHistory(`content:${id}`),
+    auditHistory(sectionId==='ai' ? `content:${id}` : `${sectionId}:content:${id}`),
   ]);
   return { article, discoveries, revisions, analyses, publication: publication[0] ?? null, override: override[0] ?? null, ledger, membership, decisions, deliveries, history };
 }
@@ -165,7 +168,7 @@ const STALE = "这条内容的人工设置已被修改，请刷新后再操作";
 
 async function overrideRow(id: string, tx: Tx) {
   // Use the same first lock as publication and automatic processing, including the first correction.
-  const [article] = await tx`SELECT id FROM articles WHERE id = ${id} FOR UPDATE`;
+  const [article] = await tx`SELECT id FROM articles WHERE id = ${id} AND section_id='ai' FOR UPDATE`;
   if (!article) throw Object.assign(new Error("内容不存在"), { statusCode: 400 });
   const [o] = await tx<{ fields: Record<string, unknown>; visibility: string | null; version: number }[]>`SELECT fields, visibility, version FROM editorial_overrides WHERE article_id = ${id}`;
   return o ?? { fields: {}, visibility: null, version: 0 };
@@ -204,7 +207,8 @@ export async function setVisibility(id: string, input: { visibility: "public" | 
 export async function setSeoIndexed(id: string, input: { indexed: boolean; reason: string }, actor: string) {
   z.object({ indexed: z.boolean(), reason: z.string().trim().min(1) }).parse(input);
   return sql.begin(async (tx) => {
-    await tx`SELECT id FROM articles WHERE id = ${id} FOR UPDATE`;
+    const [article]=await tx`SELECT id FROM articles WHERE id = ${id} AND section_id='ai' FOR UPDATE`;
+    if(!article) return null;
     const [before] = await tx<{ indexable: boolean }[]>`SELECT indexable FROM publications WHERE article_id = ${id}`;
     if (!before) return null;
     const published = await setSeoDecision(tx, id, input.indexed);
@@ -262,7 +266,7 @@ export async function rerun(id: string, step: "extract" | "analyze" | "group", r
   z.enum(["extract", "analyze", "group"]).parse(step);
   z.string().regex(/^[\w-]{8,80}$/, "a stable request id is required").parse(requestId);
   return sql.begin(async (tx) => {
-    const [a] = await tx`SELECT id FROM articles WHERE id = ${id} FOR UPDATE`;
+    const [a] = await tx`SELECT id FROM articles WHERE id = ${id} AND section_id='ai' FOR UPDATE`;
     if (!a) return null;
     // Queue singleton keys expire when a job completes. The committed command remains in the audit.
     const [prior] = await tx<{ after: { jobId: string | null } }[]>`

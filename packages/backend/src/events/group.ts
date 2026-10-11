@@ -505,7 +505,7 @@ const WAIT_HOURS = 48;
 
 /** Discussion posts not yet attached to any story (a post a person placed or detached is left alone). */
 const unattachedSignal = sql`
-  s.participation_mode = 'hot_signal' AND a.processing_state = 'skipped'
+  a.section_id='ai' AND s.participation_mode = 'hot_signal' AND a.processing_state = 'skipped'
   AND (NOT a.backfill OR a.discovered_at - a.published_at <= make_interval(secs => ${STALE_ON_DISCOVERY_MS / 1000}))
   AND NOT EXISTS (SELECT 1 FROM story_signals ss WHERE ss.article_id = a.id)
   AND NOT EXISTS (SELECT 1 FROM grouping_decisions d WHERE d.article_id = a.id AND d.verdict <> 'signal-unmatched')

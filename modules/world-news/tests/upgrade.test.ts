@@ -35,6 +35,7 @@ test("a populated pre-section database upgrades without rewriting AI identities,
     }
     await runMigrations(db, previous);
     await db`INSERT INTO sources (id,name,kind,enabled,cursor) VALUES ('old-source','旧信源','rss',false,'{"position":"unchanged"}')`;
+    await db`INSERT INTO fetch_runs (source_id,status,found_count,new_count) VALUES ('old-source','ok',2,1)`;
     await db`INSERT INTO articles (id,source_id,identity_key,url,title,revision,discovered_at,timeline_at)
       VALUES ('old-article','old-source','url:fixture','https://fixture.invalid/old','旧标题',4,'2026-10-10T00:00:00Z','2026-10-10T00:00:00Z')`;
     const [analysis] = await db`INSERT INTO analyses (article_id,input_revision,origin,title_zh,score,selected)
@@ -53,12 +54,18 @@ test("a populated pre-section database upgrades without rewriting AI identities,
     const { section_id, ...rest } = after[0]!;
     assert.equal(section_id, "ai");
     assert.deepEqual(rest, { ...before[0] });
-    for (const table of ["sources", "articles", "analyses", "publications", "stories", "facts", "fact_articles", "article_discoveries"]) {
+    for (const table of ["sources", "articles", "analyses", "publications", "stories", "facts", "fact_articles", "article_discoveries","fetch_runs"]) {
       const rows: { section_id: string }[] = await db`SELECT section_id FROM ${db(table)}`;
       assert.ok(rows.length && rows.every(row => row.section_id === "ai"), table);
     }
     assert.equal(await runMigrations(db, root), 0, "full filename bookkeeping is idempotent");
-    assert.equal((await db`SELECT 1 FROM pg_constraint WHERE conrelid='articles'::regclass AND conname='articles_identity_key_key'`).length, 1);
+    assert.equal((await db`SELECT 1 FROM pg_constraint WHERE conrelid='articles'::regclass AND conname='articles_identity_key_key'`).length, 0);
+    await db`INSERT INTO sources (section_id,id,name,kind,enabled) VALUES ('world','new-world','世界源','rss',false)`;
+    await db`INSERT INTO articles (section_id,id,source_id,identity_key,url,title,discovered_at,timeline_at)
+      VALUES ('world','new-world-article','new-world','url:fixture','https://fixture.invalid/old','世界独立标题',now(),now())`;
+    assert.equal((await db`SELECT title FROM articles WHERE id='old-article'`)[0]!.title,'旧标题');
+    await assert.rejects(db`INSERT INTO articles (section_id,id,source_id,identity_key,url,title,discovered_at,timeline_at)
+      VALUES ('world','duplicate-world','new-world','url:fixture','https://fixture.invalid/old','不应重复',now(),now())`,{ code:'23505' });
   } finally {
     await db?.end();
     if (created) await server`DROP DATABASE ${server(name)} WITH (FORCE)`;

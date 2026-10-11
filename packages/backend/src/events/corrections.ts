@@ -20,7 +20,8 @@ import { emit } from "../modules.ts";
 export async function detachFromFact(id: string, reason: string, actor: string) {
   const { facts, stories } = await sql.begin(async (tx) => {
     // The grouping job writes under the same lock and reads this decision again before it does.
-    await tx`SELECT 1 FROM articles WHERE id = ${id} FOR UPDATE`;
+    const [article]=await tx`SELECT 1 FROM articles WHERE id = ${id} AND section_id='ai' FOR UPDATE`;
+    if(!article) throw new Conflict('内容不存在');
     const removed = await tx<{ fact_id: number }[]>`DELETE FROM fact_articles WHERE article_id = ${id} RETURNING fact_id`;
     const factIds = removed.map((r) => r.fact_id);
     const storyRows = factIds.length ? await tx<{ story_id: number }[]>`SELECT DISTINCT story_id FROM facts WHERE id = ANY(${factIds}) AND story_id IS NOT NULL` : [];
@@ -51,10 +52,10 @@ export async function detachFromFact(id: string, reason: string, actor: string) 
 export async function moveToFact(id: string, factPublicId: string, reason: string, actor: string) {
   const moved = await sql.begin(async (tx) => {
     // The grouping job writes under the same lock and reads this decision again before it does.
-    const [article] = await tx<{ source_id: string; at: Date }[]>`SELECT source_id, coalesce(published_at, discovered_at) AS at FROM articles WHERE id = ${id} FOR UPDATE`;
+    const [article] = await tx<{ source_id: string; at: Date }[]>`SELECT source_id, coalesce(published_at, discovered_at) AS at FROM articles WHERE id = ${id} AND section_id='ai' FOR UPDATE`;
     if (!article) return null;
     const [target] = await tx<{ id: number; story_id: number }[]>`
-      SELECT f.id, f.story_id FROM facts f JOIN stories st ON st.id = f.story_id WHERE f.public_id = ${factPublicId} AND st.merged_into IS NULL`;
+      SELECT f.id, f.story_id FROM facts f JOIN stories st ON st.id = f.story_id WHERE f.section_id='ai' AND f.public_id = ${factPublicId} AND st.merged_into IS NULL`;
     if (!target) throw new Conflict("目标事实不存在，或它所在的事件已被合并");
     const removed = await tx<{ fact_id: number; evidence: string | null }[]>`
       DELETE FROM fact_articles WHERE article_id = ${id} AND (role IN ('primary', 'report') OR fact_id = ${target.id}) RETURNING fact_id, evidence`;
@@ -103,7 +104,7 @@ export async function mergeStories(fromId: number, intoId: number, reason: strin
  * prompt changed). Unchanged prompt and reports reuse the paid answer; the model call happens here.
  */
 export async function rewriteStoryDigest(storyId: number, reason: string, actor: string) {
-  const [before] = await sql<{ digest: string | null; version: number }[]>`SELECT digest, version FROM stories WHERE id = ${storyId} AND merged_into IS NULL`;
+  const [before] = await sql<{ digest: string | null; version: number }[]>`SELECT digest, version FROM stories WHERE id = ${storyId} AND section_id='ai' AND merged_into IS NULL`;
   if (!before) throw new Error("story not found");
   const result = await composeStoryDigest(storyId, { rewrite: true });
   await audit(actor, "story.rewrite-digest", `story:${storyId}`, reason, before, result);
@@ -119,7 +120,8 @@ export async function rewriteStoryDigest(storyId: number, reason: string, actor:
 export async function requestRegroup(articleId: string, requestId: string, db: Db = sql): Promise<string | null> {
   if ("begin" in db) return (db as typeof sql).begin(tx => requestRegroup(articleId, requestId, tx));
   // The grouping job writes under the same lock and reads the manual state again before it does.
-  await db`SELECT 1 FROM articles WHERE id = ${articleId} FOR UPDATE`;
+  const [article]=await db`SELECT 1 FROM articles WHERE id = ${articleId} AND section_id='ai' FOR UPDATE`;
+  if(!article) return null;
   const previous = await db<{ story_id: number }[]>`
     SELECT story_id FROM publications WHERE article_id = ${articleId} AND story_id IS NOT NULL
     UNION

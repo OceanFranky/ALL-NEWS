@@ -92,7 +92,7 @@ export async function queueProcessing(articleId: string, opts: { step?: Step; at
 export async function settleNonEditorial(articleId: string): Promise<{ group: boolean }> {
   const [row] = await sql<{ participation_mode: string; backfill: boolean; published_at: Date | null; discovered_at: Date }[]>`
     UPDATE articles a SET processing_state = 'skipped', processing_attempts = 0, processing_retry_at = NULL, processing_queued_at = NULL
-    FROM sources s WHERE s.id = a.source_id AND a.id = ${articleId} AND s.participation_mode <> 'editorial'
+    FROM sources s WHERE s.id = a.source_id AND a.id = ${articleId} AND a.section_id='ai' AND s.participation_mode <> 'editorial'
     RETURNING s.participation_mode, a.backfill, a.published_at, a.discovered_at`;
   if (!row) return { group: false };
   await publishArticle(articleId);
@@ -101,7 +101,7 @@ export async function settleNonEditorial(articleId: string): Promise<{ group: bo
 
 async function processingInput(articleId: string) {
   const [row] = await sql<{ participation_mode: string; revision: number; backfill: boolean; published_at: Date | null; discovered_at: Date }[]>`
-    SELECT s.participation_mode, a.revision, a.backfill, a.published_at, a.discovered_at FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId}`;
+    SELECT s.participation_mode, a.revision, a.backfill, a.published_at, a.discovered_at FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId} AND a.section_id='ai'`;
   return row ? { ...row, historical: isHistorical(row) } : null;
 }
 

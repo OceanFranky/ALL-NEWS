@@ -35,8 +35,8 @@ const sid=(kind:string)=>`world-collect-${T}-${kind}`;
 before(async()=>{
   installModules([worldNewsModule]);config.allowPrivateNetworkFetch=true;
   assert.match(sql.options.database,/_f\d+_test$/);
-  // Test the later identity cutover only in the runner's disposable database. Deployment is unchanged.
-  await sql`ALTER TABLE articles DROP CONSTRAINT articles_identity_key_key`;
+  // Exercise the shipped migrations, not a test-only identity cutover.
+  assert.equal((await sql`SELECT 1 FROM pg_constraint WHERE conname='articles_identity_key_key' AND conrelid='articles'::regclass`).length,0);
   for(const [kind,cfg] of [
     ['rss',{ feedUrl:`${base}/rss` }],
     ['web_list',{ url:`${base}/html`,itemSelector:'.news article',linkSelector:'h2 a',titleSelector:'h2 a',summarySelector:'p',publishedAtSelector:'time',publishedAtUtcOffset:'+08:00' }],
