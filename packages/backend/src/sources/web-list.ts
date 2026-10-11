@@ -179,7 +179,8 @@ export function fromHtml(html: string, base: string, source: SourceRow): Candida
       publishedAt = parseLooseDate(m?.[1], c.publishedAtUtcOffset);
     }
     seen.add(url);
-    out.push({ url, title, publishedAt });
+    const summaryEl = c.summarySelector ? (el.is(c.summarySelector) ? el : el.find(c.summarySelector).first()) : null;
+    out.push({ url, title, publishedAt, ...(summaryEl ? { excerpt: collapseWhitespace(summaryEl.text()) || null } : {}) });
   }
   return out;
 }

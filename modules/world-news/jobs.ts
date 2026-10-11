@@ -6,6 +6,28 @@ import { assertSectionResource } from "@aihot/backend/sections/resources";
 import { sql } from "@aihot/backend/db";
 import { groupSectionArticle } from "@aihot/backend/events/section-group";
 import { projectSectionArticle } from "@aihot/backend/publication/section-publish";
+import { collectSectionSource } from "@aihot/backend/sources/section-collect";
+
+export const WorldCollectTask=z.strictObject({ sectionId:z.literal('world'),sourceId:z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/),force:z.boolean().optional() });
+export async function runWorldCollectTask(raw:unknown) {
+  const task=WorldCollectTask.parse(raw);
+  await sql.begin(tx=>assertSectionResource(tx,'world',{ kind:'source',id:task.sourceId }));
+  return recordRun('world-news.collect',async()=>{
+    const result=await collectSectionSource('world',task.sourceId,{ force:task.force,onMaterial:articleId=>queueWorldAnalysis({ sectionId:'world',articleId }) });
+    if(result.status==='failed') throw new Error(result.error);
+    return result;
+  },'world');
+}
+export const worldCollectQueue=defineQueue<z.infer<typeof WorldCollectTask>>({
+  name:'world-news.collect',options:{ policy:'short',retryLimit:2,retryDelay:60,expireInSeconds:900 },
+  worker:{ batchSize:1,localConcurrency:1,pollingIntervalSeconds:2 },
+  run:async tasks=>{ const results=[];for(const task of tasks) results.push(await runWorldCollectTask(task));return results; },
+});
+export async function queueWorldCollection(raw:unknown) {
+  const task=WorldCollectTask.parse(raw);
+  await sql.begin(tx=>assertSectionResource(tx,'world',{ kind:'source',id:task.sourceId }));
+  return enqueueOn(worldCollectQueue,task,{ singletonKey:`world:collect:${task.sourceId}` });
+}
 
 export const WorldAnalysisTask = z.strictObject({ sectionId: z.literal("world"), articleId: z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/), attemptTag: z.string().max(100).optional() });
 export type WorldAnalysisTaskData = z.infer<typeof WorldAnalysisTask>;
@@ -52,6 +74,10 @@ export async function queueWorldGroup(raw:unknown) {
 
 export async function queueWorldAnalysis(raw: unknown): Promise<string | null> {
   const task = WorldAnalysisTask.parse(raw);
-  await sql.begin(tx => assertSectionResource(tx, "world", { kind: "article", id: task.articleId }));
-  return enqueueOn(worldAnalysisQueue, task, { singletonKey: `world:article:${task.articleId}:${task.attemptTag ?? "0"}` });
+  const revision=await sql.begin(async tx=>{
+    await assertSectionResource(tx,"world",{ kind:"article",id:task.articleId });
+    const [a]=await tx<{ revision:number }[]>`SELECT revision FROM articles WHERE section_id='world' AND id=${task.articleId}`;
+    return a!.revision;
+  });
+  return enqueueOn(worldAnalysisQueue, task, { singletonKey: `world:article:${task.articleId}:${revision}:${task.attemptTag ?? "0"}` });
 }

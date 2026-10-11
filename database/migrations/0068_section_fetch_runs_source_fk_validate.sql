@@ -1,0 +1,1 @@
+ALTER TABLE fetch_runs VALIDATE CONSTRAINT fetch_runs_section_source_fk;
