@@ -45,7 +45,7 @@ export async function analyzeSectionArticle(sectionId: SectionId, articleId: str
     const result = await chatJson({ sectionId, resource: { kind: "article", id: articleId },
       model: await sectionModelFor(rules, step), purpose: `${sectionId}.${step}${tag ? `.${tag}` : ""}`,
       subject: articleId, promptVersion: version, system: rules.prompts.text(prompt), user, schema,
-      maxTokens: step === "score" ? 512 : 1800, attemptTag });
+      maxTokens: step === "score" ? 512 : 1800, attemptTag,inputRevision:input.revision });
     receiptIds.push(result.receiptId);
     versions.push(version);
     return result.data;

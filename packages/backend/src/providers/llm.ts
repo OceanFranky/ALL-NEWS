@@ -9,6 +9,7 @@ import { PRESETS } from "@aihot/site/models";
 import { config, credential } from "../config.ts";
 import { sha256 } from "../lib/ids.ts";
 import { assertAccepted, paidRequest, ProviderRejectedError, rejectReceivedResponse } from "./receipts.ts";
+import { reserveSectionModelCost } from './section-money.ts';
 
 export interface ModelSpec {
   key: string;
@@ -68,6 +69,8 @@ export interface ChatJsonOptions<S extends z.ZodType> {
   temperature?: number;
   maxTokens?: number;
   attemptTag?: string;
+  /** Non-legacy recovery binds a paid request to the actual material revision. */
+  inputRevision?: number;
   timeoutMs?: number;
   /** false: the model answers in its own text format (no JSON mode); `parse` turns it into the schema's input. */
   json?: boolean;
@@ -141,6 +144,7 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
   const temperature = opts.temperature ?? 0.2;
   const maxTokens = Math.max(opts.maxTokens ?? 1500, 512) + (spec.reasoningTokens ?? 0);
   const userText = typeof opts.user === "string" ? opts.user : JSON.stringify(opts.user);
+  if(opts.sectionId==='world' && Array.isArray(opts.user)) throw new Error('world calls require text-only materials');
   const body: Record<string, unknown> = {
     model: spec.model,
     messages: [
@@ -154,6 +158,11 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
     ...(spec.jsonMode && opts.json !== false ? { response_format: { type: "json_object" } } : {}),
     ...(spec.extra ?? {}),
   };
+  if(opts.sectionId==='world' && (spec.extra?.messages!==undefined || body.model!==spec.model
+    || typeof body.max_tokens!=='number' || body.max_tokens>maxTokens || body.max_tokens<=0))
+    throw new Error('world request overrides unbounded model/input/output fields');
+  const reservedCostCny=await reserveSectionModelCost(opts.sectionId,{ service:spec.service,model:spec.model,endpoint:baseUrl,
+    system:'',user:JSON.stringify(body),maxTokens });
 
   const receipt = await paidRequest(
     {
@@ -164,8 +173,10 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
       purpose: opts.purpose,
       subject: opts.subject,
       identity: { model: spec.model, promptVersion: opts.promptVersion, system: sha256(opts.system), user: sha256(userText), temperature, maxTokens, extra: spec.extra ?? null },
-      requestSummary: { promptVersion: opts.promptVersion, systemHash: sha256(opts.system), userHash: sha256(userText), userChars: userText.length, temperature, maxTokens },
+      requestSummary: { promptVersion: opts.promptVersion, systemHash: sha256(opts.system), userHash: sha256(userText), userChars: userText.length, temperature, maxTokens,
+        ...(opts.sectionId==='world' ? { inputRevision:opts.inputRevision ?? null } : {}) },
       attemptTag: opts.attemptTag,
+      reservedCostCny,
     },
     async () => {
       const started = Date.now();

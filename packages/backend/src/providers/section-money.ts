@@ -1,0 +1,41 @@
+// Optional run-total monetary ceiling, independent of rolling request budgets.
+import { z } from 'zod';
+import { sql,type Db } from '../db.ts';
+import type { SectionId } from '@aihot/contracts/sections';
+
+export const SectionMoneyPolicy=z.strictObject({ limitCny:z.number().positive(),startedAt:z.iso.datetime(),
+  service:z.string().min(1),model:z.string().min(1),endpointHost:z.string().min(1),
+  inputPerMillionCny:z.number().positive(),outputPerMillionCny:z.number().positive(),reference:z.url() });
+
+export async function sectionMoneyPolicy(sectionId:SectionId,db:Db=sql) {
+  if(sectionId==='ai') return null;
+  const [row]=await db<{ value:unknown }[]>`SELECT value FROM settings WHERE key=${`sections.${sectionId}.spend`}`;
+  return row ? SectionMoneyPolicy.parse(row.value) : null;
+}
+
+/** Text-only ceiling: count UTF-8 input bytes as tokens, plus chat framing overhead. */
+export async function reserveSectionModelCost(sectionId:SectionId|undefined,
+  input:{ service:string;model:string;endpoint:string;system:string;user:string;maxTokens:number }) {
+  if(!sectionId || sectionId==='ai') return undefined;
+  const policy=await sectionMoneyPolicy(sectionId);
+  if(!policy) return undefined;
+  if(input.service!==policy.service || input.model!==policy.model || new URL(input.endpoint).hostname!==policy.endpointHost)
+    throw new Error('section monetary policy does not cover this provider/model/endpoint');
+  const inputCeiling=Buffer.byteLength(input.system,'utf8')+Buffer.byteLength(input.user,'utf8')+4096;
+  return Math.ceil((inputCeiling*policy.inputPerMillionCny+input.maxTokens*policy.outputPerMillionCny)/1e6*100)/100;
+}
+
+export async function checkSectionMoney(db:Db,sectionId:SectionId,service:string,model:string|null|undefined,reservation:number|undefined) {
+  const policy=await sectionMoneyPolicy(sectionId,db);
+  if(!policy) return;
+  await db`SELECT pg_advisory_xact_lock(hashtext(${`section-money:${sectionId}`}))`;
+  if(service!==policy.service || model!==policy.model || !Number.isFinite(reservation) || reservation!<=0)
+    throw new Error('section monetary ceiling requires a covered, bounded paid request');
+  const [usage]=await db<{ reserved:number;unbounded:number }[]>`
+    SELECT coalesce(sum((r.request->>'reservedCostCny')::numeric),0)::float8 AS reserved,
+      count(*) FILTER (WHERE r.request->>'reservedCostCny' IS NULL)::int AS unbounded
+    FROM receipt_attempts a JOIN receipts r ON r.id=a.receipt_id
+    WHERE r.section_id=${sectionId} AND a.origin='live' AND a.started_at>=${new Date(policy.startedAt)}`;
+  if(usage!.unbounded || usage!.reserved+reservation!>policy.limitCny+1e-9)
+    throw Object.assign(new Error(`Section ${sectionId} monetary ceiling exhausted or unbounded (${policy.limitCny} CNY)`),{ code:'conflict' });
+}

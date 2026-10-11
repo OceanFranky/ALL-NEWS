@@ -76,7 +76,7 @@ export async function groupSectionArticle(sectionId: SectionId, articleId: strin
         const result = await chatJson({ sectionId, resource: { kind: "article", id: articleId },
           model: await sectionModelFor(rules, review ? "groupReview" : "group"), purpose: `${sectionId}.${prompt}`,
           subject: articleId, promptVersion: rules.prompts.version(prompt), system: rules.prompts.text(prompt), user,
-          schema: Relation, maxTokens: 900 });
+          schema: Relation, maxTokens: 900,inputRevision:a.revision });
         receiptIds.push(result.receiptId);
         return result.data;
       };

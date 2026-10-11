@@ -11,6 +11,7 @@ import { sha256, stableJson } from "../lib/ids.ts";
 import { shutdownSignal } from "../lib/shutdown.ts";
 import { requireSectionId, assertSameSection, type SectionId } from "@aihot/contracts/sections";
 import { assertSectionResource, type SectionResource } from "../sections/resources.ts";
+import { checkSectionMoney } from './section-money.ts';
 
 /** The text of a spent budget's error; with `%` for both parts it is the LIKE pattern that finds every saved one. */
 export const budgetMessage = (service: string, window: string) => `Budget for ${service} exhausted (${window})`;
@@ -76,6 +77,8 @@ export interface ReceiptRequest {
   requestSummary?: Record<string, unknown>;
   /** Distinguishes an explicit re-run (e.g. admin "re-evaluate") from recovery of the same request. */
   attemptTag?: string;
+  /** A section monetary policy requires a price bound for each paid attempt. */
+  reservedCostCny?: number;
 }
 
 export interface ReceiptResult {
@@ -98,6 +101,7 @@ interface ReceiptRow {
   section_id: string;
   status: string;
   response: unknown;
+  request: { reservedCostCny?:number };
   created_at: Date;
   updated_at: Date;
 }
@@ -156,7 +160,7 @@ export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallO
     await tx`SELECT pg_advisory_xact_lock(hashtext(${"budget:" + req.service}))`;
     if (req.resource) await assertSectionResource(tx, sectionId, req.resource);
     const [existing] = await tx<ReceiptRow[]>`
-      SELECT id, section_id, status, response, created_at, updated_at FROM receipts WHERE logical_key = ${logicalKey} FOR UPDATE`;
+      SELECT id, section_id, status, response, request, created_at, updated_at FROM receipts WHERE logical_key = ${logicalKey} FOR UPDATE`;
     if (existing) assertSameSection(sectionId, requireSectionId(existing.section_id));
     if (existing?.status === "received" || existing?.status === "completed") return { kind: "reuse" as const, row: existing };
     // Finish business writes from saved answers during shutdown, but never reserve or send the
@@ -172,6 +176,9 @@ export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallO
       // failed: the provider did not take the request, or its answer was unusable; a new attempt is allowed.
       await checkBudget(tx, req.service);
       await checkSectionBudget(tx, req.service, sectionId);
+      if(existing.request.reservedCostCny!==undefined && (req.reservedCostCny ?? Infinity)>existing.request.reservedCostCny)
+        throw new Error('stored monetary reservation is insufficient for retry');
+      await checkSectionMoney(tx,sectionId,req.service,req.model,existing.request.reservedCostCny ?? req.reservedCostCny);
       const [r] = await tx<{ attempts: number }[]>`
         UPDATE receipts SET status = 'pending', attempts = attempts + 1, error = NULL, updated_at = now() WHERE id = ${existing.id} RETURNING attempts`;
       const attemptId = await startAttempt(tx, existing.id, r!.attempts, req);
@@ -179,10 +186,12 @@ export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallO
     }
     await checkBudget(tx, req.service);
     await checkSectionBudget(tx, req.service, sectionId);
+    await checkSectionMoney(tx,sectionId,req.service,req.model,req.reservedCostCny);
     const [row] = await tx<{ id: number }[]>`
       INSERT INTO receipts (section_id, logical_key, service, model, purpose, subject, status, request, attempts)
       VALUES (${sectionId}, ${logicalKey}, ${req.service}, ${req.model ?? null}, ${req.purpose}, ${req.subject ?? null}, 'pending',
-              ${tx.json((req.requestSummary ?? {}) as never)}, 1)
+              ${tx.json((sectionId==='world' ? { ...req.requestSummary,resource:req.resource,attemptTag:req.attemptTag ?? null,
+                ...(req.reservedCostCny!==undefined ? { reservedCostCny:req.reservedCostCny } : {}) } : req.requestSummary ?? {}) as never)}, 1)
       RETURNING id`;
     const attemptId = await startAttempt(tx, row!.id, 1, req);
     return { kind: "call" as const, id: row!.id, attemptId };
