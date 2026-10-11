@@ -3,6 +3,7 @@ import { requireSectionId, type SectionId } from "@aihot/contracts/sections";
 import { sql } from "../db.ts";
 import { sectionContext } from "../sections/context.ts";
 import { listedCondition, evidenceCondition } from "./scope.ts";
+import { currentSectionHot } from './section-hot.ts';
 
 interface SectionItemRow { id: string; title: string; summary: string | null; reason: string | null; category: string | null;
   score: number | null; selected: boolean; url: string; published_at: Date | null; timeline_at: Date; source_name: string; story_public_id: string | null }
@@ -70,9 +71,9 @@ export async function sectionHot(sectionId:SectionId) {
   const rules=sectionContext(sectionId);
   // Uncalibrated world importance must not silently become an automatic recommendation.
   if (rules.selection.thresholds===null) return { sectionId,status:"calibration-required",items:[] };
-  const [snapshot]=await sql<{ entries:Record<string,unknown>[] }[]>`
-    SELECT entries FROM hot_rankings WHERE section_id=${sectionId} AND published ORDER BY computed_at DESC LIMIT 1`;
-  const entries=snapshot?.entries ?? [];
+  const ranking=await currentSectionHot(sectionId);
+  if(ranking.status!=='ready') return { sectionId,status:ranking.status,items:[] };
+  const entries=ranking.items;
   const items=[];
   for (const entry of entries.slice(0,10)) {
     if (typeof entry.representativeItemId!=="string" || !Number.isSafeInteger(entry.storyId)) continue;
@@ -81,7 +82,8 @@ export async function sectionHot(sectionId:SectionId) {
       JOIN facts f ON f.id=fa.fact_id AND f.section_id=fa.section_id
       WHERE p.article_id=${entry.representativeItemId} AND f.story_id=${entry.storyId as number}
         AND ${listedCondition(new Date(),sectionId)} AND ${evidenceCondition()} LIMIT 1`;
-    if (row) items.push({ rank:items.length+1,item:shape(row) });
+    if (row) items.push({ rank:items.length+1,item:shape(row),importance:entry.importance,heat:entry.heat,
+      sourceCount:entry.sourceCount,reportCount:entry.reportCount,latestProgressAt:entry.latestProgressAt });
   }
-  return { sectionId,status:"ready",items };
+  return { sectionId,status:"ready",computedAt:ranking.computedAt,heatMeaning:ranking.heatMeaning,items };
 }

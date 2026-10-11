@@ -10,12 +10,19 @@ import { z } from "zod";
 import { listSources,sourceDetail } from "@aihot/backend/admin/sources";
 import { searchContent,contentChain } from "@aihot/backend/admin/content";
 import { installWorldSources } from "../sources.ts";
+import { computeSectionHot } from '@aihot/backend/events/section-hot';
+import { currentSectionHot } from '@aihot/backend/publication/section-hot';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
   page:z.coerce.number().int().min(1).max(100000).optional() });
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.get('/api/admin/world/hot',adminHandler(async()=>currentSectionHot('world',new Date(),true)));
+  app.post('/api/admin/world/hot/generate',adminHandler(async(req,_reply,admin)=>{
+    z.strictObject({}).parse(req.body ?? {});
+    return computeSectionHot('world',actorOf(admin));
+  }));
   app.get('/api/admin/world/sources',adminHandler(async(req)=>listSources(SourceFilters.parse(req.query),'world')));
   app.post('/api/admin/world/sources/install',adminHandler(async(req,_reply,admin)=>{
     z.strictObject({}).parse(req.body ?? {});
