@@ -5,7 +5,10 @@ import { after,before,test } from 'node:test';
 import { sql,closeDb } from '@aihot/backend/db';
 import { config } from '@aihot/backend/config';
 import { installModules } from '@aihot/backend/modules';
-import { collectSectionSource } from '@aihot/backend/sources/section-collect';
+import { collectSectionSource,previewSectionSource } from '@aihot/backend/sources/section-collect';
+import Fastify from 'fastify';
+import { registerWorldAdmin } from '../api/admin.ts';
+import { getBoss,stopBoss } from '@aihot/backend/jobs/queue';
 import { upsertMaterial } from '@aihot/backend/content/materials';
 import { installWorldSources,WORLD_SOURCES } from '../sources.ts';
 import { worldNewsModule } from '../server.ts';
@@ -44,7 +47,7 @@ before(async()=>{
   ] as const) await sql`INSERT INTO sources (section_id,id,name,kind,config,enabled)
     VALUES ('world',${sid(kind)},${kind},${kind},${sql.json(cfg)},false)`;
 });
-after(async()=>{ await new Promise<void>(resolve=>server.close(()=>resolve()));await closeDb(); });
+after(async()=>{ await stopBoss();await new Promise<void>(resolve=>server.close(()=>resolve()));await closeDb(); });
 
 test('six sources install separately and paused without modifying AI config or granting permissions',async()=>{
   assert.equal(WORLD_SOURCES.length,6);
@@ -106,4 +109,46 @@ test('collection valve cannot be bypassed by force; fetch run relationships reje
   await assert.rejects(sql`INSERT INTO fetch_runs (source_id) VALUES (${sid('rss')})`,/fetch_runs_section_source_fk/);
   const rows=await sql`SELECT section_id FROM fetch_runs WHERE source_id=${sid('rss')}`;
   assert.ok(rows.length>0 && rows.every(r=>r.section_id==='world'));
+});
+
+test('world listing previews use actual readers and never modify cursor, material or fetch history',async()=>{
+  for(const kind of ['rss','web_list','json_list']) {
+    const [before]=await sql`SELECT cursor FROM sources WHERE id=${sid(kind)}`;
+    const runs=await sql`SELECT id FROM fetch_runs WHERE source_id=${sid(kind)} ORDER BY id`;
+    const preview=await previewSectionSource('world',sid(kind));
+    assert.equal(preview!.count,2);assert.equal(preview!.items.length,2);
+    if(kind==='rss') assert.equal(preview!.items[1]!.excerpt,'');
+    assert.deepEqual((await sql`SELECT cursor FROM sources WHERE id=${sid(kind)}`)[0]!.cursor,before!.cursor);
+    assert.deepEqual(await sql`SELECT id FROM fetch_runs WHERE source_id=${sid(kind)} ORDER BY id`,runs);
+  }
+  const [before]=await sql`SELECT config FROM sources WHERE id=${sid('rss')}`;
+  await sql`UPDATE sources SET config=${sql.json({ ...before!.config,detail:{ titleSelector:'h1' } })} WHERE id=${sid('rss')}`;
+  await assert.rejects(previewSectionSource('world',sid('rss')),/detail pages/);
+  await sql`UPDATE sources SET config=${sql.json(before!.config)} WHERE id=${sid('rss')}`;
+});
+
+test('world source controls check login CSRF ownership versions and collection valve before queueing',async()=>{
+  const app=Fastify();registerWorldAdmin(app);const old=config.devAdmin,enabled=process.env.COLLECT_ENABLED;
+  const path=`/api/admin/world/sources/${sid('rss')}`,headers={ 'x-csrf-token':'dev' };
+  try {
+    config.devAdmin=null;assert.equal((await app.inject({ method:'POST',url:`${path}/preview`,payload:{} })).statusCode,401);
+    config.devAdmin={ displayName:'Fixture' };
+    assert.equal((await app.inject({ method:'POST',url:`${path}/preview`,payload:{} })).statusCode,403);
+    assert.equal((await app.inject({ method:'POST',url:`/api/admin/world/sources/ai-collect-${T}/preview`,payload:{},headers })).statusCode,404);
+    const [s]=await sql`SELECT updated_at FROM sources WHERE id=${sid('rss')}`;
+    const patch={ version:s!.updated_at.toISOString(),reason:'Local pause',patch:{ enabled:false } };
+    assert.equal((await app.inject({ method:'PATCH',url:path,payload:patch,headers })).statusCode,200);
+    assert.equal((await app.inject({ method:'PATCH',url:path,payload:patch,headers })).statusCode,409);
+    assert.equal((await app.inject({ method:'PATCH',url:path,payload:{ ...patch,patch:{ section_id:'ai' } },headers })).statusCode,400);
+    process.env.COLLECT_ENABLED='false';
+    assert.equal((await app.inject({ method:'POST',url:`${path}/preview`,payload:{},headers })).statusCode,409);
+    assert.equal((await app.inject({ method:'POST',url:`${path}/fetch`,payload:{ reason:'Local fetch' },headers })).statusCode,409);
+    process.env.COLLECT_ENABLED='true';await getBoss();
+    assert.equal((await app.inject({ method:'POST',url:`${path}/preview`,payload:{},headers })).json().count,2);
+    const queued=await app.inject({ method:'POST',url:`${path}/fetch`,payload:{ reason:'Local fetch' },headers });
+    assert.equal(queued.statusCode,200);assert.equal(queued.json().sectionId,'world');assert.equal(queued.json().status,'queued');
+    const [job]=await sql`SELECT data FROM pgboss.job WHERE id=${queued.json().job}`;
+    assert.deepEqual(job!.data,{ sectionId:'world',sourceId:sid('rss'),force:true });
+    assert.equal((await app.inject({ method:'POST',url:`/api/admin/world/sources/ai-collect-${T}/fetch`,payload:{ reason:'Wrong board' },headers })).statusCode,404);
+  } finally { config.devAdmin=old;process.env.COLLECT_ENABLED=enabled;await app.close(); }
 });

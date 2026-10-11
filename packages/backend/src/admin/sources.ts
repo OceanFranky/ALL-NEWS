@@ -124,7 +124,6 @@ const kindHooks = (kind: string) => serverModules().flatMap((m) => m.sourceKinds
 export async function updateSource(id: string, input: { patch: unknown; version: string; reason?: string }, actor: string, sectionId: SectionId = "ai") {
   requireSectionId(sectionId);
   const patch = EDITABLE.parse(input.patch);
-  if (sectionId === "world" && patch.enabled === true) throw new Conflict("世界新闻执行与读取隔离尚未完成，暂不能启用信源");
   return sql.begin(async (tx) => {
     // Creation and address edits share the lock: checking then inserting must not race.
     if (patch.config) await tx`SELECT pg_advisory_xact_lock(hashtext(${sectionId === "ai" ? "admin-source-identity" : `admin-source-identity:${sectionId}`}))`;

@@ -50,7 +50,9 @@ test("source addresses and admin operations are scoped; world starts paused", as
   assert.equal(await fetchNow(WORLD, "test"), null);
   await assert.rejects(fetchNow(WORLD, "test", "world"), /暂不能采集/);
   await assert.rejects(updateSource(WORLD, { patch: { section_id: "ai" }, version: new Date(world.source.updated_at).toISOString() }, "test", "world"));
-  await assert.rejects(updateSource(WORLD, { patch: { enabled: true }, version: new Date(world.source.updated_at).toISOString() }, "test", "world"), /暂不能启用/);
+  const enabled=await updateSource(WORLD, { patch: { enabled: true }, version: new Date(world.source.updated_at).toISOString() }, "test", "world");
+  assert.equal(enabled!.enabled,true);
+  assert.equal((await sourceDetail(AI))!.source.enabled,true);
 });
 
 test("source mismatches reject material before any write", async () => {

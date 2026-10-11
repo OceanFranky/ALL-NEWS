@@ -4,7 +4,7 @@ import { sql } from "../db.ts";
 import { sectionContext } from "../sections/context.ts";
 import { identityKeyFor,upsertMaterial,STALE_ON_DISCOVERY_MS } from "../content/materials.ts";
 import { identityKeyForUrl } from "../lib/url.ts";
-import { fetchRss,type RssRead } from "./rss.ts";
+import { fetchRss } from "./rss.ts";
 import { fetchWebList } from "./web-list.ts";
 import { fetchJsonList } from "./json-list.ts";
 import { admitListing } from "./filters.ts";
@@ -19,6 +19,27 @@ export interface SectionCollectResult {
   created:number;
   revised:number;
   error?:string;
+}
+
+/** One listing-only reader for collection and preview; neither can buy rendering or fetch detail pages. */
+async function readSectionListing(source:SourceRow,force=false) {
+  assertSupportedConfig(source.kind,source.config);
+  if(!['rss','web_list','json_list'].includes(source.kind)) throw new Error('section collector supports RSS, HTML and JSON only');
+  if(source.config.detail || /(?:^|\/)r\.jina\.ai\//.test(String(source.config.url ?? source.config.feedUrl))) throw new Error('world workflow does not fetch paid rendering or detail pages');
+  if(source.kind==='rss') return fetchRss(source,{ force });
+  return { candidates:source.kind==='web_list' ? await fetchWebList(source) : await fetchJsonList(source),validator:undefined };
+}
+
+export async function previewSectionSource(sectionId:SectionId,sourceId:string) {
+  requireSectionId(sectionId);
+  if(sectionId==='ai') throw new Error('use the legacy AI preview entry point');
+  sectionContext(sectionId);
+  const [source]=await sql<SourceRow[]>`SELECT * FROM sources WHERE section_id=${sectionId} AND id=${sourceId}`;
+  if(!source) return null;
+  if(process.env.COLLECT_ENABLED!=='true') throw Object.assign(new Error('collection-disabled'),{ code:'conflict' });
+  const start=Date.now(),read=await readSectionListing(source,true),candidates=admitListing(read.candidates,source);
+  return { sectionId,ms:Date.now()-start,count:candidates.length,items:candidates.slice(0,20).map(c=>({
+    title:c.title,url:c.url,publishedAt:c.publishedAt?.toISOString() ?? null,excerpt:(c.excerpt ?? '').slice(0,200) })) };
 }
 
 export async function collectSectionSource(sectionId:SectionId,sourceId:string,
@@ -44,14 +65,7 @@ export async function collectSectionSource(sectionId:SectionId,sourceId:string,
     if(!source.enabled && !options.force) return { sectionId,sourceId,status:'skipped',...counts,error:'paused' };
     const [run]=await sql<{ id:number }[]>`INSERT INTO fetch_runs (section_id,source_id) VALUES (${sectionId},${sourceId}) RETURNING id`;
     runId=run!.id;
-    assertSupportedConfig(source.kind,source.config);
-    if(!['rss','web_list','json_list'].includes(source.kind)) throw new Error('section collector supports RSS, HTML and JSON only');
-    // This workflow is free listing text only; do not silently buy Jina or fetch original/detail pages.
-    if(source.config.detail || /(?:^|\/)r\.jina\.ai\//.test(String(source.config.url ?? source.config.feedUrl))) throw new Error('world workflow does not fetch paid rendering or detail pages');
-    let candidates:Candidate[],validator:RssRead['validator']|undefined;
-    if(source.kind==='rss') {
-      const read=await fetchRss(source,{ force:options.force });candidates=read.candidates;validator=read.validator;
-    } else candidates=source.kind==='web_list' ? await fetchWebList(source) : await fetchJsonList(source);
+    const { candidates,validator }=await readSectionListing(source,options.force);
     counts.found=candidates.length;
     const unique=new Map<string,Candidate>();
     for(const c of admitListing(candidates,source)) {

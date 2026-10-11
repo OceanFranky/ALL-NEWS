@@ -7,7 +7,7 @@ import { SectionDailyParams,SectionDailyReview,SectionDailyGenerate } from "@aih
 import { listSectionDailyRevisions,reviewSectionDaily } from "@aihot/backend/reports/section-daily";
 import { generateWorldDaily } from "../daily.ts";
 import { z } from "zod";
-import { listSources,sourceDetail } from "@aihot/backend/admin/sources";
+import { listSources,sourceDetail,updateSource } from "@aihot/backend/admin/sources";
 import { searchContent,contentChain } from "@aihot/backend/admin/content";
 import { installWorldSources } from "../sources.ts";
 import { computeSectionHot } from '@aihot/backend/events/section-hot';
@@ -16,17 +16,39 @@ import { SectionGroupingCorrection,SectionStoryParams,SectionStoryMerge } from '
 import { correctSectionGrouping,mergeSectionStories } from '@aihot/backend/events/section-corrections';
 import { listSectionEvents,sectionEventDetail } from '@aihot/backend/admin/section-events';
 import { enqueueOn } from '@aihot/backend/jobs/queue';
-import { worldGroupQueue } from '../jobs.ts';
+import { worldGroupQueue,worldCollectQueue } from '../jobs.ts';
 import { sectionRunsOverview } from '@aihot/backend/admin/section-runs';
 import { sectionModelsOverview,switchSectionModel,SectionModelSwitch } from '@aihot/backend/admin/section-models';
 import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
 import { sql } from '@aihot/backend/db';
+import { previewSectionSource } from '@aihot/backend/sources/section-collect';
+import { audit } from '@aihot/backend/audit';
 
 const SourceFilters=z.strictObject({ q:z.string().max(500).optional(),kind:z.string().max(40).optional(),
   health:z.string().max(40).optional(),enabled:z.enum(['true','false']).optional(),mode:z.string().max(40).optional(),
   page:z.coerce.number().int().min(1).max(100000).optional() });
 
 export function registerWorldAdmin(app:FastifyInstance) {
+  app.patch('/api/admin/world/sources/:id',adminHandler(async(req,reply,admin)=>{
+    const { id }=Id.parse(req.params),input=z.strictObject({ version:z.iso.datetime(),reason:z.string().trim().min(1).max(1000),
+      patch:z.strictObject({ enabled:z.boolean().optional(),interval_minutes:z.number().int().min(1).max(1440).optional() }).refine(p=>Object.keys(p).length>0) }).parse(req.body);
+    return await updateSource(id,input,actorOf(admin),'world') ?? reply.code(404).send({ error:'not_found' });
+  }));
+  app.post('/api/admin/world/sources/:id/preview',adminHandler(async(req,reply)=>{
+    z.strictObject({}).parse(req.body ?? {});
+    return await previewSectionSource('world',Id.parse(req.params).id) ?? reply.code(404).send({ error:'not_found' });
+  }));
+  app.post('/api/admin/world/sources/:id/fetch',adminHandler(async(req,reply,admin)=>{
+    const { id }=Id.parse(req.params),{ reason }=z.strictObject({ reason:z.string().trim().min(1).max(1000) }).parse(req.body);
+    return sql.begin(async tx=>{
+      const [source]=await tx`SELECT id FROM sources WHERE section_id='world' AND id=${id} FOR UPDATE`;
+      if(!source) return reply.code(404).send({ error:'not_found' });
+      if(process.env.COLLECT_ENABLED!=='true') return reply.code(409).send({ detail:'collection-disabled' });
+      const job=await enqueueOn(worldCollectQueue,{ sectionId:'world',sourceId:id,force:true },{ singletonKey:`world:collect:${id}` },tx);
+      await audit(actorOf(admin),'section.source.fetch',`world:source:${id}`,reason,null,{ job },{ db:tx });
+      return { sectionId:'world',sourceId:id,job,status:job?'queued':'already-queued' };
+    });
+  }));
   app.get('/api/admin/world/runs',adminHandler(async req=>{
     z.strictObject({}).parse(req.query);return sectionRunsOverview('world');
   }));
