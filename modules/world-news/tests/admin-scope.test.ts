@@ -17,6 +17,8 @@ import { config } from '@aihot/backend/config';
 import { worldNewsModule } from '../server.ts';
 import { worldAnalysisQueue } from '../jobs.ts';
 import { registerWorldAdmin } from '../api/admin.ts';
+import { releaseReceipt,autoReleaseUnknownReceipts } from '@aihot/backend/operations/recover';
+import { releaseUnknownReceipt } from '@aihot/backend/providers/receipts';
 
 const T=tag(),actor='local-fixture',ids={ ai:`admin-ai-${T}`,world:`admin-world-${T}` };
 const sources={ ai:`source-ai-${T}`,world:`source-world-${T}` };
@@ -107,6 +109,18 @@ test('switching world model changes only its namespace, supports reset and recor
   await assert.rejects(switchSectionModel('world','score',{ model:'missing-model',reason:'Invalid' },actor),/unknown model/);
   await assert.rejects(switchSectionModel('ai','score',{ model:null,reason:'Wrong entry' },actor),/legacy/);
 });
+test('legacy manual and automatic receipt release cannot mutate world receipts or attempts',async()=>{
+  const rows=await sql<{ id:number }[]>`SELECT id FROM receipts WHERE section_id='world' ORDER BY id`;
+  assert.equal(rows.length,3);
+  for(const row of rows) assert.equal(await releaseReceipt(row.id,{ billed:false,note:'Wrong board fixture' },actor),null);
+  for(const row of rows) assert.equal(await sql.begin(tx=>releaseUnknownReceipt(tx,row.id,'Wrong default section')),null);
+  const before=await sql`SELECT id,status,error FROM receipts WHERE section_id='world' ORDER BY id`;
+  const attempts=await sql`SELECT a.receipt_id,a.status,a.error FROM receipt_attempts a JOIN receipts r ON r.id=a.receipt_id WHERE r.section_id='world' ORDER BY a.receipt_id`;
+  await autoReleaseUnknownReceipts(Date.now()+3600000);
+  assert.deepEqual(await sql`SELECT id,status,error FROM receipts WHERE section_id='world' ORDER BY id`,before);
+  assert.deepEqual(await sql`SELECT a.receipt_id,a.status,a.error FROM receipt_attempts a JOIN receipts r ON r.id=a.receipt_id WHERE r.section_id='world' ORDER BY a.receipt_id`,attempts);
+});
+
 test('world stats and model endpoints require login, strict filters and CSRF writes',async()=>{
   const app=Fastify();registerWorldAdmin(app);const old=config.devAdmin;
   try {

@@ -27,7 +27,7 @@ async function release(id: number, error: string, actor: string, note: string, b
 /** Admin, after checking the provider's console: records whether it was billed and releases it. */
 export async function releaseReceipt(id: number, input: { billed: boolean; note: string }, actor: string) {
   if (!input.note?.trim()) throw new Error("note is required");
-  const [row] = await sql<{ status: string }[]>`SELECT status FROM receipts WHERE id = ${id}`;
+  const [row] = await sql<{ status: string }[]>`SELECT status FROM receipts WHERE id = ${id} AND section_id='ai'`;
   if (!row) return null;
   if (row.status !== "unknown") throw new Conflict("只有结果未知的回执需要人工核对");
   const error = `人工核对：${input.billed ? "供应商已计费但结果未取回" : "供应商未计费"}。${input.note}`;
@@ -41,7 +41,7 @@ export async function releaseReceipt(id: number, input: { billed: boolean; note:
 export async function autoReleaseUnknownReceipts(now = Date.now()) {
   const rows = await sql<{ id: number }[]>`
     SELECT r.id FROM receipts r
-    WHERE r.status = 'unknown' AND r.updated_at < ${new Date(now - AUTO_RELEASE_AFTER_MS)}
+    WHERE r.section_id='ai' AND r.status = 'unknown' AND r.updated_at < ${new Date(now - AUTO_RELEASE_AFTER_MS)}
       AND NOT EXISTS (SELECT 1 FROM receipt_attempts a WHERE a.receipt_id = r.id AND a.error LIKE ${AUTO_RELEASE_NOTE + "%"})
     ORDER BY r.id LIMIT 200`;
   let released = 0;

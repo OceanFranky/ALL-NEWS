@@ -270,9 +270,10 @@ export async function markStalePendingReceipts(): Promise<number> {
  * Releases an unknown receipt: marked failed, so the next attempt of its request calls again (who
  * releases and when: operations/recover.ts). Null when the receipt is not, or no longer, unknown.
  */
-export async function releaseUnknownReceipt(db: Db, id: number, error: string): Promise<{ subject: string | null; purpose: string } | null> {
+export async function releaseUnknownReceipt(db: Db, id: number, error: string, sectionId: SectionId = "ai"): Promise<{ subject: string | null; purpose: string } | null> {
+  requireSectionId(sectionId);
   const [released] = await db<{ subject: string | null; purpose: string }[]>`
-    UPDATE receipts SET status = 'failed', error = ${error}, updated_at = now() WHERE id = ${id} AND status = 'unknown' RETURNING subject, purpose`;
+    UPDATE receipts SET status = 'failed', error = ${error}, updated_at = now() WHERE id = ${id} AND section_id = ${sectionId} AND status = 'unknown' RETURNING subject, purpose`;
   if (released) await db`UPDATE receipt_attempts SET status = 'failed', error = ${error} WHERE receipt_id = ${id} AND status = 'unknown'`;
   return released ?? null;
 }
