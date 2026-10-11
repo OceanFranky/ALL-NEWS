@@ -1,6 +1,8 @@
-import { Link, useFetcher } from 'react-router';
+import { useState } from 'react';
+import { Link,useRevalidator } from 'react-router';
 import { adminGet } from '@aihot/web/lib/admin.server';
-import { AdminPage,Card,DataTable,Stat,Badge,Time,Button } from '@aihot/web/features/admin/ui';
+import { AdminPage,Card,DataTable,Stat,Badge,Time,Button,Field,Select,ReasonDialog } from '@aihot/web/features/admin/ui';
+import { useAdminAction } from '@aihot/web/features/admin/action';
 import { bj,num } from '@aihot/web/features/admin/format';
 
 interface WorldRuns {
@@ -23,9 +25,10 @@ export async function loader({ request }:{ request:Request }) {
 export const meta=()=>[{ title:'世界新闻运行 · 后台' }];
 const labels:Record<string,string>={ created:'排队',retry:'等待重试',active:'执行中',paused:'暂停',exhausted:'额度耗尽',ready:'可调用' };
 export default function WorldRunsAdmin({ loaderData }:{ loaderData:WorldRuns }) {
-  const refresh=useFetcher<typeof loader>(),r=refresh.data ?? loaderData;
+  const refresh=useRevalidator(),r=loaderData,{ run,busy }=useAdminAction();
+  const [command,setCommand]=useState<{ id:number;version:string;requestId:string }|null>(null),[billed,setBilled]=useState('');
   return <AdminPage title="世界新闻运行" subtitle={<>只统计世界新闻；AI 热点的数据、队列和费用不计入。检查时间 {bj(r.checkedAt)}</>}
-    actions={<Button disabled={refresh.state!=='idle'} onClick={()=>refresh.load('/admin/world/runs')}>刷新状态</Button>}>
+    actions={<Button disabled={refresh.state!=='idle'} onClick={()=>refresh.revalidate()}>刷新状态</Button>}>
     <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
       <Stat label="世界信源" value={num(r.counts.sources)} hint={`${r.sources.filter(s=>!s.enabled).length} 个暂停`} />
       <Stat label="采集内容" value={num(r.counts.articles)} />
@@ -53,6 +56,7 @@ export default function WorldRunsAdmin({ loaderData }:{ loaderData:WorldRuns }) 
       ]} /></Card>
       <Card title="需要核对的世界模型回执" pad={false} scrollable><DataTable rows={r.receipts.issues} rowKey={q=>q.id} empty="没有待核对回执" columns={[
         { key:'id',label:'回执',render:q=>`#${q.id}` },{ key:'purpose',label:'用途',render:q=>q.purpose },{ key:'status',label:'状态',render:q=><Badge tone="warn">{q.status}</Badge> },{ key:'error',label:'原因',render:q=>q.error ?? '—' },
+        { key:'action',label:'操作',render:q=>q.status==='unknown' ? <Button disabled={busy} onClick={()=>{ setBilled('');setCommand({ id:q.id,version:q.updated_at,requestId:crypto.randomUUID() }); }}>核对并恢复</Button> : '—' },
       ]} /></Card>
       <Card title="采集运行" pad={false} scrollable><DataTable rows={r.fetches} rowKey={q=>q.id} empty="暂无采集运行" columns={[
         { key:'source',label:'来源',render:q=>r.sources.find(s=>s.id===q.source_id)?.name ?? q.source_id },{ key:'status',label:'状态',render:q=>q.status },{ key:'at',label:'时间',render:q=><Time at={q.started_at} /> },{ key:'error',label:'错误',render:q=>q.error ?? '—' },
@@ -62,5 +66,14 @@ export default function WorldRunsAdmin({ loaderData }:{ loaderData:WorldRuns }) 
       { key:'job',label:'任务',render:q=>q.job },{ key:'status',label:'状态',render:q=>q.status },{ key:'at',label:'开始',render:q=><Time at={q.started_at} /> },{ key:'error',label:'错误',render:q=>q.error ?? '—' },
     ]} /></Card>
     <p className="mt-4 text-sm text-ink-3">后台管理页面不触发模型调用；<Link to="/admin/sources" className="text-accent">返回 AI 热点后台</Link>。</p>
+    <ReasonDialog open={command!==null} title={`核对世界回执 #${command?.id ?? ''}`} busy={busy}
+      description="请先在供应商账单核对是否计费。恢复沿用原尝试身份，可能再次计费，仍受总预算和世界预算限制；材料版本或请求身份缺失时不会恢复。不会使用 AI 恢复队列。"
+      onClose={()=>setCommand(null)} onSubmit={async reason=>{
+        if(!command || !['yes','no'].includes(billed)) return false;
+        return await run('POST',`/api/admin/world/receipts/${command.id}/release`,
+          { version:command.version,requestId:command.requestId,billed:billed==='yes',reason },{ success:'世界回执核对完成，恢复任务已排队' })!==null;
+      }}><Field label="供应商账单核对"><Select aria-label="供应商账单核对" required value={billed} onChange={e=>setBilled(e.target.value)}>
+        <option value="">请选择核对结果</option><option value="yes">已计费，但结果未取回</option><option value="no">未计费</option>
+      </Select></Field></ReasonDialog>
   </AdminPage>;
 }
