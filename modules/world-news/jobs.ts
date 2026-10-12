@@ -30,6 +30,23 @@ export async function queueWorldCollection(raw:unknown) {
   return enqueueOn(worldCollectQueue,task,{ singletonKey:`world:collect:${task.sourceId}` });
 }
 
+/** Enqueue enabled world sources when due; the source rows stay independent from the legacy AI scheduler. */
+export async function scheduleWorldCollections() {
+  if(process.env.COLLECT_ENABLED!=='true') return { enqueued:0,due:0 };
+  return sql.begin(async tx=>{
+    const due=await tx<{ id:string }[]>`SELECT id FROM sources
+      WHERE section_id='world' AND enabled AND (next_fetch_at IS NULL OR next_fetch_at<=now())
+      ORDER BY next_fetch_at NULLS FIRST,id LIMIT 20 FOR UPDATE SKIP LOCKED`;
+    let enqueued=0;
+    for(const source of due) {
+      if(await enqueueOn(worldCollectQueue,{ sectionId:'world',sourceId:source.id },{ singletonKey:`world:collect:${source.id}` },tx)) enqueued+=1;
+    }
+    if(due.length) await tx`UPDATE sources SET next_fetch_at=now()+interval '10 minutes'
+      WHERE section_id='world' AND id IN ${tx(due.map(source=>source.id))}`;
+    return { enqueued,due:due.length };
+  });
+}
+
 export const WorldAnalysisTask = z.strictObject({ sectionId: z.literal("world"), articleId: z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/), attemptTag: z.string().max(100).optional() });
 export type WorldAnalysisTaskData = z.infer<typeof WorldAnalysisTask>;
 

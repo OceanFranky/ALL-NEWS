@@ -80,7 +80,7 @@ export async function collectSectionSource(sectionId:SectionId,sourceId:string,
       if(initialized!==null && c.publishedAt && c.publishedAt.getTime()<initialized-STALE_ON_DISCOVERY_MS && !known.has(identity)) continue;
       // Use only text actually supplied by the listing. Never invoke the legacy body extraction path.
       const material=await upsertMaterial({ sectionId,sourceId,via:'fetch',url:c.url,title:c.title,identityKey:identity,author:c.author,
-        language:c.language,publishedAt:c.publishedAt,sourceUpdatedAt:c.sourceUpdatedAt,excerpt:c.excerpt,raw:c.raw,bodyStatus:'none' });
+        language:c.language,publishedAt:c.publishedAt,sourceUpdatedAt:c.sourceUpdatedAt,excerpt:c.excerpt,media:c.media,raw:c.raw,bodyStatus:'none' });
       if(material.created) counts.created++;
       if(material.revised) counts.revised++;
     }

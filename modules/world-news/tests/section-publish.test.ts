@@ -44,12 +44,14 @@ test('uncalibrated results stay private; approval cannot bypass missing source p
 test('reviewed summaries publish without exposing licensed full text, AI outputs, selection or sync',async()=>{
   await permission(true);
   const id=await material();
+  await sql`UPDATE articles SET media=${sql.json([{ kind:'image',url:'https://fixture.invalid/cover.jpg' }])} WHERE id=${id}`;
   assert.equal((await projectSectionArticle('world',id)).eligible,false,'permission alone is not rule calibration');
   const result=await approve(id);
   assert.equal(result.eligible,true);
   assert.equal(result.selected,false);
   const item=await sectionItem('world',id);
   assert.equal(item?.item.title,'央行公布政策');
+  assert.match(item?.item.image?.url ?? '',/^\/api\/img-proxy\?/);
   assert.equal(await sectionItem('ai',id),null);
   const [p]=await sql`SELECT body_mode,syndicate,indexable,selected FROM publications WHERE article_id=${id}`;
   assert.deepEqual(p,{ body_mode:'summary',syndicate:false,indexable:false,selected:false });

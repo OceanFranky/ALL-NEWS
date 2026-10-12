@@ -233,6 +233,12 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   if (existing!.source_id !== m.sourceId) {
     return unchanged;
   }
+  // Listing media is descriptive metadata, not editorial text. A feed may add an enclosure after
+  // the article was first seen; fill the empty slot without forcing a new analysis revision.
+  if (m.media?.length) {
+    await db`UPDATE articles SET media = ${db.json(m.media as never)}, updated_at = now()
+      WHERE id = ${existing!.id} AND jsonb_array_length(media) = 0`;
+  }
   const time = existing!.published_at ? null : await fillPublicationTime(db, existing!.id, m.publishedAt, sectionId);
   // What the row will hold after this report: a listing without body keeps the stored (extracted) body.
   const bodyText = m.bodyText ?? existing!.body_text;

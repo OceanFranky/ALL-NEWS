@@ -12,6 +12,7 @@ import { getBoss,stopBoss } from '@aihot/backend/jobs/queue';
 import { upsertMaterial } from '@aihot/backend/content/materials';
 import { installWorldSources,WORLD_SOURCES } from '../sources.ts';
 import { worldNewsModule } from '../server.ts';
+import { scheduleWorldCollections } from '../jobs.ts';
 
 const T=tag();
 let revision=0,fail=false;
@@ -21,7 +22,7 @@ const server=http.createServer((req,res)=>{
   if(req.url==='/rss') {
     if(req.headers['if-none-match']==='"v1"') { res.writeHead(304);res.end();return; }
     res.setHeader('etag','"v1"');res.setHeader('content-type','application/rss+xml');
-    res.end(`<rss version="2.0"><channel><title>Local</title><item><title>机构发布声明</title><link>https://fixture.invalid/rss-${T}</link><pubDate>${new Date(at).toUTCString()}</pubDate><description>机构宣布政策将于周一生效。</description></item><item><title>只有标题</title><link>https://fixture.invalid/short-${T}</link></item></channel></rss>`);
+    res.end(`<rss version="2.0"><channel><title>Local</title><item><title>机构发布声明</title><link>https://fixture.invalid/rss-${T}</link><pubDate>${new Date(at).toUTCString()}</pubDate><description>机构宣布政策将于周一生效。</description><enclosure url="https://fixture.invalid/news-${T}.jpg" type="image/jpeg" length="0"/></item><item><title>只有标题</title><link>https://fixture.invalid/short-${T}</link></item></channel></rss>`);
   } else if(req.url==='/html') {
     res.setHeader('content-type','text/html');
     res.end(`<div class="news"><article><h2><a href="/html/one-${T}">政策声明 ${revision}</a></h2><p>机构宣布一项新的贸易政策。</p><time datetime="2026-10-11 09:00:00"></time></article><article><h2><a href="/html/two-${T}">谈判进展</a></h2><p>双方表示将在下周继续谈判。</p><time datetime="2026-10-11T10:00:00+08:00"></time></article></div>`);
@@ -76,9 +77,14 @@ test('RSS missing text/date is retained pending, first recent import is not arch
   const queued:string[]=[];
   const result=await collectSectionSource('world',sid('rss'),{ force:true,onMaterial:async id=>{ queued.push(id); } });
   assert.equal(result.status,'ok',result.error ?? 'collection should succeed');assert.equal(result.created,2);assert.equal(queued.length,2);
-  const rows=await sql`SELECT title,published_at,excerpt,backfill FROM articles WHERE source_id=${sid('rss')}`;
+  const rows=await sql`SELECT title,published_at,excerpt,backfill,media FROM articles WHERE source_id=${sid('rss')}`;
   const recent=rows.find(r=>r.title==='机构发布声明')!;assert.equal(recent.backfill,false);assert.ok(recent.excerpt);
+  assert.equal(recent.media[0]?.url,`https://fixture.invalid/news-${T}.jpg`);
   const missing=rows.find(r=>r.title==='只有标题')!;assert.equal(missing.published_at,null);assert.equal(missing.excerpt,null);assert.equal(missing.backfill,true);
+  await sql`UPDATE articles SET media='[]'::jsonb WHERE source_id=${sid('rss')} AND title='机构发布声明'`;
+  assert.equal((await collectSectionSource('world',sid('rss'),{ force:true })).revised,0,'media enrichment is not a text revision');
+  const [enriched]=await sql`SELECT media FROM articles WHERE source_id=${sid('rss')} AND title='机构发布声明'`;
+  assert.equal(enriched!.media[0]?.url,`https://fixture.invalid/news-${T}.jpg`);
   await sql`UPDATE sources SET enabled=true WHERE id=${sid('rss')}`;
   const again=await collectSectionSource('world',sid('rss'),{ onMaterial:async id=>{ queued.push(id); } });
   assert.equal(again.found,0);assert.equal(again.created,0);assert.equal(queued.length,4);
@@ -109,6 +115,20 @@ test('collection valve cannot be bypassed by force; fetch run relationships reje
   await assert.rejects(sql`INSERT INTO fetch_runs (source_id) VALUES (${sid('rss')})`,/fetch_runs_section_source_fk/);
   const rows=await sql`SELECT section_id FROM fetch_runs WHERE source_id=${sid('rss')}`;
   assert.ok(rows.length>0 && rows.every(r=>r.section_id==='world'));
+});
+
+test('enabled due world sources are scheduled independently and advanced once',async()=>{
+  const id=sid('schedule');
+  await sql`INSERT INTO sources (section_id,id,name,kind,config,enabled,next_fetch_at)
+    VALUES ('world',${id},'schedule','rss',${sql.json({ feedUrl:`${base}/rss` })},true,now()-interval '1 minute')`;
+  await getBoss();
+  const first=await scheduleWorldCollections();
+  assert.equal(first.due,1);assert.equal(first.enqueued,1);
+  const [job]=await sql`SELECT data FROM pgboss.job WHERE name='world-news.collect' AND data->>'sourceId'=${id} ORDER BY created_on DESC LIMIT 1`;
+  assert.deepEqual(job!.data,{ sectionId:'world',sourceId:id });
+  const [source]=await sql`SELECT next_fetch_at FROM sources WHERE id=${id}`;
+  assert.ok(source!.next_fetch_at.getTime()>Date.now());
+  assert.deepEqual(await scheduleWorldCollections(),{ due:0,enqueued:0 });
 });
 
 test('world listing previews use actual readers and never modify cursor, material or fetch history',async()=>{

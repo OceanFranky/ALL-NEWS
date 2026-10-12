@@ -6,16 +6,27 @@ import { sectionSelectionThreshold } from "../sections/rules.ts";
 import { listedCondition, evidenceCondition } from "./scope.ts";
 import { currentSectionHot } from './section-hot.ts';
 import { storyTexts } from './story-text.ts';
+import { proxiedImage, proxiedImageSet } from '../media/imgproxy.ts';
 
 interface SectionItemRow { id: string; title: string; summary: string | null; reason: string | null; category: string | null;
-  score: number | null; selected: boolean; url: string; published_at: Date | null; timeline_at: Date; source_name: string; story_public_id: string | null }
+  score: number | null; selected: boolean; url: string; published_at: Date | null; timeline_at: Date; source_name: string; story_public_id: string | null;
+  image_url: string | null; image_width: number | null; image_height: number | null }
 const columns = sql`p.article_id AS id,p.title,p.summary,p.reason,p.category,p.score,p.selected,p.url,p.published_at,p.timeline_at,
-  s.name AS source_name,st.public_id::text AS story_public_id`;
+  s.name AS source_name,st.public_id::text AS story_public_id,img.url AS image_url,img.width AS image_width,img.height AS image_height`;
 const from = sql`FROM publications p JOIN sources s ON s.id=p.source_id AND s.section_id=p.section_id
-  LEFT JOIN stories st ON st.id=p.story_id AND st.section_id=p.section_id AND st.merged_into IS NULL`;
+  JOIN articles a ON a.id=p.article_id AND a.section_id=p.section_id
+  LEFT JOIN stories st ON st.id=p.story_id AND st.section_id=p.section_id AND st.merged_into IS NULL
+  LEFT JOIN LATERAL (
+    SELECT m->>'url' AS url,CASE WHEN m->>'width' ~ '^\\d+$' THEN (m->>'width')::int END AS width,
+      CASE WHEN m->>'height' ~ '^\\d+$' THEN (m->>'height')::int END AS height
+    FROM jsonb_array_elements(coalesce(a.media,'[]'::jsonb)) m
+    WHERE m->>'kind'='image' LIMIT 1
+  ) img ON true`;
 const shape = (r: SectionItemRow) => ({ id:r.id,title:r.title,summary:r.summary,reason:r.reason,category:r.category,score:r.score,
   selected:r.selected,source:{ name:r.source_name },links:{ original:r.url },publishedAt:r.published_at?.toISOString() ?? null,
-  timelineAt:r.timeline_at.toISOString(),storyPublicId:r.story_public_id });
+  timelineAt:r.timeline_at.toISOString(),storyPublicId:r.story_public_id,
+  image:r.image_url && proxiedImage(r.image_url,'full') ? { url:proxiedImage(r.image_url,'full')!,srcSet:proxiedImageSet(r.image_url,'hero') ?? undefined,
+    width:r.image_width,height:r.image_height } : null });
 
 export async function sectionItems(sectionId: SectionId, query: { limit?: number; page?: number; category?: string; q?: string } = {}) {
   requireSectionId(sectionId);
