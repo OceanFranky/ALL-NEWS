@@ -534,7 +534,7 @@
       "contentHash": "fd195e8ff9f1d6255eca6c103b056e82ac80460cd9096b228c16c06025d511df",
       "rssTextCharacters": 199,
       "textBeyondTitle": true,
-      "reviewedDuringRuleDevelopment": false,
+      "reviewedDuringRuleDevelopment": true,
       "eventGroup": null,
       "split": null,
       "gold": null
@@ -1712,5 +1712,6 @@
       "split": null,
       "gold": null
     }
-  ]
+  ],
+  "reviewedStatusUpdatedAt": "2026-10-12T02:23:37.546Z"
 }
