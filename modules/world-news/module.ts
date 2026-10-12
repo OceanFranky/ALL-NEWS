@@ -1,5 +1,8 @@
 import { defineModule } from "@aihot/contracts/modules";
 export const worldNewsDeclaration=defineModule({ name:"world-news",apiPaths:[/^\/api\/v1\/world(?:\/|$)/,/^\/api\/admin\/world(?:\/|$)/],
+  pages:[{ path:'world',file:'web/overview.tsx',id:'world-overview' },
+    { path:'world/timeline',file:'web/timeline.tsx',id:'world-timeline' },
+    { path:'world/items/:id',file:'web/article.tsx',id:'world-article' }],
   adminPages:[{ path:'admin/world/runs',file:'web/runs.tsx',id:'world-admin-runs' },
     { path:'admin/world/models',file:'web/models.tsx',id:'world-admin-models' },
     { path:'admin/world/daily',file:'web/daily.tsx',id:'world-admin-daily' },

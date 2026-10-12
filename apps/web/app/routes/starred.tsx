@@ -39,21 +39,31 @@ export default function StarredPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   useEffect(() => setMounted(true), []);
 
-  const starredIds = starred.map((s) => s.id).join(",");
+  const starredIds = starred.map((s) => `${s.sectionId ?? "ai"}:${s.id}`).join(",");
   useEffect(() => {
     if (!mounted || !starredIds) return;
     const controller = new AbortController();
     // Batches of 100: a request line with all 500 ids is longer than the front servers accept.
-    const ids = starredIds.split(",");
+    const ids = starred.filter(s => !s.sectionId).map(s => s.id);
     const batches: string[][] = [];
     for (let i = 0; i < ids.length; i += 100) batches.push(ids.slice(i, i + 100));
-    Promise.all(
-      batches.map((batch) =>
+    const worldReads = starred.filter(s => s.sectionId === "world").map(async s => {
+      try {
+        const response = await fetch(`/api/v1/world/items/${encodeURIComponent(s.id)}`, { signal: controller.signal });
+        if (response.status === 404) return { [s.id]: { status: "unavailable" } as ItemAvailability };
+        if (!response.ok) return {};
+        const { item } = await response.json();
+        return { [s.id]: { status: "summary-only", sourceName: item.source.name } as ItemAvailability };
+      } catch { return {}; }
+    });
+    Promise.all([
+      ...worldReads,
+      ...batches.map((batch) =>
         fetch(`/api/site/items/availability?ids=${encodeURIComponent(batch.join(","))}`, { signal: controller.signal })
           .then((r) => (r.ok ? (r.json() as Promise<Record<string, ItemAvailability>>) : {}))
           .catch(() => ({})),
       ),
-    ).then((parts) => {
+    ]).then((parts) => {
       if (!controller.signal.aborted) setAvailability(Object.assign({}, ...parts));
     });
     return () => controller.abort();
@@ -163,14 +173,14 @@ export default function StarredPage() {
                   {unavailable ? (
                     s.title
                   ) : (
-                    <Link viewTransition to={`/items/${s.id}`} className="transition-colors after:absolute after:inset-0 after:content-[''] hover:text-accent">
+                    <Link viewTransition to={s.sectionId === "world" ? `/world/items/${s.id}?from=%2Fstarred` : `/items/${s.id}`} className="transition-colors after:absolute after:inset-0 after:content-[''] hover:text-accent">
                       {s.title}
                     </Link>
                   )}
                 </h2>
                 {s.summary && <p className="mt-1.5 line-clamp-2 text-[14px] leading-[1.75] text-ink-3">{s.summary}</p>}
                 {unavailable && <p className="mt-2 text-[12.5px] text-hot">这条内容已不再公开，收藏会保留直到你手动移除。</p>}
-                {status === "summary-only" && <p className="mt-2 text-[12.5px] text-amber-ink">应来源方要求，这条内容现在只提供摘要。</p>}
+                {status === "summary-only" && !s.sectionId && <p className="mt-2 text-[12.5px] text-amber-ink">应来源方要求，这条内容现在只提供摘要。</p>}
               </li>
             );
           })}
