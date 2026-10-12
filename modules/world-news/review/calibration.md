@@ -38,3 +38,21 @@ node modules/world-news/scripts/calibrate.ts .data/world/labelled-results.json
 工具会拒绝同事件跨集、已用于规则开发的留出材料、重复编号及不完整标签。它不能发现人工给同一事件起了两个不同组号，最终事件分集需人工核对。
 
 尚待完成：真实 100 条材料及人工金标、世界结果采样／版本对应、真实评测与错例修订、最终留出验收。任何生产门槛启用仍须满足原规划的校准和发布条件。
+
+## 与真实试验库结果衔接
+
+本机已准备 `.data/world/human-gold.json` 空白标签模板（未填答案）和 `.data/world/model-results.json` 保存分析结果。原材料在 `.data/world/review-pool.json`，三个文件均不提交。先人工填写标签模板的 eventGroup、split、gold，保留已见标记和 caseId；其 result 留空，由工具接真实输出，不靠手抄评分。
+
+生成模板／导出结果（只输出到终端，可由操作者保存）：
+
+```bash
+node modules/world-news/scripts/prepare-gold.ts
+DATABASE_URL=postgres://postgres@127.0.0.1:54512/world_real_trial_test node modules/world-news/scripts/export-results.ts
+node modules/world-news/scripts/attach-results.ts .data/world/human-gold.json .data/world/model-results.json
+```
+
+最后一条输出校准数组，保存为 `.data/world/labelled-results.json` 后才运行本页的计分命令。样本改换须先更新冻结索引，不能拿旧结果对新材料打分。
+
+导出器只读实际 world 材料及当前修订的最近分析，不采集、不调用模型、不入库；全文、模型写出的摘要和金标都不在结果文件中。每条包含样本指纹、analysisId、promptVersion 和执行结果；版本可能属于不同试跑，使用者必须在正式评测时核对同一规则／模型配置，工具不宣称旧结果自动适用于新提示词。材料指纹不匹配时整个导出拒绝；没有分析显示 not analysed，UNKNOWN 保持待补，两者不伪装成功拒绝。
+
+当前仅 5 条已有分析（3 PASS、2 UNKNOWN），另外 95 条尚未分析。标签和事件分集仍全部为空，因此 attach-results 和正式 F2 尚不能成功执行；部分导出不是 100 条真实评测。正式评测需按开发集先运行、冻结规则与门槛后再验收留出集，不得因为导出了全部材料就提前调参留出。

@@ -47,7 +47,7 @@ function metrics(rows: CalibrationCase[], threshold: number) {
 }
 
 /** Offline only: never calls a provider, imports AI rules, or changes production thresholds. */
-export function calibrateWorldSelection(input: unknown) {
+export function validateWorldCalibrationCases(input: unknown) {
   const rows = z.array(caseSchema).min(100).parse(input);
   const ids = new Set<string>();
   const groups = new Map<string, string>();
@@ -66,6 +66,13 @@ export function calibrateWorldSelection(input: unknown) {
     if (!split.some(row => row.gold.decision === 'select') || !split.some(row => row.gold.decision === 'reject'))
       throw new Error('Each split needs decisive positive and negative human labels');
   }
+  return rows;
+}
+
+export function calibrateWorldSelection(input: unknown) {
+  const rows = validateWorldCalibrationCases(input);
+  const development = rows.filter(row => row.split === 'development');
+  const holdout = rows.filter(row => row.split === 'holdout');
   if (!development.some(row => row.gold.decision !== 'either' && available(row)))
     throw new Error('Development has no completed decisive results; no threshold can be selected');
   // Rank exact ratios rather than the rounded values exposed by shared display metrics.
