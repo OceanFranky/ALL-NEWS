@@ -95,7 +95,8 @@ export async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, arti
 
 /** Manual review is revision-bound; reanalysis never grants approval to a changed original. */
 export async function reviewSectionPublication(sectionId: SectionId,articleId:string,
-  review:{ revision:number; action:"approve"|"withdraw";actor:string;reason:string }) {
+  review:{ revision:number; action:"approve"|"withdraw";actor:string;reason:string },
+  queueDigest?:(tx:Tx,storyId:number)=>Promise<string|null>) {
   nonLegacy(sectionId);
   if (!Number.isSafeInteger(review.revision) || review.revision<1 || !["approve","withdraw"].includes(review.action)
     || !review.actor.trim() || !review.reason.trim()) throw new Error("invalid publication review");
@@ -115,6 +116,8 @@ export async function reviewSectionPublication(sectionId: SectionId,articleId:st
         updated_by=EXCLUDED.updated_by,version=editorial_overrides.version+1,updated_at=now()`;
     const result=await projectSectionArticleTx(tx,sectionId,articleId);
     if(review.action==="approve" && !result.eligible) throw new Conflict("article is not ready: check current analysis, grouping, date and source permission");
+    const [projection]=await tx<{ story_id:number|null }[]>`SELECT story_id FROM publications WHERE section_id=${sectionId} AND article_id=${articleId}`;
+    if(projection?.story_id) await queueDigest?.(tx,Number(projection.story_id));
     await audit(review.actor,`section.publication.${review.action}`,`${sectionId}:content:${articleId}`,review.reason,before ?? null,result,{ db:tx });
     return result;
   });

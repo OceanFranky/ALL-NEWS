@@ -16,7 +16,7 @@ import { SectionGroupingCorrection,SectionStoryParams,SectionStoryMerge } from '
 import { correctSectionGrouping,mergeSectionStories } from '@aihot/backend/events/section-corrections';
 import { listSectionEvents,sectionEventDetail } from '@aihot/backend/admin/section-events';
 import { enqueueOn } from '@aihot/backend/jobs/queue';
-import { worldGroupQueue,worldCollectQueue,queueWorldDigest } from '../jobs.ts';
+import { worldGroupQueue,worldCollectQueue,worldDigestQueue } from '../jobs.ts';
 import { sectionRunsOverview } from '@aihot/backend/admin/section-runs';
 import { sectionModelsOverview,switchSectionModel,SectionModelSwitch } from '@aihot/backend/admin/section-models';
 import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
@@ -74,15 +74,22 @@ export function registerWorldAdmin(app:FastifyInstance) {
   app.get('/api/admin/world/events/:id',adminHandler(async(req,reply)=>
     await sectionEventDetail('world',SectionStoryParams.parse(req.params).id) ?? reply.code(404).send({ error:'not_found' })));
   app.post('/api/admin/world/events/:id/merge',adminHandler(async(req,reply,admin)=>{
-    try { return await mergeSectionStories('world',SectionStoryParams.parse(req.params).id,SectionStoryMerge.parse(req.body),actorOf(admin)); }
+    try {
+      return await mergeSectionStories('world',SectionStoryParams.parse(req.params).id,SectionStoryMerge.parse(req.body),actorOf(admin),
+        (tx,storyId)=>enqueueOn(worldDigestQueue,{ sectionId:'world',storyId },{ singletonKey:`world:digest:${storyId}` },tx));
+    }
     catch(error) {
       if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
       throw error;
     }
   }));
   app.post('/api/admin/world/items/:id/grouping',adminHandler(async(req,reply,admin)=>{
-    try { return await correctSectionGrouping('world',Id.parse(req.params).id,SectionGroupingCorrection.parse(req.body),actorOf(admin),
-      (tx,articleId,requestId)=>enqueueOn(worldGroupQueue,{ sectionId:'world',articleId },{ singletonKey:`world:manual:group:${articleId}:${requestId}` },tx)); }
+    try {
+      const id=Id.parse(req.params).id,input=SectionGroupingCorrection.parse(req.body);
+      return await correctSectionGrouping('world',id,input,actorOf(admin),
+        (tx,articleId,requestId)=>enqueueOn(worldGroupQueue,{ sectionId:'world',articleId },{ singletonKey:`world:manual:group:${articleId}:${requestId}` },tx),
+        (tx,storyId)=>enqueueOn(worldDigestQueue,{ sectionId:'world',storyId },{ singletonKey:`world:digest:${storyId}` },tx));
+    }
     catch(error) {
       if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
       throw error;
@@ -144,10 +151,8 @@ export function registerWorldAdmin(app:FastifyInstance) {
     const { id }=Id.parse(req.params);
     const review=Review.parse(req.body);
     try {
-      const result=await reviewSectionPublication('world',id,{ ...review,actor:actorOf(admin) });
-      const [row]=await sql<{ story_id:number|null }[]>`SELECT story_id FROM publications WHERE section_id='world' AND article_id=${id}`;
-      if(row?.story_id) await queueWorldDigest({ sectionId:'world',storyId:Number(row.story_id) });
-      return result;
+      return await reviewSectionPublication('world',id,{ ...review,actor:actorOf(admin) },
+        (tx,storyId)=>enqueueOn(worldDigestQueue,{ sectionId:'world',storyId },{ singletonKey:`world:digest:${storyId}` },tx));
     } catch(error) {
       if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
       throw error;

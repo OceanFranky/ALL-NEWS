@@ -16,8 +16,10 @@ function context(sectionId:SectionId,actor:string) {
 }
 export interface SectionCorrectionResult { sectionId:SectionId;articleId:string;action:string;jobId:string|null;factId:number|null;storyId:number|null }
 type QueueGroup=(tx:Tx,articleId:string,requestId:string)=>Promise<string|null>;
+type QueueDigest=(tx:Tx,storyId:number)=>Promise<string|null>;
 
-export async function correctSectionGrouping(sectionId:SectionId,articleId:string,raw:SectionGroupingCorrectionInput,actor:string,queueGroup?:QueueGroup) {
+export async function correctSectionGrouping(sectionId:SectionId,articleId:string,raw:SectionGroupingCorrectionInput,actor:string,
+  queueGroup?:QueueGroup,queueDigest?:QueueDigest) {
   context(sectionId,actor);const input=SectionGroupingCorrection.parse(raw);
   return sql.begin(async tx=>{
     await tx`SELECT pg_advisory_xact_lock(hashtextextended(${`group-section:${sectionId}`},0))`;
@@ -88,13 +90,14 @@ export async function correctSectionGrouping(sectionId:SectionId,articleId:strin
       WHERE f.section_id=st.section_id AND f.story_id=st.id AND fa.role IN ('primary','report')),
       version=version+1,updated_at=now() WHERE st.section_id=${sectionId} AND st.id=ANY(${affected}::bigint[])`;
     await projectSectionArticleTx(tx,sectionId,articleId);
+    for(const id of affected) await queueDigest?.(tx,id);
     const result:SectionCorrectionResult={ sectionId,articleId,action:input.action,jobId,factId,storyId };
     await audit(actor,action,subject,input.reason,before,{ input,result },{ requestId:input.requestId,db:tx });
     return result;
   });
 }
 
-export async function mergeSectionStories(sectionId:SectionId,fromId:number,raw:SectionStoryMergeInput,actor:string) {
+export async function mergeSectionStories(sectionId:SectionId,fromId:number,raw:SectionStoryMergeInput,actor:string,queueDigest?:QueueDigest) {
   context(sectionId,actor);const input=SectionStoryMerge.parse(raw);
   if(!Number.isSafeInteger(fromId) || fromId<=0 || fromId===input.intoId) throw new Conflict('invalid story merge');
   return sql.begin(async tx=>{
@@ -143,6 +146,7 @@ export async function mergeSectionStories(sectionId:SectionId,fromId:number,raw:
     await tx`UPDATE story_aliases SET story_id=${input.intoId} WHERE story_id=${fromId}`;
     await tx`INSERT INTO story_aliases (public_id,story_id) VALUES (${from.public_id},${input.intoId}) ON CONFLICT DO NOTHING`;
     for(const article of articles) await projectSectionArticleTx(tx,sectionId,article.id);
+    await queueDigest?.(tx,input.intoId);
     const result={ sectionId,intoId:input.intoId,moved:articles.filter(r=>r.moved).length };
     await audit(actor,'section.story.merge',subject,input.reason,rows,{ input,result },{ requestId:input.requestId,db:tx });
     return result;

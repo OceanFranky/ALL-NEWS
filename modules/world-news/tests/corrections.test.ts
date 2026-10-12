@@ -175,11 +175,36 @@ test('world admin event operations enforce login, CSRF, strict inputs, and durab
     const jobId=first.json().jobId;assert.ok(jobId);
     const [job]=await sql`SELECT name,data FROM pgboss.job WHERE id=${jobId}`;
     assert.equal(job!.name,'world-news.group');assert.equal(job!.data.sectionId,'world');assert.equal(job!.data.articleId,a.id);
+    const [digest]=await sql`SELECT name,data FROM pgboss.job WHERE name='world-news.digest' AND data->>'storyId'=${String(a.story)}`;
+    assert.equal(digest!.data.sectionId,'world');
     assert.equal(await sectionItem('world',a.id),null);
     await sql`UPDATE articles SET grouping_status='complete' WHERE id=${a.id}`;
     const second=await app.inject({ method:'POST',url,headers,payload });assert.equal(second.json().jobId,jobId);
     assert.equal((await sql`SELECT grouping_status FROM articles WHERE id=${a.id}`)[0]!.grouping_status,'complete');
     assert.equal((await sql`SELECT 1 FROM pgboss.job WHERE data->>'articleId'=${a.id}`).length,1);
     assert.equal((await app.inject(`/api/admin/world/events/${a.story}`)).statusCode,200);
+  } finally { config.devAdmin=old;await app.close(); }
+});
+
+test('world admin move and merge queue digests for both affected event histories',async()=>{
+  const app=Fastify();registerWorldAdmin(app);const old=config.devAdmin;
+  try {
+    config.devAdmin={ displayName:actor };
+    const a=await fixture(),b=await fixture();
+    const headers={ 'x-csrf-token':'dev' };
+    const moved=await app.inject({ method:'POST',url:`/api/admin/world/items/${a.id}/grouping`,headers,
+      payload:{ revision:1,action:'move',factPublicId:b.factPublicId,reason:'Fixture correction',requestId:randomUUID() } });
+    assert.equal(moved.statusCode,200,moved.body);
+    for(const storyId of [a.story,b.story]) {
+      const jobs=await sql`SELECT data FROM pgboss.job WHERE name='world-news.digest' AND data->>'storyId'=${String(storyId)}`;
+      assert.ok(jobs.length>0,`missing digest job for ${storyId}`);
+      assert.ok(jobs.every(job=>job.data.sectionId==='world'));
+    }
+    const c=await fixture(),d=await fixture();
+    const merged=await app.inject({ method:'POST',url:`/api/admin/world/events/${c.story}/merge`,headers,
+      payload:mergeInput(d.story) });
+    assert.equal(merged.statusCode,200,merged.body);
+    const jobs=await sql`SELECT data FROM pgboss.job WHERE name='world-news.digest' AND data->>'storyId'=${String(d.story)}`;
+    assert.ok(jobs.length>0,'merged destination must receive a new digest job');
   } finally { config.devAdmin=old;await app.close(); }
 });

@@ -193,8 +193,8 @@ test('actual world queues connect RSS HTML JSON analysis grouping publication ho
     aiConcurrentAnalysis:1,fakeProviderCalls:provider.hits(),realCalls:0 }));
 });
 
-test('the queued results support calibrated automatic publication, ordinary content and public hot without further model calls',async()=>{
-  const before=provider.hits();
+test('the queued results support calibrated automatic publication, ordinary content and public hot without compilation model calls',async()=>{
+  const before=requests.length;
   installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
     selection:{ thresholds:{ default:80 },understandFloor:null } })] }]);
   try {
@@ -218,7 +218,8 @@ test('the queued results support calibrated automatic publication, ordinary cont
     const daily=await post(`/api/admin/world/daily/${date}/generate`);
     assert.ok(daily.content.focus.length>0);
     assert.equal((await app.inject(`/api/admin/world/daily/${date}`)).json().revisions[0]?.status ?? daily.status,'draft');
-    assert.equal(provider.hits(),before,'automatic projections and downstream compilation are model-free');
+    assert.ok(requests.slice(before).every(r=>r.section==='world' && r.system.includes('整理一件具体世界新闻事件')),
+      'automatic projections and downstream compilation are model-free; queued event digests may run concurrently');
     assert.equal((await sql`SELECT 1 FROM selected_ledger l JOIN articles a ON a.id=l.article_id WHERE a.section_id='world'`).length,0);
   } finally { installModules([worldNewsModule]); }
 });

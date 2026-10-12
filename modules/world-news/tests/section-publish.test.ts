@@ -1,5 +1,6 @@
 import { tag } from "../../../tests/setup.ts";
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import { after, before, test } from "node:test";
 import { sql, closeDb } from "@aihot/backend/db";
 import { installModules } from "@aihot/backend/modules";
@@ -144,6 +145,22 @@ test('parallel rebuilds and review serialize without upgrading shared article lo
   assert.ok(results.every(r=>r.eligible));
   assert.ok(await sectionItem('world',id));
   assert.equal((await sql`SELECT 1 FROM publications WHERE article_id=${id}`).length,1);
+});
+
+test('a digest enqueue failure rolls back the world publication review',async()=>{
+  await permission(true);
+  const id=await material();
+  const [story]=await sql<{ id:number }[]>`INSERT INTO stories (section_id,public_id,title,first_report_at,latest_at)
+    VALUES ('world',${randomUUID()},'Policy event',now(),now()) RETURNING id`;
+  const [fact]=await sql<{ id:number }[]>`INSERT INTO facts (section_id,public_id,story_id,title,occurred_at)
+    VALUES ('world',${`fact-${id}`},${story!.id},'Policy announced',now()) RETURNING id`;
+  await sql`INSERT INTO fact_articles (section_id,fact_id,article_id,role) VALUES ('world',${fact!.id},${id},'primary')`;
+  await assert.rejects(reviewSectionPublication('world',id,
+    { revision:1,action:'approve',actor:'test-admin',reason:'Fixture review' },
+    async()=>{ throw new Error('local digest queue failure'); }),/digest queue failure/);
+  assert.equal(await sectionItem('world',id),null);
+  assert.equal((await sql`SELECT 1 FROM editorial_overrides WHERE article_id=${id}`).length,0);
+  assert.equal((await sql`SELECT 1 FROM audit_log WHERE subject=${`world:content:${id}`}`).length,0);
 });
 
 test('world list pages and counts every visible article by Beijing calendar day',async()=>{
