@@ -2,6 +2,7 @@
 import { requireSectionId, type SectionId } from "@aihot/contracts/sections";
 import { sql } from "../db.ts";
 import { sectionContext } from "../sections/context.ts";
+import { sectionSelectionThreshold } from "../sections/rules.ts";
 import { listedCondition, evidenceCondition } from "./scope.ts";
 import { currentSectionHot } from './section-hot.ts';
 
@@ -72,7 +73,7 @@ export async function sectionHot(sectionId:SectionId) {
   requireSectionId(sectionId);
   const rules=sectionContext(sectionId);
   // Uncalibrated world importance must not silently become an automatic recommendation.
-  if (rules.selection.thresholds===null) return { sectionId,status:"calibration-required",items:[] };
+  if (sectionSelectionThreshold(rules)===null) return { sectionId,status:"calibration-required",items:[] };
   const ranking=await currentSectionHot(sectionId);
   if(ranking.status!=='ready') return { sectionId,status:ranking.status,items:[] };
   const entries=ranking.items;

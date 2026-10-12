@@ -15,6 +15,9 @@ import { upsertMaterial } from '@aihot/backend/content/materials';
 import { worldNewsModule } from '../server.ts';
 import { queueWorldCollection } from '../jobs.ts';
 import { buildApp } from '../../../apps/api/src/app.ts';
+import { freezeSectionRules } from '@aihot/backend/sections/rules';
+import { projectSectionArticle } from '@aihot/backend/publication/section-publish';
+import { WORLD_RULES } from '../rules.ts';
 
 const T=tag(),date=beijingDate(new Date()),at=`${date}T09:00:00+08:00`,actor='Workflow fixture';
 const rate='The central bank announced a rate cut of 0.25 percentage points, effective Monday.';
@@ -154,4 +157,31 @@ test('actual world queues connect RSS HTML JSON analysis grouping publication ho
   assert.equal(provider.hits(),beforeReads,'review daily hot and all public reads do not invoke models');
   console.log(JSON.stringify({ evidence:'local queued workflow',worldMaterials:6,worldPass:5,worldPending:1,worldEvents:3,dailyEvents:3,
     aiConcurrentAnalysis:1,fakeProviderCalls:provider.hits(),realCalls:0 }));
+});
+
+test('the queued results support calibrated automatic publication, ordinary content and public hot without further model calls',async()=>{
+  const before=provider.hits();
+  installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
+    selection:{ thresholds:{ default:80 },understandFloor:null } })] }]);
+  try {
+    const rows=await sql`SELECT article_id FROM publications WHERE section_id='world' AND visibility='public' ORDER BY article_id`;
+    assert.equal(rows.length,4);
+    // Remove only the synthetic approvals: the next projection must use calibration, not manual approval.
+    await sql`DELETE FROM editorial_overrides WHERE article_id=ANY(${rows.map(r=>r.article_id)}::text[])`;
+    const ordinary=rows[0]!.article_id;
+    await sql`UPDATE analyses SET output=jsonb_set(output,'{scores}','[79,80]'::jsonb)
+      WHERE section_id='world' AND article_id=${ordinary}`;
+    for(const row of rows) await projectSectionArticle('world',row.article_id);
+    const list=(await app.inject('/api/v1/world/items')).json();
+    assert.equal(list.count,4);assert.equal(list.items.filter((r:any)=>r.selected).length,3);
+    assert.equal(list.items.find((r:any)=>r.id===ordinary).selected,false);
+    await post('/api/admin/world/hot/generate');
+    assert.equal((await app.inject('/api/v1/world/hot')).json().status,'ready');
+    assert.ok((await app.inject('/api/v1/world/hot')).json().items.length>0);
+    const daily=await post(`/api/admin/world/daily/${date}/generate`);
+    assert.ok(daily.content.focus.length>0);
+    assert.equal((await app.inject(`/api/admin/world/daily/${date}`)).json().revisions[0]?.status ?? daily.status,'draft');
+    assert.equal(provider.hits(),before,'automatic projections and downstream compilation are model-free');
+    assert.equal((await sql`SELECT 1 FROM selected_ledger l JOIN articles a ON a.id=l.article_id WHERE a.section_id='world'`).length,0);
+  } finally { installModules([worldNewsModule]); }
 });

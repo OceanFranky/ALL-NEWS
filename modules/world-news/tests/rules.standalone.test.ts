@@ -9,7 +9,7 @@ import { assertSameSection, isSectionId, requireSectionId } from "@aihot/contrac
 import { installModules, serverModules } from "@aihot/backend/modules";
 import { sectionContext } from "@aihot/backend/sections/context";
 import { createPromptPack } from "@aihot/backend/sections/prompts";
-import { configuredSectionModel, freezeSectionRules, sectionThreshold } from "@aihot/backend/sections/rules";
+import { configuredSectionModel, freezeSectionRules, sectionThreshold, sectionSelectionThreshold } from "@aihot/backend/sections/rules";
 import { promptFromText, promptText, promptVersion } from "@aihot/backend/editorial/prompts";
 import { WORLD_RULES } from "../rules.ts";
 import { worldNewsModule } from "../server.ts";
@@ -53,6 +53,18 @@ test("world categories, thresholds and model defaults are independent and immuta
   assert.throws(() => { (world.categories[0] as { key: string }).key = "ai-models"; }, TypeError);
   assert.throws(() => { serverModules()[0]!.sections = []; }, TypeError);
   assert.equal(sectionThreshold(ai, "T1"), SELECTION.thresholds.T1);
+});
+
+test("world calibration uses one explicit uniform threshold and never an AI source tier", () => {
+  const invalid:Record<string,number>[]=[{},{ T1:70 },{ default:70,T2:60 },{ default:Infinity }];
+  for(const thresholds of invalid) {
+    assert.throws(()=>freezeSectionRules({ ...WORLD_RULES,selection:{ thresholds,understandFloor:null } }),/threshold/);
+  }
+  const rules=freezeSectionRules({ ...WORLD_RULES,selection:{ thresholds:{ default:69.5 },understandFloor:null } });
+  assert.equal(sectionSelectionThreshold(rules),69.5);
+  assert.equal(sectionSelectionThreshold(WORLD_RULES),null);
+  assert.equal(sectionThreshold(rules,'T1'),null);
+  assert.throws(()=>sectionSelectionThreshold(sectionContext('ai')),/legacy/);
 });
 
 test("concurrent same-named prompts and includes stay in their own pack", async () => {

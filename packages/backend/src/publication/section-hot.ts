@@ -2,6 +2,7 @@
 import { requireSectionId,type SectionId } from '@aihot/contracts/sections';
 import { sql,type Db } from '../db.ts';
 import { sectionContext } from '../sections/context.ts';
+import { sectionSelectionThreshold } from '../sections/rules.ts';
 import { listedCondition,evidenceCondition } from './scope.ts';
 import { rankSectionHot,type SectionHotReport,type SectionHotEntry } from '../events/section-hot-rank.ts';
 
@@ -41,7 +42,7 @@ export async function currentSectionHot(sectionId:SectionId,at=new Date(),includ
   if(sectionId==='ai') throw new Error('use the legacy AI hot entry point');
   const rules=sectionContext(sectionId),policy=rules.hot;
   if(!policy) throw new Error('section hot policy is missing');
-  const calibrated=rules.selection.thresholds!==null && rules.selection.understandFloor!==null;
+  const calibrated=sectionSelectionThreshold(rules)!==null;
   if(!calibrated && !includeDraft) return { sectionId,status:'calibration-required',items:[] as SectionHotEntry[] };
   const [snapshot]=await sql<{ id:number;rule_version:string;entries:SectionHotEntry[];computed_at:Date;published:boolean }[]>`
     SELECT id,rule_version,entries,computed_at,published FROM hot_rankings WHERE section_id=${sectionId}

@@ -47,7 +47,7 @@ async function fixture(options:{ story?:number;fact?:number;source?:number;hours
   return { id,story,fact };
 }
 const calibrated=()=>installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
-  selection:{ thresholds:{ T1:0,T2:0 },understandFloor:0 } })] }]);
+  selection:{ thresholds:{ default:0 },understandFloor:null } })] }]);
 
 test('uncalibrated generation is a private draft and never overwrites or consumes AI rankings',async()=>{
   await fixture();const result=await computeSectionHot('world',actor,now);
@@ -104,7 +104,7 @@ test('concurrent generation appends isolated snapshots and exposes the meaning o
 test('changed hot policy requires regeneration rather than reusing a previous version',async()=>{
   await fixture();calibrated();await computeSectionHot('world',actor,now);
   installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
-    selection:{ thresholds:{ T1:0,T2:0 },understandFloor:0 },hot:{ ...WORLD_RULES.hot!,version:'local-changed-policy' } })] }]);
+    selection:{ thresholds:{ default:0 },understandFloor:null },hot:{ ...WORLD_RULES.hot!,version:'local-changed-policy' } })] }]);
   assert.equal((await currentSectionHot('world',now)).status,'regeneration-required');
   assert.deepEqual((await sectionHot('world')).items,[]);
   await computeSectionHot('world',actor,now);

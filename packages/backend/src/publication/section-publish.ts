@@ -4,6 +4,7 @@ import { sql, type Tx } from "../db.ts";
 import { audit, Conflict } from "../audit.ts";
 import { assertSectionResource } from "../sections/resources.ts";
 import { sectionContext } from "../sections/context.ts";
+import { sectionSelectionThreshold } from "../sections/rules.ts";
 import { isPoolEligible } from "./rules.ts";
 
 function nonLegacy(sectionId: SectionId) {
@@ -48,7 +49,7 @@ export async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, arti
     SELECT s.participation_mode,sp.summary_allowed FROM sources s LEFT JOIN section_source_permissions sp
       ON sp.section_id=s.section_id AND sp.source_id=s.id WHERE s.section_id=${sectionId} AND s.id=${a.source_id} FOR SHARE OF s`;
   const [analysis]=await tx<{ id:number;relevance:string;category:string|null;title_zh:string|null;summary_zh:string|null;
-    reason_zh:string|null;tags:string[];score:number|null }[]>`SELECT id,relevance,category,title_zh,summary_zh,reason_zh,tags,score
+    reason_zh:string|null;tags:string[];score:number|null;output:Record<string,unknown>|null }[]>`SELECT id,relevance,category,title_zh,summary_zh,reason_zh,tags,score,output
     FROM analyses WHERE section_id=${sectionId} AND article_id=${articleId} AND input_revision=${a.revision} ORDER BY id DESC LIMIT 1`;
   const [override]=await tx<{ visibility:string|null;fields:Record<string,unknown> }[]>`SELECT visibility,fields FROM editorial_overrides WHERE article_id=${articleId}`;
   const [membership]=await tx<{ fact_id:number;story_id:number }[]>`SELECT fa.fact_id,f.story_id FROM fact_articles fa
@@ -56,31 +57,40 @@ export async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, arti
     WHERE fa.section_id=${sectionId} AND fa.article_id=${articleId} AND fa.role IN ('primary','report') AND st.merged_into IS NULL
     ORDER BY (fa.role='primary') DESC,fa.created_at LIMIT 1`;
   const approved = override?.fields.sectionApprovedRevision === a.revision && override?.fields.sectionApprovedAnalysisId === analysis?.id;
-  const calibrated = rules.selection.thresholds !== null;
+  const threshold = sectionSelectionThreshold(rules);
+  const calibrated = threshold !== null;
   const eligible=!!analysis && isPoolEligible({ participationMode:source!.participation_mode,relevance:analysis.relevance,
     title:analysis.title_zh,summary:analysis.summary_zh }) && !!a.published_at && a.published_at<=new Date()
     && a.grouping_status==="complete" && source!.summary_allowed===true
-    && rules.categories.some(c=>c.key===analysis.category) && (approved || calibrated);
+    && analysis.output?.materialSufficient!==false
+    && rules.categories.some(c=>c.key===analysis.category) && (approved || calibrated && analysis.output?.materialSufficient===true);
   // Selection is intentionally separate: source-tier AI thresholds never nominate world news.
   const visibility=override?.visibility ?? "public";
-  const [previous]=await tx<{ revision:number;section_admitted_at:Date|null }[]>`SELECT revision,section_admitted_at FROM publications WHERE section_id=${sectionId} AND article_id=${articleId}`;
+  const scores=analysis?.output?.scores;
+  const dualScore=Array.isArray(scores) && scores.length===2 && scores.every(n=>typeof n==='number' && Number.isFinite(n) && n>=0 && n<=100)
+    ? ((scores[0] as number)+(scores[1] as number))/2 : null;
+  const selected=eligible && visibility==='public' && threshold!==null && dualScore!==null && dualScore>=threshold
+    && analysis?.output?.materialSufficient===true;
+  const [previous]=await tx<{ revision:number;section_admitted_at:Date|null;selected:boolean;visible_after:Date|null }[]>`SELECT revision,section_admitted_at,selected,visible_after FROM publications WHERE section_id=${sectionId} AND article_id=${articleId}`;
   const now=new Date();
+  const visibleAfter=selected ? (previous?.selected && previous.visible_after ? previous.visible_after : now) : null;
   const admittedAt=previous?.section_admitted_at ?? (eligible && visibility==='public' && !a.backfill
     && a.published_at!.getTime()>=now.getTime()-48*3600*1000 ? now : null);
   await tx`INSERT INTO publications (section_id,article_id,analysis_id,revision,source_id,title,original_title,summary,reason,category,tags,score,
-    visibility,eligible,selected,selection_candidate,body_mode,syndicate,indexable,channel,url,published_at,discovered_at,timeline_at,sort_at,backfill,story_id,fact_id,section_admitted_at)
+    visibility,eligible,selected,selection_candidate,visible_after,body_mode,syndicate,indexable,channel,url,published_at,discovered_at,timeline_at,sort_at,backfill,story_id,fact_id,section_admitted_at)
     VALUES (${sectionId},${articleId},${analysis?.id ?? null},${(previous?.revision ?? 0)+1},${a.source_id},${analysis?.title_zh ?? a.title},${a.title},
-      ${analysis?.summary_zh ?? null},${analysis?.reason_zh ?? null},${analysis?.category ?? null},${analysis?.tags ?? []},${analysis?.score ?? null},
-      ${visibility},${eligible},false,false,'summary',false,false,'news',${a.url},${a.published_at},${a.discovered_at},${a.timeline_at},${a.timeline_at},
+      ${analysis?.summary_zh ?? null},${analysis?.reason_zh ?? null},${analysis?.category ?? null},${analysis?.tags ?? []},${dualScore ?? analysis?.score ?? null},
+      ${visibility},${eligible},${selected},${selected},${visibleAfter},'summary',false,false,'news',${a.url},${a.published_at},${a.discovered_at},${a.timeline_at},${a.timeline_at},
       ${a.backfill},${membership?.story_id ?? null},${membership?.fact_id ?? null},${admittedAt})
     ON CONFLICT (article_id) DO UPDATE SET analysis_id=EXCLUDED.analysis_id,revision=EXCLUDED.revision,title=EXCLUDED.title,
       original_title=EXCLUDED.original_title,summary=EXCLUDED.summary,reason=EXCLUDED.reason,category=EXCLUDED.category,tags=EXCLUDED.tags,
-      score=EXCLUDED.score,visibility=EXCLUDED.visibility,eligible=EXCLUDED.eligible,selected=false,selection_candidate=false,
+      score=EXCLUDED.score,visibility=EXCLUDED.visibility,eligible=EXCLUDED.eligible,selected=EXCLUDED.selected,selection_candidate=EXCLUDED.selection_candidate,
+      visible_after=EXCLUDED.visible_after,
       body_mode='summary',syndicate=false,indexable=false,published_at=EXCLUDED.published_at,timeline_at=EXCLUDED.timeline_at,
       sort_at=EXCLUDED.sort_at,backfill=EXCLUDED.backfill,story_id=EXCLUDED.story_id,fact_id=EXCLUDED.fact_id,
       section_admitted_at=EXCLUDED.section_admitted_at,updated_at=now()
     WHERE publications.section_id=${sectionId}`;
-  return { sectionId,articleId,eligible,visibility,selected:false,calibrationRequired:!calibrated };
+  return { sectionId,articleId,eligible,visibility,selected,calibrationRequired:!calibrated };
 }
 
 /** Manual review is revision-bound; reanalysis never grants approval to a changed original. */

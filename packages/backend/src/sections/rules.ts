@@ -32,6 +32,11 @@ export function freezeSectionRules(input: SectionRules): SectionRules {
   if (thresholds !== null && Object.values(thresholds).some((n) => !Number.isFinite(n) || n < 0 || n > 100)) {
     throw new Error("invalid section selection thresholds");
   }
+  // Non-legacy calibration produces one uniform threshold, never AI source-tier thresholds.
+  if (input.id !== "ai" && thresholds !== null &&
+    (Object.keys(thresholds).length !== 1 || !Object.hasOwn(thresholds, "default"))) {
+    throw new Error("section selection thresholds must contain only default");
+  }
   const floor = input.selection.understandFloor;
   if (floor !== null && (!Number.isFinite(floor) || floor < 0 || floor > 100)) throw new Error("invalid section understanding floor");
   if (Object.entries(input.models).some(([key, value]) => !SECTION_MODEL_STEPS.includes(key as SectionModelStep) || !value?.trim())) {
@@ -56,4 +61,10 @@ export function configuredSectionModel(rules: SectionRules, step: SectionModelSt
 /** Null means not calibrated, not "use the AI threshold". */
 export function sectionThreshold(rules: SectionRules, tier: string): number | null {
   return rules.selection.thresholds?.[tier] ?? null;
+}
+
+/** Non-legacy F2 calibration is uniform across sources. Null keeps automatic nomination off. */
+export function sectionSelectionThreshold(rules: SectionRules): number | null {
+  if (rules.id === "ai") throw new Error("use the legacy AI selection entry point");
+  return rules.selection.thresholds?.default ?? null;
 }

@@ -8,7 +8,7 @@ import { assertSectionResource } from "../sections/resources.ts";
 import { sectionModelFor } from "./models.ts";
 import { chatJson, ModelOutputError } from "../providers/llm.ts";
 import { completeReceipt, rejectReceivedResponse } from "../providers/receipts.ts";
-import { type SectionModelStep } from "../sections/rules.ts";
+import { type SectionModelStep, sectionSelectionThreshold } from "../sections/rules.ts";
 
 const Prefilter = z.strictObject({ label: z.enum(["PASS", "BLOCK", "UNKNOWN"]), reason: z.string().max(400) });
 const Score = z.strictObject({ attentionScore: z.number().int().min(0).max(100) });
@@ -95,7 +95,7 @@ export async function analyzeSectionArticle(sectionId: SectionId, articleId: str
           ${relevance},${structure?.category as string | null ?? null},${structure?.tags as string[] ?? []},${structure?.subjects as string[] ?? []},
           ${relevance === "pass" ? copy!.titleZh : null},${relevance === "pass" ? copy!.summaryZh : null},${relevance === "pass" ? copy!.reasonZh : null},
           ${scores.length ? (scores[0]! + scores[1]!) / 2 : null},false,
-          ${tx.json({ prefilter, ...structure, scores, materialSufficient: relevance === "pass", calibrationRequired: rules.selection.thresholds === null } as never)}) RETURNING id`;
+          ${tx.json({ prefilter, ...structure, scores, materialSufficient: relevance === "pass", calibrationRequired: sectionSelectionThreshold(rules) === null } as never)}) RETURNING id`;
       for (const id of receiptIds) await completeReceipt(tx, id, sectionId);
       if (!stale) await tx`UPDATE articles SET processing_state=${relevance === "block" ? "blocked" : "analyzed"}, processing_error=NULL
         WHERE section_id=${sectionId} AND id=${articleId}`;

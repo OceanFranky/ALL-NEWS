@@ -6,6 +6,8 @@ import { installModules } from "@aihot/backend/modules";
 import { sectionItem, sectionItems } from "@aihot/backend/publication/sections";
 import { projectSectionArticle, reviewSectionPublication, reviewSectionSourcePermission } from "@aihot/backend/publication/section-publish";
 import { worldNewsModule } from "../server.ts";
+import { WORLD_RULES } from "../rules.ts";
+import { freezeSectionRules } from "@aihot/backend/sections/rules";
 import Fastify from "fastify";
 import { config } from "@aihot/backend/config";
 import { registerWorldAdmin } from "../api/admin.ts";
@@ -142,4 +144,39 @@ test('parallel rebuilds and review serialize without upgrading shared article lo
   assert.ok(results.every(r=>r.eligible));
   assert.ok(await sectionItem('world',id));
   assert.equal((await sql`SELECT 1 FROM publications WHERE article_id=${id}`).length,1);
+});
+
+test('calibrated world projection separates ordinary content from selection using exact dual scores, not AI tiers',async()=>{
+  installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
+    selection:{ thresholds:{ default:69.5 },understandFloor:null } })] }]);
+  try {
+    await permission(true);
+    await sql`UPDATE sources SET tier='EXCLUDE_MP' WHERE section_id='world' AND id=${source}`;
+    const high=await material(),low=await material(),incomplete=await material();
+    for(const [id,scores] of [[high,[70,69]],[low,[70,68]],[incomplete,[100]]] as const) {
+      await sql`UPDATE analyses SET output=${sql.json({ materialSufficient:true,scores } as never)},score=99 WHERE section_id='world' AND article_id=${id}`;
+    }
+    assert.equal((await projectSectionArticle('world',high)).selected,true,'fractional mean on threshold is selected');
+    assert.equal((await projectSectionArticle('world',low)).selected,false,'below threshold stays ordinary');
+    assert.equal((await projectSectionArticle('world',incomplete)).selected,false,'one score is not two independent judgements');
+    for(const id of [high,low,incomplete]) assert.ok(await sectionItem('world',id),'ordinary related content remains readable');
+    assert.equal((await sectionItem('world',high))!.item.score,69.5,'cached single score cannot override the dual mean');
+    assert.equal((await sectionItem('world',high))!.item.selected,true,'selected release timestamp makes the item immediately readable');
+    const [before]=await sql`SELECT visible_after FROM publications WHERE section_id='world' AND article_id=${high}`;
+    await projectSectionArticle('world',high);
+    const [after]=await sql`SELECT visible_after FROM publications WHERE section_id='world' AND article_id=${high}`;
+    assert.deepEqual(after,before,'rebuild preserves the release time');
+    await reviewSectionPublication('world',high,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw calibrated fixture' });
+    assert.equal((await projectSectionArticle('world',high)).selected,false);
+    assert.equal(await sectionItem('world',high),null);
+    await sql`UPDATE analyses SET output=${sql.json({ materialSufficient:false,scores:[100,100] })} WHERE section_id='world' AND article_id=${low}`;
+    const insufficient=await projectSectionArticle('world',low);
+    assert.equal(insufficient.selected,false,'insufficient material never becomes selected');
+    assert.equal(insufficient.eligible,false);
+    assert.equal(await sectionItem('world',low),null,'insufficient material never becomes ordinary public content either');
+    assert.equal((await sql`SELECT 1 FROM selected_ledger WHERE article_id IN (${high},${low},${incomplete})`).length,0,'world does not enter AI syndication');
+    assert.equal((await sql`SELECT 1 FROM receipts`).length,0);
+  } finally {
+    installModules([worldNewsModule]);
+  }
 });

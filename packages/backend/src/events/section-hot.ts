@@ -1,6 +1,7 @@
 import { requireSectionId,type SectionId } from '@aihot/contracts/sections';
 import { sql } from '../db.ts';
 import { sectionContext } from '../sections/context.ts';
+import { sectionSelectionThreshold } from '../sections/rules.ts';
 import { sectionHotReports } from '../publication/section-hot.ts';
 import { rankSectionHot } from './section-hot-rank.ts';
 import { audit } from '../audit.ts';
@@ -11,7 +12,7 @@ export async function computeSectionHot(sectionId:SectionId,actor:string,at=new 
   if(!actor.trim() || !Number.isFinite(at.getTime())) throw new Error('invalid section hot generation');
   const rules=sectionContext(sectionId),policy=rules.hot;
   if(!policy) throw new Error('section hot policy is missing');
-  const published=rules.selection.thresholds!==null && rules.selection.understandFloor!==null;
+  const published=sectionSelectionThreshold(rules)!==null;
   return sql.begin(async tx=>{
     await tx`SELECT pg_advisory_xact_lock(hashtextextended(${`section-hot:${sectionId}`},0))`;
     const reports=await sectionHotReports(sectionId,at,tx),entries=rankSectionHot(reports,policy,at);
