@@ -20,11 +20,11 @@ before(async()=>{
 });
 after(closeDb);
 let n=0;
-async function material(options:{ relevance?:string;category?:string;dated?:boolean;grouped?:boolean }={}) {
+async function material(options:{ relevance?:string;category?:string;dated?:boolean;grouped?:boolean;timelineAt?:Date }={}) {
   const id=`projection-${T}-${++n}`;
   await sql`INSERT INTO articles (section_id,id,source_id,identity_key,url,title,excerpt,published_at,discovered_at,timeline_at,grouping_status)
     VALUES ('world',${id},${source},${id},${`https://fixture.invalid/${id}`},'Bank announced policy','Evidence supplied by local fixture',
-      ${options.dated===false ? null : new Date()},now(),now(),${options.grouped===false ? 'pending' : 'complete'})`;
+      ${options.dated===false ? null : new Date()},now(),${options.timelineAt ?? new Date()},${options.grouped===false ? 'pending' : 'complete'})`;
   await sql`INSERT INTO analyses (section_id,article_id,input_revision,origin,relevance,category,title_zh,summary_zh,reason_zh,score)
     VALUES ('world',${id},1,'rule',${options.relevance ?? 'pass'},${options.category ?? 'economy'},'央行公布政策','机构表示新政策将于周一生效。','了解政策变化',90)`;
   return id;
@@ -144,6 +144,27 @@ test('parallel rebuilds and review serialize without upgrading shared article lo
   assert.ok(results.every(r=>r.eligible));
   assert.ok(await sectionItem('world',id));
   assert.equal((await sql`SELECT 1 FROM publications WHERE article_id=${id}`).length,1);
+});
+
+test('world list pages and counts every visible article by Beijing calendar day',async()=>{
+  await permission(true);
+  const times=['2026-10-10T15:30:00Z','2026-10-10T16:30:00Z','2026-10-10T17:00:00Z'];
+  const ids=[];
+  for(const at of times) {
+    const id=await material({ category:'security',timelineAt:new Date(at) });
+    await approve(id);ids.push(id);
+  }
+  const first=await sectionItems('world',{ category:'security',limit:1,page:1 });
+  const last=await sectionItems('world',{ category:'security',limit:1,page:3 });
+  assert.equal(first.pagination.total,3);
+  assert.equal(first.pagination.hasMore,true);
+  assert.deepEqual(Array.from(first.days),[{ date:'2026-10-11',count:2 },{ date:'2026-10-10',count:1 }]);
+  assert.equal(last.items[0]?.id,ids[0]);
+  assert.equal(last.pagination.hasMore,false);
+  await reviewSectionPublication('world',ids[1]!,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw fixture' });
+  const after=await sectionItems('world',{ category:'security',limit:1,page:2 });
+  assert.equal(after.pagination.total,2);
+  assert.deepEqual(Array.from(after.days),[{ date:'2026-10-11',count:1 },{ date:'2026-10-10',count:1 }]);
 });
 
 test('calibrated world projection separates ordinary content from selection using exact dual scores, not AI tiers',async()=>{

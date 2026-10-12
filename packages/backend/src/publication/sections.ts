@@ -5,6 +5,7 @@ import { sectionContext } from "../sections/context.ts";
 import { sectionSelectionThreshold } from "../sections/rules.ts";
 import { listedCondition, evidenceCondition } from "./scope.ts";
 import { currentSectionHot } from './section-hot.ts';
+import { storyTexts } from './story-text.ts';
 
 interface SectionItemRow { id: string; title: string; summary: string | null; reason: string | null; category: string | null;
   score: number | null; selected: boolean; url: string; published_at: Date | null; timeline_at: Date; source_name: string; story_public_id: string | null }
@@ -16,19 +17,27 @@ const shape = (r: SectionItemRow) => ({ id:r.id,title:r.title,summary:r.summary,
   selected:r.selected,source:{ name:r.source_name },links:{ original:r.url },publishedAt:r.published_at?.toISOString() ?? null,
   timelineAt:r.timeline_at.toISOString(),storyPublicId:r.story_public_id });
 
-export async function sectionItems(sectionId: SectionId, query: { limit?: number; category?: string; q?: string } = {}) {
+export async function sectionItems(sectionId: SectionId, query: { limit?: number; page?: number; category?: string; q?: string } = {}) {
   requireSectionId(sectionId);
   const rules = sectionContext(sectionId);
   if (query.category !== undefined && !rules.categories.some(c=>c.key===query.category)) throw new Error("invalid section category");
   const limit=query.limit ?? 40;
   if (!Number.isSafeInteger(limit) || limit<1 || limit>100) throw new Error("invalid section limit");
+  const page=query.page ?? 1;
+  if (!Number.isSafeInteger(page) || page<1 || page>10000) throw new Error("invalid section page");
   if (query.q !== undefined && query.q.length>200) throw new Error("invalid section search");
   const term=query.q?.trim().replace(/[\\%_]/g,m=>`\\${m}`);
-  const rows=await sql<SectionItemRow[]>`SELECT ${columns} ${from} WHERE ${listedCondition(new Date(),sectionId)}
+  const scope=listedCondition(new Date(),sectionId);
+  const filter=sql`${scope}
     ${query.category ? sql`AND p.category=${query.category}` : sql``}
-    ${term ? sql`AND (p.title ILIKE ${`%${term}%`} OR p.summary ILIKE ${`%${term}%`})` : sql``}
-    ORDER BY p.timeline_at DESC,p.article_id DESC LIMIT ${limit}`;
-  return { sectionId,items:rows.map(shape),count:rows.length };
+    ${term ? sql`AND (p.title ILIKE ${`%${term}%`} OR p.summary ILIKE ${`%${term}%`})` : sql``}`;
+  const days=await sql<{ date:string;count:number }[]>`
+    SELECT to_char(p.timeline_at AT TIME ZONE 'Asia/Shanghai','YYYY-MM-DD') AS date,count(*)::int AS count
+    ${from} WHERE ${filter} GROUP BY date ORDER BY date DESC`;
+  const total=days.reduce((sum,day)=>sum+day.count,0);
+  const rows=await sql<SectionItemRow[]>`SELECT ${columns} ${from} WHERE ${filter}
+    ORDER BY p.timeline_at DESC,p.article_id DESC LIMIT ${limit} OFFSET ${(page-1)*limit}`;
+  return { sectionId,items:rows.map(shape),count:rows.length,pagination:{ page,limit,total,hasMore:page*limit<total },days };
 }
 
 export async function sectionItem(sectionId: SectionId,id:string) {
@@ -66,7 +75,10 @@ export async function sectionStory(sectionId:SectionId,publicId:string) {
     JOIN facts f ON f.id=fa.fact_id AND f.section_id=fa.section_id
     WHERE f.story_id=${story.id} AND ${listedCondition(new Date(),sectionId)} AND ${evidenceCondition()}
     ORDER BY p.timeline_at DESC,p.article_id DESC LIMIT 100`;
-  return rows.length ? { sectionId,story:{ publicId:story.public_id,title:story.title,latestAt:story.latest_at?.toISOString() ?? null },reports:rows.map(shape) } : null;
+  if(!rows.length) return null;
+  const text=(await storyTexts([story.id],new Date(),sectionId)).get(story.id);
+  return { sectionId,story:{ publicId:story.public_id,title:story.title,latestAt:story.latest_at?.toISOString() ?? null,
+    digest:text?.digest ?? null },reports:rows.map(shape) };
 }
 
 export async function sectionHot(sectionId:SectionId) {
@@ -89,4 +101,19 @@ export async function sectionHot(sectionId:SectionId) {
       sourceCount:entry.sourceCount,reportCount:entry.reportCount,latestProgressAt:entry.latestProgressAt });
   }
   return { sectionId,status:"ready",computedAt:ranking.computedAt,heatMeaning:ranking.heatMeaning,items };
+}
+
+/** Category cards use the same event ranking as the world hot board; ordinary briefs stay chronological. */
+export async function sectionHighlights(sectionId:SectionId) {
+  requireSectionId(sectionId);
+  const rules=sectionContext(sectionId),hot=await sectionHot(sectionId);
+  const categories=await Promise.all(rules.categories.map(async category=>{
+    const lead=hot.items.find(entry=>entry.item.category===category.key)?.item ?? null;
+    const rows=await sql<SectionItemRow[]>`SELECT ${columns} ${from}
+      WHERE ${listedCondition(new Date(),sectionId)} AND p.category=${category.key}
+        ${lead ? sql`AND p.article_id<>${lead.id}` : sql``}
+      ORDER BY p.timeline_at DESC,p.article_id DESC LIMIT 3`;
+    return { key:category.key,label:category.label,lead,briefs:rows.map(shape) };
+  }));
+  return { sectionId,status:hot.status,categories };
 }

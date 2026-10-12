@@ -1,10 +1,11 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { sectionItems,sectionItem,sectionStories,sectionStory,sectionHot } from "@aihot/backend/publication/sections";
+import { sectionItems,sectionItem,sectionStories,sectionStory,sectionHot,sectionHighlights } from "@aihot/backend/publication/sections";
 import { SectionDailyParams } from "@aihot/contracts/section-daily";
 import { sectionDaily } from "@aihot/backend/publication/section-daily";
 
-const Query=z.strictObject({ limit:z.coerce.number().int().min(1).max(100).optional(),category:z.enum(["politics","economy","security"]).optional(),q:z.string().max(200).optional() });
+const Query=z.strictObject({ limit:z.coerce.number().int().min(1).max(100).optional(),page:z.coerce.number().int().min(1).max(10000).optional(),
+  category:z.enum(["politics","economy","security"]).optional(),q:z.string().max(200).optional() });
 export function registerWorldPublic(app:FastifyInstance) {
   app.get('/api/v1/world/daily/:date',async(req,reply)=>{
     reply.header('Cache-Control','no-store');
@@ -37,5 +38,9 @@ export function registerWorldPublic(app:FastifyInstance) {
   app.get("/api/v1/world/hot",async(_req,reply)=>{
     reply.header("Cache-Control","no-store");
     return sectionHot("world");
+  });
+  app.get("/api/v1/world/highlights",async(_req,reply)=>{
+    reply.header("Cache-Control","no-store");
+    return sectionHighlights("world");
   });
 }

@@ -9,6 +9,7 @@ import { stopBoss } from "@aihot/backend/jobs/queue";
 import { currentSignals, sourceClocks, computeHotRanking } from "@aihot/backend/events/hot";
 import { loadItemShare } from "@aihot/backend/publication/og";
 import { storyTexts } from "@aihot/backend/publication/story-text";
+import { composeWorldStoryDigest } from "@aihot/backend/events/section-digest";
 import { listedCondition, selectedCondition, seatedCondition, storyReportCondition } from "@aihot/backend/publication/scope";
 import { buildApp } from "../../../apps/api/src/app.ts";
 import { installModules } from "@aihot/backend/modules";
@@ -94,6 +95,12 @@ test("guessing world article and event IDs does not open AI detail or exports", 
   const available = (await get(`/api/site/items/availability?ids=${AI},${WORLD}`)).json();
   assert.equal(available[WORLD].status, "unavailable");
   assert.equal(available[AI].status, "public");
+});
+
+test("world digest rejects an AI story before any paid request",async()=>{
+  const [story]=await sql`SELECT id FROM stories WHERE section_id='ai' AND public_id=${aiStory}`;
+  await assert.rejects(composeWorldStoryDigest(Number(story!.id)),/section mismatch/);
+  assert.equal((await sql`SELECT 1 FROM receipts`).length,0);
 });
 
 test("world reports stay out of AI latest, directory, detail, RSS, sitemap and statistics", async () => {
@@ -182,7 +189,8 @@ test("world namespace only reads world; wrong section IDs and invalid categories
   }
   assert.equal((await get(`/api/v1/world/items/${AI}`)).statusCode,404);
   assert.equal((await get(`/api/v1/world/stories/${aiStory}`)).statusCode,404);
-  for (const path of ["/api/v1/world/items?category=ai-models","/api/v1/world/items?section=ai","/api/v1/world/items?limit=0"]) {
+  for (const path of ["/api/v1/world/items?category=ai-models","/api/v1/world/items?section=ai","/api/v1/world/items?limit=0",
+    "/api/v1/world/items?page=0"]) {
     assert.equal((await get(path)).statusCode,400,path);
   }
   const hot=(await get("/api/v1/world/hot")).json();

@@ -2,6 +2,7 @@ import { stub, tag } from "../../../tests/setup.ts";
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 import { sql, closeDb } from "@aihot/backend/db";
+import { stopBoss } from "@aihot/backend/jobs/queue";
 import { installModules } from "@aihot/backend/modules";
 import { analyzeSectionArticle } from "@aihot/backend/editorial/section-analyze";
 import { worldNewsModule } from "../server.ts";
@@ -36,7 +37,7 @@ before(async () => {
   await sql`INSERT INTO sources (section_id,id,name,kind,enabled) VALUES ('world',${source},'fixture','rss',false)`;
   await sql`INSERT INTO section_budgets VALUES ('world','llm',100,100,100)`;
 });
-after(async () => { await provider.close(); installModules([]); await closeDb(); });
+after(async () => { await stopBoss();await provider.close(); installModules([]); await closeDb(); });
 let count = 0;
 async function article(excerpt: string | null = body, section = "world") {
   const id = `analysis-${T}-${++count}`;

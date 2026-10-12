@@ -1,5 +1,6 @@
 // The saved digest's evidence and fingerprint, shared by its writer and every public reader.
 import { sql, type Db } from "../db.ts";
+import type { SectionId } from "@aihot/contracts/sections";
 import { sha256, stableJson } from "../lib/ids.ts";
 import { evidenceCondition, listedCondition } from "./scope.ts";
 
@@ -33,7 +34,7 @@ export function digestFactEvidence(report: Omit<DigestReport, "story_id">) {
     extractedEvidence: typeof fact.evidence === "string" ? fact.evidence : null };
 }
 
-export async function digestReports(db: Db, storyIds: number[], now = new Date()): Promise<DigestReport[]> {
+export async function digestReports(db: Db, storyIds: number[], now = new Date(), sectionId: SectionId = "ai"): Promise<DigestReport[]> {
   if (!storyIds.length) return [];
   return db<DigestReport[]>`
     SELECT DISTINCT ON (f.story_id, p.article_id) f.story_id, p.article_id AS id, p.title, p.summary,
@@ -41,9 +42,12 @@ export async function digestReports(db: Db, storyIds: number[], now = new Date()
       coalesce(p.published_at, p.discovered_at) AS at, f.id AS fact_id, f.subject AS fact_subject,
       f.action AS fact_action, f.object AS fact_object, f.conditions AS fact_conditions, fa.evidence,
       an.output->'fact' AS structured_fact
-    FROM facts f JOIN fact_articles fa ON fa.fact_id = f.id JOIN publications p ON p.article_id = fa.article_id
-    JOIN sources s ON s.id = p.source_id LEFT JOIN analyses an ON an.id = p.analysis_id
-    WHERE f.story_id = ANY(${storyIds}::bigint[]) AND ${evidenceCondition()} AND ${listedCondition(now)}
+    FROM facts f JOIN fact_articles fa ON fa.fact_id = f.id AND fa.section_id=f.section_id
+    JOIN publications p ON p.article_id = fa.article_id AND p.section_id=fa.section_id
+    JOIN sources s ON s.id = p.source_id AND s.section_id=p.section_id
+    LEFT JOIN analyses an ON an.id = p.analysis_id AND an.section_id=p.section_id
+    WHERE f.section_id=${sectionId} AND f.story_id = ANY(${storyIds}::bigint[])
+      AND ${evidenceCondition()} AND ${listedCondition(now,sectionId)}
     ORDER BY f.story_id, p.article_id, (fa.role = 'primary') DESC, f.id`;
 }
 

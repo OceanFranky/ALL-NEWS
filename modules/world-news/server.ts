@@ -1,9 +1,14 @@
 import { defineServerModule } from "@aihot/backend/modules";
 import { WORLD_RULES } from "./rules.ts";
-import { worldAnalysisQueue, worldGroupQueue,worldCollectQueue } from "./jobs.ts";
+import { worldAnalysisQueue, worldGroupQueue,worldCollectQueue,worldDigestQueue } from "./jobs.ts";
 import { registerWorldPublic } from "./api/public.ts";
 import { registerWorldAdmin } from "./api/admin.ts";
+import { computeSectionHot } from "@aihot/backend/events/section-hot";
+import { sectionContext } from "@aihot/backend/sections/context";
+import { sectionSelectionThreshold } from "@aihot/backend/sections/rules";
 
-// No automatic schedules or publication: analysis is explicitly queued by the world workflow.
-export const worldNewsModule = defineServerModule({ name: "world-news", sections: [WORLD_RULES], queues: [worldAnalysisQueue,worldGroupQueue,worldCollectQueue],
+// Collection stays manual; only calibrated hot rankings receive the routine refresh.
+export const worldNewsModule = defineServerModule({ name: "world-news", sections: [WORLD_RULES], queues: [worldAnalysisQueue,worldGroupQueue,worldCollectQueue,worldDigestQueue],
+  schedules:[{ name:"world-news.hot",cron:"*/5 * * * *",run:()=>computeSectionHot("world","worker"),
+    when:()=>sectionSelectionThreshold(sectionContext("world"))!==null }],
   http:app=>{ registerWorldPublic(app);registerWorldAdmin(app); } });

@@ -16,7 +16,7 @@ import { SectionGroupingCorrection,SectionStoryParams,SectionStoryMerge } from '
 import { correctSectionGrouping,mergeSectionStories } from '@aihot/backend/events/section-corrections';
 import { listSectionEvents,sectionEventDetail } from '@aihot/backend/admin/section-events';
 import { enqueueOn } from '@aihot/backend/jobs/queue';
-import { worldGroupQueue,worldCollectQueue } from '../jobs.ts';
+import { worldGroupQueue,worldCollectQueue,queueWorldDigest } from '../jobs.ts';
 import { sectionRunsOverview } from '@aihot/backend/admin/section-runs';
 import { sectionModelsOverview,switchSectionModel,SectionModelSwitch } from '@aihot/backend/admin/section-models';
 import { SECTION_MODEL_STEPS } from '@aihot/backend/sections/rules';
@@ -144,7 +144,10 @@ export function registerWorldAdmin(app:FastifyInstance) {
     const { id }=Id.parse(req.params);
     const review=Review.parse(req.body);
     try {
-      return await reviewSectionPublication('world',id,{ ...review,actor:actorOf(admin) });
+      const result=await reviewSectionPublication('world',id,{ ...review,actor:actorOf(admin) });
+      const [row]=await sql<{ story_id:number|null }[]>`SELECT story_id FROM publications WHERE section_id='world' AND article_id=${id}`;
+      if(row?.story_id) await queueWorldDigest({ sectionId:'world',storyId:Number(row.story_id) });
+      return result;
     } catch(error) {
       if(/section mismatch|resource not found/.test(String(error))) return reply.code(404).send({ error:'not_found' });
       throw error;

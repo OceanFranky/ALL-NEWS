@@ -30,6 +30,7 @@ const provider=await stub((_hit,req)=>{
   if(system.includes('世界新闻')) {
     section='world';
     if(system.includes('判定顺序')) data={ label:'PASS',reason:'Actual supplied policy or security action' };
+    else if(system.includes('整理一件具体世界新闻事件')) data={ digest:'机构宣布了一项有材料依据的具体决定。',latest:'机构宣布决定。' };
     else if(system.includes('材料充分性先于公开')) {
       const input=JSON.parse(user),text=input.rssText,category=text===rate?'economy':'security';
       data={ scope:'single',category,contentType:'institutional_statement',materialSufficient:true,tags:[],subjects:[],
@@ -129,15 +130,41 @@ test('actual world queues connect RSS HTML JSON analysis grouping publication ho
   assert.ok(requests.filter(r=>r.section==='world').every(r=>r.model==='world-local-model'));
   assert.ok(requests.filter(r=>r.section==='ai').every(r=>r.model!=='world-local-model'));
   const receipts=await sql`SELECT r.section_id,r.subject,r.purpose FROM receipts r`;
-  assert.ok(receipts.filter(r=>r.section_id==='world').every(r=>r.purpose.startsWith('world.') && world.some(a=>a.id===r.subject)));
+  assert.ok(receipts.filter(r=>r.section_id==='world').every(r=>r.purpose.startsWith('world.')
+    && (world.some(a=>a.id===r.subject) || r.purpose==='world.story-digest' && String(r.subject).startsWith('story:'))));
   assert.ok(receipts.filter(r=>r.section_id==='ai').every(r=>r.subject===`article:${aiId}@1` && !r.purpose.startsWith('world.')),JSON.stringify(receipts));
-  const beforeReads=provider.hits();
   assert.equal((await app.inject('/api/v1/world/items')).json().count,0,'uncalibrated/unreviewed is not publicly admitted');
   for(const kind of ['rss','web_list','json_list']) await post(`/api/admin/world/sources/${sid(kind)}/permission`,{ summaryAllowed:true,reference:'Synthetic local fixture permission only' });
   for(const a of world.filter(a=>a.relevance==='pass')) await post(`/api/admin/world/items/${a.id}/review`,{ revision:1,action:'approve',reason:'Review synthetic fixture only' });
+  await until(async()=>{
+    const [state]=await sql`SELECT (SELECT count(*)::int FROM stories WHERE section_id='world' AND digest IS NOT NULL) AS digests,
+      (SELECT count(*)::int FROM pgboss.job WHERE name='world-news.digest' AND state IN ('created','retry','active')) AS pending`;
+    return state!.digests===3 && state!.pending===0;
+  },'world story digests did not settle');
+  const beforeReads=provider.hits();
   const list=(await app.inject('/api/v1/world/items')).json();assert.equal(list.count,5);assert.ok(list.items.every((a:any)=>a.id!==aiId));
+  assert.equal(list.pagination.total,5);
+  assert.equal(list.days.reduce((sum:number,day:{ count:number })=>sum+day.count,0),5);
+  const firstPage=(await app.inject('/api/v1/world/items?limit=2&page=1')).json();
+  const secondPage=(await app.inject('/api/v1/world/items?limit=2&page=2')).json();
+  const thirdPage=(await app.inject('/api/v1/world/items?limit=2&page=3')).json();
+  assert.deepEqual([firstPage.count,secondPage.count,thirdPage.count],[2,2,1]);
+  assert.deepEqual([firstPage.pagination.hasMore,secondPage.pagination.hasMore,thirdPage.pagination.hasMore],[true,true,false]);
+  assert.equal(new Set([...firstPage.items,...secondPage.items,...thirdPage.items].map((item:any)=>item.id)).size,5);
+  const economy=(await app.inject('/api/v1/world/items?category=economy&limit=1&page=2')).json();
+  assert.equal(economy.pagination.total,3);
+  assert.equal(economy.days.reduce((sum:number,day:{ count:number })=>sum+day.count,0),3);
+  assert.equal(economy.count,1);
+  const cards=(await app.inject('/api/v1/world/highlights')).json();
+  assert.equal(cards.status,'calibration-required');
+  assert.deepEqual(cards.categories.map((c:any)=>c.key),['politics','economy','security']);
+  assert.ok(cards.categories.every((c:any)=>c.lead===null));
+  assert.equal(cards.categories.find((c:any)=>c.key==='economy').briefs.length,3);
   const legacy=(await app.inject('/api/v1/items?mode=all')).json();assert.ok(legacy.items.every((a:any)=>!world.some(w=>w.id===a.id)));
   const events=(await app.inject('/api/v1/world/stories')).json();assert.equal(events.items.length,3);
+  const story=(await app.inject(`/api/v1/world/stories/${events.items[0].publicId}`)).json();
+  assert.match(story.story.digest,/具体决定/);
+  assert.ok(requests.some(r=>r.section==='world' && r.system.includes('整理一件具体世界新闻事件')));
   await post('/api/admin/world/hot/generate');
   const hot=(await app.inject('/api/admin/world/hot')).json();assert.equal(hot.status,'draft');assert.equal(hot.items.length,3);
   assert.equal((await app.inject('/api/v1/world/hot')).json().status,'calibration-required');
@@ -152,9 +179,16 @@ test('actual world queues connect RSS HTML JSON analysis grouping publication ho
   await post(`/api/admin/world/items/${removed}/review`,{ revision:1,action:'withdraw',reason:'Withdraw local fixture' });
   assert.equal((await app.inject(`/api/v1/world/items/${removed}`)).statusCode,404);
   assert.equal((await app.inject('/api/v1/world/items')).json().count,4);
+  assert.equal((await app.inject('/api/v1/world/items?limit=2&page=2')).json().pagination.total,4);
   assert.ok(!JSON.stringify((await app.inject('/api/admin/world/hot')).json()).includes(removed));
   assert.ok(!JSON.stringify((await app.inject(`/api/v1/world/daily/${date}`)).json()).includes(removed));
   assert.equal(provider.hits(),beforeReads,'review daily hot and all public reads do not invoke models');
+  const rateStory=list.items.find((item:any)=>item.category==='economy')?.storyPublicId;
+  assert.ok(rateStory);
+  await post(`/api/admin/world/sources/${sid('rss')}/permission`,{ summaryAllowed:false,reference:'Synthetic fixture permission revoked' });
+  const reduced=(await app.inject(`/api/v1/world/stories/${rateStory}`)).json();
+  assert.equal(reduced.story.digest,null,'digest cannot survive loss of a cited public report');
+  await post(`/api/admin/world/sources/${sid('rss')}/permission`,{ summaryAllowed:true,reference:'Synthetic local fixture permission only' });
   console.log(JSON.stringify({ evidence:'local queued workflow',worldMaterials:6,worldPass:5,worldPending:1,worldEvents:3,dailyEvents:3,
     aiConcurrentAnalysis:1,fakeProviderCalls:provider.hits(),realCalls:0 }));
 });
@@ -178,6 +212,9 @@ test('the queued results support calibrated automatic publication, ordinary cont
     await post('/api/admin/world/hot/generate');
     assert.equal((await app.inject('/api/v1/world/hot')).json().status,'ready');
     assert.ok((await app.inject('/api/v1/world/hot')).json().items.length>0);
+    const cards=(await app.inject('/api/v1/world/highlights')).json();
+    assert.equal(cards.status,'ready');
+    assert.ok(cards.categories.some((c:any)=>c.lead));
     const daily=await post(`/api/admin/world/daily/${date}/generate`);
     assert.ok(daily.content.focus.length>0);
     assert.equal((await app.inject(`/api/admin/world/daily/${date}`)).json().revisions[0]?.status ?? daily.status,'draft');
