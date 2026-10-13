@@ -2,6 +2,11 @@
 
 供后续 AI 在开始任务前快速了解项目进度。记录应简短、可核对，不替代 Git 提交历史和正式需求文档。
 
+## 2026-10-13
+
+- `codex/competition` 从最新 `origin/main`（`98d40a3`）创建；使用者明确要求保存竞赛前端与功能规划、隔离模块、新分支并推送。新增 `docs/competition-frontend.md`、`docs/competition-isolation.md`、`modules/competition/README.md` 与三张 v2 预览图；记录三层页面、收起筛选、删冗余链接按钮、字段证据和 LLM 固定工作流。竞赛名单、分类及展示标准待确认；共享依赖仍在 `codex/world-news`（`180934b`），尚未合并。仅文档与图片，无运行代码／迁移／采集／付费调用；原有 compose 改动保留且不提交。交付前检查差异与本地引用，按本次授权提交推送，不合并 main。
+- 本次文档验证：空白差异检查、9 处本地引用、3 张 PNG 格式与 1672×941 尺寸检查通过；按纯文档范围未重复业务测试。准备将规划与图片推送 `origin/codex/competition`，后续实施先确认名单并整合共享依赖。
+
 ## 2026-10-11
 
 - 分支：`codex/project-governance`。
