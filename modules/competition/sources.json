@@ -25,7 +25,7 @@
     { "competitionId": "competition-021", "urls": ["https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/2025/2025_zt21/zxgz/zyghds/"] },
     { "competitionId": "competition-022", "urls": ["https://www.mcm.edu.cn/"] },
     { "competitionId": "competition-023", "urls": ["https://www.gjcxcy.cn/Index"] },
-    { "competitionId": "competition-024", "urls": ["https://competition.igem.org/"] },
+    { "competitionId": "competition-024", "urls": ["https://competition.igem.org/registration/overview", "https://competition.igem.org/about/starting-a-team", "https://competition.igem.org/about/calendar", "https://competition.igem.org/deliverables/"] },
     { "competitionId": "competition-025", "urls": ["https://www.huawei.com/minisite/ict-competition-2025-2026-global/cn/"] },
     { "competitionId": "competition-026", "urls": ["https://www.socchina.net/home?trackType=1"] },
     { "competitionId": "competition-027", "urls": ["https://comap.org/contests/mcm-icm"] },
