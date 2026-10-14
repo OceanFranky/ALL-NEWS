@@ -30,6 +30,7 @@
 
 - [前端页面与交互规划](../../docs/competition-frontend.md)：三层布局、筛选面板、详情字段、图片与官方文件，以及最新删减要求。
 - [隔离与 Agent 流程规划](../../docs/competition-isolation.md)：竞赛／届次身份、字段证据、官方材料理解、变更核验、审核、公开读取和实施验收。
+- [完整 Agent 工作流](../../docs/competition-agent-workflow.md)：使用者确认的六步主线、定向补查、字段校验、候选修订、审核建议、每日更新、工具边界和分阶段验收。
 - [首次来源可行性检查](verification/2026-10-13-source-feasibility.md)：逐项入口调查、两个真实RSS、附件验证、六份结构化样例与字段缺口，尚非运行Agent或全部字段验收。
 - [字段可获取性复核](verification/2026-10-14-field-availability.md)：按31项和第一轮字段逐项区分可提取、需补读、未确认及宣传图核验，不把官网200或搜索摘要当完整成功。
 - 预览图在 `docs/assets/competition/`，仅是示例布局，不能作为真实竞赛、品牌或分类配置。
