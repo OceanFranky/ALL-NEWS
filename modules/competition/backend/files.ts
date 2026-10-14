@@ -25,7 +25,7 @@ export async function parseFile(url: string, body: Buffer, contentType: string, 
     } finally { await task.destroy(); }
     contentType = "application/pdf";
     if (scannedPages.length) {
-      if (scannedPages.length > 8) throw new Error("PDF exceeds competition OCR page limit");
+      if (scannedPages.length > 16) throw new Error("PDF exceeds competition OCR page limit");
       const pages = JSON.parse(await localOcr("pdf", body, scannedPages)) as Array<{ page: number; text: string; confidence: number }>;
       if (pages.length !== scannedPages.length || pages.some((p, index) => p.page !== scannedPages[index] || !p.text || !Number.isFinite(p.confidence) || p.confidence < 40)) throw new Error("Incomplete PDF OCR result");
       for (const page of pages) {

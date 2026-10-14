@@ -15,7 +15,7 @@ export async function localOcr(worker: "image" | "pdf", input: Buffer, pages: nu
     }
     return await new Promise<string>((resolve, reject) => {
       const child = execFile(process.execPath, [fileURLToPath(new URL(`./${worker}-ocr-worker.ts`, import.meta.url)), directory, pages.join(",")],
-        { timeout: worker === "pdf" ? 120000 : 45000, maxBuffer: 512 * 1024, env: {} }, (error, stdout) => {
+        { timeout: worker === "pdf" ? 180000 : 45000, maxBuffer: 512 * 1024, env: {} }, (error, stdout) => {
           if (error) reject(new Error(`Competition ${worker} OCR failed: ${error.message.slice(0, 200)}`));
           else resolve(stdout);
         });

@@ -5,7 +5,7 @@ import { createWorker, PSM } from "tesseract.js";
 
 const directory = process.argv[2];
 const pages = (process.argv[3] ?? "").split(",").map(Number);
-if (!directory || !path.isAbsolute(directory) || !pages.length || pages.length > 8 || pages.some(p => !Number.isInteger(p) || p < 1)) throw new Error("Invalid local PDF OCR request");
+if (!directory || !path.isAbsolute(directory) || !pages.length || pages.length > 16 || pages.some(p => !Number.isInteger(p) || p < 1)) throw new Error("Invalid local PDF OCR request");
 const chunks: Buffer[] = [];
 let bytes = 0;
 for await (const chunk of process.stdin) {

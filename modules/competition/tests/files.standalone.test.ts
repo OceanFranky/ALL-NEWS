@@ -64,8 +64,8 @@ test("PDF OCR rejects excessive bytes and scanned pages before starting recognit
   const oversized = Buffer.alloc(8 * 1024 * 1024 + 1);
   oversized.write("%PDF-");
   await assert.rejects(parseFile("https://example.org/huge.pdf", oversized, "application/pdf"), /byte limit/);
-  const kids = Array.from({ length: 9 }, (_, i) => `${i + 3} 0 R`).join(" ");
-  const pages = Array.from({ length: 9 }, (_, i) => `${i + 3} 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 300 300] >> endobj`).join("\n");
-  const body = Buffer.from(`%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [${kids}] /Count 9 >> endobj\n${pages}\ntrailer << /Root 1 0 R >>\n%%EOF`);
+  const kids = Array.from({ length: 17 }, (_, i) => `${i + 3} 0 R`).join(" ");
+  const pages = Array.from({ length: 17 }, (_, i) => `${i + 3} 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 300 300] >> endobj`).join("\n");
+  const body = Buffer.from(`%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [${kids}] /Count 17 >> endobj\n${pages}\ntrailer << /Root 1 0 R >>\n%%EOF`);
   await assert.rejects(parseFile("https://example.org/many.pdf", body, "application/pdf"), /OCR page limit/);
 });
