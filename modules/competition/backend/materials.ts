@@ -99,6 +99,10 @@ export async function collectMaterial(url: string): Promise<Material> {
     throw new Error(`Official material HTTP ${response.status}`);
   }
   const type = response.headers.get("content-type") ?? "";
+  if (type.startsWith("image/")) {
+    const { parseImage } = await import("./images.ts");
+    return parseImage(response.url, response.body);
+  }
   if (/(?:rss|atom|xml)/i.test(type) || /^\s*<(?:\?xml[^>]*>\s*)?(?:rss|feed)\b/i.test(response.text().slice(0, 500))) return parseFeed(response.url, response.text());
   if (!type.includes("html") && !/^\s*<!doctype html|^\s*<html/i.test(response.text().slice(0, 200))) return parseFile(response.url, response.body, type);
   const $ = load(response.text());

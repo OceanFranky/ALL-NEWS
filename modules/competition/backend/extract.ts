@@ -11,6 +11,7 @@ evidence是[{materialId,blockId,quote}]，quote必须是对应文本块的真实
 catalogue.collectionScope是使用者批准的收录范围；存在时所有字段仅提取该范围，不混入被排除赛项或教师组。旧名称仅是名单溯源，不证明赛事更名关系。
 名称包含届次；年份按官方材料，不能按当前抓取日期推断。跨年赛季primary取起始年，officialText保留完整赛季。
 promotionImage仅在官方材料证明所属届次时取已发现的图片URL；否则unknown。
+image/*; extracted=ocr材料是本地OCR识别结果，文字可能有误，须与官方通知交叉核对赛事名称、届次和年份。上传路径年份或OCR单独命中年份不足以证明宣传图片，普通背景／图标不算宣传图。
 categories仅从输入approvedCategories选择；按官方竞赛内容映射学科方向，标签不必与原文逐字相同，但须引用原文支持该学科判断；列表为空时unknown。
 人数及教师限制value为数组，成员包含scope,text,minimum,maximum,counts。minimum/maximum未说明时null；counts为students、teachers、total_including_teacher、teacher_group、other。
 报名和竞赛时间value为数组，成员含scope,label,officialText,precision,timezone,start,end。precision为minute/day/month/approximate；timezone是IANA时区。

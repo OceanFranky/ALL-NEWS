@@ -90,4 +90,6 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 已有证据缺口复查：`MODEL_CALLS_ENABLED=true node --env-file=.env modules/competition/scripts/repair-candidates.ts --ids competition-011 --missing`。缺口复查必须显式给出ID，只允许更新原校验报告中的缺失／失败字段，不能扩展读者字段或自动扫全名单付费。材料从该修订material_ids及已有字段引用取并集，数据库读取仍限定同一竞赛；找不到同竞赛原文的引用仍校验失败。复查不采集新网页，材料缺失时应先走采集流程；执行受原10元预算和共享回执约束。
 
+官网图片补查支持PNG／JPEG／WebP本地OCR：仅选择网页实际发现的图片URL，经guardedFetch读取，单图4MB、16百万输入像素，单次子进程45秒；超限、空文字、低置信度、SVG和多帧图拒绝。OCR引擎和中英文语言包随模块依赖安装，运行时不下载语言包、不调用外部识别服务，子进程不继承密钥环境，临时语言目录由父进程清理。结果保存为image/*; extracted=ocr材料及ocr-block文本，保留识别置信度；OCR可能识别错误，名称／届次／年份必须与官方通知交叉核对。图片上传路径日期不能替代图中文字，研究材料入库不等于已确认宣传图。
+
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。
