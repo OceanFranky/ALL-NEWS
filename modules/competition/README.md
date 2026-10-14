@@ -88,4 +88,6 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 新通知提取时不沿用正文明确声明互联网聚合／转载的旧材料；旧材料留库供调查追溯，不作为新候选的继承依据。官方PDF自身URL可以列入文件下载，引用其正文标题；学科分类按材料内容映射批准标签，不要求标签与原文完全同字。官网身份引用仍须保留原文空格及PDF断字，否则记录candidate，不能放松引用门槛。
 
+已有证据缺口复查：`MODEL_CALLS_ENABLED=true node --env-file=.env modules/competition/scripts/repair-candidates.ts --ids competition-011 --missing`。缺口复查必须显式给出ID，只允许更新原校验报告中的缺失／失败字段，不能扩展读者字段或自动扫全名单付费。材料从该修订material_ids及已有字段引用取并集，数据库读取仍限定同一竞赛；找不到同竞赛原文的引用仍校验失败。复查不采集新网页，材料缺失时应先走采集流程；执行受原10元预算和共享回执约束。
+
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。

@@ -12,7 +12,7 @@
     { "competitionId": "competition-008", "urls": ["https://astar.baidu.com/"] },
     { "competitionId": "competition-009", "urls": ["https://os.xtnl.org.cn/"] },
     { "competitionId": "competition-010", "urls": ["https://www.isclab.org.cn/", "https://www.isclab.org.cn/feed/"] },
-    { "competitionId": "competition-011", "urls": ["https://www.aicomp.cn/", "https://www.aicomp.cn/feed/"] },
+    { "competitionId": "competition-011", "urls": ["https://www.aicomp.cn/", "https://www.aicomp.cn/feed/", "https://www.aicomp.cn/wp-content/uploads/2026/04/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%9A%84%E9%80%9A%E7%9F%A5-2.pdf"] },
     { "competitionId": "competition-012", "urls": ["https://tc.ccf.org.cn/cde50f/xwdt/hdxw/2026-08-10/922056.shtml", "https://www.xir.cn/competition/races/BDCI2026"] },
     { "competitionId": "competition-013", "urls": ["https://ccsp.ccf.org.cn/"] },
     { "competitionId": "competition-014", "urls": ["https://www.paratera.com/competition.html"] },

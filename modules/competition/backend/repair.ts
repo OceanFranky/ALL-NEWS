@@ -9,6 +9,14 @@ export function repairFieldNames(report: ValidationReport): Array<keyof Extracte
   return Object.keys(extractedSchema.shape).filter(field => fields.has(field)) as Array<keyof Extracted>;
 }
 
+export function missingFieldReview(report: ValidationReport): ValidationReport {
+  return { ...report, errors: [...report.errors, ...report.missing.map(field => `${field.split(":")[0]}: 重新核对已有官方材料中的缺口；只有原文明确支持时补值，不推断未知信息。`)] };
+}
+
+export function repairMaterialIds(previous: Extracted, recorded: string[]): string[] {
+  return [...new Set([...recorded, ...Object.values(previous).flatMap(field => field.evidence.map(ref => ref.materialId))])];
+}
+
 export function mergeFieldRepair(previous: Extracted, fields: Array<keyof Extracted>, patch: Record<string, unknown>): Extracted {
   const schema = z.object(Object.fromEntries(fields.map(field => [field, extractedSchema.shape[field]]))).strict();
   return extractedSchema.parse({ ...previous, ...schema.parse(patch) });
