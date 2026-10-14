@@ -29,3 +29,14 @@ test("a date-shaped impossible calendar date does not pass validation", () => {
   const report = validateExtraction(data, [{ id: "m", url: "https://example.org", hash: "h", fetchedAt: new Date().toISOString(), contentType: "text/html", blocks: [{ id: "1", text: quote }], links: [], images: [] }], []);
   assert.ok(report.errors.includes("time: invalid calendar date"));
 });
+
+test("minute order compares instants across offsets instead of the written hour", () => {
+  const quote = "官网明确的起止时间";
+  const material = { id: "m", url: "https://example.org", hash: "h", fetchedAt: new Date().toISOString(), contentType: "text/html", blocks: [{ id: "1", text: quote }], links: [], images: [] };
+  const check = (start: string, end: string) => validateExtraction(extractedSchema.parse({ ...blank(), competitionTimes: {
+    value: [{ scope: "决赛", label: "比赛", officialText: quote, precision: "minute", timezone: "Asia/Shanghai", start, end }],
+    status: "known", reason: "", evidence: [{ materialId: "m", blockId: "1", quote }],
+  } }), [material], []);
+  assert.equal(check("2026-10-14T08:00+08:00", "2026-10-14T01:00Z").valid, true);
+  assert.ok(check("2026-10-14T01:00Z", "2026-10-14T08:00+08:00").errors.includes("time: start is after end"));
+});

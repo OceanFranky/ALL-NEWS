@@ -124,7 +124,7 @@ export function validateExtraction(data: Extracted, materials: Material[], categ
         if (month < 1 || month > 12 || day < 1 || date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) errors.push("time: invalid calendar date");
         if (t.precision === "minute" && !Number.isFinite(Date.parse(v))) errors.push("time: invalid timestamp");
       }
-      if (t.start && t.end && t.start > t.end) errors.push("time: start is after end");
+      if (t.start && t.end && (t.precision === "minute" ? Date.parse(t.start) > Date.parse(t.end) : t.start > t.end)) errors.push("time: start is after end");
     }
   }
   const readyForReview = errors.length === 0 && data.name.status === "known" && data.year.status === "known"
