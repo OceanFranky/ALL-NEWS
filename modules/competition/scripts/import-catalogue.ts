@@ -9,6 +9,7 @@ try {
     await saveCatalogue(catalogueEntrySchema.parse({
       id: row.id, name: row.name, schoolLevel: row.schoolLevel,
       schoolLevelByScope: row.schoolLevelByScope, schoolRecognitionText: row.schoolRecognitionText,
+      collectionScope: row.collectionScope,
     }));
   }
   const [count] = await sql`SELECT count(*)::int AS total FROM competition_catalogue`;

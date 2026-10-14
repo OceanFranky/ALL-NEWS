@@ -8,7 +8,7 @@ const json = (value: unknown): JSONValue => JSON.parse(JSON.stringify(value)) as
 
 export async function saveCatalogue(entry: CatalogueEntry): Promise<void> {
   await sql`INSERT INTO competition_catalogue (id, name, recognition)
-    VALUES (${entry.id}, ${entry.name}, ${sql.json({ schoolLevel: entry.schoolLevel, schoolLevelByScope: entry.schoolLevelByScope, schoolRecognitionText: entry.schoolRecognitionText ?? null })})
+    VALUES (${entry.id}, ${entry.name}, ${sql.json({ schoolLevel: entry.schoolLevel, schoolLevelByScope: entry.schoolLevelByScope, schoolRecognitionText: entry.schoolRecognitionText ?? null, ...(entry.collectionScope ? { collectionScope: entry.collectionScope } : {}) })})
     ON CONFLICT (id) DO UPDATE SET name = excluded.name, recognition = excluded.recognition`;
 }
 
@@ -26,15 +26,17 @@ export async function saveMaterial(competitionId: string, material: Material): P
 
 export async function saveRevision(entry: CatalogueEntry, runId: string, input: Extracted, materials: Material[], categories: string[], receiptId: number | null): Promise<string> {
   const data = extractedSchema.parse(input);
-  const validation = validateExtraction(data, materials, categories);
   const id = randomUUID();
   await sql.begin(async tx => {
     const [run] = await tx`SELECT id FROM competition_runs WHERE id = ${runId} AND competition_id = ${entry.id} FOR UPDATE`;
     if (!run) throw new Error("Competition run ownership mismatch");
+    const persisted: Material[] = [];
     for (const material of materials) {
-      const [saved] = await tx`SELECT id FROM competition_materials WHERE competition_id = ${entry.id} AND id = ${material.id}`;
+      const [saved] = await tx`SELECT content FROM competition_materials WHERE competition_id = ${entry.id} AND id = ${material.id}`;
       if (!saved) throw new Error("Competition material ownership mismatch");
+      persisted.push(saved.content as Material);
     }
+    const validation = validateExtraction(data, persisted, categories);
     await tx`INSERT INTO competition_revisions (competition_id, id, run_id, year, name, status, data, validation, material_ids, receipt_id)
       VALUES (${entry.id}, ${id}, ${runId}, ${data.year.value?.primary ?? null}, ${data.name.value},
       ${validation.readyForReview ? "needs_review" : "draft"},

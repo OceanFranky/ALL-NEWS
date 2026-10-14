@@ -17,6 +17,7 @@ const catalogue = new Map(catalogueFile.entries.map(raw => {
     schoolLevel: row.schoolLevel,
     schoolLevelByScope: row.schoolLevelByScope,
     schoolRecognitionText: row.schoolRecognitionText,
+    collectionScope: row.collectionScope,
   });
   return [entry.id, entry];
 }));
@@ -26,13 +27,17 @@ export function competitionAutomationEnabled(): boolean {
   return process.env.COLLECT_ENABLED === "true" && config.modelCallsEnabled;
 }
 
+export function selectRefreshUrls(confirmed: string[], configured: string[]): string[] {
+  // Keep the current discovery entries even after an older official notice was confirmed. A historical
+  // source must not replace the four approved C4 branches or hide a new season's candidate portal.
+  return [...new Set([...configured, ...confirmed])].slice(0, 4);
+}
+
 async function sourceUrls(competitionId: string): Promise<string[]> {
   const confirmed = await sql<{ url: string }[]>`SELECT url FROM competition_sources
     WHERE competition_id = ${competitionId} AND status = 'confirmed' ORDER BY checked_at DESC LIMIT 4`;
   const configured = seeds.get(competitionId) ?? [];
-  if (!confirmed.length) return configured.slice(0, 4);
-  const feeds = configured.filter(url => /(?:\/feed\/?|\.rss|\.atom|\.xml)(?:[?#]|$)/i.test(url));
-  return [...new Set([...confirmed.map(row => row.url), ...feeds])].slice(0, 4);
+  return selectRefreshUrls(confirmed.map(row => row.url), configured);
 }
 
 async function refreshCompetition(entry: CatalogueEntry) {

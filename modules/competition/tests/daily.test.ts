@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { competitionIngestQueue, scheduleCompetitionRefresh } from "../backend/daily.ts";
+import { competitionIngestQueue, scheduleCompetitionRefresh, selectRefreshUrls } from "../backend/daily.ts";
 import { publicReadPostAllowed } from "../backend/browser.ts";
 
 test("disabled automation neither enqueues nor executes pending competition jobs", async () => {
@@ -24,4 +24,11 @@ test("dynamic POST policy refuses mutations, credentials, empty bodies and other
   assert.equal(allowed("/index.do", "op=matchlist&token=secret"), false);
   assert.equal(publicReadPostAllowed("https://other.example/index.do", origin, Buffer.from("op=matchlist")), false);
   assert.equal(publicReadPostAllowed(new URL("index.do", origin).href, origin, null), false);
+});
+
+test("a historical confirmed notice does not displace current entry discovery or approved subcompetitions", () => {
+  assert.deepEqual(selectRefreshUrls(["https://official.example/2022"], ["https://contest.example/2026"]), ["https://contest.example/2026", "https://official.example/2022"]);
+  const branches = ["https://a.example/", "https://b.example/", "https://c.example/", "https://d.example/"];
+  assert.deepEqual(selectRefreshUrls([branches[0]!], branches), branches);
+  assert.deepEqual(selectRefreshUrls([branches[0]!], []), [branches[0]!]);
 });

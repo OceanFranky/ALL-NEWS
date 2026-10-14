@@ -6,6 +6,7 @@ export const catalogueEntrySchema = z.object({
   schoolLevel: z.string().nullable(),
   schoolLevelByScope: z.array(z.object({ scope: z.string(), level: z.string() }).strict()),
   schoolRecognitionText: z.string().nullable().optional(),
+  collectionScope: z.string().min(1).optional(),
 }).strict();
 
 export const evidenceSchema = z.object({

@@ -8,12 +8,14 @@
   "dependencies": {
     "@aihot/backend": "*",
     "@aihot/contracts": "*",
+    "@types/word-extractor": "1.0.6",
     "cheerio": "1.2.0",
     "fast-xml-parser": "5.11.1",
     "fflate": "0.7.5",
     "mammoth": "1.13.0",
     "pdfjs-dist": "6.4.299",
     "playwright": "1.61.1",
+    "word-extractor": "1.0.4",
     "zod": "4.6.5"
   }
 }

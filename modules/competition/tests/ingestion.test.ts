@@ -33,9 +33,50 @@ test("a different competition cannot claim an existing run", async () => {
   await assert.rejects(saveRevision(other, run, blank(), [], [], null), /ownership mismatch/);
 });
 
+test("approved collection scope persists internally without adding reader fields", async () => {
+  const scoped = { ...entry, id: "competition-016", name: "江苏省大学生数字素养与技能大赛", schoolLevel: "B2", collectionScope: "仅学生网络信息安全赛项；排除教师组和人工智能应用赛项" };
+  const material = parseHtml("https://example.org/scoped", `<body>${"学生网络信息安全赛项官方规则".repeat(30)}</body>`);
+  const result = await ingestCompetition(scoped, [material.url], [], {
+    collect: async () => material,
+    extract: async received => {
+      assert.equal(received.collectionScope, scoped.collectionScope);
+      return { data: blank(), receiptId: null };
+    },
+  });
+  const [catalogue] = await sql`SELECT recognition FROM competition_catalogue WHERE id=${scoped.id}`;
+  assert.equal(catalogue.recognition.collectionScope, scoped.collectionScope);
+  const [revision] = await sql`SELECT data FROM competition_revisions WHERE id=${result.revisionId}`;
+  assert.equal(revision.data.schoolLevel, "B2");
+  assert.equal("collectionScope" in revision.data, false);
+});
+
 test("failed collection is saved as a failed run without a revision", async () => {
   await assert.rejects(ingestCompetition(entry, ["https://example.org/broken"], [], { collect: async () => { throw new Error("HTTP 403"); }, extract: async () => ({ data: blank(), receiptId: null }) }), /403/);
   assert.ok((await sql`SELECT 1 FROM competition_runs WHERE competition_id = ${entry.id} AND status = 'failed'`).length > 0);
+});
+
+test("revision evidence is checked against persisted text rather than a colliding in-memory snapshot", async () => {
+  const localEntry = { ...entry, id: "competition-017" };
+  const material = parseHtml("https://example.org/persisted", `<body>${"已经保存的原文".repeat(30)}</body>`);
+  await ingestCompetition(localEntry, [material.url], [], { collect: async () => material, extract: async () => ({ data: blank(), receiptId: null }) });
+  const altered = { ...material, blocks: [{ id: "block-1", text: "新解析出来但并未存入数据库的竞赛名称" }] };
+  const data = blank();
+  data.name = { value: altered.blocks[0]!.text, status: "known", reason: "", evidence: [{ materialId: material.id, blockId: "block-1", quote: altered.blocks[0]!.text }] };
+  const result = await ingestCompetition(localEntry, [material.url], [], { collect: async () => altered, extract: async () => ({ data, receiptId: null }) });
+  const [row] = await sql`SELECT validation FROM competition_revisions WHERE id=${result.revisionId}`;
+  assert.equal(row.validation.valid, false);
+  assert.match(row.validation.errors[0], /evidence does not match/);
+});
+
+test("changed parsed snapshot is not skipped just because the downloaded bytes are unchanged", async () => {
+  const localEntry = { ...entry, id: "competition-018" };
+  const material = parseHtml("https://example.org/reparsed", `<body>${"原始文件解析内容".repeat(30)}</body>`);
+  await ingestCompetition(localEntry, [material.url], [], { collect: async () => material, extract: async () => ({ data: blank(), receiptId: null }) });
+  let extracted = false;
+  const reparsed = { ...material, id: material.id + "-new-parser", hash: material.hash + "-new-parsed-content", blocks: [{ id: "paragraph-1", text: "新增官方通知段落".repeat(30) }] };
+  const result = await ingestCompetition(localEntry, [material.url], [], { collect: async () => reparsed, extract: async () => { extracted = true; return { data: blank(), receiptId: null }; } }, true);
+  assert.equal(extracted, true);
+  assert.ok(result.revisionId);
 });
 
 test("one failed attachment preserves other collected evidence and records the failure", async () => {

@@ -142,7 +142,9 @@
       "id": "competition-016",
       "sourcePage": 1,
       "sourceRow": 16,
-      "name": "江苏省青少年网络信息安全应用能力竞赛",
+      "name": "江苏省大学生数字素养与技能大赛",
+      "sourceOriginalName": "江苏省青少年网络信息安全应用能力竞赛",
+      "collectionScope": "仅收录学生网络信息安全赛项；排除教师组及人工智能应用赛项。使用者于2026-10-14确认更名，学校认定仍为B2。",
       "schoolLevel": "B2",
       "schoolLevelByScope": [],
       "schoolRecognitionText": null

@@ -57,7 +57,7 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     if (!materials.length) throw new Error(failures[0]?.error ?? "No readable official material");
     const previousMaterials = await readPreviousMaterials(entry.id);
     const unchanged = failures.length === 0 && previousMaterials.length > 0
-      && materials.every(material => previousMaterials.some(previous => previous.url === material.url && previous.hash === material.hash));
+      && materials.every(material => previousMaterials.some(previous => previous.url === material.url && previous.id === material.id));
     if (autonomous && unchanged) {
       await finishUnchangedRun(runId, { attemptedUrls: [...attempted], failures, autonomous, materialIds: materials.map(m => m.id) });
       return { competitionId: entry.id, runId, revisionId: null };
