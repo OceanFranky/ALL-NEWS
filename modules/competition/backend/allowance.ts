@@ -1,7 +1,11 @@
 import { sql } from "@aihot/backend/db";
 
+// The user explicitly authorised a separate second 10 CNY round on 2026-10-14.
+// Never rotate this identifier automatically or discard the first round's pending reservations.
+export const ACCEPTANCE_BATCH = "second-live-acceptance";
+
 export class CompetitionBudgetExhaustedError extends Error {
-  constructor() { super("Competition first acceptance budget exhausted (10 CNY)"); }
+  constructor() { super(`Competition acceptance budget exhausted (10 CNY; ${ACCEPTANCE_BATCH})`); }
 }
 
 // Peak prices, confirmed on 2026-10-14 from the provider's official pricing page.
@@ -13,11 +17,15 @@ export function upperCost(inputTokens: number, outputTokens: number): number {
 export async function reserveAllowance(requestKey: string, upperCny: number): Promise<void> {
   if (!(upperCny > 0 && upperCny <= 10)) throw new Error("Invalid competition model reservation");
   await sql.begin(async tx => {
-    await tx`SELECT pg_advisory_xact_lock(hashtext('competition:first-live-acceptance'))`;
-    if ((await tx`SELECT 1 FROM competition_model_allowance WHERE request_key = ${requestKey}`).length) return;
-    const [sum] = await tx`SELECT coalesce(sum(coalesce(actual_upper_cny, reserved_cny)), 0)::float AS spent FROM competition_model_allowance WHERE batch = 'first-live-acceptance'`;
+    await tx`SELECT pg_advisory_xact_lock(hashtext(${`competition:${ACCEPTANCE_BATCH}`}))`;
+    const [existing] = await tx`SELECT batch FROM competition_model_allowance WHERE request_key = ${requestKey}`;
+    if (existing) {
+      if (existing.batch !== ACCEPTANCE_BATCH) throw new Error("Competition reservation belongs to another budget round");
+      return;
+    }
+    const [sum] = await tx`SELECT coalesce(sum(coalesce(actual_upper_cny, reserved_cny)), 0)::float AS spent FROM competition_model_allowance WHERE batch = ${ACCEPTANCE_BATCH}`;
     if (Number(sum.spent) + upperCny > 10) throw new CompetitionBudgetExhaustedError();
-    await tx`INSERT INTO competition_model_allowance (request_key, batch, reserved_cny) VALUES (${requestKey}, 'first-live-acceptance', ${upperCny})`;
+    await tx`INSERT INTO competition_model_allowance (request_key, batch, reserved_cny) VALUES (${requestKey}, ${ACCEPTANCE_BATCH}, ${upperCny})`;
   });
 }
 

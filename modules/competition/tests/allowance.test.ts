@@ -20,3 +20,12 @@ test("settled conservative token cost releases unused reservation while unknown 
   await assert.rejects(reserveAllowance("over", 2), /budget exhausted/);
   await reserveAllowance("last", 1);
 });
+
+test("the explicitly authorised second round retains first-round reserves and has its own hard cap", async () => {
+  await sql`INSERT INTO competition_model_allowance(request_key,batch,reserved_cny) VALUES ('first-pending','first-live-acceptance',9.9)`;
+  await reserveAllowance("second-pending", 9.9);
+  await assert.rejects(reserveAllowance("second-over", 0.2), /budget exhausted/);
+  const rows = await sql`SELECT batch,reserved_cny::float AS amount FROM competition_model_allowance ORDER BY batch`;
+  assert.deepEqual(rows.map(row => ({ ...row })), [{ batch: "first-live-acceptance", amount: 9.9 }, { batch: "second-live-acceptance", amount: 9.9 }]);
+  await assert.rejects(reserveAllowance("first-pending", 0.1), /another budget round/);
+});

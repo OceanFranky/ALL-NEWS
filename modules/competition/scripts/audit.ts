@@ -10,6 +10,9 @@ try {
   const [budget] = await sql`SELECT coalesce(sum(coalesce(actual_upper_cny,reserved_cny)),0)::float AS allocated_cny,
     coalesce(sum(actual_upper_cny),0)::float AS known_upper_cny,
     count(*) FILTER(WHERE actual_upper_cny IS NULL)::int AS unsettled_calls FROM competition_model_allowance`;
+  const budgetRounds = await sql`SELECT batch,coalesce(sum(coalesce(actual_upper_cny,reserved_cny)),0)::float AS allocated_cny,
+    coalesce(sum(actual_upper_cny),0)::float AS known_upper_cny,count(*) FILTER(WHERE actual_upper_cny IS NULL)::int AS unsettled_calls
+    FROM competition_model_allowance GROUP BY batch ORDER BY batch`;
   const [integrity] = await sql`SELECT
     (SELECT count(*)::int FROM competition_revisions r JOIN competition_runs j ON j.id=r.run_id WHERE r.competition_id<>j.competition_id) AS revision_run_mismatches,
     (SELECT count(*)::int FROM competition_revisions r CROSS JOIN LATERAL jsonb_array_elements_text(r.material_ids) mid
@@ -44,6 +47,6 @@ try {
     withRevisions: rows.filter(r => r.revision_id).length,
     readyForReview: rows.filter(r => r.validation?.readyForReview).length,
     completeKnownFields: rows.filter(r => r.validation?.valid && !r.validation?.missing?.length).length,
-    budget, quality, entries: rows,
+    budget, budgetRounds, quality, entries: rows,
   }, null, 2));
 } finally { await closeDb(); }

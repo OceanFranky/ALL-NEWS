@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "note": "官网发现的种子入口；仅用于首次发现。身份确认后每日任务优先使用数据库中的 confirmed 来源。",
+  "note": "官网发现与刷新入口。每日先保留当前配置入口，再补数据库confirmed来源，避免旧届通知替代当前入口；种子本身不代表官方身份已确认。",
   "entries": [
-    { "competitionId": "competition-001", "urls": ["https://www.fwwb.org.cn/"] },
+    { "competitionId": "competition-001", "urls": ["https://www.fwwb.org.cn/", "https://www.fwwb.org.cn/attached/file/20260211/20260211154941_13.pdf", "https://www.fwwb.org.cn/attached/file/20260317/20260317145517_439.pdf", "https://www.fwwb.org.cn/news/show/598"] },
     { "competitionId": "competition-002", "urls": ["https://www.cnsoftbei.com/"] },
     { "competitionId": "competition-003", "urls": ["https://icpc.pku.edu.cn/ssxx/index.htm"] },
     { "competitionId": "competition-004", "urls": ["https://nercbds.tsinghua.edu.cn/bdc.html", "https://gplt.patest.cn/", "https://www.appcontest.net/", "http://net.c4best.cn/"] },
@@ -30,7 +30,7 @@
     { "competitionId": "competition-026", "urls": ["https://www.socchina.net/home?trackType=1"] },
     { "competitionId": "competition-027", "urls": ["https://comap.org/contests/mcm-icm"] },
     { "competitionId": "competition-028", "urls": ["https://jsjds.blcu.edu.cn/"] },
-    { "competitionId": "competition-029", "urls": ["https://www.chinaneccs.cn/"] },
+    { "competitionId": "competition-029", "urls": ["https://www.chinaneccs.cn/", "https://neccs.saikr.com/", "https://yt.cau.edu.cn/module/download/downfile.jsp?classid=0&filename=1db514df848b46acbcff76c2ee11140b.pdf"] },
     { "competitionId": "competition-030", "urls": ["https://www.cms.org.cn/upload/file/20260702/1782964399222501.pdf", "https://www.cms.org.cn/Home/comp/comp_details/id/1449.html"] },
     { "competitionId": "competition-031", "urls": ["https://www.cspro.org/"] }
   ]
