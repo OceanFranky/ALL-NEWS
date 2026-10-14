@@ -28,7 +28,7 @@ export async function repairMaterials(entry: CatalogueEntry, materials: Material
   const schema = z.object(Object.fromEntries(fields.map(field => [field, extractedSchema.shape[field]]))).strict();
   const result = await competitionChat({
     model: "default", purpose: "competition.repair", subject: `competition:${entry.id}`,
-    promptVersion: "competition-field-repair-v1", maxTokens: 6000, temperature: 0,
+    promptVersion: "competition-field-repair-v2", maxTokens: 6000, temperature: 0,
     system: extractionPrompt + "\n本次只返回outputSchema中的失败字段，不返回其他字段。quote必须逐字复制对应block；不得把链接标题、URL或改写后的文字当正文quote。若找不到连续原文，将该字段标为unknown，evidence为空，并说明原因。",
     user: JSON.stringify({ catalogue: entry, approvedCategories, validationErrors: report.errors,
       previousFailedFields: Object.fromEntries(fields.map(field => [field, previous[field]])),

@@ -1,0 +1,432 @@
+{
+  "checkedAt": "2026-10-14T15:26:40.480Z",
+  "competitionId": "competition-017",
+  "revision": {
+    "id": "dcb0d8f9-07d7-4e7b-95c2-8d4ac243d75a",
+    "run_id": "b939bada-d3be-47a6-bb3d-d83728d31a01",
+    "data": {
+      "name": {
+        "value": "“复兴杯”第五届全国大学生网络安全精英赛",
+        "reason": "OCR通知标题明确给出赛事全称及届次。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "关于 举办 “复兴 杯 ” 第 五 届 全 国 大 学 生 网 络 安全 精英 赛 的 通知",
+            "blockId": "ocr-block-1",
+            "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17"
+          }
+        ]
+      },
+      "year": {
+        "value": {
+          "primary": 2025,
+          "officialText": "于 2025 年 7 月 28 日 正式 启动"
+        },
+        "reason": "官方通知明确本届大赛于2025年7月28日正式启动，按官方材料取2025年。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "于 2025 年 7 月 28 日 正式 启动",
+            "blockId": "ocr-block-1",
+            "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17"
+          }
+        ]
+      },
+      "files": {
+        "value": null,
+        "reason": "材料中未发现可下载的附件文件链接。",
+        "status": "unknown",
+        "evidence": []
+      },
+      "stages": {
+        "value": [
+          "初赛",
+          "复赛",
+          "排位赛",
+          "总决赛"
+        ],
+        "reason": "官方通知赛程安排中明确列出初赛、复赛、排位赛、总决赛四个阶段。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "初赛 线 上 答题 线 上 答题 提供 比赛 成 绩 证 明 / 辕 级 荣誉 -10. 30 一 和 交 作 品 监考 视频 证 书 2025. 11. 1 2025. 12. 6- 线 上 案例 分 线 上 答 复赛 线 上 答题 同上 6-12.5 县 参赛 学 员 排 位 2025. 12. 7 -12. 27 2025. 12. 28 线 上 CTF 提供 答题 同上 录 屏 线 上 决赛 按 成 绩 颁发 荣誉 证 总 决 2026. 3. 28 线 上 总 决赛 两 大 赛 道 在 中 车 靶场 同 场 竞 技 学 员 提供 书 / 免 费 认证 资格 / 答题 录 屏 现金 奖励",
+            "blockId": "ocr-block-1",
+            "materialId": "11b88fe9338618bb487d0684e04c8aeea2ee7b024b9aa6d89a5ed2f73ce54f6b"
+          }
+        ]
+      },
+      "categories": {
+        "value": [
+          "网络安全",
+          "人工智能与数据"
+        ],
+        "reason": "大赛设立网络安全意识及法律法规、网络安全攻防、人工智能应用与安全三个赛道，涉及网络安全、人工智能与数据方向；原文未支持独立的程序设计与算法方向。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "创 新 设立 网 络 安全 意识 及 法 律 法 规 赛 道 , 聚焦 法 律 风险 识别 与 合 规 能 力 培 养 网 络 安全 攻防 赛 道 ,深化 国产 化 技术 应 用 与 实战 能 力 ,融入 灾 备 知识 学 习 ; 人 工 智能 应 用 与 安全 赛 道 ， 响应 人 工 智能 应 用 与 安全 等 新 兴 领 域 挑战 。",
+            "blockId": "ocr-block-1",
+            "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17"
+          }
+        ]
+      },
+      "schoolLevel": "B2",
+      "introduction": {
+        "value": "本届大赛围绕国家网络安全战略需求，设立网络安全意识及法律法规、网络安全攻防、人工智能应用与安全三个赛道，旨在选拔兼具技术实力、法治素养与创新能力的复合型人才。",
+        "reason": "官方通知明确大赛内容围绕国家网络安全战略需求，设立三个赛道。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "本 届 大 赛 围绕 国家 网 络 安全 战略 需求 ,立足 技术 前 沿 与 法 治 实践 ， 创 新 设立 网 络 安全 意识 及 法 律 法 规 赛 道 , 聚焦 法 律 风险 识别 与 合 规 能 力 培 养 网 络 安全 攻防 赛 道 ,深化 国产 化 技术 应 用 与 实战 能 力 ,融入 灾 备 知识 学 习 ; 人 工 智能 应 用 与 安全 赛 道 ， 响应 人 工 智能 应 用 与 安全 等 新 兴 领 域 挑战 。 旨 在 通过 多 维度 竞赛 机 制 ， 选 拔 兼 具 技 术 实力 、 法 治 素养 与 创新 能 力 的 复合 型 人 才 ， 为 国家 关键 信息 基础 设施 安全 防护 提供 人 才 储 备 。",
+            "blockId": "ocr-block-1",
+            "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17"
+          }
+        ]
+      },
+      "teacherLimit": {
+        "value": null,
+        "reason": "官方通知未提及指导教师人数限制。",
+        "status": "not_stated",
+        "evidence": [
+          {
+            "quote": "参赛 对 象 为 全 国 具 有 正式 学 籍 的 全 日 制 高 等 教育 在 校 学 生 ( 含 本 科 生 专科 生 、 研 究 生 ) ， 专 业 不 限 。",
+            "blockId": "ocr-block-1",
+            "materialId": "4d92fc887e20c9c82e9fffbb4df64ae9d791c652e7ae73f16e448d31a400146c"
+          }
+        ]
+      },
+      "promotionImage": {
+        "value": null,
+        "reason": "材料中图片均为OCR扫描的通知页面，未发现可确认为本届宣传海报的独立图片URL。",
+        "status": "unknown",
+        "evidence": []
+      },
+      "officialWebsite": {
+        "value": null,
+        "reason": "图片原图中能看到网址，但OCR文字不构成实际采集或发现链接。该材料的links为空，不能将人工看图结果当工具发现链；官网链接待采集核验。",
+        "status": "unknown",
+        "evidence": []
+      },
+      "competitionTimes": {
+        "value": null,
+        "reason": "OCR表格把培训列与比赛列混在一起，丢失初赛截止并产生复赛开始晚于结束；不得把初赛认作只有一天，不得把培训时间当比赛。当前文本不足以可靠恢复所有场次的列关系，表格OCR列关系待核验，不把原图已公布赛程说成官方未说明。",
+        "status": "unknown",
+        "evidence": []
+      },
+      "participantLimit": {
+        "value": [
+          {
+            "text": "个人赛",
+            "scope": "网络安全意识及法律法规赛道、网络安全攻防赛道、人工智能应用与安全赛道个人赛",
+            "counts": "students",
+            "maximum": 1,
+            "minimum": 1
+          },
+          {
+            "text": "团队赛，通知未给出团队人数",
+            "scope": "人工智能应用与安全赛道团队赛",
+            "counts": "students",
+            "maximum": null,
+            "minimum": null
+          }
+        ],
+        "reason": "官方通知明确网络安全意识及法律法规赛道、网络安全攻防赛道为个人赛，人工智能应用与安全赛道分为个人赛与团队赛；通知未给出团队赛人数限制。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "网 络 安全 意识 及 法 律 法 规 赛 道 、 网 络 安全 攻防 赛 道 为 个 人 赛 。 人 工 徊 能 应 用 与 安全 赛 道 分 为 个 人 赛 与 团队 赛 。",
+            "blockId": "ocr-block-1",
+            "materialId": "4d92fc887e20c9c82e9fffbb4df64ae9d791c652e7ae73f16e448d31a400146c"
+          }
+        ]
+      },
+      "registrationTimes": {
+        "value": [
+          {
+            "end": "2025-10-30",
+            "label": "报名时间",
+            "scope": "全国大学生网络安全精英赛",
+            "start": "2025-07-28",
+            "timezone": "Asia/Shanghai",
+            "precision": "day",
+            "officialText": "2025 年 7 月 28 日 -2025 年 10 月 30 有 日"
+          }
+        ],
+        "reason": "官方通知明确报名时间为2025年7月28日至2025年10月30日，OCR中“有”为误字，按日期区间提取。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "〈 一 ) 报名 时 间 2025 年 7 月 28 日 -2025 年 10 月 30 有 日",
+            "blockId": "ocr-block-1",
+            "materialId": "832abcd7bfe4cb4ef766ef9991b1b644d65d0e2c1f9347b0dbef15eaec8f421d"
+          }
+        ]
+      },
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "promotionImage:unknown",
+        "teacherLimit:not_stated",
+        "competitionTimes:unknown",
+        "officialWebsite:unknown",
+        "files:unknown"
+      ],
+      "readyForReview": false
+    },
+    "material_ids": [
+      "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17",
+      "4d92fc887e20c9c82e9fffbb4df64ae9d791c652e7ae73f16e448d31a400146c",
+      "11b88fe9338618bb487d0684e04c8aeea2ee7b024b9aa6d89a5ed2f73ce54f6b",
+      "832abcd7bfe4cb4ef766ef9991b1b644d65d0e2c1f9347b0dbef15eaec8f421d"
+    ],
+    "receipt_id": null
+  },
+  "sources": [
+    {
+      "url": "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281241483e4f18.jpg",
+      "status": "confirmed",
+      "evidence": {
+        "quote": "国家 网 络 空间 安全 人 才 培 养 基 地 关于 举办 “复兴 杯 ” 第 五 届 全 国 大 学 生 网 络 安全 精英 赛 的 通知",
+        "reason": "Formal fifth-edition notification document, not a claim that the CDN itself is the competition website. Actual primary notice links were inspected externally and the signed notification pixels were reviewed; the same approved competition title and institution heading are in stored OCR. Canonical portal link remains unknown in extracted data.",
+        "status": "confirmed",
+        "blockId": "ocr-block-1",
+        "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17",
+        "quoteMatched": true,
+        "confirmationScope": "official notification document only; not canonical portal or current-year status",
+        "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+        "previousModelEvidence": {
+          "quote": "关于 举办 “复兴 杯 ” 第 五 届 全 国 大 学 生 网 络 安全 精英 赛 的 通知",
+          "reason": "输入材料为一张OCR提取的通知图片，正文虽出现“关于举办‘复兴杯’第五届全国大学生网络安全精英赛的通知”及组织单位信息，但未包含赛事组织方明确官网网址、官方机构发布的本届竞赛通知或组委会正式竞赛规则中与名单匹配的官网身份信息，无法据此确认该网页为竞赛官网。",
+          "status": "candidate",
+          "blockId": "ocr-block-1",
+          "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17",
+          "searchHits": [],
+          "quoteMatched": true,
+          "notSearchSnippet": true,
+          "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+          "scanNotPromotionImage": true,
+          "manualSourceAssistance": true,
+          "actualParentLinksVerified": true
+        },
+        "agentPrimaryLinkReview": true,
+        "manualSourceAssistance": true
+      }
+    }
+  ],
+  "runs": [
+    {
+      "id": "a48f0897-75fd-456c-9d18-64fd1050ed34",
+      "status": "needs_review",
+      "report": {
+        "failures": [],
+        "autonomous": false,
+        "revisionId": "75a41479-e43f-4c93-9434-482c099f476c",
+        "validation": {
+          "valid": false,
+          "errors": [
+            "officialWebsite: URL not collected or linked",
+            "time: start is after end"
+          ],
+          "missing": [
+            "promotionImage:unknown",
+            "teacherLimit:not_stated",
+            "files:unknown"
+          ],
+          "readyForReview": false
+        },
+        "attemptedUrls": [
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281241483e4f18.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345091e2f64.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/20250728134509cd4760.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345092a5f59.jpg"
+        ],
+        "validationRepair": {
+          "attempted": true,
+          "previousErrors": [
+            "name: evidence does not match the collected material",
+            "year: evidence does not match the collected material",
+            "categories: evidence does not match the collected material",
+            "participantLimit: evidence does not match the collected material",
+            "teacherLimit: evidence does not match the collected material",
+            "registrationTimes: evidence does not match the collected material",
+            "competitionTimes: evidence does not match the collected material",
+            "stages: evidence does not match the collected material",
+            "officialWebsite: evidence does not match the collected material",
+            "introduction: evidence does not match the collected material",
+            "officialWebsite: URL not collected or linked",
+            "time: start is after end"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cc5af816-6941-49e5-9651-9d0829dffc2e",
+      "status": "needs_review",
+      "report": {
+        "repairOf": "75a41479-e43f-4c93-9434-482c099f476c",
+        "revisionId": "b0a728ef-a2fe-42a1-864c-a28b116f59bf",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "promotionImage:unknown",
+            "teacherLimit:not_stated",
+            "competitionTimes:unknown",
+            "officialWebsite:unknown",
+            "files:unknown"
+          ],
+          "readyForReview": false
+        },
+        "sourceChain": "Four public image URLs were discovered under the actual fifth-edition primary notice, not its preceding 2021 template",
+        "semanticReview": [
+          "officialWebsite: 图片原图中能看到网址，但OCR文字不构成实际采集或发现链接。该材料的links为空，不能将人工看图结果当工具发现链；设unknown并说明官网链接待采集核验，value=null。",
+          "competitionTimes: OCR表格把培训列与比赛列混在一起，丢失初赛截止并产生复赛开始晚于结束；不得把初赛认作只有一天，不得把培训时间当比赛。当前文本不足以可靠恢复所有场次的列关系，本字段设unknown且value=null，reason明确表格OCR列关系待核验，不把原图已公布赛程说成官方未说明。",
+          "stages: 原图还有排位赛，之前阶段遗漏。仅恢复初赛、复赛、排位赛、总决赛，quote保留原始OCR连续片段。",
+          "participantLimit: 只收人数及个人/团队口径，不把学历、专业等未批准参赛资格写进text。个人赛按个人1名学生记录适用三类个人赛道；人工智能团队赛的队员数未明确，保留团队原文且上下限null，不说无限制。",
+          "categories: 引用原文支持网络安全、人工智能与数据，不支持独立的程序设计与算法方向；去除无明确赛项依据的标签。"
+        ],
+        "tablePixelsChecked": true,
+        "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+        "keptUnknownNotInvented": true,
+        "manualSourceAssistance": true
+      }
+    },
+    {
+      "id": "9d8bbe86-f8b3-495b-8167-2cfb4b4517f8",
+      "status": "needs_review",
+      "report": {
+        "repairOf": "b0a728ef-a2fe-42a1-864c-a28b116f59bf",
+        "revisionId": "48f2f6b4-c9f5-4294-a469-1f4c8f311e98",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "promotionImage:unknown",
+            "teacherLimit:not_stated",
+            "competitionTimes:unknown",
+            "officialWebsite:unknown",
+            "files:unknown"
+          ],
+          "readyForReview": false
+        },
+        "semanticReview": [
+          "participantLimit: 上次修正仍复制学历/专业等资格，违反只保留人数的要求。本次仅此字段。value第一条为三个个人赛项（网络安全意识及法律法规、网络安全攻防、人工智能应用与安全个人赛），text只写个人赛、minimum=1、maximum=1、counts=students。第二条为人工智能应用与安全团队赛，text只说明团队赛及通知未给出团队人数，minimum/maximum均null，不写无限制。scope区分个人/团队，不保留学历、专业等资格文字。evidence只逐字引用原文个人赛/团队赛的连续片段，保留人工徊能这一OCR误字，不自行清洗quote。其余字段不输出、不改变。"
+        ],
+        "singleFieldScopeCorrection": true
+      }
+    },
+    {
+      "id": "8b6fcc1a-81fc-4b76-993c-7ab066d50c76",
+      "status": "needs_review",
+      "report": {
+        "field": "participantLimit.scope",
+        "reason": "Model patch omitted AI individual track from scope although the same preserved quote and reason explicitly include it. Add only that scope; all other fields unchanged.",
+        "repairOf": "48f2f6b4-c9f5-4294-a469-1f4c8f311e98",
+        "revisionId": "4672f291-a31a-4ce4-8a5b-a280353b637c",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "promotionImage:unknown",
+            "teacherLimit:not_stated",
+            "competitionTimes:unknown",
+            "officialWebsite:unknown",
+            "files:unknown"
+          ],
+          "readyForReview": false
+        },
+        "modelCalled": false,
+        "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+        "manualSourceAssistance": true,
+        "agentReviewedCorrection": true
+      }
+    },
+    {
+      "id": "abf397dd-4bdf-4dba-83d4-6d9264bc098f",
+      "status": "needs_review",
+      "report": {
+        "failures": [],
+        "autonomous": false,
+        "revisionId": "b9d6de54-97d5-4b99-b9c7-cd75e4dddd7e",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "promotionImage:unknown",
+            "categories:unknown",
+            "teacherLimit:unknown",
+            "competitionTimes:unknown",
+            "stages:unknown",
+            "officialWebsite:unknown",
+            "files:unknown",
+            "introduction:unknown"
+          ],
+          "readyForReview": false
+        },
+        "attemptedUrls": [
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281241483e4f18.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345091e2f64.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/20250728134509cd4760.jpg",
+          "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345092a5f59.jpg"
+        ],
+        "validationRepair": {
+          "attempted": true,
+          "previousErrors": [
+            "categories: evidence does not match the collected material",
+            "competitionTimes: evidence does not match the collected material",
+            "stages: evidence does not match the collected material",
+            "introduction: evidence does not match the collected material"
+          ]
+        }
+      }
+    },
+    {
+      "id": "b939bada-d3be-47a6-bb3d-d83728d31a01",
+      "status": "needs_review",
+      "report": {
+        "reason": "Repeat extraction returned unknown for previously grounded same-material facts and again copied excluded eligibility into participant text. Preserve prior validated scope-corrected fields; keep freshly grounded name/year/registration quotes. Do not elevate unknown competition times or portal URL.",
+        "revisionId": "dcb0d8f9-07d7-4e7b-95c2-8d4ac243d75a",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "promotionImage:unknown",
+            "teacherLimit:not_stated",
+            "competitionTimes:unknown",
+            "officialWebsite:unknown",
+            "files:unknown"
+          ],
+          "readyForReview": false
+        },
+        "modelCalled": false,
+        "fieldOrigins": {
+          "name": "b9d6de54-97d5-4b99-b9c7-cd75e4dddd7e",
+          "year": "b9d6de54-97d5-4b99-b9c7-cd75e4dddd7e",
+          "otherFields": "4672f291-a31a-4ce4-8a5b-a280353b637c",
+          "registrationTimes": "b9d6de54-97d5-4b99-b9c7-cd75e4dddd7e"
+        },
+        "consolidationOf": [
+          "4672f291-a31a-4ce4-8a5b-a280353b637c",
+          "b9d6de54-97d5-4b99-b9c7-cd75e4dddd7e"
+        ],
+        "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+        "manualSourceAssistance": true,
+        "agentReviewedCorrection": true,
+        "canonicalPortalNotConfirmed": true,
+        "sourceDocumentManuallyConfirmed": true
+      }
+    }
+  ],
+  "knownLimitations": [
+    "competitionTimes unknown because OCR table columns are unreliable",
+    "canonical portal not tool-verified, despite visually legible URL",
+    "notice document confirmed by agent primary-link and signed-pixel review; model-only identity originally candidate",
+    "manual source assistance and correction/consolidation; not claimed fully autonomous",
+    "2025 fifth-edition historical data; not inferred as a 2026 edition"
+  ],
+  "newModelCostUpperCny": 0.16156
+}

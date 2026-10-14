@@ -1,0 +1,1382 @@
+{
+  "checkedAt": "2026-10-14T15:20:55.565Z",
+  "database": "competition_ingestion",
+  "catalogueCount": 31,
+  "candidates": 31,
+  "allRecognitionMatches": true,
+  "candidateSchoolMismatches": 0,
+  "allHaveRuns": true,
+  "allSchemaValid": true,
+  "allMaterialIdsFound": true,
+  "allReadbacksMatch": true,
+  "readyForReview": 24,
+  "completeKnownFields": 2,
+  "promotionImagesKnown": 3,
+  "isolation": {
+    "articles": 0,
+    "cross_run_references": 0,
+    "missing_material_references": 0
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 2.381444,
+      "unsettled_calls": 0
+    }
+  ],
+  "models": {
+    "receipt_linked_calls": 274
+  },
+  "publication": "Not implemented; draft and needs_review candidates only",
+  "newsBusinessTables": {"sources":0,"articles":0,"stories":0,"reports":0,"publications":0,"translations":0},
+  "materialMetadata": {"metadata_mismatches":0},
+  "recentRealModelReceipts": [{"id":269,"service":"llm","model":"deepseek-flash","purpose":"competition.extract","subject":"competition:competition-017","status":"completed"},{"id":270,"service":"llm","model":"deepseek-flash","purpose":"competition.repair","subject":"competition:competition-017","status":"completed"},{"id":271,"service":"llm","model":"deepseek-flash","purpose":"competition.repair","subject":"competition:competition-017","status":"completed"},{"id":272,"service":"llm","model":"deepseek-flash","purpose":"competition.discovery","subject":"competition:competition-017","status":"completed"},{"id":273,"service":"llm","model":"deepseek-flash","purpose":"competition.repair","subject":"competition:competition-017","status":"completed"},{"id":274,"service":"llm","model":"deepseek-flash","purpose":"competition.extract","subject":"competition:competition-017","status":"completed"},{"id":275,"service":"llm","model":"deepseek-flash","purpose":"competition.repair","subject":"competition:competition-017","status":"completed"}],
+  "receiptScopeAudit": {"invalid_scope":0},
+  "entries": [
+    {
+      "id": "competition-001",
+      "name": "中国大学生服务外包创新创业大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 4,
+      "revisionId": "891d0c1d-31dd-4c10-a76b-37e2e84c4e55",
+      "runId": "a1f3a141-be4f-49c7-a6c0-b7f3a6c0b68b",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026 年 2 月至 2026 年 8 月"
+      },
+      "materialCount": 9,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 21,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-002",
+      "name": "“中国软件杯”大学生软件设计大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 9,
+      "revisionId": "547fa76a-38b2-477d-9995-d2f16719e729",
+      "runId": "c92c72b1-88b3-4e05-bf2c-47d061bdc902",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "第十五届“中国软件杯”大学生软件设计大赛"
+      },
+      "materialCount": 10,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 25,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-003",
+      "name": "ACM-ICPC 国际大学生程序设计竞赛（含区域赛）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "2f8194d0-a2e7-4899-9e67-31a6276e1eb0",
+      "runId": "c0c0ab38-a634-4ae6-9407-ab437a38250f",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026-2027赛季"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 22,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "unknown",
+        "teacherLimit": "unknown",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-004",
+      "name": "中国高校计算机大赛（大数据挑战赛、团体程序设计天梯赛、移动应用创新赛、网络技术挑战赛）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "37a6f7c7-e119-45ea-8824-519546872e3d",
+      "runId": "9186eb81-c1f5-4ec4-b240-eba0b84eea9f",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "第十一届（2026年）“中国高校计算机大赛—大数据挑战赛”"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 13,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-005",
+      "name": "“蓝桥杯”全国软件和信息技术专业人才大赛（常规赛事，有省级选拔的）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 5,
+      "revisionId": "419abe4b-97eb-4d60-930e-a6b063472e7b",
+      "runId": "8d8329de-8f1d-4335-94dd-78fa1dc63b6a",
+      "status": "draft",
+      "year": {
+        "primary": 2026,
+        "officialText": "第十八届蓝桥杯全国大学生软件和信息技术大赛"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 14,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "competitionTimes:not_stated"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "not_stated",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-006",
+      "name": "全国大学生信息安全竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "e9b14c2e-b35b-4f49-8fd0-cfc8f80fb7ea",
+      "runId": "5c4b4595-f069-4797-8070-ec4ae8ce726c",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "定于2026年8月举办第十九届全国大学生信息安全竟赛(作品赛)暨第三届“长城杯”网数智安全大赛(作品赛)"
+      },
+      "materialCount": 3,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 13,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-007",
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 12,
+      "revisionId": "5204d28c-de4b-4a2a-85df-ba930070dac8",
+      "runId": "a1f20e0d-d287-4470-b94a-cd79e868da7d",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年第十四届全国大学生数字媒体科技作品及创意竞赛"
+      },
+      "materialCount": 3,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 26,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "known",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-008",
+      "name": "百度之星·程序设计大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 4,
+      "revisionId": "f500c249-bb51-43a6-8e1e-48f0fafe7cf4",
+      "runId": "f61e412e-2fc0-4cb6-b16f-3f5c316539c2",
+      "status": "draft",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年第22届百度之星程序设计大赛"
+      },
+      "materialCount": 6,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 12,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "known",
+        "teacherLimit": "unknown",
+        "registrationTimes": "unknown",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-009",
+      "name": "全国大学生计算机系统能力大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 4,
+      "revisionId": "eef323ed-0721-4c96-b564-792a99036955",
+      "runId": "98d65070-bc9e-43e0-8e12-cafb08d43dce",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年全国大学生计算机系统能力大赛"
+      },
+      "materialCount": 1,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 8,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "unknown",
+        "teacherLimit": "unknown",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-010",
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 6,
+      "revisionId": "8a834417-43af-4449-a54c-08523c75dc23",
+      "runId": "d53f4301-fa72-453c-b5d4-442cb80cb556",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年第23届信息安全与对抗技术竞赛"
+      },
+      "materialCount": 6,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 28,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-011",
+      "name": "全球校园人工智能算法精英大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 12,
+      "revisionId": "35ac72a4-7ea6-49de-8ebb-f0eafbbc42d3",
+      "runId": "b0545d44-c145-4238-bab6-e2c76c2db602",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026 年 4 月 -12 月期间举办第八届 全球校园人工智能算法精英大赛"
+      },
+      "materialCount": 3,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 20,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-012",
+      "name": "CCF 大数据和计算智能竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 6,
+      "revisionId": "1742ee44-0e00-43b8-a5bc-3db3a789c099",
+      "runId": "b0f50b75-9626-42f5-976d-f8cbb4cbdfc6",
+      "status": "needs_review",
+      "year": {
+        "primary": 2022,
+        "officialText": "2022年，第十届CCF BDCI已于9月初正式开赛"
+      },
+      "materialCount": 1,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 15,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:not_stated",
+          "teacherLimit:not_stated",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "not_stated",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-013",
+      "name": "CCF 大学生计算机系统与程序设计竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "00fb835e-9612-4f1b-98e0-ea1d3e10adbb",
+      "runId": "53b5c75a-e765-4da4-942e-aeb77a5dcaf5",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026 CCF CCSP竞赛"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 17,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "known",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-014",
+      "name": "国产 CPU 并行应用挑战赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 2,
+      "revisionId": "a8f1ce90-db46-48d9-b99a-f99b95cd39c4",
+      "runId": "af4bf679-57c5-4dfb-8c84-802406ecb71e",
+      "status": "draft",
+      "year": null,
+      "materialCount": 5,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 4,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "year:unknown",
+          "promotionImage:unknown",
+          "categories:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown",
+          "competitionTimes:unknown",
+          "stages:unknown",
+          "officialWebsite:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "unknown",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "unknown",
+        "teacherLimit": "unknown",
+        "registrationTimes": "unknown",
+        "competitionTimes": "unknown",
+        "stages": "unknown",
+        "officialWebsite": "unknown",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-015",
+      "name": "中国大学生程序设计竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 5,
+      "revisionId": "8ae61a8c-b0d0-4603-b047-2031129d8241",
+      "runId": "d5a6c620-c17c-474f-8aec-88a4952ccf78",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年CCPC网络预选赛"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 21,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-016",
+      "name": "江苏省大学生数字素养与技能大赛",
+      "schoolLevel": "B2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 10,
+      "revisionId": "ee48b79f-d998-426f-b12b-c24b5b3be15a",
+      "runId": "f3d32778-dcd9-4863-b114-eccd168582ca",
+      "status": "needs_review",
+      "year": {
+        "primary": 2025,
+        "officialText": "2025年"
+      },
+      "materialCount": 3,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 12,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "unknown",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-017",
+      "name": "全国大学生网络安全精英赛",
+      "schoolLevel": "B2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 10,
+      "revisionId": "dcb0d8f9-07d7-4e7b-95c2-8d4ac243d75a",
+      "runId": "b939bada-d3be-47a6-bb3d-d83728d31a01",
+      "status": "draft",
+      "year": {
+        "primary": 2025,
+        "officialText": "于 2025 年 7 月 28 日 正式 启动"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 8,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated",
+          "competitionTimes:unknown",
+          "officialWebsite:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "unknown",
+        "stages": "known",
+        "officialWebsite": "unknown",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-018",
+      "name": "中国国际大学生创新大赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "level": "A1",
+          "scope": "主体赛事"
+        },
+        {
+          "level": "A2",
+          "scope": "国际赛道"
+        }
+      ],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "08aa8d05-fc14-4aa9-bd92-4d093b094682",
+      "runId": "ed649ecb-0c87-4f3e-bb4c-785079d68fd8",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年7月至11月举办中国国际大学生创新大赛（2026）"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 17,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-019",
+      "name": "“挑战杯”全国大学生课外学术科技作品竞赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "level": "A1",
+          "scope": "主体赛事"
+        },
+        {
+          "level": "A2",
+          "scope": "揭榜挂帅专项、红色专项、黑科技展示活动"
+        }
+      ],
+      "recognitionMatches": true,
+      "runCount": 2,
+      "revisionId": "e991f7f1-64e2-4d5d-ada9-cd4d0e0b87d3",
+      "runId": "6911a9c4-1c36-43a5-9619-03970e76c8a8",
+      "status": "draft",
+      "year": {
+        "primary": 2025,
+        "officialText": "第十九届“挑战杯”全国大学生课外学术科技作品竞赛"
+      },
+      "materialCount": 8,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 10,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "registrationTimes:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "unknown",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-020",
+      "name": "“挑战杯”中国大学生创业计划大赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "level": "A1",
+          "scope": "主体赛事"
+        },
+        {
+          "level": "A3",
+          "scope": "配套活动赛事"
+        }
+      ],
+      "recognitionMatches": true,
+      "runCount": 4,
+      "revisionId": "e5f0ec71-9373-49ef-8374-ec4eecd0cda8",
+      "runId": "d1bd6be5-ef9d-4028-be06-9771e1585aaa",
+      "status": "draft",
+      "year": {
+        "primary": 2026,
+        "officialText": "第十五届“挑战杯”建设银行中国大学生创业计划竞赛"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 15,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "unknown",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-021",
+      "name": "全国大学生职业规划大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 8,
+      "revisionId": "bd843755-cc80-458c-a40b-1eee6389075f",
+      "runId": "f7d6c30f-b8d8-41e2-b337-fd5ec1646eed",
+      "status": "needs_review",
+      "year": {
+        "primary": 2024,
+        "officialText": "2024年10月至2025年4月"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 17,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "known",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-022",
+      "name": "全国大学生数学建模竞赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 6,
+      "revisionId": "e8e3d709-dc3e-4f8a-9131-6bcec60d4690",
+      "runId": "41768fac-96c6-46b9-8156-b9e00541cf97",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年竞赛时间定为9月10日（周四）18时至9月13日（周日）20时"
+      },
+      "materialCount": 6,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 17,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-023",
+      "name": "全国大学生创新创业计划年会展示",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 2,
+      "revisionId": "cd653eb2-564e-4666-906e-a78d167c60fe",
+      "runId": "2e33d70a-a71a-4b83-8241-6744cbdd6a2c",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "拟于2026年12月举办第十九届全国大学生创新年会"
+      },
+      "materialCount": 5,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 20,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "unknown",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-024",
+      "name": "国际遗传工程机器竞赛（iGEM）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 9,
+      "revisionId": "5bae4fd1-876d-4c90-a55c-a9d5791c63fd",
+      "runId": "d353a45d-ddda-478b-a000-9cfb28eb3218",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "iGEM 2026 Competition"
+      },
+      "materialCount": 9,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 14,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-025",
+      "name": "华为 ICT 大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 5,
+      "revisionId": "b74be858-3c09-4401-a905-3d6297f310c1",
+      "runId": "f4c876c9-b0f0-46cd-b1c2-b9d63996f22b",
+      "status": "draft",
+      "year": {
+        "primary": 2025,
+        "officialText": "华为ICT大赛2025-2026"
+      },
+      "materialCount": 5,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 5,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown",
+          "competitionTimes:unknown",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": false
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "unknown",
+        "participantLimit": "unknown",
+        "teacherLimit": "unknown",
+        "registrationTimes": "unknown",
+        "competitionTimes": "unknown",
+        "stages": "known",
+        "officialWebsite": "unknown",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-026",
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 5,
+      "revisionId": "d88207c6-d938-4008-8b27-df3852023656",
+      "runId": "879c83d7-f9db-49a8-9371-593723f86355",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "第九届（2026）全国大学生嵌入式芯片与系统设计竞赛"
+      },
+      "materialCount": 8,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 21,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "known",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-027",
+      "name": "美国大学生数学建模竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 5,
+      "revisionId": "f7cf510d-8291-475d-b377-a5e2cc984e66",
+      "runId": "6e5a6a93-0c02-49c0-ae62-71d138cd337d",
+      "status": "needs_review",
+      "year": {
+        "primary": 2027,
+        "officialText": "January 28 - February 1, 2027"
+      },
+      "materialCount": 7,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 11,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-028",
+      "name": "中国大学生计算机设计大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "ddf272cc-7174-4863-805f-3796c9d3ddb0",
+      "runId": "85748de9-bc38-4b0e-862c-ce612dd518fe",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年（第19届）"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 12,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-029",
+      "name": "全国大学生英语竞赛（NECCS）",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "caad6026-8d0c-4c19-a742-1ed7865ddf23",
+      "runId": "e7954ad7-b4c3-4687-9598-189047adc5c4",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "2026年全国大学生英语竞赛"
+      },
+      "materialCount": 3,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 15,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "known",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "known",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-030",
+      "name": "全国大学生数学竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 9,
+      "revisionId": "4dd183c7-4db5-4c6a-8b54-c4aa52938581",
+      "runId": "09557b08-02e7-4064-966c-506cc00e710b",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "第十八届全国大学生数学竞赛"
+      },
+      "materialCount": 2,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 13,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "known",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "known",
+        "officialWebsite": "unknown",
+        "files": "known",
+        "introduction": "known"
+      }
+    },
+    {
+      "id": "competition-031",
+      "name": "CCF CSP 认证",
+      "schoolLevel": null,
+      "schoolLevelByScope": [],
+      "recognitionMatches": true,
+      "runCount": 3,
+      "revisionId": "f3b63ac1-2497-491f-aa7b-0442f4c41e4e",
+      "runId": "bc20002e-fa17-4d77-8dac-b07592f82d2d",
+      "status": "needs_review",
+      "year": {
+        "primary": 2026,
+        "officialText": "第43次CCF CSP认证（2026年9月13日）"
+      },
+      "materialCount": 4,
+      "allMaterialIdsFound": true,
+      "quoteReferences": 10,
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:not_stated",
+          "teacherLimit:not_stated",
+          "stages:not_stated",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      },
+      "readbackValidationMatches": true,
+      "fieldStates": {
+        "name": "known",
+        "year": "known",
+        "promotionImage": "unknown",
+        "categories": "known",
+        "participantLimit": "not_stated",
+        "teacherLimit": "not_stated",
+        "registrationTimes": "known",
+        "competitionTimes": "known",
+        "stages": "not_stated",
+        "officialWebsite": "known",
+        "files": "unknown",
+        "introduction": "known"
+      }
+    }
+  ]
+}
