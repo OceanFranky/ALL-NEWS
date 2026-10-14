@@ -22,3 +22,10 @@ test("fabricated evidence fails validation and cannot be ready for review", () =
   assert.equal(report.valid, false);
   assert.equal(report.readyForReview, false);
 });
+
+test("a date-shaped impossible calendar date does not pass validation", () => {
+  const quote = "比赛时间待核验";
+  const data = extractedSchema.parse({ ...blank(), competitionTimes: { value: [{ scope: "决赛", label: "比赛", officialText: quote, precision: "day", timezone: "Asia/Shanghai", start: "2026-02-30", end: null }], status: "known", reason: "", evidence: [{ materialId: "m", blockId: "1", quote }] } });
+  const report = validateExtraction(data, [{ id: "m", url: "https://example.org", hash: "h", fetchedAt: new Date().toISOString(), contentType: "text/html", blocks: [{ id: "1", text: quote }], links: [], images: [] }], []);
+  assert.ok(report.errors.includes("time: invalid calendar date"));
+});

@@ -59,3 +59,13 @@ export async function readRun(competitionId: string, runId: string) {
 export async function recordRunReport(runId: string, report: Record<string, unknown>): Promise<void> {
   await sql`UPDATE competition_runs SET report = report || ${sql.json(json(report))} WHERE id = ${runId}`;
 }
+
+export async function readPreviousMaterials(competitionId: string): Promise<Material[]> {
+  const rows = await sql<{ content: Material }[]>`SELECT m.content FROM competition_materials m
+    JOIN LATERAL (
+      SELECT material_ids FROM competition_revisions WHERE competition_id = ${competitionId}
+      ORDER BY (validation->>'readyForReview')::boolean DESC, created_at DESC LIMIT 1
+    ) r ON r.material_ids @> jsonb_build_array(m.id)
+    WHERE m.competition_id = ${competitionId}`;
+  return rows.map(row => row.content);
+}

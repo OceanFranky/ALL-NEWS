@@ -23,6 +23,6 @@ export async function extractMaterials(entry: CatalogueEntry, materials: Materia
     model: "default", purpose: "competition.extract", subject: `competition:${entry.id}`,
     promptVersion: "competition-extract-v2", system: extractionPrompt,
     user,
-    schema: extractedSchema, maxTokens: 6000, temperature: 0, timeoutMs: 120000,
+    schema: extractedSchema, maxTokens: 12000, temperature: 0, timeoutMs: 120000,
   });
 }

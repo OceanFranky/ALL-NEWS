@@ -48,3 +48,20 @@ test("one failed attachment preserves other collected evidence and records the f
   assert.equal(row.report.failures[0].error, "HTTP 403");
   assert.equal(row.report.attemptedUrls.length, 2);
 });
+
+test("a later schedule-only notice retains the previous material as evidence", async () => {
+  const localEntry = { ...entry, id: "competition-003" };
+  const initial = parseHtml("https://example.org/initial", `<body>${"报名通知含队伍规则".repeat(30)}</body>`);
+  const later = parseHtml("https://example.org/extension", `<body>${"报名延期通知".repeat(30)}</body>`);
+  await ingestCompetition(localEntry, [initial.url], [], { collect: async () => initial, extract: async () => ({ data: blank(), receiptId: null }) });
+  const result = await ingestCompetition(localEntry, [later.url], [], {
+    collect: async () => later,
+    extract: async (_entry, materials) => {
+      assert.ok(materials.some(m => m.id === initial.id));
+      assert.ok(materials.some(m => m.id === later.id));
+      return { data: blank(), receiptId: null };
+    },
+  });
+  const [saved] = await sql`SELECT material_ids FROM competition_revisions WHERE competition_id = ${localEntry.id} AND id = ${result.revisionId}`;
+  assert.equal(saved.material_ids.length, 2);
+});

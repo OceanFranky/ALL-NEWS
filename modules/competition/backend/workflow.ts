@@ -1,7 +1,7 @@
 import { config } from "@aihot/backend/config";
 import { collectMaterial } from "./materials.ts";
 import { extractMaterials } from "./extract.ts";
-import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport } from "./repository.ts";
+import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials } from "./repository.ts";
 import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
 import { planFollowups } from "./plan.ts";
 import { recordIdentity, searchOfficial } from "./discovery.ts";
@@ -37,12 +37,45 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
       }
     };
     for (const url of [...new Set(urls)]) await collect(url);
+    if (!materials.length && autonomous && !tools) {
+      const hits = await searchOfficial(entry.name);
+      const normalized = entry.name.replace(/[“”"\s（）()]/g, "");
+      const alias = /“([^”]+)”/.exec(entry.name)?.[1];
+      const relevant = hits.filter(hit => {
+        const text = (hit.title + hit.description).replace(/[“”"\s（）()]/g, "");
+        return text.includes(normalized) || (!!alias && text.includes(alias));
+      });
+      await recordRunReport(runId, { searchRecovery: { hits, relevant: relevant.map(hit => hit.url) } });
+      for (const hit of relevant.slice(0, 3)) {
+        await collect(hit.url);
+        if (materials.length) break;
+      }
+    }
     await recordRunReport(runId, { attemptedUrls: [...attempted], failures });
     if (!materials.length) throw new Error(failures[0]?.error ?? "No readable official material");
+    // Preserve previously grounded details when a new notice only states a schedule change.
+    // A new version at the same URL replaces that old material; different notices remain distinct.
+    for (const previous of await readPreviousMaterials(entry.id)) {
+      if (!materials.some(m => m.url === previous.url) && materials.length < 12) materials.push(previous);
+    }
     if (autonomous && !tools) {
       const hits = await searchOfficial(entry.name);
-      const identity = await recordIdentity(entry, materials[0], hits);
+      let identity = await recordIdentity(entry, materials[0], hits);
       await recordRunReport(runId, { discovery: { hits, identity } });
+      if (identity !== "confirmed") {
+        // A navigation page may not identify its authority; inspect a linked rule or notice first.
+        const plan = await planFollowups(entry, materials);
+        for (const choice of plan.choices.slice(0, 2)) {
+          const before = materials.length;
+          await collect(choice.url);
+          if (materials.length > before) {
+            identity = await recordIdentity(entry, materials.at(-1)!, hits);
+            if (identity === "confirmed") break;
+          }
+        }
+        await completeReceipt(sql, plan.receiptId);
+        await recordRunReport(runId, { discovery: { hits, identity }, attemptedUrls: [...attempted], failures });
+      }
       if (identity !== "confirmed") throw new Error("Official source identity requires review");
       const plan = await planFollowups(entry, materials);
       for (const choice of plan.choices) if (attempted.size < 8) await collect(choice.url);

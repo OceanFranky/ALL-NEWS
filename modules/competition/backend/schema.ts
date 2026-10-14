@@ -115,6 +115,15 @@ export function validateExtraction(data: Extracted, materials: Material[], categ
       try { new Intl.DateTimeFormat("en", { timeZone: t.timezone }); } catch { errors.push(`time: invalid timezone ${t.timezone}`); }
       const pattern = t.precision === "month" ? /^\d{4}-\d{2}$/ : t.precision === "day" ? /^\d{4}-\d{2}-\d{2}$/ : /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/;
       for (const v of [t.start, t.end]) if (v && (t.precision === "approximate" || !pattern.test(v))) errors.push("time: precision and normalized value disagree");
+      for (const v of [t.start, t.end]) {
+        if (!v) continue;
+        const parts = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(v);
+        if (!parts) continue;
+        const year = Number(parts[1]), month = Number(parts[2]), day = Number(parts[3] ?? 1);
+        const date = new Date(Date.UTC(year, month - 1, day));
+        if (month < 1 || month > 12 || day < 1 || date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) errors.push("time: invalid calendar date");
+        if (t.precision === "minute" && !Number.isFinite(Date.parse(v))) errors.push("time: invalid timestamp");
+      }
       if (t.start && t.end && t.start > t.end) errors.push("time: start is after end");
     }
   }
