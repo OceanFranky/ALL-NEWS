@@ -14,6 +14,7 @@ catalogue.collectionScope是使用者批准的收录范围；存在时所有字�
 同届同范围有正式延期或调整通知时，当前时间字段采用明确的最新调整，不把已被替代的旧截止仍当有效时间。优先通知正文的正式落款日期，不用抓取时间判断先后；范围不同则分别保留，无法判断先后则conflict。
 promotionImage仅在官方材料证明所属届次时取已发现的图片URL；否则unknown。
 image/*; extracted=ocr材料是本地OCR识别结果，文字可能有误，须与官方通知交叉核对赛事名称、届次和年份。上传路径年份或OCR单独命中年份不足以证明宣传图片，普通背景／图标不算宣传图。
+application/pdf; extracted=ocr的扫描页文字也可能有识别错误；保留page-N-ocr-block定位，与同届官方网页交叉核对关键名称、日期和人数，不依据URL上传时间改写年份。不把扫描PDF页面当作宣传图片。
 categories仅从输入approvedCategories选择；按官方竞赛内容映射学科方向，标签不必与原文逐字相同，但须引用原文支持该学科判断；列表为空时unknown。
 人数及教师限制value为数组，成员包含scope,text,minimum,maximum,counts。minimum/maximum未说明时null；counts为students、teachers、total_including_teacher、teacher_group、other。
 建议人数、典型队伍规模不是强制人数限制，不得转成minimum/maximum；原文明示无上限时maximum为null，text保留无上限。PI、指导教师、顾问等角色不得混算；至少一名负责人不能改写为所有指导成员最多一名。

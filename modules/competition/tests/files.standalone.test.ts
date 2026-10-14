@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { zipSync, strToU8 } from "fflate";
 import { parseFile } from "../backend/files.ts";
+import sharp from "sharp";
 
 test("DOCX paragraphs preserve source positions and reject an unsupported binary", async () => {
   const body = Buffer.from(zipSync({
@@ -41,4 +42,30 @@ test("ZIP rules preserve document positions while rejecting expansion and unsafe
   await assert.rejects(parseFile("https://example.org/rules.zip", Buffer.from(zipSync({ "../rules.docx": docx })), "application/zip"), /Unsafe ZIP/);
   await assert.rejects(parseFile("https://example.org/rules.zip", Buffer.from(zipSync({ "huge.docx": new Uint8Array(9 * 1024 * 1024) })), "application/zip"), /expansion limit/);
   await assert.rejects(parseFile("https://example.org/rules.zip", Buffer.from(zipSync({ "form.xls": strToU8("unsupported") })), "application/zip"), /no supported readable/);
+});
+
+test("scanned PDF OCR reads raster pixels and preserves page positions without guessing the URL year", async () => {
+  const jpeg = await sharp(Buffer.from('<svg width="1500" height="400" xmlns="http://www.w3.org/2000/svg"><rect width="1500" height="400" fill="white"/><text x="40" y="120" font-family="sans-serif" font-size="64">OFFICIAL CONTEST 2025</text><text x="40" y="240" font-family="sans-serif" font-size="56">REGISTRATION DEADLINE OCTOBER 20</text></svg>')).jpeg().toBuffer();
+  const content = "q 750 0 0 200 0 0 cm /Im0 Do Q";
+  const body = Buffer.concat([
+    Buffer.from(`%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 750 200] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >> endobj\n4 0 obj << /Type /XObject /Subtype /Image /Width 1500 /Height 400 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >> stream\n`),
+    jpeg, Buffer.from(`\nendstream endobj\n5 0 obj << /Length ${content.length} >> stream\n${content}\nendstream endobj\ntrailer << /Root 1 0 R >>\n%%EOF`),
+  ]);
+  const m = await parseFile("https://example.org/uploads/2026/scanned.pdf", body, "application/pdf");
+  assert.match(m.contentType, /^application\/pdf; extracted=ocr; confidence=page-1:/);
+  assert.equal(m.blocks[0]!.id, "page-1-ocr-block-1");
+  assert.match(m.blocks[0]!.text, /2025/);
+  assert.match(m.blocks[0]!.text, /OCTOBER 20/);
+  assert.doesNotMatch(m.blocks[0]!.text, /2026/);
+  assert.deepEqual(m.images, []);
+});
+
+test("PDF OCR rejects excessive bytes and scanned pages before starting recognition", async () => {
+  const oversized = Buffer.alloc(8 * 1024 * 1024 + 1);
+  oversized.write("%PDF-");
+  await assert.rejects(parseFile("https://example.org/huge.pdf", oversized, "application/pdf"), /byte limit/);
+  const kids = Array.from({ length: 9 }, (_, i) => `${i + 3} 0 R`).join(" ");
+  const pages = Array.from({ length: 9 }, (_, i) => `${i + 3} 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 300 300] >> endobj`).join("\n");
+  const body = Buffer.from(`%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [${kids}] /Count 9 >> endobj\n${pages}\ntrailer << /Root 1 0 R >>\n%%EOF`);
+  await assert.rejects(parseFile("https://example.org/many.pdf", body, "application/pdf"), /OCR page limit/);
 });

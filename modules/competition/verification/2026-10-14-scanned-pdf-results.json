@@ -1,0 +1,136 @@
+{
+  "checkedAt": "2026-10-14T13:39:06.825Z",
+  "collectionRun": "62a37eef-215f-45b1-9fda-59c5958a7fe3",
+  "materials": [
+    {
+      "id": "2f636aa96bf590c4434affdfb9d677952ca51d6b3b52947d1e146cb881519a31",
+      "url": "https://www.cnsoftbei.com/uploadfile/2026/0901/20260901041152284.pdf",
+      "contentType": "application/pdf; extracted=ocr; confidence=page-1:91,page-2:90,page-3:90,page-4:87",
+      "blocks": [
+        {
+          "id": "page-1-ocr-block-1",
+          "characters": 1554
+        },
+        {
+          "id": "page-2-ocr-block-1",
+          "characters": 1573
+        },
+        {
+          "id": "page-3-ocr-block-1",
+          "characters": 1484
+        },
+        {
+          "id": "page-4-ocr-block-1",
+          "characters": 495
+        }
+      ]
+    },
+    {
+      "id": "294edb80d9a05daa484799fe6d3406877440fd9796fd90f675b2b2cf6e6c6742",
+      "url": "https://www.cnsoftbei.com/uploadfile/2026/0910/20260910040245624.pdf",
+      "contentType": "application/pdf",
+      "blocks": [
+        {
+          "id": "page-1-block-1",
+          "characters": 674
+        },
+        {
+          "id": "page-2-block-1",
+          "characters": 828
+        },
+        {
+          "id": "page-3-block-1",
+          "characters": 635
+        }
+      ]
+    }
+  ],
+  "modelRevision": {
+    "run": "b68ca590-2099-4ed3-bb1f-3388e71df96b",
+    "revisionId": "eadeb086-549a-4e66-84bd-2d7d086c5057",
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "promotionImage:unknown"
+      ],
+      "readyForReview": true
+    },
+    "files": {
+      "value": [
+        {
+          "title": "关于举办第十五届“中国软件杯”大学生软件设计大赛的通知",
+          "url": "https://www.cnsoftbei.com/uploadfile/2026/0901/20260901041152284.pdf"
+        },
+        {
+          "title": "关于举办第十五届“中国软件杯”大学生软件设计大赛全国总决赛的通知",
+          "url": "https://www.cnsoftbei.com/uploadfile/2026/0910/20260910040245624.pdf"
+        },
+        {
+          "title": "第十五届\"中国软件杯\"大学生软件设计大赛报名表",
+          "url": "https://www.cnsoftbei.com/uploadfile/soft/230427/20260324.doc"
+        }
+      ],
+      "status": "known",
+      "reason": "两份带章版通知PDF为已实际采集的扫描件（本地OCR），其正文标题与网页通知标题一致；报名表DOC为已实际采集文件，正文标题为“第十五届\"中国软件杯\"大学生软件设计大赛 报 名 表”。",
+      "evidence": [
+        {
+          "materialId": "2f636aa96bf590c4434affdfb9d677952ca51d6b3b52947d1e146cb881519a31",
+          "blockId": "page-1-ocr-block-1",
+          "quote": "关于 举办 第 十 五 届 “ 中 国 软件 杯 ” 大 学 生 软 件 设计 大 赛 的 通知"
+        },
+        {
+          "materialId": "294edb80d9a05daa484799fe6d3406877440fd9796fd90f675b2b2cf6e6c6742",
+          "blockId": "page-1-block-1",
+          "quote": "关于举办第十五届“中国软件杯”大学生软件设计大赛 全国总决赛的通知"
+        },
+        {
+          "materialId": "2e70c9514b12f693062a48ae6db212cc09ffc4e5c92d52df1b43e0da9bef3fab",
+          "blockId": "paragraph-1",
+          "quote": "第十五届\"中国软件杯\"大学生软件设计大赛"
+        }
+      ]
+    }
+  },
+  "correctedRevision": {
+    "run": "c92c72b1-88b3-4e05-bf2c-47d061bdc902",
+    "revisionId": "547fa76a-38b2-477d-9995-d2f16719e729",
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "promotionImage:unknown"
+      ],
+      "readyForReview": true
+    }
+  },
+  "correction": "Only first PDF is scanned OCR; finals PDF has a readable text layer. Research run unchanged flag removed and correction recorded.",
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 22,
+    "completeKnownFields": 0
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 1.806338,
+      "known_upper_cny": 1.806338,
+      "unsettled_calls": 0
+    }
+  ],
+  "integrity": {
+    "revision_run_mismatches": 0,
+    "missing_revision_materials": 0,
+    "normalized_duplicate_names": 0,
+    "future_materials": 0,
+    "newest_material_at": "2026-10-14T13:37:40.152Z"
+  },
+  "invalidLatest": []
+}

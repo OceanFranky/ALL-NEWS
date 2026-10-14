@@ -6,6 +6,7 @@
     "./*": "./*.ts"
   },
   "dependencies": {
+    "@napi-rs/canvas": "1.0.11",
     "@aihot/backend": "*",
     "@aihot/contracts": "*",
     "@tesseract.js-data/chi_sim": "1.0.0",

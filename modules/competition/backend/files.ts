@@ -4,11 +4,14 @@ import mammoth from "mammoth";
 import { unzipSync } from "fflate";
 import WordExtractor from "word-extractor";
 import type { Material } from "./schema.ts";
+import { localOcr } from "./local-ocr.ts";
 
 export async function parseFile(url: string, body: Buffer, contentType: string, allowArchive = true): Promise<Material> {
   const blocks: Material["blocks"] = [];
   let archive = false;
   if (body.subarray(0, 5).toString() === "%PDF-") {
+    if (body.length > 8 * 1024 * 1024) throw new Error("PDF exceeds competition material byte limit");
+    const scannedPages: number[] = [];
     const task = getDocument({ data: new Uint8Array(body), useSystemFonts: true });
     try {
       const doc = await task.promise;
@@ -16,10 +19,20 @@ export async function parseFile(url: string, body: Buffer, contentType: string, 
       for (let page = 1; page <= doc.numPages; page++) {
         const content = await (await doc.getPage(page)).getTextContent();
         const text = content.items.map(item => "str" in item ? item.str : "").join(" ").replace(/\s+/g, " ").trim();
+        if (text.length < 40) { scannedPages.push(page); continue; }
         for (let i = 0; i < text.length; i += 2000) blocks.push({ id: `page-${page}-block-${1 + i / 2000}`, text: text.slice(i, i + 2000) });
       }
     } finally { await task.destroy(); }
     contentType = "application/pdf";
+    if (scannedPages.length) {
+      if (scannedPages.length > 8) throw new Error("PDF exceeds competition OCR page limit");
+      const pages = JSON.parse(await localOcr("pdf", body, scannedPages)) as Array<{ page: number; text: string; confidence: number }>;
+      if (pages.length !== scannedPages.length || pages.some((p, index) => p.page !== scannedPages[index] || !p.text || !Number.isFinite(p.confidence) || p.confidence < 40)) throw new Error("Incomplete PDF OCR result");
+      for (const page of pages) {
+        for (let i = 0; i < page.text.length; i += 2000) blocks.push({ id: `page-${page.page}-ocr-block-${1 + i / 2000}`, text: page.text.slice(i, i + 2000) });
+      }
+      contentType = `application/pdf; extracted=ocr; confidence=${pages.map(p => `page-${p.page}:${Math.round(p.confidence)}`).join(",")}`;
+    }
   } else if (allowArchive && (/\.zip(?:[?#]|$)/i.test(url) || (contentType.includes("zip") && !/\.docx(?:[?#]|$)/i.test(url)))) {
     archive = true;
     let entries = 0, expanded = 0;
