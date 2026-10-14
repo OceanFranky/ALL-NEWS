@@ -10,6 +10,7 @@ export function parseHtml(url: string, html: string): Material {
   if ($("input[name='codeValue'],input#codeValue").length && /验证码/.test($("body").text())) throw new Error("Official material requires CAPTCHA verification");
   const links: Material["links"] = [];
   const images: string[] = [];
+  const imageMetadata: Material["blocks"] = [];
   const absolute = (s: string | undefined) => {
     try { const u = new URL(s ?? "", url); return /^https?:$/.test(u.protocol) ? u.href : null; } catch { return null; }
   };
@@ -24,7 +25,14 @@ export function parseHtml(url: string, html: string): Material {
   });
   $("img").each((_i, img) => {
     const src = absolute($(img).attr("src") || $(img).attr("data-src"));
-    if (src) images.push(src);
+    if (!src) return;
+    images.push(src);
+    const alt = ($(img).attr("alt") ?? "").trim();
+    const title = ($(img).attr("title") ?? "").trim();
+    if ((alt || title) && imageMetadata.length < 100) {
+      const linkedPage = absolute($(img).closest("a[href]").attr("href"));
+      imageMetadata.push({ id: `image-${imageMetadata.length + 1}-metadata`, text: [src, alt, title, linkedPage].filter(Boolean).join("\n") });
+    }
   });
   $("script,style,noscript,nav,footer").remove();
   const candidate = $("main").first().length ? $("main").first() : $("article").first();
@@ -43,7 +51,9 @@ export function parseHtml(url: string, html: string): Material {
   }
   const blocks: Material["blocks"] = [];
   for (let i = 0; i < text.length; i += 2000) blocks.push({ id: `block-${blocks.length + 1}`, text: text.slice(i, i + 2000) });
-  const hash = createHash("sha256").update(html).digest("hex");
+  blocks.push(...imageMetadata);
+  // Parser improvements must not reuse a stored HTML snapshot lacking the new evidence blocks.
+  const hash = createHash("sha256").update(html).update(JSON.stringify({ blocks, links, images })).digest("hex");
   const id = createHash("sha256").update(`${url}\n${hash}`).digest("hex");
   return { id, url, hash, fetchedAt: new Date().toISOString(), contentType: "text/html", blocks, links, images };
 }

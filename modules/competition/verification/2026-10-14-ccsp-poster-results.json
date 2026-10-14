@@ -1,0 +1,98 @@
+{
+  "checkedAt": "2026-10-14T13:56:52.654Z",
+  "competitionId": "competition-013",
+  "review": {
+    "run": "53b5c75a-e765-4da4-942e-aeb77a5dcaf5",
+    "revisionId": "00fb835e-9612-4f1b-98e0-ea1d3e10adbb",
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "teacherLimit:not_stated"
+      ],
+      "readyForReview": true
+    },
+    "promotionImage": {
+      "value": "https://ccsp.ccf.org.cn/upload/resources/image/2026/09/10/0d383735928806b90850ed7559e1e052_900x380c.jpg",
+      "status": "known",
+      "reason": "官网首页image-3-metadata给出该图片src、alt“2026 CCF CCSP竞赛将于10月21~22日举办，9月9日开启报名”及其外层链接指向本届正式公告；该公告正文明确“2026 CCF CCSP竞赛”，可交叉证明该图片属于2026届CCSP竞赛宣传图。",
+      "evidence": [
+        {
+          "materialId": "7d19ac7ed73da0550219ff57523705bcbd9f4cf2f0366813e11bac5638b8fe44",
+          "blockId": "image-3-metadata",
+          "quote": "https://ccsp.ccf.org.cn/upload/resources/image/2026/09/10/0d383735928806b90850ed7559e1e052_900x380c.jpg\n2026 CCF CCSP竞赛将于10月21~22日举办，9月9日开启报名\nhttps://ccsp.ccf.org.cn/ccsp/tzgg/2026-09-09/931080.shtml"
+        },
+        {
+          "materialId": "2a70dafca941fd54d603c6e5d7c0ec29cc78bad7529d88fa82af3dc8c78fbca0",
+          "blockId": "block-1",
+          "quote": "2026 CCF CCSP竞赛将于10月21~22日在四川成都举办，报名时间为2026年9月9日-10月11日。"
+        }
+      ]
+    },
+    "materials": [
+      {
+        "id": "7d19ac7ed73da0550219ff57523705bcbd9f4cf2f0366813e11bac5638b8fe44",
+        "url": "https://ccsp.ccf.org.cn/",
+        "contentType": "text/html"
+      },
+      {
+        "id": "b2fab7fb948f6cb4fb6d8c12d3366929908020b6a0ebf7c0b5c6f2a23f6da9dd",
+        "url": "https://ccsp.ccf.org.cn/upload/resources/image/2026/09/10/0d383735928806b90850ed7559e1e052_900x380c.jpg",
+        "contentType": "image/jpeg; extracted=ocr; confidence=84"
+      },
+      {
+        "id": "2a70dafca941fd54d603c6e5d7c0ec29cc78bad7529d88fa82af3dc8c78fbca0",
+        "url": "https://ccsp.ccf.org.cn/ccsp/tzgg/2026-09-09/931080.shtml",
+        "contentType": "text/html"
+      }
+    ]
+  },
+  "visualReview": {
+    "posterDisplays": "CCSP 2026",
+    "name": "CCF大学生计算机系统与程序设计竞赛",
+    "type": "official promotional banner; not logo or event photo",
+    "ocrMisread": "CCSPE926",
+    "ocrNotUsedAsYearProof": true
+  },
+  "parserChange": {
+    "preservesOriginalImageAltAndEnclosingNoticeLink": true,
+    "maximumCaptionBlocks": 100,
+    "htmlSnapshotHashIncludesParsedEvidence": true,
+    "noNewReaderFields": true
+  },
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 23,
+    "completeKnownFields": 0
+  },
+  "imageCoverage": {
+    "known": 1,
+    "total": 30,
+    "rate": 0.0333,
+    "statuses": {
+      "unknown": 29,
+      "known": 1
+    }
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 2.08566,
+      "known_upper_cny": 2.08566,
+      "unsettled_calls": 0
+    }
+  ],
+  "independentReadback": {
+    "checked": 30,
+    "errors": [],
+    "articles": 0
+  },
+  "remaining": "29 latest candidate promotion images unknown; NISP has no candidate; full scope and semantic audit not complete"
+}

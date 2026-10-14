@@ -21,3 +21,13 @@ test("official feed discovery links are retained from HTML", () => {
 test("an HTTP-success attachment CAPTCHA page cannot become competition evidence", () => {
   assert.throws(() => parseHtml("https://contest.example/download.jsp", `<html><body><h1>请输入验证码下载附件</h1><input name="codeValue" />${"下载帮助文字".repeat(30)}</body></html>`), /requires CAPTCHA verification/);
 });
+
+test("HTML preserves an image's original caption and enclosing notice link without inferring its year", () => {
+  const html = `<body>${"2026年正式竞赛报名通知正文".repeat(20)}<a href="/notice/2026"><img src="/uploads/2025/poster.jpg" alt="2026 CCSP竞赛宣传图" /></a><img src="/logo.png" /><img src="javascript:bad" alt="不要使用" /></body>`;
+  const material = parseHtml("https://contest.example/", html);
+  assert.deepEqual(material.blocks.find(b => b.id === "image-1-metadata"), { id: "image-1-metadata", text: "https://contest.example/uploads/2025/poster.jpg\n2026 CCSP竞赛宣传图\nhttps://contest.example/notice/2026" });
+  assert.equal(material.blocks.filter(b => b.id.includes("metadata")).length, 1);
+  assert.ok(material.images.includes("https://contest.example/logo.png"));
+  assert.equal(material.id, parseHtml("https://contest.example/", html).id);
+  assert.notEqual(material.id, parseHtml("https://contest.example/", html.replace("2026 CCSP竞赛宣传图", "2025 CCSP竞赛宣传图")).id);
+});
