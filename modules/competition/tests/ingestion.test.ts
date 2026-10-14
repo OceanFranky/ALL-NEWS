@@ -123,6 +123,20 @@ test("an autonomous refresh records unchanged input without another model extrac
   assert.equal(run.report.unchanged, true);
 });
 
+test("a later primary notice does not reuse archived materials that explicitly disclaim authority", async () => {
+  const localEntry = { ...entry, id: "competition-019" };
+  const aggregate = parseHtml("https://aggregate.example/notice", `<body>本站信息搜集整理自互联网${"旧竞赛转载材料".repeat(30)}</body>`);
+  await ingestCompetition(localEntry, [aggregate.url], [], { collect: async () => aggregate, extract: async () => ({ data: blank(), receiptId: null }) });
+  const primary = parseHtml("https://official.example/notice", `<body>${"原始正式通知".repeat(30)}</body>`);
+  const result = await ingestCompetition(localEntry, [primary.url], [], { collect: async () => primary, extract: async (_entry, materials) => {
+    assert.deepEqual(materials.map(m => m.id), [primary.id]);
+    return { data: blank(), receiptId: null };
+  } });
+  const [row] = await sql`SELECT material_ids FROM competition_revisions WHERE id=${result.revisionId}`;
+  assert.deepEqual(row.material_ids, [primary.id]);
+  assert.equal((await sql`SELECT 1 FROM competition_materials WHERE competition_id=${localEntry.id} AND id=${aggregate.id}`).length, 1);
+});
+
 test("failed evidence validation gets one bounded correction even without new material", async () => {
   const localEntry = { ...entry, id: "competition-005" };
   const material = parseHtml("https://example.org/repair", `<body>${"官方材料只明确竞赛名称".repeat(30)}</body>`);

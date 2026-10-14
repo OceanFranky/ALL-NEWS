@@ -4,7 +4,7 @@ import { extractMaterials } from "./extract.ts";
 import { failRun, finishUnchangedRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials, stopRunForBudget } from "./repository.ts";
 import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted, type ValidationReport } from "./schema.ts";
 import { planFollowups } from "./plan.ts";
-import { recordIdentity, searchOfficial } from "./discovery.ts";
+import { recordIdentity, searchOfficial, sourceAuthorityDisclaimer } from "./discovery.ts";
 import { sql } from "@aihot/backend/db";
 import { completeReceipt } from "@aihot/backend/providers/receipts";
 import { CompetitionBudgetExhaustedError } from "./allowance.ts";
@@ -55,7 +55,7 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     }
     await recordRunReport(runId, { attemptedUrls: [...attempted], failures });
     if (!materials.length) throw new Error(failures[0]?.error ?? "No readable official material");
-    const previousMaterials = await readPreviousMaterials(entry.id);
+    const previousMaterials = (await readPreviousMaterials(entry.id)).filter(material => !sourceAuthorityDisclaimer(material));
     const unchanged = failures.length === 0 && previousMaterials.length > 0
       && materials.every(material => previousMaterials.some(previous => previous.url === material.url && previous.id === material.id));
     if (autonomous && unchanged) {

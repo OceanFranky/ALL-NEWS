@@ -11,12 +11,12 @@ evidence是[{materialId,blockId,quote}]，quote必须是对应文本块的真实
 catalogue.collectionScope是使用者批准的收录范围；存在时所有字段仅提取该范围，不混入被排除赛项或教师组。旧名称仅是名单溯源，不证明赛事更名关系。
 名称包含届次；年份按官方材料，不能按当前抓取日期推断。跨年赛季primary取起始年，officialText保留完整赛季。
 promotionImage仅在官方材料证明所属届次时取已发现的图片URL；否则unknown。
-categories仅从输入approvedCategories选择；列表为空时unknown。
+categories仅从输入approvedCategories选择；按官方竞赛内容映射学科方向，标签不必与原文逐字相同，但须引用原文支持该学科判断；列表为空时unknown。
 人数及教师限制value为数组，成员包含scope,text,minimum,maximum,counts。minimum/maximum未说明时null；counts为students、teachers、total_including_teacher、teacher_group、other。
 报名和竞赛时间value为数组，成员含scope,label,officialText,precision,timezone,start,end。precision为minute/day/month/approximate；timezone是IANA时区。
 minute必须完整ISO时间且有时区偏移，day用YYYY-MM-DD，month用YYYY-MM；approximate的start/end为null。未明确的起止为null。
 competitionTimes记录实际比赛时间；报到、环境调试、午餐、闭幕式不得并入比赛起止。原文明确比赛12:00-16:00时，不得取报到11:00或闭幕17:00作为比赛时间。
-stages是赛段名称数组；officialWebsite是材料中的官方入口URL；files为[{title,url}]，仅使用材料已出现链接。
+stages是赛段名称数组；officialWebsite是材料中的官方入口URL；files为[{title,url}]，可用材料已出现链接或已实际采集的文件材料自身URL，以文件正文标题作为证据。不得将普通网页当附件，不拼造下载链接。
 introduction用简短中文说明竞赛内容，附材料依据。不能混用旧届、不同赛道或不同赛段限制。`;
 
 export async function extractMaterials(entry: CatalogueEntry, materials: Material[], approvedCategories: string[], feedback?: ValidationReport) {
