@@ -1,6 +1,6 @@
 # 大学生竞赛独立模块
 
-日期：2026-10-13。分支：`codex/competition`。状态：规划阶段，目录尚不是已注册的 npm 模块。
+日期：2026-10-14。分支：`codex/competition`。状态：官网到数据库工作流实现中；尚未接入站点模块清单／定时worker。
 
 使用者要求竞赛独立组织，参照世界新闻的三层浏览：竞赛总览 → 全部竞赛库 → 具体届次详情。首批31个目录条目及学校认定已保存至[名录说明](catalogue.md)和[名录JSON](catalogue.json)；分类按学科方向，允许重叠，具体标签和重要性标准待讨论。学校名称与认定有效年份尚未提供。
 
@@ -35,6 +35,27 @@
 - [字段可获取性复核](verification/2026-10-14-field-availability.md)：按31项和第一轮字段逐项区分可提取、需补读、未确认及宣传图核验，不把官网200或搜索摘要当完整成功。
 - 预览图在 `docs/assets/competition/`，仅是示例布局，不能作为真实竞赛、品牌或分类配置。
 
-未来竞赛专属代码、规则、提示词、来源、迁移和测试放在本目录，通过站点清单接入共享引擎；AI 的 `industry/` 与世界新闻专属规则分别保留。本次没有代码、配置、迁移、接口、任务或模型调用。
+竞赛专属代码、规则、提示词、来源、迁移和测试放在本目录；AI 的 `industry/` 与世界新闻专属规则分别保留。已有字段schema、原文证据校验、HTML材料采集、共享模型提取、费用预留、数据库候选修订及测试；官网自动发现、附件／动态读取、补查、每日任务和全量验收仍在实现中。
+
+## 官网到数据库执行入口（实现中）
+
+先设置独立PostgreSQL的 `DATABASE_URL`，运行根目录迁移脚本；迁移会包含本模块的专属表，不改写新闻业务数据。导入名单：
+
+```bash
+node modules/competition/scripts/import-catalogue.ts
+```
+
+已确认官方材料URL的单项提取入口如下；仅在已授权真实采集、模型调用及费用后，以单次进程环境启用安全开关。项目 `.env` 不需改成默认开启。
+
+```bash
+COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/competition/scripts/ingest.ts \
+  --id competition-011 --url https://www.aicomp.cn/notice/notice-1/3618.html
+```
+
+当前真实费用预留只支持已核实价格的官方 `api.deepseek.com` 上的 `deepseek-flash`，使用共享模型回执和预算，再附加首轮10元人民币累计预留限制。没有配置价格的服务不调用；失败／重试也预留额度。此为本次授权验收批次，不代表后续自动任务的永久预算。
+
+材料写入 `competition_materials`，任务写入 `competition_runs`，原名单写入 `competition_catalogue`，提取候选写入 `competition_revisions`，费用预留写入 `competition_model_allowance`。结果只入候选库；公开发布尚未实现。
+
+验收按[全流程标准](verification/acceptance.md)逐项检查；当前已验证AIC单通知的真实模型提取和实际PostgreSQL入库，尚未完成31项全范围验收。
 
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。

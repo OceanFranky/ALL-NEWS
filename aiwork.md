@@ -4,6 +4,8 @@
 
 ## 2026-10-14
 
+- `codex/competition`：官网→数据库目标进入实现，使用者授权复用现有模型首轮10元。建立本机PostgreSQL17独立 `competition_ingestion`、测试库 `competition_test`，31项名录已入库；新增专属schema／5条单语句迁移／HTML采集／共享模型提取／费用预留／候选入库和6个局部测试。AIC真实通知模型提取及修订入库成功（详见verification/live-ingestion记录），首次用量估计上限0.036074元；完整31项、发现、附件、动态页、补查、每日任务仍未完成，目标保持active，原compose保留。
+- 本次阶段验证：typecheck通过，全量690测试通过，前端构建及44测试通过，站点smoke全部通过；最新名录认定文字修正后局部6测试重验通过，迁移／差异检查通过。API／Web检查进程已关闭，PostgreSQL与实际竞赛数据保留；提交推送阶段实现，下一轮继续自动发现、附件／动态解析与全名单入库验收。
 - `codex/competition`：使用者确认名单输入→官网发现→材料采集→内容解析→LLM字段提取→校验，已保存 `docs/competition-agent-workflow.md` 完整规划并同步模块入口与隔离文档；补充有限补查、字段证据、修订审核建议、每日更新、工具边界及验收。分类、跨年年份口径、审核自动化和预算待定；纯文档，未启用采集／模型，保留原compose改动。
 - 本次规划验证：空白差异、17处本地引用与Markdown围栏检查通过；按仓库规则提交并推送竞赛分支，不合并main。
 - `codex/competition`：按31项名录和第一轮字段完成一次全量公开来源复核，新增 `modules/competition/verification/2026-10-14-field-availability.md`。结论为获取路线成立但尚非31项完整入库：21项可进入正式提取，8项需动态／分赛项补读，014与016官网身份仍未确认；31项宣传图均须逐届核验。未启用采集、调度或模型调用；原 `docker-compose.yml` 改动保留。
