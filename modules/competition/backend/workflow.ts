@@ -1,5 +1,5 @@
 import { config } from "@aihot/backend/config";
-import { collectHtml } from "./materials.ts";
+import { collectMaterial } from "./materials.ts";
 import { extractMaterials } from "./extract.ts";
 import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun } from "./repository.ts";
 import { catalogueEntrySchema, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
@@ -16,7 +16,7 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
   if (!urls.length || urls.length > 12) throw new Error("Expected 1–12 confirmed material URLs");
   await saveCatalogue(entry);
   const runId = await startRun(entry.id);
-  const selected = tools ?? { collect: collectHtml, extract: extractMaterials };
+  const selected = tools ?? { collect: collectMaterial, extract: extractMaterials };
   try {
     const materials: Material[] = [];
     for (const url of [...new Set(urls)]) {

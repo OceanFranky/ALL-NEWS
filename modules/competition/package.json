@@ -1,0 +1,17 @@
+{
+  "name": "@aihot/competition",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./*.ts"
+  },
+  "dependencies": {
+    "@aihot/backend": "*",
+    "cheerio": "1.2.0",
+    "fflate": "0.7.5",
+    "mammoth": "1.13.0",
+    "pdfjs-dist": "6.4.299",
+    "playwright": "1.61.1",
+    "zod": "4.6.5"
+  }
+}

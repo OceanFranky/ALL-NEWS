@@ -9,6 +9,7 @@ export const extractionPrompt = `你是大学生竞赛官方材料提取器。�
 只输出约定的JSON字段，不输出学校级别、费用、奖项、主办方等新字段。学校级别由程序合并。
 每个字段格式为 {value,status,reason,evidence}。status是known、unknown、not_stated、not_applicable、pending、conflict。
 known必须有值及证据；其余value为null并写明原因。not_stated、not_applicable、pending还必须引用官方材料。
+没有可以引用的原文时，任何缺失字段（包括files、图片、分类）一律用unknown；不得用not_stated或not_applicable并留空证据。
 evidence是[{materialId,blockId,quote}]，quote必须是对应文本块的真实原文连续片段，保留准确字词。
 名称包含届次；年份按官方材料，不能按当前抓取日期推断。跨年赛季primary取起始年，officialText保留完整赛季。
 promotionImage仅在官方材料证明所属届次时取已发现的图片URL；否则unknown。
@@ -32,7 +33,7 @@ export async function extractMaterials(entry: CatalogueEntry, materials: Materia
   await reserveAllowance(requestKey, reservation);
   const result = await chatJson({
     model: "default", purpose: "competition.extract", subject: `competition:${entry.id}`,
-    promptVersion: "competition-extract-v1", system: extractionPrompt,
+    promptVersion: "competition-extract-v2", system: extractionPrompt,
     user,
     schema: extractedSchema, maxTokens: 6000, temperature: 0, timeoutMs: 120000,
   });

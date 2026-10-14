@@ -35,7 +35,7 @@
 - [字段可获取性复核](verification/2026-10-14-field-availability.md)：按31项和第一轮字段逐项区分可提取、需补读、未确认及宣传图核验，不把官网200或搜索摘要当完整成功。
 - 预览图在 `docs/assets/competition/`，仅是示例布局，不能作为真实竞赛、品牌或分类配置。
 
-竞赛专属代码、规则、提示词、来源、迁移和测试放在本目录；AI 的 `industry/` 与世界新闻专属规则分别保留。已有字段schema、原文证据校验、HTML材料采集、共享模型提取、费用预留、数据库候选修订及测试；官网自动发现、附件／动态读取、补查、每日任务和全量验收仍在实现中。
+竞赛专属代码、规则、提示词、来源、迁移和测试放在本目录；AI 的 `industry/` 与世界新闻专属规则分别保留。已有字段schema、原文证据校验、HTML材料采集、PDF页码／DOCX段落解析、Chromium动态读取、共享模型提取、费用预留、数据库候选修订及测试；官网自动发现、扫描件OCR、补查、每日任务和全量验收仍在实现中。
 
 ## 官网到数据库执行入口（实现中）
 
@@ -56,6 +56,8 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 材料写入 `competition_materials`，任务写入 `competition_runs`，原名单写入 `competition_catalogue`，提取候选写入 `competition_revisions`，费用预留写入 `competition_model_allowance`。结果只入候选库；公开发布尚未实现。
 
-验收按[全流程标准](verification/acceptance.md)逐项检查；当前已验证AIC单通知的真实模型提取和实际PostgreSQL入库，尚未完成31项全范围验收。
+动态读取使用本模块 `playwright` 依赖，本机需先安装其匹配的Chromium：在模块目录执行 `npx playwright install chromium`。浏览器请求经共享guardedFetch完成，每个网络请求仍检查公开地址及大小／超时限制；服务端不使用管理员浏览器登录态。当前Dockerfile已加入模块依赖清单，镜像的浏览器二进制及系统库安装仍需部署阶段验证。
+
+验收按[全流程标准](verification/acceptance.md)逐项检查；已验证AIC正文＋PDF、职业规划正文＋DOCX及iGEM动态正文的真实模型提取和实际PostgreSQL候选入库。iGEM缺时间／人数仍为草稿，尚未完成31项全范围验收。
 
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。

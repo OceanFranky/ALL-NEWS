@@ -4,6 +4,7 @@
 
 ## 2026-10-14
 
+- `codex/competition`：续做独立npm模块，补PDF页码／DOCX段落解析与guardedFetch隔离的Chromium动态读取；真实验证AIC正文＋PDF、职业规划正文＋DOCX及iGEM动态正文进入候选库。iGEM草稿缺时间和人数，须沿官网期限／日历／队伍链接补查；未用搜索索引补值。typecheck、693全量测试、构建及44前端测试通过；最后文本边界修正后6局部测试通过。全31项验收、发现／补查／每日任务仍未完成，目标保持active；原compose保留。
 - `codex/competition`：官网→数据库目标进入实现，使用者授权复用现有模型首轮10元。建立本机PostgreSQL17独立 `competition_ingestion`、测试库 `competition_test`，31项名录已入库；新增专属schema／5条单语句迁移／HTML采集／共享模型提取／费用预留／候选入库和6个局部测试。AIC真实通知模型提取及修订入库成功（详见verification/live-ingestion记录），首次用量估计上限0.036074元；完整31项、发现、附件、动态页、补查、每日任务仍未完成，目标保持active，原compose保留。
 - 本次阶段验证：typecheck通过，全量690测试通过，前端构建及44测试通过，站点smoke全部通过；最新名录认定文字修正后局部6测试重验通过，迁移／差异检查通过。API／Web检查进程已关闭，PostgreSQL与实际竞赛数据保留；提交推送阶段实现，下一轮继续自动发现、附件／动态解析与全名单入库验收。
 - `codex/competition`：使用者确认名单输入→官网发现→材料采集→内容解析→LLM字段提取→校验，已保存 `docs/competition-agent-workflow.md` 完整规划并同步模块入口与隔离文档；补充有限补查、字段证据、修订审核建议、每日更新、工具边界及验收。分类、跨年年份口径、审核自动化和预算待定；纯文档，未启用采集／模型，保留原compose改动。
