@@ -2,7 +2,7 @@ import { config } from "@aihot/backend/config";
 import { collectMaterial } from "./materials.ts";
 import { extractMaterials } from "./extract.ts";
 import { failRun, finishUnchangedRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials, stopRunForBudget } from "./repository.ts";
-import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
+import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted, type ValidationReport } from "./schema.ts";
 import { planFollowups } from "./plan.ts";
 import { recordIdentity, searchOfficial } from "./discovery.ts";
 import { sql } from "@aihot/backend/db";
@@ -11,7 +11,7 @@ import { CompetitionBudgetExhaustedError } from "./allowance.ts";
 
 export interface WorkflowTools {
   collect: (url: string) => Promise<Material>;
-  extract: (entry: CatalogueEntry, materials: Material[], categories: string[]) => Promise<{ data: Extracted; receiptId: number | null }>;
+  extract: (entry: CatalogueEntry, materials: Material[], categories: string[], feedback?: ValidationReport) => Promise<{ data: Extracted; receiptId: number | null }>;
 }
 
 // The live worker supplies confirmed official URLs; source discovery is a separate recorded step.
@@ -108,6 +108,12 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
         extracted = await selected.extract(entry, materials, categories);
         revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
       }
+    }
+    const finalReport = validateExtraction(extracted.data, materials, categories);
+    if (!finalReport.valid) {
+      extracted = await selected.extract(entry, materials, categories, finalReport);
+      revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
+      await recordRunReport(runId, { validationRepair: { attempted: true, previousErrors: finalReport.errors } });
     }
     await recordRunReport(runId, { attemptedUrls: [...attempted], failures, autonomous });
     return { competitionId: entry.id, runId, revisionId };

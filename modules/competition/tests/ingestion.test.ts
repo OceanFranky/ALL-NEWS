@@ -81,3 +81,27 @@ test("an autonomous refresh records unchanged input without another model extrac
   assert.equal(run.status, "completed");
   assert.equal(run.report.unchanged, true);
 });
+
+test("failed evidence validation gets one bounded correction even without new material", async () => {
+  const localEntry = { ...entry, id: "competition-005" };
+  const material = parseHtml("https://example.org/repair", `<body>${"官方材料只明确竞赛名称".repeat(30)}</body>`);
+  let calls = 0;
+  const result = await ingestCompetition(localEntry, [material.url], [], {
+    collect: async () => material,
+    extract: async (_entry, _materials, _categories, feedback) => {
+      calls++;
+      if (calls === 1) {
+        const data = blank();
+        data.name = { value: "测试竞赛", status: "known", reason: "", evidence: [{ materialId: material.id, blockId: "block-1", quote: "虚构的赛事名" }] };
+        return { data, receiptId: null };
+      }
+      assert.match(feedback!.errors[0]!, /evidence does not match/);
+      return { data: blank(), receiptId: null };
+    },
+  });
+  assert.equal(calls, 2);
+  const [row] = await sql`SELECT validation FROM competition_revisions WHERE id=${result.revisionId}`;
+  assert.equal(row.validation.valid, true);
+  assert.equal(row.validation.readyForReview, false);
+  assert.equal((await sql`SELECT 1 FROM competition_revisions WHERE run_id=${result.runId}`).length, 2);
+});

@@ -3,6 +3,11 @@ import type { z } from "zod";
 import { credential } from "@aihot/backend/config";
 import { chatJson, MODELS, type ChatJsonOptions } from "@aihot/backend/providers/llm";
 import { reserveAllowance, recordAllowance, upperCost } from "./allowance.ts";
+import { ProviderRejectedError } from "@aihot/backend/providers/receipts";
+
+export function competitionProviderUnavailable(error: unknown): boolean {
+  return error instanceof ProviderRejectedError && [401, 402, 403].includes(error.status ?? 0);
+}
 
 export async function competitionChat<S extends z.ZodType>(options: ChatJsonOptions<S>) {
   options = { ...options, system: options.system + "\nRespond with a valid JSON object only." };

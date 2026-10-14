@@ -72,6 +72,8 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 审计脚本除逐项缺口外，报告跨竞赛任务引用、孤立材料引用、规范化重名、未来抓取时间及字段已知率。`readyForReview`仅是基础证据／时间校验门槛，不等于全部字段完成或内容已批准。
 
+原文校验失败时，流程将具体errors反馈给模型并最多修正一次，即使没有抓到新材料也执行；再次失败的修订仍留在草稿，旧修订不覆盖。`MODEL_CALLS_ENABLED=true node --env-file=.env modules/competition/scripts/repair-candidates.ts` 可在独立 `DATABASE_URL` 下逐项重提取最新校验失败候选，完全复用各自已保存的材料，并使用批准分类。修正调用仍受共享回执及首轮10元限制；供应商401／402／403账户拒绝立即停止修正或全名录批次。
+
 验收按[全流程标准](verification/acceptance.md)逐项检查；已验证AIC正文＋PDF、职业规划正文＋DOCX及iGEM动态正文的真实模型提取和实际PostgreSQL候选入库。iGEM缺时间／人数仍为草稿，尚未完成31项全范围验收。
 
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。

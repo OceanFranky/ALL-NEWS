@@ -5,6 +5,7 @@ import { catalogueEntrySchema } from "../backend/schema.ts";
 import { saveCatalogue, startRun, failRun } from "../backend/repository.ts";
 import { competitionCategories } from "../backend/taxonomy.ts";
 import { parseArgs } from "node:util";
+import { competitionProviderUnavailable } from "../backend/model.ts";
 
 const { values } = parseArgs({ options: { ids: { type: "string" } } });
 const selectedIds = values.ids ? new Set(values.ids.split(",")) : null;
@@ -30,7 +31,7 @@ try {
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.log(JSON.stringify({ event: "failed", id: entry.id, reason: message.slice(0, 240) }));
-      if (/budget exhausted|Invalid competition model reservation/.test(message)) break;
+      if (competitionProviderUnavailable(error) || /budget exhausted|Invalid competition model reservation/.test(message)) break;
     }
   }
 } finally { await closeDb(); }
