@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@aihot/backend": "*",
+    "@aihot/contracts": "*",
     "cheerio": "1.2.0",
     "fast-xml-parser": "5.11.1",
     "fflate": "0.7.5",

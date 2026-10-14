@@ -1,5 +1,9 @@
 import { sql } from "@aihot/backend/db";
 
+export class CompetitionBudgetExhaustedError extends Error {
+  constructor() { super("Competition first acceptance budget exhausted (10 CNY)"); }
+}
+
 // Peak prices, confirmed on 2026-10-14 from the provider's official pricing page.
 // https://api-docs.deepseek.com/zh-cn/quick_start/pricing/
 export function upperCost(inputTokens: number, outputTokens: number): number {
@@ -12,7 +16,7 @@ export async function reserveAllowance(requestKey: string, upperCny: number): Pr
     await tx`SELECT pg_advisory_xact_lock(hashtext('competition:first-live-acceptance'))`;
     if ((await tx`SELECT 1 FROM competition_model_allowance WHERE request_key = ${requestKey}`).length) return;
     const [sum] = await tx`SELECT coalesce(sum(coalesce(actual_upper_cny, reserved_cny)), 0)::float AS spent FROM competition_model_allowance WHERE batch = 'first-live-acceptance'`;
-    if (Number(sum.spent) + upperCny > 10) throw new Error("Competition first acceptance budget exhausted (10 CNY)");
+    if (Number(sum.spent) + upperCny > 10) throw new CompetitionBudgetExhaustedError();
     await tx`INSERT INTO competition_model_allowance (request_key, batch, reserved_cny) VALUES (${requestKey}, 'first-live-acceptance', ${upperCny})`;
   });
 }

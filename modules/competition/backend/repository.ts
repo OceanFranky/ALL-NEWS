@@ -50,6 +50,15 @@ export async function failRun(runId: string, error: string): Promise<void> {
   await sql`UPDATE competition_runs SET status = 'failed', finished_at = now(), report = report || ${sql.json({ error })} WHERE id = ${runId}`;
 }
 
+export async function stopRunForBudget(runId: string, error: string): Promise<void> {
+  await sql`UPDATE competition_runs SET status = 'budget_stopped', finished_at = now(), report = report || ${sql.json({ error })} WHERE id = ${runId}`;
+}
+
+export async function finishUnchangedRun(runId: string, report: Record<string, unknown>): Promise<void> {
+  await sql`UPDATE competition_runs SET status = 'completed', finished_at = now(),
+    report = report || ${sql.json(json({ ...report, unchanged: true }))} WHERE id = ${runId}`;
+}
+
 export async function readRun(competitionId: string, runId: string) {
   const [run] = await sql`SELECT id, competition_id, status, started_at, finished_at, report
     FROM competition_runs WHERE competition_id = ${competitionId} AND id = ${runId}`;

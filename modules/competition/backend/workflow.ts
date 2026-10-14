@@ -1,12 +1,13 @@
 import { config } from "@aihot/backend/config";
 import { collectMaterial } from "./materials.ts";
 import { extractMaterials } from "./extract.ts";
-import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials } from "./repository.ts";
+import { failRun, finishUnchangedRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials, stopRunForBudget } from "./repository.ts";
 import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
 import { planFollowups } from "./plan.ts";
 import { recordIdentity, searchOfficial } from "./discovery.ts";
 import { sql } from "@aihot/backend/db";
 import { completeReceipt } from "@aihot/backend/providers/receipts";
+import { CompetitionBudgetExhaustedError } from "./allowance.ts";
 
 export interface WorkflowTools {
   collect: (url: string) => Promise<Material>;
@@ -17,7 +18,7 @@ export interface WorkflowTools {
 export async function ingestCompetition(input: CatalogueEntry, urls: string[], categories: string[], tools?: WorkflowTools, autonomous = false) {
   const entry = catalogueEntrySchema.parse(input);
   if (!tools && (process.env.COLLECT_ENABLED !== "true" || !config.modelCallsEnabled)) throw new Error("Competition collection and model calls must be explicitly enabled");
-  if (!urls.length || urls.length > 12) throw new Error("Expected 1–12 confirmed material URLs");
+  if ((!urls.length && !autonomous) || urls.length > 12) throw new Error("Expected 1–12 confirmed material URLs, or autonomous discovery");
   await saveCatalogue(entry);
   const runId = await startRun(entry.id);
   const selected = tools ?? { collect: collectMaterial, extract: extractMaterials };
@@ -53,15 +54,29 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     }
     await recordRunReport(runId, { attemptedUrls: [...attempted], failures });
     if (!materials.length) throw new Error(failures[0]?.error ?? "No readable official material");
+    const previousMaterials = await readPreviousMaterials(entry.id);
+    const unchanged = failures.length === 0 && previousMaterials.length > 0
+      && materials.every(material => previousMaterials.some(previous => previous.url === material.url && previous.hash === material.hash));
+    if (autonomous && unchanged) {
+      await finishUnchangedRun(runId, { attemptedUrls: [...attempted], failures, autonomous, materialIds: materials.map(m => m.id) });
+      return { competitionId: entry.id, runId, revisionId: null };
+    }
     // Preserve previously grounded details when a new notice only states a schedule change.
     // A new version at the same URL replaces that old material; different notices remain distinct.
-    for (const previous of await readPreviousMaterials(entry.id)) {
+    for (const previous of previousMaterials) {
       if (!materials.some(m => m.url === previous.url) && materials.length < 12) materials.push(previous);
     }
     if (autonomous && !tools) {
       const hits = await searchOfficial(entry.name);
-      let identity = await recordIdentity(entry, materials[0], hits);
-      await recordRunReport(runId, { discovery: { hits, identity } });
+      let identity: "confirmed" | "candidate" = "candidate";
+      let identityUrl: string | null = null;
+      // A run can start with an organizer announcement and the actual competition portal. Check every
+      // collected seed before asking the planner for more pages; the first page is not inherently primary.
+      for (const material of materials) {
+        identity = await recordIdentity(entry, material, hits);
+        if (identity === "confirmed") { identityUrl = material.url; break; }
+      }
+      await recordRunReport(runId, { discovery: { hits, identity, identityUrl } });
       if (identity !== "confirmed") {
         // A navigation page may not identify its authority; inspect a linked rule or notice first.
         const plan = await planFollowups(entry, materials);
@@ -70,11 +85,11 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
           await collect(choice.url);
           if (materials.length > before) {
             identity = await recordIdentity(entry, materials.at(-1)!, hits);
-            if (identity === "confirmed") break;
+            if (identity === "confirmed") { identityUrl = materials.at(-1)!.url; break; }
           }
         }
         await completeReceipt(sql, plan.receiptId);
-        await recordRunReport(runId, { discovery: { hits, identity }, attemptedUrls: [...attempted], failures });
+        await recordRunReport(runId, { discovery: { hits, identity, identityUrl }, attemptedUrls: [...attempted], failures });
       }
       if (identity !== "confirmed") throw new Error("Official source identity requires review");
       const plan = await planFollowups(entry, materials);
@@ -97,7 +112,9 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     await recordRunReport(runId, { attemptedUrls: [...attempted], failures, autonomous });
     return { competitionId: entry.id, runId, revisionId };
   } catch (error) {
-    await failRun(runId, error instanceof Error ? error.message : String(error));
+    const message = error instanceof Error ? error.message : String(error);
+    if (error instanceof CompetitionBudgetExhaustedError) await stopRunForBudget(runId, message);
+    else await failRun(runId, message);
     throw error;
   }
 }

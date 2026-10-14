@@ -65,3 +65,19 @@ test("a later schedule-only notice retains the previous material as evidence", a
   const [saved] = await sql`SELECT material_ids FROM competition_revisions WHERE competition_id = ${localEntry.id} AND id = ${result.revisionId}`;
   assert.equal(saved.material_ids.length, 2);
 });
+
+test("an autonomous refresh records unchanged input without another model extraction", async () => {
+  const localEntry = { ...entry, id: "competition-004" };
+  const material = parseHtml("https://example.org/stable", `<body>${"稳定的官方竞赛通知".repeat(30)}</body>`);
+  await ingestCompetition(localEntry, [material.url], [], { collect: async () => material, extract: async () => ({ data: blank(), receiptId: null }) });
+  let extracted = false;
+  const result = await ingestCompetition(localEntry, [material.url], [], {
+    collect: async () => material,
+    extract: async () => { extracted = true; return { data: blank(), receiptId: null }; },
+  }, true);
+  assert.equal(extracted, false);
+  assert.equal(result.revisionId, null);
+  const [run] = await sql`SELECT status, report FROM competition_runs WHERE id = ${result.runId}`;
+  assert.equal(run.status, "completed");
+  assert.equal(run.report.unchanged, true);
+});
