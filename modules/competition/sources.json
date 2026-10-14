@@ -3,7 +3,7 @@
   "note": "官网发现与刷新入口。每日先保留当前配置入口，再补数据库confirmed来源，避免旧届通知替代当前入口；种子本身不代表官方身份已确认。",
   "entries": [
     { "competitionId": "competition-001", "urls": ["https://www.fwwb.org.cn/", "https://www.fwwb.org.cn/attached/file/20260211/20260211154941_13.pdf", "https://www.fwwb.org.cn/attached/file/20260317/20260317145517_439.pdf", "https://www.fwwb.org.cn/news/show/598"] },
-    { "competitionId": "competition-002", "urls": ["https://www.cnsoftbei.com/"] },
+    { "competitionId": "competition-002", "urls": ["https://www.cnsoftbei.com/content-1-1250-1.html", "https://www.cnsoftbei.com/content-74-1287-1.html", "https://www.cnsoftbei.com/content-1-1357-1.html", "https://www.cnsoftbei.com/"] },
     { "competitionId": "competition-003", "urls": ["https://icpc.pku.edu.cn/ssxx/index.htm"] },
     { "competitionId": "competition-004", "urls": ["https://nercbds.tsinghua.edu.cn/bdc.html", "https://gplt.patest.cn/", "https://www.appcontest.net/", "http://net.c4best.cn/"] },
     { "competitionId": "competition-005", "urls": ["https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html"] },

@@ -7,9 +7,28 @@ import { competitionChat } from "./model.ts";
 import type { CatalogueEntry, Material } from "./schema.ts";
 
 export interface SearchHit { url: string; title: string; description: string }
+const catalogueAbbreviation = (name: string) => /[（(]([A-Za-z][A-Za-z0-9-]{2,31})[）)]/.exec(name)?.[1];
+
+export function officialSearchQuery(name: string): string {
+  // Long Chinese titles returned generic first-word results in live RSS checks; the catalogue's
+  // explicit parenthesized Latin abbreviation found iGEM's real portal without guessing an alias.
+  const abbreviation = catalogueAbbreviation(name);
+  if (abbreviation) return `"${abbreviation}" competition official`;
+  return `"${name.replace(/["“”]/g, "")}" 官方网站`;
+}
+
+export function matchesCatalogueSearch(name: string, hit: SearchHit): boolean {
+  const text = hit.title + " " + hit.description;
+  const normalized = text.replace(/[“”"\s（）()]/g, "");
+  const alias = /“([^”]+)”/.exec(name)?.[1];
+  const abbreviation = catalogueAbbreviation(name);
+  return normalized.includes(name.replace(/[“”"\s（）()]/g, ""))
+    || (!!alias && normalized.includes(alias))
+    || (!!abbreviation && new RegExp(`\\b${abbreviation}\\b`, "i").test(text));
+}
+
 export async function searchOfficial(name: string): Promise<SearchHit[]> {
-  const phrase = name.replace(/["“”]/g, "");
-  const response = await guardedFetch(`https://www.bing.com/search?format=rss&q=${encodeURIComponent('"' + phrase + '" 官方网站')}`, { timeoutMs: 15000, maxBytes: 1024 * 1024 });
+  const response = await guardedFetch(`https://www.bing.com/search?format=rss&q=${encodeURIComponent(officialSearchQuery(name))}`, { timeoutMs: 15000, maxBytes: 1024 * 1024 });
   if (response.status !== 200) throw new Error(`Official discovery search HTTP ${response.status}`);
   const feed = new XMLParser().parse(response.text());
   const items = feed?.rss?.channel?.item;

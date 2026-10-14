@@ -4,7 +4,7 @@ import { extractMaterials } from "./extract.ts";
 import { failRun, finishUnchangedRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport, readPreviousMaterials, stopRunForBudget } from "./repository.ts";
 import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted, type ValidationReport } from "./schema.ts";
 import { planFollowups } from "./plan.ts";
-import { recordIdentity, searchOfficial, sourceAuthorityDisclaimer } from "./discovery.ts";
+import { matchesCatalogueSearch, recordIdentity, searchOfficial, sourceAuthorityDisclaimer } from "./discovery.ts";
 import { sql } from "@aihot/backend/db";
 import { completeReceipt } from "@aihot/backend/providers/receipts";
 import { CompetitionBudgetExhaustedError } from "./allowance.ts";
@@ -41,12 +41,7 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     for (const url of [...new Set(urls)]) await collect(url);
     if (!materials.length && autonomous && !tools) {
       const hits = await searchOfficial(entry.name);
-      const normalized = entry.name.replace(/[“”"\s（）()]/g, "");
-      const alias = /“([^”]+)”/.exec(entry.name)?.[1];
-      const relevant = hits.filter(hit => {
-        const text = (hit.title + hit.description).replace(/[“”"\s（）()]/g, "");
-        return text.includes(normalized) || (!!alias && text.includes(alias));
-      });
+      const relevant = hits.filter(hit => matchesCatalogueSearch(entry.name, hit));
       await recordRunReport(runId, { searchRecovery: { hits, relevant: relevant.map(hit => hit.url) } });
       for (const hit of relevant.slice(0, 3)) {
         await collect(hit.url);

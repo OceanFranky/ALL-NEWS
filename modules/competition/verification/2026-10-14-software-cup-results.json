@@ -1,0 +1,309 @@
+{
+  "checkedAt": "2026-10-14T13:16:42.428Z",
+  "competitionId": "competition-002",
+  "initialRun": "dcef9c9a-8adc-4089-8a17-0ebe34b2061b",
+  "initialRevision": "6f0c0f07-94ab-43f0-b7e6-0e7e90bdee7c",
+  "semanticReview": {
+    "run": "2a33d7f6-3d43-4b8c-b71e-6604b07f2710",
+    "revisionId": "001f4375-9ff2-477f-aea0-f820e41347fd",
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "promotionImage:unknown"
+      ],
+      "readyForReview": true
+    },
+    "fields": {
+      "teacherLimit": {
+        "value": [
+          {
+            "scope": "每队",
+            "text": "指导老师/指导组 1名",
+            "minimum": null,
+            "maximum": null,
+            "counts": "teacher_group"
+          },
+          {
+            "scope": "指导组",
+            "text": "指导老师若为多人，则在“指导教师姓名”处填写“xx大学指导组”",
+            "minimum": null,
+            "maximum": null,
+            "counts": "teacher_group"
+          }
+        ],
+        "status": "known",
+        "reason": "官方明确每队一个指导教师或指导组名额，多人可组成指导组占一个名额，实际教师实体人数上限未知。",
+        "evidence": [
+          {
+            "materialId": "cef84553a674de2371cd6b1f277c09da3e335a8250941b25e42d413dc55196f7",
+            "blockId": "block-1",
+            "quote": "每队成员不超过4名 (含4名，其中队长1名，指导老师/指导组 1名，其他队员不超过2名)"
+          },
+          {
+            "materialId": "cef84553a674de2371cd6b1f277c09da3e335a8250941b25e42d413dc55196f7",
+            "blockId": "block-1",
+            "quote": "指导老师若为多人，则在“指导教师姓名”处填写“xx大学指导组”"
+          }
+        ]
+      },
+      "participantLimit": {
+        "value": [
+          {
+            "scope": "每队",
+            "text": "每队成员不超过4名 (含4名，其中队长1名，指导老师/指导组 1名，其他队员不超过2名)",
+            "minimum": null,
+            "maximum": 4,
+            "counts": "total_including_teacher"
+          }
+        ],
+        "status": "known",
+        "reason": "官方通知明确每队成员不超过4名，含队长、指导教师/指导组和其他队员，为报名名额口径。",
+        "evidence": [
+          {
+            "materialId": "cef84553a674de2371cd6b1f277c09da3e335a8250941b25e42d413dc55196f7",
+            "blockId": "block-1",
+            "quote": "每队成员不超过4名 (含4名，其中队长1名，指导老师/指导组 1名，其他队员不超过2名)"
+          }
+        ]
+      },
+      "competitionTimes": {
+        "value": [
+          {
+            "scope": "全国总决赛第一轮线上评审",
+            "label": "第一轮线上评审",
+            "officialText": "8月22日11:00-20:30 第一轮线上评审",
+            "precision": "minute",
+            "timezone": "Asia/Shanghai",
+            "start": "2026-08-22T11:00:00+08:00",
+            "end": "2026-08-22T20:30:00+08:00"
+          },
+          {
+            "scope": "全国总决赛答辩",
+            "label": "总决赛答辩",
+            "officialText": "8月23日 09:30-19:00 总决赛答辩",
+            "precision": "minute",
+            "timezone": "Asia/Shanghai",
+            "start": "2026-08-23T09:30:00+08:00",
+            "end": "2026-08-23T19:00:00+08:00"
+          },
+          {
+            "scope": "A7赛题全国总决赛第一轮线上评审",
+            "label": "A7赛题第一轮线上评审",
+            "officialText": "《A7-AI与AR融合的四足机器狗消防侦察和救援系统开发赛》赛题因涉及硬件租借等问题导致备赛时间不足，延后至8月30日进行决赛第一轮线上评审",
+            "precision": "day",
+            "timezone": "Asia/Shanghai",
+            "start": "2026-08-30",
+            "end": "2026-08-30"
+          },
+          {
+            "scope": "初赛评审",
+            "label": "初赛评审",
+            "officialText": "拟于2026年7月完成初赛评审",
+            "precision": "month",
+            "timezone": "Asia/Shanghai",
+            "start": "2026-07",
+            "end": "2026-07"
+          }
+        ],
+        "status": "known",
+        "reason": "总决赛通知明确第一轮线上评审、总决赛答辩及A7赛题延后至8月30日第一轮线上评审；初赛通知明确7月完成初赛评审。8月21日环境测试不计入比赛时间。",
+        "evidence": [
+          {
+            "materialId": "8b624e5f1e277256618527438599dd6ac897df23b2ad3a429bc408a4bfd0938a",
+            "blockId": "block-1",
+            "quote": "8月22日11:00-20:30 第一轮线上评审"
+          },
+          {
+            "materialId": "8b624e5f1e277256618527438599dd6ac897df23b2ad3a429bc408a4bfd0938a",
+            "blockId": "block-1",
+            "quote": "8月23日 09:30-19:00 总决赛答辩"
+          },
+          {
+            "materialId": "8b624e5f1e277256618527438599dd6ac897df23b2ad3a429bc408a4bfd0938a",
+            "blockId": "block-1",
+            "quote": "《A7-AI与AR融合的四足机器狗消防侦察和救援系统开发赛》赛题因涉及硬件租借等问题导致备赛时间不足，延后至8月30日进行决赛第一轮线上评审"
+          },
+          {
+            "materialId": "f252bee641ee169d5ce81dcabb8ae61712c1dcea14d9be238cd42a0655ecb32f",
+            "blockId": "block-2",
+            "quote": "拟于2026年7月完成初赛评审"
+          }
+        ]
+      },
+      "categories": {
+        "value": [
+          "程序设计与算法",
+          "软件开发",
+          "人工智能与数据",
+          "计算机系统与硬件",
+          "网络安全",
+          "数字媒体"
+        ],
+        "status": "known",
+        "reason": "赛题内容涵盖软件设计开发、大模型与多智能体、操作系统与硬件控制、安全运维、数字人/AR/HUD等，映射到批准学科方向；创新创业无实际赛题内容证据，已删除。",
+        "evidence": [
+          {
+            "materialId": "f252bee641ee169d5ce81dcabb8ae61712c1dcea14d9be238cd42a0655ecb32f",
+            "blockId": "block-1",
+            "quote": "(四) 比赛项目是软件设计(应用系统)"
+          },
+          {
+            "materialId": "e0459c421468c46554fcd283ef127e6fc58fd4420322dbeb95c7db052567fe31",
+            "blockId": "block-1",
+            "quote": "A3-基于大模型的个性化资源生成与学习多智能体系统开发"
+          },
+          {
+            "materialId": "e0459c421468c46554fcd283ef127e6fc58fd4420322dbeb95c7db052567fe31",
+            "blockId": "block-1",
+            "quote": "A2-面向麒麟操作系统的安全智能运维Agent 设计与实现"
+          },
+          {
+            "materialId": "e0459c421468c46554fcd283ef127e6fc58fd4420322dbeb95c7db052567fe31",
+            "blockId": "block-1",
+            "quote": "A8-四旋翼无人机位姿控制系统设计优化"
+          },
+          {
+            "materialId": "e0459c421468c46554fcd283ef127e6fc58fd4420322dbeb95c7db052567fe31",
+            "blockId": "block-1",
+            "quote": "A5-景区导览服务AI数字人"
+          }
+        ]
+      },
+      "files": {
+        "value": [
+          {
+            "title": "关于举办第十五届“中国软件杯”大学生软件设计大赛的通知",
+            "url": "https://www.cnsoftbei.com/uploadfile/2026/0901/20260901041152284.pdf"
+          },
+          {
+            "title": "关于举办第十五届“中国软件杯”大学生软件设计大赛全国总决赛的通知",
+            "url": "https://www.cnsoftbei.com/uploadfile/2026/0910/20260910040245624.pdf"
+          },
+          {
+            "title": "第十五届\"中国软件杯\"大学生软件设计大赛报名表",
+            "url": "https://www.cnsoftbei.com/uploadfile/soft/230427/20260324.doc"
+          }
+        ],
+        "status": "known",
+        "reason": "材料中出现两份带章版通知PDF下载链接及已实际采集的第十五届报名表DOC自身URL，标题与正文一致。",
+        "evidence": [
+          {
+            "materialId": "f252bee641ee169d5ce81dcabb8ae61712c1dcea14d9be238cd42a0655ecb32f",
+            "blockId": "block-2",
+            "quote": "带章版报名通知pdf下载：关于举办第十五届“中国软件杯”大学生软件设计大赛的通知"
+          },
+          {
+            "materialId": "8b624e5f1e277256618527438599dd6ac897df23b2ad3a429bc408a4bfd0938a",
+            "blockId": "block-2",
+            "quote": "带章版报名通知pdf下载：关于举办第十五届“中国软件杯”大学生软件设计大赛全国总决赛的通知"
+          },
+          {
+            "materialId": "2e70c9514b12f693062a48ae6db212cc09ffc4e5c92d52df1b43e0da9bef3fab",
+            "blockId": "paragraph-1",
+            "quote": "第十五届\"中国软件杯\"大学生软件设计大赛"
+          }
+        ]
+      }
+    }
+  },
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 22,
+    "completeKnownFields": 0
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 1.740152,
+      "known_upper_cny": 1.740152,
+      "unsettled_calls": 0
+    }
+  ],
+  "independentReadback": {
+    "checked": 30,
+    "errors": [],
+    "articles": 0
+  },
+  "discoveryLiveCheck": {
+    "name": "国际遗传工程机器竞赛（iGEM）",
+    "relevant": [
+      {
+        "url": "https://www.igem.org/",
+        "title": "iGEM",
+        "description": "Discover how iGEM’s open, collaborative community drives synthetic biology innovation - creating healthier, more resilient, sustainable solutions!"
+      },
+      {
+        "url": "https://baike.baidu.com/item/%E5%9B%BD%E9%99%85%E5%9F%BA%E5%9B%A0%E5%B7%A5%E7%A8%8B%E6%9C%BA%E5%99%A8%E5%A4%A7%E8%B5%9B/10383553",
+        "title": "国际基因工程机器大赛 - 百度百科",
+        "description": "国际基因工程机器大赛（International Genetically Engineered Machine competition，iGEM）是由美国麻省理工学院于2003年创办的合成生物学领域国际顶级大学生科技赛事，2005年发展为国际性竞赛，每年举行全球总决赛。"
+      },
+      {
+        "url": "https://competition.igem.org/about",
+        "title": "About | iGEM Competition",
+        "description": "The iGEM Competition is an annual, worldwide synthetic biology event aimed at undergraduate university students, as well as high school and graduate students. The iGEM Competition"
+      },
+      {
+        "url": "https://zhuanlan.zhihu.com/p/28317662275",
+        "title": "iGEM国际基因工程机器大赛是什么？一文看明白考试流程~",
+        "description": "继前一段时间iGEM官方公布2025赛季高中组的新变化后，高中组报名也已正式开放！ 二十多年来，iGEM主要关注处于大学阶段的参与者，帮助建立一个充满活力的合成生物学社区。 而随着高中参与者的显著增长，iGEM官方的…"
+      },
+      {
+        "url": "https://www.igem.org/hq",
+        "title": "iGEM",
+        "description": "iGEMers are behind iGEM! Learn about our international, multidisciplinary, multilingual team, our Founders and our Board Members."
+      },
+      {
+        "url": "https://zhuanlan.zhihu.com/p/557576674",
+        "title": "实话实说|IGEM到底值不值参加~ - 知乎",
+        "description": "IGEM比赛国际基因工程机器大赛，英文名称为International Genetically Engineered Machine competition，简称iGEM。 每年由 美国麻省理工学院（Massachusetts Institute ofTechnology，MIT）主办，是合成生物学领域…"
+      },
+      {
+        "url": "https://parts.igem.org/Main_Page",
+        "title": "parts.igem.org",
+        "description": "If something you need hasn't made the jump yet, or if you spot an issue, let us know at registry (at) igem (dot) org and we'll be happy to help. Welcome to the next chapter of Synthetic Biology infrastructure!"
+      },
+      {
+        "url": "https://registry.igem.org/",
+        "title": "iGEM Registry of Standard Biological Parts",
+        "description": "The iGEM Registry is a community-curated collection of standardised biological parts — search, characterise and share DNA parts, devices and systems for synthetic biology."
+      },
+      {
+        "url": "https://competition.igem.org/results/2025",
+        "title": "Annual Results | iGEM Competition",
+        "description": "iGEM Competition CJUH-JLU-China ↗ EPFL ↗"
+      },
+      {
+        "url": "https://www.jingsailian.com/zonghe/1438783.html",
+        "title": "iGEM竞赛是什么？哪些学生适合参加iGEM竞赛？（附25年 ...",
+        "description": "作为生命科学领域规模最大、学术影响力最高的国际赛事之一， iGEM 的魅力真是难挡不仅助力升学、还能产出论文专利、提升领导力，确定未来的发展方向！ 那 iGEM竞赛究竟是什么？ iGEM竞赛什么时候考试？ iGEM竞赛考试报名费用多少？ 哪些学生适合参加iGEM竞赛？"
+      }
+    ]
+  },
+  "officialProbeFailures": [
+    {
+      "url": "https://www.cnsoftbei.com/uploadfile/2026/0901/20260901041152284.pdf",
+      "error": "text parser: no usable text",
+      "visualReview": {
+        "pages": 4,
+        "registrationMatchesHtml": true,
+        "automaticOcr": false
+      }
+    },
+    {
+      "url": "https://www.cnsoftbei.com/uploadfile/2026/0324/20260324042704821.jpg",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://www.cnsoftbei.com/uploadfile/2026/0814/20260814025219913.png",
+      "error": "HTTP 404"
+    }
+  ]
+}
