@@ -7,6 +7,7 @@ import { parseFile } from "./files.ts";
 
 export function parseHtml(url: string, html: string): Material {
   const $ = load(html);
+  if ($("input[name='codeValue'],input#codeValue").length && /验证码/.test($("body").text())) throw new Error("Official material requires CAPTCHA verification");
   const links: Material["links"] = [];
   const images: string[] = [];
   const absolute = (s: string | undefined) => {
@@ -101,6 +102,7 @@ export async function collectMaterial(url: string): Promise<Material> {
   if (/(?:rss|atom|xml)/i.test(type) || /^\s*<(?:\?xml[^>]*>\s*)?(?:rss|feed)\b/i.test(response.text().slice(0, 500))) return parseFeed(response.url, response.text());
   if (!type.includes("html") && !/^\s*<!doctype html|^\s*<html/i.test(response.text().slice(0, 200))) return parseFile(response.url, response.body, type);
   const $ = load(response.text());
+  if ($("input[name='codeValue'],input#codeValue").length && /验证码/.test($("body").text())) throw new Error("Official material requires CAPTCHA verification");
   $("script,style,noscript").remove();
   const readableLength = $("body").text().replace(/\s+/g, " ").trim().length;
   if (readableLength < 80) {

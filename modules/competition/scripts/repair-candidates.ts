@@ -1,17 +1,17 @@
 import { config } from "@aihot/backend/config";
 import { sql, closeDb } from "@aihot/backend/db";
-import { catalogueEntrySchema, validateExtraction, type Material } from "../backend/schema.ts";
+import { catalogueEntrySchema, extractedSchema, validateExtraction, type Material } from "../backend/schema.ts";
 import { competitionCategories } from "../backend/taxonomy.ts";
-import { extractMaterials } from "../backend/extract.ts";
+import { repairMaterials } from "../backend/repair.ts";
 import { startRun, saveRevision, recordRunReport, failRun, stopRunForBudget } from "../backend/repository.ts";
 import { CompetitionBudgetExhaustedError } from "../backend/allowance.ts";
 import { competitionProviderUnavailable } from "../backend/model.ts";
 
 try {
   if (!config.modelCallsEnabled) throw new Error("Competition model calls must be explicitly enabled");
-  const rows = await sql`SELECT c.id,c.name,c.recognition,r.id AS revision_id,r.validation,r.material_ids
+  const rows = await sql`SELECT c.id,c.name,c.recognition,r.id AS revision_id,r.data,r.validation,r.material_ids
     FROM competition_catalogue c JOIN LATERAL (
-      SELECT id,validation,material_ids FROM competition_revisions WHERE competition_id=c.id ORDER BY created_at DESC LIMIT 1
+      SELECT id,data,validation,material_ids FROM competition_revisions WHERE competition_id=c.id ORDER BY created_at DESC LIMIT 1
     ) r ON true WHERE (r.validation->>'valid')::boolean=false ORDER BY c.id`;
   for (const row of rows) {
     const entry = catalogueEntrySchema.parse({ id: row.id, name: row.name, ...row.recognition });
@@ -21,7 +21,8 @@ try {
     const runId = await startRun(entry.id);
     try {
       await recordRunReport(runId, { repairOf: row.revision_id, previousErrors: row.validation.errors, storedEvidenceOnly: true });
-      const result = await extractMaterials(entry, materials, [...competitionCategories], row.validation);
+      const previous = extractedSchema.parse(Object.fromEntries(Object.keys(extractedSchema.shape).map(field => [field, row.data[field]])));
+      const result = await repairMaterials(entry, materials, previous, row.validation, [...competitionCategories]);
       const revisionId = await saveRevision(entry, runId, result.data, materials, [...competitionCategories], result.receiptId);
       console.log(JSON.stringify({ competitionId: entry.id, runId, revisionId, validation: validateExtraction(result.data, materials, [...competitionCategories]) }));
     } catch (error) {

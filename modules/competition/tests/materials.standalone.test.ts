@@ -17,3 +17,7 @@ test("official feed discovery links are retained from HTML", () => {
   const material = parseHtml("https://contest.example/", `<html><head><link rel="alternate" type="application/rss+xml" href="/feed/" /></head><body>${"竞赛官网正文".repeat(30)}</body></html>`);
   assert.ok(material.links.some(link => link.url === "https://contest.example/feed/" && link.title === "官网订阅源"));
 });
+
+test("an HTTP-success attachment CAPTCHA page cannot become competition evidence", () => {
+  assert.throws(() => parseHtml("https://contest.example/download.jsp", `<html><body><h1>请输入验证码下载附件</h1><input name="codeValue" />${"下载帮助文字".repeat(30)}</body></html>`), /requires CAPTCHA verification/);
+});

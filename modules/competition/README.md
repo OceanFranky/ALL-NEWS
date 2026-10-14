@@ -74,6 +74,8 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 原文校验失败时，流程将具体errors反馈给模型并最多修正一次，即使没有抓到新材料也执行；再次失败的修订仍留在草稿，旧修订不覆盖。`MODEL_CALLS_ENABLED=true node --env-file=.env modules/competition/scripts/repair-candidates.ts` 可在独立 `DATABASE_URL` 下逐项重提取最新校验失败候选，完全复用各自已保存的材料，并使用批准分类。修正调用仍受共享回执及首轮10元限制；供应商401／402／403账户拒绝立即停止修正或全名录批次。
 
+失败字段修正仅接受errors对应字段；时间通用错误对应两组时间字段。返回多余字段会被拒绝，其余字段及证据由程序原样合并，修正后重新检查全部证据。这个修正只解决结构与引用，不代替字段语义或官方身份审核；改为unknown会增加真实缺口，不能算信息已补齐。验证码附件记录明确解析失败，不尝试自动解验证码。
+
 验收按[全流程标准](verification/acceptance.md)逐项检查；已验证AIC正文＋PDF、职业规划正文＋DOCX及iGEM动态正文的真实模型提取和实际PostgreSQL候选入库。iGEM缺时间／人数仍为草稿，尚未完成31项全范围验收。
 
 分支基于最新 main 的 `98d40a3`。世界新闻共享实现目前位于另一分支 `codex/world-news` 的 `180934b`，后续开发先解决依赖整合，再落实隔离设计，不因存在本目录就宣称已接入。

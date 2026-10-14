@@ -8,6 +8,7 @@ import { recordIdentity, searchOfficial } from "./discovery.ts";
 import { sql } from "@aihot/backend/db";
 import { completeReceipt } from "@aihot/backend/providers/receipts";
 import { CompetitionBudgetExhaustedError } from "./allowance.ts";
+import { repairMaterials } from "./repair.ts";
 
 export interface WorkflowTools {
   collect: (url: string) => Promise<Material>;
@@ -111,7 +112,8 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     }
     const finalReport = validateExtraction(extracted.data, materials, categories);
     if (!finalReport.valid) {
-      extracted = await selected.extract(entry, materials, categories, finalReport);
+      extracted = tools ? await selected.extract(entry, materials, categories, finalReport)
+        : await repairMaterials(entry, materials, extracted.data, finalReport, categories);
       revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
       await recordRunReport(runId, { validationRepair: { attempted: true, previousErrors: finalReport.errors } });
     }
