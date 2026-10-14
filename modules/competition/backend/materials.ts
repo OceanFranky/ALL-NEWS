@@ -12,7 +12,8 @@ export function parseHtml(url: string, html: string): Material {
   const images: string[] = [];
   const imageMetadata: Material["blocks"] = [];
   const absolute = (s: string | undefined) => {
-    try { const u = new URL(s ?? "", url); return /^https?:$/.test(u.protocol) ? u.href : null; } catch { return null; }
+    if (!s?.trim()) return null;
+    try { const u = new URL(s, url); return /^https?:$/.test(u.protocol) ? u.href : null; } catch { return null; }
   };
   $("a[href]").each((_i, a) => {
     const href = absolute($(a).attr("href"));
@@ -24,7 +25,7 @@ export function parseHtml(url: string, html: string): Material {
     if (href && /(rss|atom|xml)/.test(type)) links.push({ url: href, title: "官网订阅源" });
   });
   $("img").each((_i, img) => {
-    const src = absolute($(img).attr("src") || $(img).attr("data-src"));
+    const src = [$(img).attr("data-original"), $(img).attr("data-src"), $(img).attr("src")].map(absolute).find(Boolean);
     if (!src) return;
     images.push(src);
     const alt = ($(img).attr("alt") ?? "").trim();

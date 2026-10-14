@@ -31,3 +31,9 @@ test("HTML preserves an image's original caption and enclosing notice link witho
   assert.equal(material.id, parseHtml("https://contest.example/", html).id);
   assert.notEqual(material.id, parseHtml("https://contest.example/", html.replace("2026 CCSP竞赛宣传图", "2025 CCSP竞赛宣传图")).id);
 });
+
+test("lazy-loaded pictures preserve the real declared URL and conflicting caption without selecting the placeholder", () => {
+  const material = parseHtml("https://contest.example/", `<body>${"2026年正式通知".repeat(30)}<img src="/lazy.png" data-original="/ISCC2024.png" alt="2026年第23届竞赛" /><img src="/lazy.png" data-src="/second.jpg" alt="另一张图" /></body>`);
+  assert.deepEqual(material.images, ["https://contest.example/ISCC2024.png", "https://contest.example/second.jpg"]);
+  assert.equal(material.blocks.find(b => b.id === "image-1-metadata")!.text, "https://contest.example/ISCC2024.png\n2026年第23届竞赛");
+});
