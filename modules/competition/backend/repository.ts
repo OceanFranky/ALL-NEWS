@@ -41,17 +41,21 @@ export async function saveRevision(entry: CatalogueEntry, runId: string, input: 
       ${tx.json(json({ ...data, schoolLevel: entry.schoolLevel, schoolLevelByScope: entry.schoolLevelByScope, schoolRecognitionText: entry.schoolRecognitionText ?? null }))},
       ${tx.json(json(validation))}, ${tx.json(materials.map(m => m.id))}, ${receiptId})`;
     if (receiptId !== null) await completeReceipt(tx, receiptId);
-    await tx`UPDATE competition_runs SET status = 'needs_review', finished_at = now(), report = ${tx.json(json({ revisionId: id, validation }))} WHERE id = ${runId}`;
+    await tx`UPDATE competition_runs SET status = 'needs_review', finished_at = now(), report = report || ${tx.json(json({ revisionId: id, validation }))} WHERE id = ${runId}`;
   });
   return id;
 }
 
 export async function failRun(runId: string, error: string): Promise<void> {
-  await sql`UPDATE competition_runs SET status = 'failed', finished_at = now(), report = ${sql.json({ error })} WHERE id = ${runId}`;
+  await sql`UPDATE competition_runs SET status = 'failed', finished_at = now(), report = report || ${sql.json({ error })} WHERE id = ${runId}`;
 }
 
 export async function readRun(competitionId: string, runId: string) {
   const [run] = await sql`SELECT id, competition_id, status, started_at, finished_at, report
     FROM competition_runs WHERE competition_id = ${competitionId} AND id = ${runId}`;
   return run ?? null;
+}
+
+export async function recordRunReport(runId: string, report: Record<string, unknown>): Promise<void> {
+  await sql`UPDATE competition_runs SET report = report || ${sql.json(json(report))} WHERE id = ${runId}`;
 }

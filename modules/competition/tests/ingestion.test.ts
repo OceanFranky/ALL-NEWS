@@ -37,3 +37,14 @@ test("failed collection is saved as a failed run without a revision", async () =
   await assert.rejects(ingestCompetition(entry, ["https://example.org/broken"], [], { collect: async () => { throw new Error("HTTP 403"); }, extract: async () => ({ data: blank(), receiptId: null }) }), /403/);
   assert.ok((await sql`SELECT 1 FROM competition_runs WHERE competition_id = ${entry.id} AND status = 'failed'`).length > 0);
 });
+
+test("one failed attachment preserves other collected evidence and records the failure", async () => {
+  const m = parseHtml("https://example.org/notice", `<body>${"官方竞赛通知正文".repeat(30)}</body>`);
+  const result = await ingestCompetition(entry, [m.url, "https://example.org/broken.pdf"], [], {
+    collect: async url => { if (url.endsWith("pdf")) throw new Error("HTTP 403"); return m; },
+    extract: async () => ({ data: blank(), receiptId: null }),
+  });
+  const [row] = await sql`SELECT report FROM competition_runs WHERE id = ${result.runId}`;
+  assert.equal(row.report.failures[0].error, "HTTP 403");
+  assert.equal(row.report.attemptedUrls.length, 2);
+});

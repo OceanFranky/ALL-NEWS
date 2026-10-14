@@ -56,6 +56,10 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 材料写入 `competition_materials`，任务写入 `competition_runs`，原名单写入 `competition_catalogue`，提取候选写入 `competition_revisions`，费用预留写入 `competition_model_allowance`。结果只入候选库；公开发布尚未实现。
 
+`ingest.ts --id competition-XXX --auto` 可使用此前Agent调查到的候选入口，运行搜索与官网身份核对、链接选择、采集、提取、校验和一轮缺口补查。无需再次手填官网；目前候选入口来自已保存的研究记录，完全陌生竞赛的搜索结果自动选址仍待验证。搜索摘要仅是线索，身份候选不确认时保留失败记录。
+
+批量执行 `node --env-file=.env modules/competition/scripts/ingest-catalogue.ts`，需同样显式启用单次采集／模型环境；逐项记录成功与失败，费用额度不足时停止。单次最多尝试8个材料地址，补查只允许模型选择已有页面的链接；某附件失败不会丢弃其他有效材料。来源状态和原文依据另存 `competition_sources`。
+
 动态读取使用本模块 `playwright` 依赖，本机需先安装其匹配的Chromium：在模块目录执行 `npx playwright install chromium`。浏览器请求经共享guardedFetch完成，每个网络请求仍检查公开地址及大小／超时限制；服务端不使用管理员浏览器登录态。当前Dockerfile已加入模块依赖清单，镜像的浏览器二进制及系统库安装仍需部署阶段验证。
 
 验收按[全流程标准](verification/acceptance.md)逐项检查；已验证AIC正文＋PDF、职业规划正文＋DOCX及iGEM动态正文的真实模型提取和实际PostgreSQL候选入库。iGEM缺时间／人数仍为草稿，尚未完成31项全范围验收。

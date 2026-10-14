@@ -8,6 +8,7 @@
   "dependencies": {
     "@aihot/backend": "*",
     "cheerio": "1.2.0",
+    "fast-xml-parser": "5.11.1",
     "fflate": "0.7.5",
     "mammoth": "1.13.0",
     "pdfjs-dist": "6.4.299",

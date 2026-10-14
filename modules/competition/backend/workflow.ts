@@ -1,8 +1,12 @@
 import { config } from "@aihot/backend/config";
 import { collectMaterial } from "./materials.ts";
 import { extractMaterials } from "./extract.ts";
-import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun } from "./repository.ts";
-import { catalogueEntrySchema, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
+import { failRun, saveCatalogue, saveMaterial, saveRevision, startRun, recordRunReport } from "./repository.ts";
+import { catalogueEntrySchema, validateExtraction, type CatalogueEntry, type Material, type Extracted } from "./schema.ts";
+import { planFollowups } from "./plan.ts";
+import { recordIdentity, searchOfficial } from "./discovery.ts";
+import { sql } from "@aihot/backend/db";
+import { completeReceipt } from "@aihot/backend/providers/receipts";
 
 export interface WorkflowTools {
   collect: (url: string) => Promise<Material>;
@@ -10,7 +14,7 @@ export interface WorkflowTools {
 }
 
 // The live worker supplies confirmed official URLs; source discovery is a separate recorded step.
-export async function ingestCompetition(input: CatalogueEntry, urls: string[], categories: string[], tools?: WorkflowTools) {
+export async function ingestCompetition(input: CatalogueEntry, urls: string[], categories: string[], tools?: WorkflowTools, autonomous = false) {
   const entry = catalogueEntrySchema.parse(input);
   if (!tools && (process.env.COLLECT_ENABLED !== "true" || !config.modelCallsEnabled)) throw new Error("Competition collection and model calls must be explicitly enabled");
   if (!urls.length || urls.length > 12) throw new Error("Expected 1–12 confirmed material URLs");
@@ -19,13 +23,45 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
   const selected = tools ?? { collect: collectMaterial, extract: extractMaterials };
   try {
     const materials: Material[] = [];
-    for (const url of [...new Set(urls)]) {
-      const material = await selected.collect(url);
-      await saveMaterial(entry.id, material);
-      materials.push(material);
+    const failures: Array<{ url: string; error: string }> = [];
+    const attempted = new Set<string>();
+    const collect = async (url: string) => {
+      if (attempted.has(url)) return;
+      attempted.add(url);
+      try {
+        const material = await selected.collect(url);
+        await saveMaterial(entry.id, material);
+        if (!materials.some(m => m.id === material.id)) materials.push(material);
+      } catch (error) {
+        failures.push({ url, error: error instanceof Error ? error.message : String(error) });
+      }
+    };
+    for (const url of [...new Set(urls)]) await collect(url);
+    await recordRunReport(runId, { attemptedUrls: [...attempted], failures });
+    if (!materials.length) throw new Error(failures[0]?.error ?? "No readable official material");
+    if (autonomous && !tools) {
+      const hits = await searchOfficial(entry.name);
+      const identity = await recordIdentity(entry, materials[0], hits);
+      await recordRunReport(runId, { discovery: { hits, identity } });
+      if (identity !== "confirmed") throw new Error("Official source identity requires review");
+      const plan = await planFollowups(entry, materials);
+      for (const choice of plan.choices) if (attempted.size < 8) await collect(choice.url);
+      await completeReceipt(sql, plan.receiptId);
     }
-    const extracted = await selected.extract(entry, materials, categories);
-    const revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
+    let extracted = await selected.extract(entry, materials, categories);
+    let revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
+    const report = validateExtraction(extracted.data, materials, categories);
+    if (autonomous && !tools && (report.missing.length || !report.valid) && attempted.size < 8) {
+      const plan = await planFollowups(entry, materials, report);
+      const before = materials.length;
+      for (const choice of plan.choices) if (attempted.size < 8) await collect(choice.url);
+      await completeReceipt(sql, plan.receiptId);
+      if (materials.length > before) {
+        extracted = await selected.extract(entry, materials, categories);
+        revisionId = await saveRevision(entry, runId, extracted.data, materials, categories, extracted.receiptId);
+      }
+    }
+    await recordRunReport(runId, { attemptedUrls: [...attempted], failures, autonomous });
     return { competitionId: entry.id, runId, revisionId };
   } catch (error) {
     await failRun(runId, error instanceof Error ? error.message : String(error));

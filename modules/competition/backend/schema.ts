@@ -106,7 +106,8 @@ export function validateExtraction(data: Extracted, materials: Material[], categ
   }
   for (const c of data.categories.value ?? []) if (!categories.includes(c)) errors.push(`categories: unapproved tag ${c}`);
   const discovered = new Set(materials.flatMap(m => [m.url, ...m.links.map(l => l.url)]));
-  if (data.officialWebsite.value && !discovered.has(data.officialWebsite.value)) errors.push("officialWebsite: URL not collected or linked");
+  const identity = (url: string) => { const u = new URL(url); return `${u.host}${u.pathname}${u.search}`; };
+  if (data.officialWebsite.value && ![...discovered].some(url => identity(url) === identity(data.officialWebsite.value!))) errors.push("officialWebsite: URL not collected or linked");
   for (const f of data.files.value ?? []) if (!discovered.has(f.url)) errors.push(`files: undiscovered URL ${f.url}`);
   if (data.promotionImage.value && !materials.some(m => m.images.includes(data.promotionImage.value!))) errors.push("promotionImage: undiscovered image URL");
   for (const f of [data.registrationTimes, data.competitionTimes]) {
