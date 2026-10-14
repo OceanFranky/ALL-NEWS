@@ -90,7 +90,7 @@ guardedFetch公开地址／跳转检查，普通请求20秒／4MB；浏览器同
 | 模型401／402／403 | 停批次，保留回执／预留，待账户恢复 |
 | 预算不足 | budget_stopped，不自动加钱、换轮次、清账 |
 
-任务实际状态running／needs_review／failed／budget_stopped／completed，completed可指unchanged；修订为draft，尚无批准发布链路。readyForReview仅结构引用无错、名称年份known且两组时间known或pending，不是全字段／语义验收。
+任务实际状态running／needs_review／failed／budget_stopped／completed，completed可指unchanged；修订根据基础门槛为draft或needs_review，尚无批准发布链路。readyForReview仅结构引用无错、名称年份known且两组时间known或pending，不是全字段／语义验收。
 
 付费经共享Provider回执、共享预算与竞赛分轮限额；两轮各10元，当前second-live-acceptance。已知用量按核实价格估计，未知保留全额预留；不是实扣，不自动第三轮，未知价格不调用。本次授权不是永久每日预算。
 
@@ -131,7 +131,7 @@ DATABASE_URL=postgres://127.0.0.1:5432/competition_ingestion node modules/compet
 
 2026-10-14 22:28（Asia/Shanghai）只读审计：31目录、30候选、23基础可审核、2项12组全known、图片known 3/30，017无候选。全known不证明全部赛道／节点语义正确。首轮保守占用9.883816元含15笔未结算，第二轮2.14886元未结算0。当前值重新audit，静态快照不替代数据库。
 
-区分流程可运行、候选入库、字段语义正确、全31项完成；逐项核全部字段和范围，不以绿色测试、原文匹配、覆盖率、少量样例替代。校验器不自动完成全部语义判断。未完成：017、其余图片／字段、全名单语义、陌生名单发现验证。
+区分流程可运行、候选入库、字段语义正确、全31项信息补齐；不以绿色测试、原文匹配、覆盖率、少量样例替代语义正确。校验器不自动完成全部语义判断。使用者已明确本阶段不等待24项人工审核，亦不以全字段known／所有图片作为交付门槛；未取得017、其他字段／赛段缺口、语义限制和陌生名单发现验证须如实报告。最新结果见[本轮交付](verification/2026-10-14-ingestion-handoff.md)，不能将异常记录计为采集成功。
 
 真实错例见[运行日志](verification/2026-10-14-live-ingestion.md)：软件杯指导组／扫描通知、数学建模11页／境内海外截止、iGEM推荐与强制人数、延期、数媒图年份冲突、CCSP OCR错字、懒加载空属性、聚合声明、解析快照冲突。
 
