@@ -1,4 +1,6 @@
-import type { CompetitionDetail, CompetitionField, CompetitionFilters, CompetitionList, CompetitionRecord } from "@aihot/contracts/competitions";
+import type { CompetitionDetail, CompetitionField, CompetitionFilters, CompetitionList, CompetitionRecord, CompetitionOverview } from "@aihot/contracts/competitions";
+import { featuredCompetitions } from "../featured.ts";
+import { isDeepStrictEqual } from "node:util";
 import { sql } from "@aihot/backend/db";
 import { competitionActivity, timeBoundary } from "./activity.ts";
 import { activities, competitionQuerySchema, type CompetitionQuery } from "./query.ts";
@@ -87,4 +89,49 @@ export async function readCompetitionDetail(input: unknown): Promise<Competition
 
 export async function readCompetitionFilters(): Promise<CompetitionFilters> {
   return publicFilters(await publishedCompetitions(new Date()));
+}
+
+export async function readCompetitionOverview(): Promise<CompetitionOverview> {
+  const now = new Date();
+  const records = await publishedCompetitions(now);
+  const ordered = filterPublished(records, competitionQuerySchema.parse({ sort: "next_node" }));
+  const selectedChanges = await sql`SELECT a.created_at,d.competition_id,d.edition_id,old.data AS previous,r.data AS current
+    FROM audit_log a JOIN competition_displays d ON a.subject='competition:' || d.competition_id AND a.after->>'edition_id'=d.edition_id::text
+    JOIN competition_revisions old ON old.competition_id=d.competition_id AND old.id=a.before->>'revision_id'
+    JOIN competition_revisions r ON r.competition_id=d.competition_id AND r.id=d.revision_id
+    WHERE a.action='competition.display.select' AND a.after->>'revision_id'=d.revision_id AND old.id<>r.id
+    ORDER BY a.created_at DESC,a.id DESC`;
+  const changeFields = { registrationTimes: "报名时间", competitionTimes: "比赛时间", participantLimit: "参赛人数", teacherLimit: "指导老师限制", stages: "赛段" };
+  const changes: CompetitionOverview["changes"] = [];
+  const seen = new Set<string>();
+  for (const change of selectedChanges) {
+    const item = records.find(record => record.competitionId === change.competition_id && record.editionId === change.edition_id);
+    if (!item || seen.has(item.editionId)) continue;
+    seen.add(item.editionId);
+    const fields = Object.entries(changeFields).flatMap(([key, name]) => {
+      const previous = change.previous[key];
+      const current = change.current[key];
+      return previous?.status === "known" && current?.status === "known" && !isDeepStrictEqual(previous.value, current.value)
+        ? [{ name, previous: field(previous), current: field(current) }] : [];
+    });
+    if (fields.length) changes.push({ item, changedAt: new Date(change.created_at).toISOString(), fields });
+  }
+  const has = (record: CompetitionRecord, status: string) => record.activity.some(entry => entry.status === status);
+  return {
+    total: records.length,
+    registrationOpen: records.filter(record => has(record, "registration_open")).length,
+    competitionOngoing: records.filter(record => has(record, "competition_ongoing")).length,
+    active: ordered.filter(record => has(record, "registration_open") || has(record, "competition_ongoing")),
+    featured: featuredCompetitions.flatMap(featured => {
+      const item = records.filter(record => record.competitionId === featured.id).sort((left, right) => (right.year.value?.primary ?? 0) - (left.year.value?.primary ?? 0) || left.editionId.localeCompare(right.editionId))[0];
+      return item ? [{ item, reason: featured.reason }] : [];
+    }),
+    upcoming: ordered.flatMap(item => item.nextNodes.map(node => ({ item, node }))),
+    categories: competitionCategories.map(name => {
+      const items = ordered.filter(record => record.categories.value?.includes(name));
+      return { name, count: items.length, items: items.slice(0, 3) };
+    }),
+    changes,
+    computedAt: now.toISOString(),
+  };
 }

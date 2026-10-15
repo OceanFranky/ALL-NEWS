@@ -179,3 +179,31 @@ test("无年份和无图片允许明确展示，校验失败或已拒绝候选�
   await assert.rejects(addEdition(id, invalid, "test", "错误引用"), /failed publication validation/);
   assert.equal((await app.inject(`/api/v1/competitions?q=${id}&year=unknown`)).json().items[0].revisionId, revisionId);
 });
+
+test("总览与公开集合一致，重点依据固定方向，重要变更只取当前展示修订的已知事实变化", async () => {
+  const response = await app.inject("/api/v1/competitions/overview");
+  assert.equal(response.statusCode, 200);
+  const overview = response.json();
+  const records = (await readCompetitionPublication({ pageSize: "100" })).items;
+  assert.equal(overview.total, records.length);
+  assert.equal(overview.registrationOpen, records.filter(item => item.activity.some(entry => entry.status === "registration_open")).length);
+  assert.ok(overview.active.every((item: { activity: Array<{ status: string }> }) => item.activity.some(entry => ["registration_open", "competition_ongoing"].includes(entry.status))));
+  assert.equal(overview.featured.length, 3);
+  assert.equal(overview.categories.length, 11);
+  for (const category of overview.categories) assert.equal(category.count, records.filter(item => item.categories.value?.includes(category.name)).length);
+  assert.equal(overview.changes.length, 0);
+  assert.equal((await app.inject("/api/v1/competitions/overview?q=bad")).statusCode, 400);
+  const current = records.find(item => item.competitionId === "competition-030")!;
+  const revisionId = await candidate(current.competitionId, 2026, data => {
+    data.registrationTimes = { value: current.registrationTimes.value!.map(time => ({ ...time, end: new Date(Date.parse(time.end!) + 86_400_000).toISOString().replace(/\.\d{3}Z$/, "Z") })), status: "known", reason: "", evidence: data.name.evidence };
+  });
+  assert.equal((await app.inject("/api/v1/competitions/overview")).json().changes.length, 0);
+  await selectDisplay(current.competitionId, current.editionId, { revisionId, expectedVersion: current.version, reason: "已核验报名延期" }, "test");
+  const changes = (await app.inject("/api/v1/competitions/overview")).json().changes;
+  assert.equal(changes.length, 1);
+  assert.deepEqual(changes[0].fields.map((field: { name: string }) => field.name), ["报名时间"]);
+  assert.deepEqual(changes[0].fields[0].previous.value, current.registrationTimes.value);
+  assert.equal(changes[0].item.revisionId, revisionId);
+  await selectDisplay(current.competitionId, current.editionId, { revisionId: null, expectedVersion: current.version + 1, reason: "撤回" }, "test");
+  assert.equal((await app.inject("/api/v1/competitions/overview")).json().changes.length, 0);
+});

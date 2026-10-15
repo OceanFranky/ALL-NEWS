@@ -79,3 +79,14 @@ export interface CompetitionFilters {
   activities: CompetitionActivity[];
   sorts: Array<"catalogue" | "year_desc" | "next_node">;
 }
+export interface CompetitionOverview {
+  total: number;
+  registrationOpen: number;
+  competitionOngoing: number;
+  active: CompetitionRecord[];
+  featured: Array<{ item: CompetitionRecord; reason: string }>;
+  upcoming: Array<{ item: CompetitionRecord; node: CompetitionNode }>;
+  categories: Array<{ name: string; count: number; items: CompetitionRecord[] }>;
+  changes: Array<{ item: CompetitionRecord; changedAt: string; fields: Array<{ name: string; previous: CompetitionField<unknown>; current: CompetitionField<unknown> }> }>;
+  computedAt: string;
+}

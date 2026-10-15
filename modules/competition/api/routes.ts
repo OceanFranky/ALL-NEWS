@@ -35,6 +35,7 @@ export function competitionRoutes(app: FastifyInstance) {
   };
   app.get("/api/v1/competitions", publicRoute("list", req => query(req, queryKeys)));
   app.get("/api/v1/competitions/filters", publicRoute("filters", req => { query(req, []); return undefined; }));
+  app.get("/api/v1/competitions/overview", publicRoute("overview", req => { query(req, []); return undefined; }));
   app.get("/api/v1/competitions/:competitionId/editions/:editionId", publicRoute("detail", req => { query(req, []); return ids(req); }));
   app.get("/api/admin/competitions/candidates", adminHandler(async req => {
     const input = z.object({ q: z.string().optional(), page: z.string().optional(), pageSize: z.string().optional() }).strict().parse(query(req, ["q", "page", "pageSize"]));

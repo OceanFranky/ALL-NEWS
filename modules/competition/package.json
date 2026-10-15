@@ -3,9 +3,11 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./web.tsx": "./web.tsx",
     "./*": "./*.ts"
   },
   "dependencies": {
+    "@aihot/web": "*",
     "@aihot/api": "*",
     "@napi-rs/canvas": "1.0.11",
     "@aihot/backend": "*",

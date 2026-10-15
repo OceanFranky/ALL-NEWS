@@ -1,7 +1,7 @@
 # 大学生竞赛模块隔离与后台流程规划
 
 - 日期：2026-10-13；分支：`codex/competition`；版本：V0.1。
-- 当前状态（2026-10-15）：独立模块、候选入库、展示版本和公开列表／详情／筛选已实现，31项首次展示已获授权；定时任务仅声明，页面／总览／增量生产未完成。下文保留早期设计背景，当前接口以[API说明](../modules/competition/API.md)为准，阶段见[开发指导README](../modules/competition/DEVELOPMENT-README.md)。
+- 当前状态（2026-10-15）：独立模块、候选入库、展示版本及公开服务已实现，31项首次展示已获授权；总览、库、详情及隔离的本地收藏已接通，日常采集／模型关闭，增量生产后置。下文保留早期设计背景，当前实现以[模块README](../modules/competition/README.md)及[API说明](../modules/competition/API.md)为准。
 - 前端指导：[三层页面规划](competition-frontend.md)；模块入口：[模块说明](../modules/competition/README.md)。
 
 2026-10-13 更新：第一轮业务字段严格以[模块 README 开发规范](../modules/competition/README.md#第一轮开发规范只收录以下信息)为准，覆盖此前更广的建议。内部证据、身份与审核机制不构成扩展业务字段的授权。

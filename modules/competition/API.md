@@ -1,6 +1,6 @@
 # 竞赛数据接口（已实现）
 
-日期：2026-10-15。共享响应类型在 `@aihot/contracts/competitions`，请求schema在 `backend/query.ts`。候选查询、展示版本、公开列表／详情／筛选已实现；总览接口、前端页面及每日增量生产后续开发。
+日期：2026-10-15。共享响应类型在 `@aihot/contracts/competitions`，请求schema在 `backend/query.ts`。候选查询、展示版本、公开列表／详情／筛选／总览及三层前端已实现；每日增量生产后续开发。
 
 ## 1. 展示规则与身份
 
@@ -34,6 +34,14 @@
 ### `GET /api/v1/competitions/filters`
 
 无查询参数。返回 `CompetitionFilters`：categories、schoolLevels、years、hasUnknownYear、activities、sorts。分类为批准全集，级别／年份为当前可见集合，不随筛选联动；本版无分类计数或热度。
+
+### `GET /api/v1/competitions/overview`
+
+无查询参数。返回 `CompetitionOverview`：total（可见届次）、registrationOpen／competitionOngoing（任一已知范围开放／进行的届次数）、active、featured（记录及方向理由）、upcoming（记录与最近可确定节点）、categories（方向、去重届次数及最多3项入口）、changes、computedAt。总览与列表读取相同展示版本，不触发采集或模型。
+
+使用者允许先自行选择重点，`featured.ts` 按软件、人工智能、数学建模三个方向固定选择；每项目优先已知年份最新的可见届次，不宣称热度。总览只截取前6项进行中与前10个近期节点用于页面编排，全部记录仍可由竞赛库检索，不设重要性门槛。
+
+changes只反映当前仍可见的展示版本，相对前一明确选择版本的已知报名时间、比赛时间、人数、教师限制或赛段变化；提供changedAt及fields中的name、previous、current。首次收录、仅候选变化、未知恢复、原文证据变化不当成重要事实变更；撤回后从总览同时消失。未实现每日自动发现或自动发布新变化。
 
 ### `GET /api/v1/competitions/:competitionId/editions/:editionId`
 
@@ -93,4 +101,4 @@ node modules/competition/scripts/verify-publication.ts
 
 0064–0066只新增三张模块表，不删除既有数据。首次展示／届次回填不进入发布迁移。脚本默认输出计划，--apply使用已授权最终31项快照，事务内创建届次并选择展示；最新修订不同或校验失败时整批拒绝。重复执行不覆盖后续选择、不恢复已撤回内容，不作为永久自动发布入口。
 
-验证脚本通过HTTP处理器逐项对照列表／详情／搜索／分页、展示指针及原字段缺失状态，核对任务及回执计数不变；不证明所有事实语义正确。前端接列表及详情后再做总览。长期预算、生产采集及增量自动发布不因本次首次展示授权而开启。
+验证脚本通过HTTP处理器逐项对照列表／详情／搜索／分页、展示指针及原字段缺失状态，核对任务及回执计数不变；不证明所有事实语义正确。前端总览、库、详情及独立收藏均已接入；长期预算、生产采集及增量自动发布不因本次首次展示授权而开启。
