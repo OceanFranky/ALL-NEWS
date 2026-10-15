@@ -6,6 +6,34 @@ import { createServer } from 'node:http';
 import { chromium, expect } from '@playwright/test';
 import { startWebServer } from './web-server.ts';
 
+test('world overview renders the published daily focus and briefs on desktop and mobile', async () => {
+  const entry = { itemId: 'daily-focus', title: '当天重点新闻', summary: '已有合格摘要，不调用模型补写。', category: 'economy', sourceName: '日报测试来源', publishedAt: '2026-10-15T08:00:00Z' };
+  const api = createServer((req, res) => {
+    const path = new URL(req.url!, 'http://fixture').pathname;
+    res.setHeader('Content-Type', 'application/json');
+    if (path === '/api/site/meta') return res.end('{}');
+    if (path.startsWith('/api/v1/world/daily/')) return res.end(JSON.stringify({ focus: [entry], flashes: [{ ...entry, itemId: 'daily-brief', title: '当天速览新闻' }], status: 'ready' }));
+    if (path === '/api/v1/world/highlights') return res.end(JSON.stringify({ status: 'calibration-required', categories: [] }));
+    if (path === '/api/v1/world/items') return res.end(JSON.stringify({ items: [] }));
+    res.statusCode = 404; res.end('{}');
+  });
+  const web = await startWebServer(api), browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+    for (const width of [1440, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(`${web.origin}/world`);
+      await expect(page.getByRole('heading', { name: entry.title })).toBeVisible();
+      await expect(page.getByRole('link', { name: '当天速览新闻' })).toBeVisible();
+      await expect(page.getByRole('link', { name: entry.title })).toHaveAttribute('href', '/world/items/daily-focus?from=%2Fworld');
+      await expect(page.getByText('今日日报尚无已发布内容。')).toHaveCount(0);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    }
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); await web.stop(); }
+});
+
 test('world reader handles pagination, unknown publication dates, errors and withdrawn bookmarks', async () => {
   let failure = '', withdrawn = false;
   const reads: string[] = [];

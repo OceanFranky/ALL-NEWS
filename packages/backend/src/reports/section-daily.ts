@@ -4,6 +4,7 @@ import { sql } from "../db.ts";
 import { audit,Conflict } from "../audit.ts";
 import { sectionContext } from "../sections/context.ts";
 import { sectionDailyCandidates,currentSectionDailyEntries } from "../publication/section-daily.ts";
+import { stableJson } from "../lib/ids.ts";
 
 interface DailyRevision {
   id:number;revision:number;status:'draft'|'approved'|'withdrawn';content:SectionDailyContentData;
@@ -62,6 +63,31 @@ export async function listSectionDailyRevisions(sectionId:SectionId,date:string)
   validate(sectionId,date);
   return sql<DailyRevision[]>`SELECT id,revision,status,content,generated_by,generated_at,approved_by,approved_at FROM section_daily_revisions
     WHERE section_id=${sectionId} AND edition_date=${date} ORDER BY revision DESC`;
+}
+
+export async function refreshSectionDaily(sectionId:SectionId,date:string,policy:SectionDailyPolicyInput,actor:string) {
+  validate(sectionId,date);SectionDailyPolicy.parse(policy);
+  if(!actor.trim()) throw new Error('daily generation requires actor');
+  return sql.begin(async tx=>{
+    await tx`SELECT pg_advisory_xact_lock(hashtextextended(${`daily:${sectionId}:${date}`},0))`;
+    const [previous]=await tx<DailyRevision[]>`SELECT id,revision,status,content FROM section_daily_revisions
+      WHERE section_id=${sectionId} AND edition_date=${date} AND approved_at IS NOT NULL ORDER BY revision DESC LIMIT 1`;
+    if(previous?.status==='withdrawn') return { sectionId,date,status:'withdrawn' as const,revision:previous.revision,changed:false };
+    const entries=await sectionDailyCandidates(sectionId,date,tx);
+    const issue=arrangeSectionDaily(entries,policy);
+    const content=SectionDailyContent.parse({ date,policy,...issue,status:issue.focus.length+issue.flashes.length ? 'ready' : 'no-qualified-content' });
+    if(previous && stableJson(previous.content)===stableJson(content))
+      return { sectionId,date,status:'unchanged' as const,revision:previous.revision,changed:false };
+    const [latest]=await tx<{ revision:number }[]>`SELECT coalesce(max(revision),0)::int AS revision FROM section_daily_revisions
+      WHERE section_id=${sectionId} AND edition_date=${date}`;
+    const [row]=await tx<{ revision:number }[]>`INSERT INTO section_daily_revisions
+      (section_id,edition_date,revision,status,content,generated_by,approved_by,approved_at)
+      VALUES (${sectionId},${date},${latest!.revision+1},'approved',${tx.json(content)},${actor},${actor},now()) RETURNING revision`;
+    await audit(actor,'section.daily.auto-publish',`${sectionId}:daily:${date}`,'Automatic model-free daily refresh',
+      previous ? { revision:previous.revision } : null,
+      { revision:row!.revision,focus:issue.focus.length,flashes:issue.flashes.length },{ db:tx });
+    return { sectionId,date,status:content.status,revision:row!.revision,changed:true };
+  });
 }
 
 export async function reviewSectionDaily(sectionId:SectionId,date:string,

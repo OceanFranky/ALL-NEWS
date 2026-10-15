@@ -10,7 +10,8 @@ import { beijingDate,beijingMidnight,addDays } from "@aihot/contracts/time";
 import { sectionDaily,sectionDailyCandidates } from "@aihot/backend/publication/section-daily";
 import { projectSectionArticle,reviewSectionPublication,reviewSectionSourcePermission } from "@aihot/backend/publication/section-publish";
 import { generateSectionDaily,listSectionDailyRevisions,reviewSectionDaily } from "@aihot/backend/reports/section-daily";
-import { generateWorldDaily } from "../daily.ts";
+import { generateWorldDaily,refreshWorldDaily } from "../daily.ts";
+import { WORLD_RULES } from "../rules.ts";
 import { worldNewsModule } from "../server.ts";
 import { registerWorldAdmin } from "../api/admin.ts";
 import { registerWorldPublic } from "../api/public.ts";
@@ -170,4 +171,74 @@ test('HTTP draft access is private, writes require CSRF and public daily only ex
     assert.equal((await app.inject(`/api/v1/world/daily/${d}`)).statusCode,200);
     assert.equal((await app.inject('/api/v1/world/daily/2026-02-30')).statusCode,400);
   } finally { config.devAdmin=old;await app.close(); }
+});
+
+test('automatic daily is opt-in and publishes scored deduplicated source-capped content without paid work',async()=>{
+  const d=addDays(today,-5),now=beijingMidnight(d);
+  assert.equal((await refreshWorldDaily(now)).status,'disabled');
+  await sql`INSERT INTO settings (key,value) VALUES ('sections.world.daily','{"automatic":"true"}'::jsonb)`;
+  assert.equal((await refreshWorldDaily(now)).status,'disabled');
+  await sql`UPDATE settings SET value='{"automatic":true}'::jsonb WHERE key='sections.world.daily'`;
+  const first=await fixture({ date:d,score:100 });
+  await fixture({ date:d,score:99,story:first.story,source:1 });
+  for(let index=0;index<18;index++) await fixture({ date:d,score:90-index,source:index%4 });
+  const results=await Promise.all(Array.from({ length:5 },()=>refreshWorldDaily(now)));
+  assert.equal(results.filter(result=>result.changed).length,1);
+  const issue=await sectionDaily('world',d);
+  assert.equal(issue!.focus.length,6);assert.equal(issue!.flashes.length,6);
+  assert.equal(issue!.focus[0].itemId,first.id);
+  const entries=[...issue!.focus,...issue!.flashes];
+  assert.equal(new Set(entries.map(entry=>entry.storyPublicId)).size,12);
+  for(const source of sources) assert.ok(issue!.focus.filter(entry=>entry.sourceName===`Local ${source}`).length<=2);
+  assert.equal((await listSectionDailyRevisions('world',d)).length,1);
+  assert.equal((await sql`SELECT 1 FROM receipts`).length,0);
+  assert.equal((await sql`SELECT 1 FROM receipt_attempts`).length,0);
+  assert.equal(WORLD_RULES.selection.thresholds,null);
+  assert.equal((await sql`SELECT 1 FROM publications WHERE section_id='world' AND selected`).length,0);
+  assert.equal(worldNewsModule.schedules!.find(schedule=>schedule.name==='world-news.daily')!.cron,'*/5 * * * *');
+});
+
+test('automatic updates append only changed issues without approving an administrator draft',async()=>{
+  const d=addDays(today,-5),now=beijingMidnight(d);
+  const before=await sectionDaily('world',d);
+  const manual=await generateWorldDaily(d,actor);
+  assert.equal((await refreshWorldDaily(now)).changed,false);
+  assert.equal((await listSectionDailyRevisions('world',d))[0].status,'draft');
+  const added=await fixture({ date:d,source:2,score:100 });
+  const result=await refreshWorldDaily(now);
+  assert.equal(result.changed,true);
+  const issue=await sectionDaily('world',d);
+  assert.ok(issue!.revision>before!.revision);
+  assert.ok([...issue!.focus,...issue!.flashes].some(entry=>entry.itemId===added.id));
+  const revisions=await listSectionDailyRevisions('world',d);
+  assert.equal(revisions.find(row=>row.revision===manual.revision)!.status,'draft');
+  assert.equal(revisions[0].generated_by,'worker.world-daily');
+  assert.ok((await sql`SELECT 1 FROM audit_log WHERE action='section.daily.auto-publish'`).length>=2);
+});
+
+test('automatic daily removes revoked citations and respects explicit issue withdrawal',async()=>{
+  const d=addDays(today,-5),now=beijingMidnight(d);
+  const before=await sectionDaily('world',d),id=before!.focus[0].itemId;
+  await reviewSectionPublication('world',id,{ revision:1,action:'withdraw',actor,reason:'Withdraw automatic citation' });
+  assert.ok(!(await sectionDaily('world',d))!.focus.some(entry=>entry.itemId===id));
+  await refreshWorldDaily(now);
+  const current=await sectionDaily('world',d);
+  assert.ok(!JSON.stringify(current).includes(id));
+  await reviewSectionDaily('world',d,{ revision:current!.revision,action:'withdraw',actor,reason:'Stop automatic issue' });
+  const count=(await listSectionDailyRevisions('world',d)).length;
+  await fixture({ date:d,source:3,score:100 });
+  assert.equal((await refreshWorldDaily(now)).status,'withdrawn');
+  assert.equal(await sectionDaily('world',d),null);
+  assert.equal((await listSectionDailyRevisions('world',d)).length,count);
+});
+
+test('quiet automatic days stay empty and rollover uses a separate Beijing edition',async()=>{
+  const quiet=addDays(today,-15);
+  assert.equal((await refreshWorldDaily(beijingMidnight(quiet))).status,'no-qualified-content');
+  assert.deepEqual((await sectionDaily('world',quiet))!.focus,[]);
+  assert.equal((await refreshWorldDaily(beijingMidnight(quiet))).changed,false);
+  const next=addDays(quiet,1);
+  assert.equal((await refreshWorldDaily(beijingMidnight(next))).changed,true);
+  assert.equal((await listSectionDailyRevisions('world',next))[0].revision,1);
+  assert.equal((await sql`SELECT 1 FROM receipts`).length,0);
 });
