@@ -1,0 +1,1 @@
+ALTER TABLE selected_ledger VALIDATE CONSTRAINT selected_ledger_section_check;

@@ -232,7 +232,7 @@ export interface GroupOptions {
 export async function groupArticle(articleId: string, opts: GroupOptions = {}): Promise<GroupResult> {
   const input = await sql.begin(async tx => {
     const [current] = await tx<{ revision: number; grouping_status: string; selection_adds_value: boolean | null }[]>`
-      SELECT revision, grouping_status, selection_adds_value FROM articles WHERE id = ${articleId} FOR UPDATE`;
+      SELECT revision, grouping_status, selection_adds_value FROM articles WHERE id = ${articleId} AND section_id = 'ai' FOR UPDATE`;
     if (!current) return null;
     await tx`UPDATE articles SET grouping_status = 'pending', grouped_at = NULL, grouping_error = NULL, grouping_receipt_id = NULL WHERE id = ${articleId}`;
     // An unfinished decision (new material, a failure, an explicit regroup) must withdraw its old public
@@ -505,7 +505,7 @@ const WAIT_HOURS = 48;
 
 /** Discussion posts not yet attached to any story (a post a person placed or detached is left alone). */
 const unattachedSignal = sql`
-  s.participation_mode = 'hot_signal' AND a.processing_state = 'skipped'
+  a.section_id='ai' AND s.participation_mode = 'hot_signal' AND a.processing_state = 'skipped'
   AND (NOT a.backfill OR a.discovered_at - a.published_at <= make_interval(secs => ${STALE_ON_DISCOVERY_MS / 1000}))
   AND NOT EXISTS (SELECT 1 FROM story_signals ss WHERE ss.article_id = a.id)
   AND NOT EXISTS (SELECT 1 FROM grouping_decisions d WHERE d.article_id = a.id AND d.verdict <> 'signal-unmatched')

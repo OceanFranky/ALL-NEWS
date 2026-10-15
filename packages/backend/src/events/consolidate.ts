@@ -63,7 +63,7 @@ async function judgeStories(capability: "group" | "groupReview", a: StoryRoot, b
 export async function liveStory(id: number): Promise<number | null> {
   let current = id;
   for (let hops = 0; hops < 20; hops++) {
-    const [st] = await sql<{ merged_into: number | null }[]>`SELECT merged_into FROM stories WHERE id = ${current}`;
+    const [st] = await sql<{ merged_into: number | null }[]>`SELECT merged_into FROM stories WHERE id = ${current} AND section_id='ai'`;
     if (!st) return null;
     if (st.merged_into === null) return current;
     current = Number(st.merged_into);
@@ -150,7 +150,7 @@ export async function linkRelatedStories(): Promise<{ added: number }> {
       JOIN facts own ON own.id = fa.fact_id
       CROSS JOIN LATERAL jsonb_array_elements(l.candidates) c
       JOIN facts other ON other.id = (c->>'id')::bigint
-      WHERE l.verdict IN ('same-fact', 'same-url', 'new-fact-in-story', 'new-story')
+      WHERE own.section_id='ai' AND other.section_id='ai' AND l.verdict IN ('same-fact', 'same-url', 'new-fact-in-story', 'new-story')
         AND c->>'relation' IN ('SAME_OCCURRENCE', 'SAME_STORY') AND (c->>'confidence')::numeric >= ${TIE_MIN_CONFIDENCE}
         AND other.story_id <> own.story_id),
     pairs AS (

@@ -42,7 +42,7 @@ async function route(articleId: string, db: Db): Promise<Route | null> {
   const [row] = await db<{ body_status: string; participation_mode: string; kind: string; config: Record<string, unknown>; url: string; bare: boolean; backfill: boolean; published_at: Date | null; discovered_at: Date }[]>`
     SELECT a.body_status, s.participation_mode, s.kind, s.config, a.url, (coalesce(a.body_text, '') = '' AND a.x_post IS NULL) AS bare,
            a.backfill, a.published_at, a.discovered_at
-    FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId}`;
+    FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId} AND a.section_id = 'ai'`;
   if (!row) return null;
   const historical = isHistorical(row);
   const signal = row.participation_mode !== "editorial";
@@ -92,7 +92,7 @@ export async function queueProcessing(articleId: string, opts: { step?: Step; at
 export async function settleNonEditorial(articleId: string): Promise<{ group: boolean }> {
   const [row] = await sql<{ participation_mode: string; backfill: boolean; published_at: Date | null; discovered_at: Date }[]>`
     UPDATE articles a SET processing_state = 'skipped', processing_attempts = 0, processing_retry_at = NULL, processing_queued_at = NULL
-    FROM sources s WHERE s.id = a.source_id AND a.id = ${articleId} AND s.participation_mode <> 'editorial'
+    FROM sources s WHERE s.id = a.source_id AND a.id = ${articleId} AND a.section_id='ai' AND s.participation_mode <> 'editorial'
     RETURNING s.participation_mode, a.backfill, a.published_at, a.discovered_at`;
   if (!row) return { group: false };
   await publishArticle(articleId);
@@ -101,7 +101,7 @@ export async function settleNonEditorial(articleId: string): Promise<{ group: bo
 
 async function processingInput(articleId: string) {
   const [row] = await sql<{ participation_mode: string; revision: number; backfill: boolean; published_at: Date | null; discovered_at: Date }[]>`
-    SELECT s.participation_mode, a.revision, a.backfill, a.published_at, a.discovered_at FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId}`;
+    SELECT s.participation_mode, a.revision, a.backfill, a.published_at, a.discovered_at FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId} AND a.section_id='ai'`;
   return row ? { ...row, historical: isHistorical(row) } : null;
 }
 
@@ -232,7 +232,7 @@ export async function registerExtractionJobs(boss: PgBoss) {
 export async function sweepUnprocessed(): Promise<{ enqueued: number }> {
   const rows = await sql<{ id: string }[]>`
     SELECT id FROM articles
-    WHERE processing_state = 'new' AND created_at < now() - interval '3 minutes'
+    WHERE section_id = 'ai' AND processing_state = 'new' AND created_at < now() - interval '3 minutes'
       AND (processing_retry_at IS NULL OR processing_retry_at <= now())
       AND (processing_queued_at IS NULL OR processing_queued_at < now() - ${QUEUED_STALE}::interval)
     ORDER BY discovered_at DESC LIMIT 500`;
@@ -255,7 +255,7 @@ export async function resumeAfterRelease(receipt: { purpose: string; subject: st
   const article = ARTICLE_STEPS.has(receipt.purpose) ? /^article:([^@:#]+)/.exec(receipt.subject ?? "")?.[1] : undefined;
   if (!article) return false;
   const [a] = await db`UPDATE articles SET processing_state = 'new', processing_attempts = 0, processing_retry_at = NULL, processing_error = NULL
-                        WHERE id = ${article} AND processing_state = 'failed' RETURNING id`;
+                        WHERE section_id = 'ai' AND id = ${article} AND processing_state = 'failed' RETURNING id`;
   return !!a && !!(await queueProcessing(article, { step: "analyze", db }));
 }
 
@@ -270,7 +270,7 @@ export const failureGroupSql = (column = "processing_error") =>
 export async function requeueFailed(group: string | null): Promise<{ requeued: number }> {
   const rows = await sql<{ id: string }[]>`
     UPDATE articles SET processing_state = 'new', processing_attempts = 0, processing_retry_at = NULL, processing_error = NULL
-    WHERE processing_state = 'failed' AND discovered_at > now() - interval '30 days'
+    WHERE section_id = 'ai' AND processing_state = 'failed' AND discovered_at > now() - interval '30 days'
       AND (${group}::text IS NULL OR ${failureGroupSql()} = ${group})
     RETURNING id`;
   for (const r of rows.slice(0, 500)) await queueProcessing(r.id);

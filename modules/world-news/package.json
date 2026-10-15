@@ -1,0 +1,15 @@
+{
+  "name": "@aihot/world-news",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./server": "./server.ts",
+    "./rules": "./rules.ts",
+    "./module": "./module.ts"
+  },
+  "dependencies": {
+    "@aihot/backend": "*",
+    "@aihot/contracts": "*",
+    "zod": "4.6.5"
+  }
+}

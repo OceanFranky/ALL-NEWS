@@ -5,6 +5,7 @@ import { sql, type Db } from "../db.ts";
 import { publishArticleTx } from "../publication/publish.ts";
 import { emit } from "../modules.ts";
 import { hasItemPage } from "../publication/rules.ts";
+import type { SectionId } from "@aihot/contracts/sections";
 
 /**
  * An UPDATE articles SET fragment: the article's grouping and its "adds value" check are decided again
@@ -55,14 +56,14 @@ export function publisherOwnsUrl(source: Publisher, rawUrl: string): boolean {
 
 /** The caller holds the article row lock. A provenance-only repair preserves the material revision. */
 export async function reconcileMaterialSource(db: Db, articleId: string, observed?: { sourceId: string; author?: string | null }): Promise<boolean> {
-  const [article] = await db<{ source_id: string; url: string; author: string | null; participation_mode: string; analyzed: boolean }[]>`
-    SELECT a.source_id, a.url, a.author, s.participation_mode,
+  const [article] = await db<{ section_id: SectionId; source_id: string; url: string; author: string | null; participation_mode: string; analyzed: boolean }[]>`
+    SELECT a.section_id, a.source_id, a.url, a.author, s.participation_mode,
       EXISTS (SELECT 1 FROM analyses an WHERE an.article_id = a.id AND an.input_revision = a.revision AND an.relevance IS NOT NULL) AS analyzed
     FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.id = ${articleId} FOR UPDATE OF a`;
   if (!article) return false;
   const candidates = await db<Publisher[]>`
     SELECT s.id, s.kind, s.config, s.participation_mode FROM sources s
-    WHERE s.tier = 'T1' AND (jsonb_typeof(s.config->'publisherUrlPrefixes') = 'array'
+    WHERE s.section_id = ${article.section_id} AND s.tier = 'T1' AND (jsonb_typeof(s.config->'publisherUrlPrefixes') = 'array'
       OR (s.kind = 'web_list' AND NOT (s.config ? 'publisherUrlPrefixes')
         AND EXISTS (SELECT 1 FROM article_discoveries d WHERE d.article_id = ${articleId} AND d.source_id = s.id)))`;
   const owned = candidates.filter((s) => publisherOwnsUrl(s, article.url));
@@ -82,6 +83,8 @@ export async function reconcileMaterialSource(db: Db, articleId: string, observe
   await audit("system", "article.attribution", `article:${articleId}`, "唯一 T1 原发信源与已验证 URL 范围一致（显式配置或已观察官网列表）",
     { sourceId: article.source_id, author: article.author }, { sourceId: publisher.id, author }, { db });
   // This changes attribution and the public seat, not the judgement or selection threshold.
+  // World publication is not wired yet; never run its attribution through AI editorial rules.
+  if (article.section_id !== "ai") return true;
   const published = await publishArticleTx(db as Parameters<typeof publishArticleTx>[0], articleId);
   if (wasReadable && published?.changed) await emit("articleChanged", { id: articleId, kind: "content", reduced: published.reduced, reason: "publisher attribution" }, db);
   return true;

@@ -1,0 +1,1 @@
+ALTER TABLE analyses VALIDATE CONSTRAINT analyses_section_article_id_fk;

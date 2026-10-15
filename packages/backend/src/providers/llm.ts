@@ -3,10 +3,13 @@
 // site, an environment variable or the admin's model page picks one of the site's named presets
 // (site/models.ts).
 import type { z } from "zod";
+import type { SectionId } from "@aihot/contracts/sections";
+import type { SectionResource } from "../sections/resources.ts";
 import { PRESETS } from "@aihot/site/models";
 import { config, credential } from "../config.ts";
 import { sha256 } from "../lib/ids.ts";
 import { assertAccepted, paidRequest, ProviderRejectedError, rejectReceivedResponse } from "./receipts.ts";
+import { dailyMoneyPolicy, reserveSectionModelCost } from './section-money.ts';
 
 export interface ModelSpec {
   key: string;
@@ -54,6 +57,8 @@ export const MODELS: Record<string, ModelSpec> = {
 export type ContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string } };
 
 export interface ChatJsonOptions<S extends z.ZodType> {
+  sectionId?: SectionId;
+  resource?: SectionResource;
   model: string;
   purpose: string;
   subject: string;
@@ -64,6 +69,8 @@ export interface ChatJsonOptions<S extends z.ZodType> {
   temperature?: number;
   maxTokens?: number;
   attemptTag?: string;
+  /** Non-legacy recovery binds a paid request to the actual material revision. */
+  inputRevision?: number;
   timeoutMs?: number;
   /** false: the model answers in its own text format (no JSON mode); `parse` turns it into the schema's input. */
   json?: boolean;
@@ -137,6 +144,8 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
   const temperature = opts.temperature ?? 0.2;
   const maxTokens = Math.max(opts.maxTokens ?? 1500, 512) + (spec.reasoningTokens ?? 0);
   const userText = typeof opts.user === "string" ? opts.user : JSON.stringify(opts.user);
+  const bounded=opts.sectionId==='world' || await dailyMoneyPolicy()!==null;
+  if(bounded && Array.isArray(opts.user)) throw new Error('monetary-bounded calls require text-only materials');
   const body: Record<string, unknown> = {
     model: spec.model,
     messages: [
@@ -150,16 +159,25 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
     ...(spec.jsonMode && opts.json !== false ? { response_format: { type: "json_object" } } : {}),
     ...(spec.extra ?? {}),
   };
+  if(bounded && (spec.extra?.messages!==undefined || body.model!==spec.model
+    || typeof body.max_tokens!=='number' || body.max_tokens>maxTokens || body.max_tokens<=0))
+    throw new Error('world request overrides unbounded model/input/output fields');
+  const reservedCostCny=await reserveSectionModelCost(opts.sectionId,{ service:spec.service,model:spec.model,endpoint:baseUrl,
+    system:'',user:JSON.stringify(body),maxTokens });
 
   const receipt = await paidRequest(
     {
+      sectionId: opts.sectionId,
+      resource: opts.resource,
       service: spec.service,
       model: spec.model,
       purpose: opts.purpose,
       subject: opts.subject,
       identity: { model: spec.model, promptVersion: opts.promptVersion, system: sha256(opts.system), user: sha256(userText), temperature, maxTokens, extra: spec.extra ?? null },
-      requestSummary: { promptVersion: opts.promptVersion, systemHash: sha256(opts.system), userHash: sha256(userText), userChars: userText.length, temperature, maxTokens },
+      requestSummary: { promptVersion: opts.promptVersion, systemHash: sha256(opts.system), userHash: sha256(userText), userChars: userText.length, temperature, maxTokens,
+        ...(opts.sectionId==='world' ? { inputRevision:opts.inputRevision ?? null } : {}) },
       attemptTag: opts.attemptTag,
+      reservedCostCny,
     },
     async () => {
       const started = Date.now();
@@ -205,7 +223,7 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
     const detail = response.choices?.[0]?.finish_reason === "length"
       ? `output token limit reached (finish_reason=length): a reasoning model may have spent it reasoning; give it room with ${spec.key === "default" ? "LLM_REASONING_TOKENS" : `reasoningTokens on preset ${spec.key}`}. ${String(error)}`
       : String(error);
-    await rejectReceivedResponse(receipt.receiptId, `unusable output: ${detail.slice(0, 500)}`);
+    await rejectReceivedResponse(receipt.receiptId, `unusable output: ${detail.slice(0, 500)}`, opts.sectionId);
     throw new ModelOutputError(`Model ${opts.model} returned unusable output for ${opts.subject}: ${detail.slice(0, 300)}`, receipt.receiptId);
   }
   return { data: parsed, receiptId: receipt.receiptId, reused: receipt.reused, model: spec.key, usage: response.usage ?? null };

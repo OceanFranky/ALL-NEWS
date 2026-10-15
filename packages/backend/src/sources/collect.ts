@@ -27,7 +27,7 @@ export interface CollectResult {
 async function loadSource(id: string): Promise<SourceRow | null> {
   const [s] = await sql<SourceRow[]>`
     SELECT id, name, kind, config, tier, participation_mode, first_party, interval_minutes, enabled, cursor, fail_count
-    FROM sources WHERE id = ${id}`;
+    FROM sources WHERE id = ${id} AND section_id = 'ai'`;
   return s ?? null;
 }
 
@@ -45,7 +45,7 @@ async function storedDetails(identities: string[]): Promise<Map<string, StoredDe
   // One array parameter: a long listing would exceed the query's parameter limit.
   const rows = await sql<StoredDetail[]>`SELECT identity_key, title, published_at, excerpt, body_status,
     raw->'collectionDetail'->>'rules' AS rules
-    FROM articles WHERE identity_key = ANY(${identities}::text[])`;
+    FROM articles WHERE section_id = 'ai' AND identity_key = ANY(${identities}::text[])`;
   return new Map(rows.map((r) => [r.identity_key, r]));
 }
 
@@ -284,7 +284,7 @@ export async function collectXShard(key: string, sourceIds: string[]): Promise<{
   const members = (
     await sql<SourceRow[]>`
       SELECT id, name, kind, config, tier, participation_mode, first_party, interval_minutes, enabled, cursor, fail_count
-      FROM sources WHERE id IN ${sql(sourceIds)} ORDER BY id`
+      FROM sources WHERE section_id = 'ai' AND id IN ${sql(sourceIds)} ORDER BY id`
   ).filter((m) => m.enabled && shardHandle(m));
   if (members.length === 0) return { key, status: "skipped", accounts: 0, found: 0, created: 0 };
   const runs = new Map((await sql<{ id: number; source_id: string }[]>`
@@ -344,7 +344,7 @@ const sharded = () => sql`kind = 'x_search' AND config->>'query' ~* ${SHARDABLE_
 async function scheduleXShards(): Promise<number> {
   const rows = await sql<Array<Pick<SourceRow, "id" | "kind" | "config" | "cursor" | "participation_mode"> & { due: boolean }>>`
     SELECT id, kind, config, cursor, participation_mode, (next_fetch_at IS NULL OR next_fetch_at <= now()) AS due
-    FROM sources WHERE enabled AND ${sharded()}`;
+    FROM sources WHERE section_id = 'ai' AND enabled AND ${sharded()}`;
   const due = new Set(rows.filter((r) => r.due).map((r) => r.id));
   let enqueued = 0;
   for (const shard of planXShards(rows)) {
@@ -359,7 +359,7 @@ async function scheduleXShards(): Promise<number> {
 export async function scheduleDueSources(): Promise<{ enqueued: number; shards: number }> {
   const rows = await sql<{ id: string }[]>`
     SELECT id FROM sources
-    WHERE enabled AND kind IN ('rss', 'web_list', 'json_list', 'x_search') AND (next_fetch_at IS NULL OR next_fetch_at <= now()) AND NOT (${sharded()})
+    WHERE section_id = 'ai' AND enabled AND kind IN ('rss', 'web_list', 'json_list', 'x_search') AND (next_fetch_at IS NULL OR next_fetch_at <= now()) AND NOT (${sharded()})
     ORDER BY next_fetch_at NULLS FIRST LIMIT 40`;
   let enqueued = 0;
   for (const r of rows) {
@@ -381,7 +381,7 @@ export async function adaptIntervals(): Promise<{ updated: number }> {
   const rows = await sql<Array<Pick<SourceRow, "id" | "participation_mode" | "kind" | "config" | "cursor"> & { paid_listing: boolean; per_day: number }>>`
     SELECT s.id, s.participation_mode, s.kind, s.config, s.cursor, coalesce(s.config->>'url', '') LIKE 'https://r.jina.ai/%' AS paid_listing,
       (SELECT count(*) FROM articles a WHERE a.source_id = s.id AND a.discovered_at > now() - interval '7 days' AND NOT a.backfill) / 7.0 AS per_day
-    FROM sources s WHERE s.enabled AND s.kind IN ('rss', 'web_list', 'json_list', 'x_search')`;
+    FROM sources s WHERE s.section_id = 'ai' AND s.enabled AND s.kind IN ('rss', 'web_list', 'json_list', 'x_search')`;
   let updated = 0;
   for (const r of rows) {
     const perDay = Number(r.per_day);

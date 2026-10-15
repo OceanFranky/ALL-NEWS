@@ -8,6 +8,7 @@ import { sql, type Db } from "../db.ts";
 import { shutdownSignal } from "../lib/shutdown.ts";
 import { logError } from "../lib/log-error.ts";
 import { serverModules, type ModuleQueue } from "../modules.ts";
+import { requireSectionId, type SectionId } from "@aihot/contracts/sections";
 export { shutdownSignal } from "../lib/shutdown.ts";
 
 let boss: PgBoss | null = null;
@@ -180,8 +181,9 @@ export async function workModuleQueues(boss: PgBoss): Promise<void> {
 
 // Scheduled task bookkeeping: every run leaves a row, so operators see the latest result.
 
-export async function recordRun<T>(job: string, fn: () => Promise<T>): Promise<T> {
-  const [row] = await sql<{ id: number }[]>`INSERT INTO job_runs (job) VALUES (${job}) RETURNING id`;
+export async function recordRun<T>(job: string, fn: () => Promise<T>, sectionId?: SectionId): Promise<T> {
+  const section = sectionId === undefined ? null : requireSectionId(sectionId);
+  const [row] = await sql<{ id: number }[]>`INSERT INTO job_runs (job,section_id) VALUES (${job},${section}) RETURNING id`;
   try {
     const result = await fn();
     const detail = result && typeof result === "object" ? result : { result };

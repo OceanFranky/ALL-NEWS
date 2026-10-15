@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "sectionId": "world",
+  "status": "unreviewed",
+  "capturedAt": "2026-10-11T16:27:58.649682+08:00",
+  "method": "First five RSS items per source; description stripped of HTML using a review-only script, not the project reader. No article page requests or model calls.",
+  "sources": [
+    {
+      "sourceId": "world-un-zh",
+      "name": "联合国中文新闻",
+      "feedUrl": "https://news.un.org/feed/subscribe/zh/news/all/rss.xml",
+      "httpStatus": 200,
+      "itemCount": 30
+    },
+    {
+      "sourceId": "world-france24",
+      "name": "France 24",
+      "feedUrl": "https://www.france24.com/en/rss",
+      "httpStatus": 200,
+      "itemCount": 24
+    },
+    {
+      "sourceId": "world-npr",
+      "name": "NPR 世界新闻",
+      "feedUrl": "https://feeds.npr.org/1004/rss.xml",
+      "httpStatus": 200,
+      "itemCount": 10
+    },
+    {
+      "sourceId": "world-fed",
+      "name": "美联储公告",
+      "feedUrl": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "httpStatus": 200,
+      "itemCount": 20
+    },
+    {
+      "sourceId": "world-ecb",
+      "name": "欧洲央行新闻",
+      "feedUrl": "https://www.ecb.europa.eu/rss/press.html",
+      "httpStatus": 200,
+      "itemCount": 15
+    },
+    {
+      "sourceId": "world-wto",
+      "name": "WTO 新闻",
+      "feedUrl": "https://www.wto.org/library/rss/latest_news_e.xml",
+      "httpStatus": 200,
+      "itemCount": 10
+    }
+  ],
+  "samples": [
+    {
+      "id": "W01",
+      "sourceId": "world-un-zh",
+      "title": "世卫组织呼吁从机构化照护转向社区精神卫生照护",
+      "url": "https://news.un.org/feed/view/zh/story/2026/10/1142970",
+      "publishedAtRaw": "Fri, 09 Oct 2026 12:00:00 +0000",
+      "rssText": "在10月10日世界精神卫生日到来之际，世界卫生组织发布了一份新指南，支持各国摆脱以精神病院长期住院为中心的机构化精神卫生照护模式，转向以人为本、尊重人的权利和选择的社区照护模式。",
+      "labels": null
+    },
+    {
+      "id": "W02",
+      "sourceId": "world-un-zh",
+      "title": "世界邮政日：邮政网络连接世界，开启无限可能",
+      "url": "https://news.un.org/feed/view/zh/story/2026/10/1142969",
+      "publishedAtRaw": "Fri, 09 Oct 2026 12:00:00 +0000",
+      "rssText": "10月9日是世界邮政日，也是万国邮政联盟于1874年在瑞士首都伯尔尼成立的日子。联合国秘书长古特雷斯为此发表致辞，向邮政系统致敬。",
+      "labels": null
+    },
+    {
+      "id": "W03",
+      "sourceId": "world-un-zh",
+      "title": "前联合国人权高专皮莱获诺贝尔和平奖",
+      "url": "https://news.un.org/feed/view/zh/story/2026/10/1142968",
+      "publishedAtRaw": "Fri, 09 Oct 2026 12:00:00 +0000",
+      "rssText": "前联合国人权事务高级专员纳维·皮莱于周五被宣布授予2026年诺贝尔和平奖。",
+      "labels": null
+    },
+    {
+      "id": "W04",
+      "sourceId": "world-un-zh",
+      "title": "廉价老花镜仍是提升生活质量的关键途径",
+      "url": "https://news.un.org/feed/view/zh/story/2026/10/1142967",
+      "publishedAtRaw": "Thu, 08 Oct 2026 12:00:00 +0000",
+      "rssText": "据估计，全球约有22亿人视力不佳，其中近三分之一生活在东南亚地区。",
+      "labels": null
+    },
+    {
+      "id": "W05",
+      "sourceId": "world-un-zh",
+      "title": "人权高专：实现赔偿正义必须消除制度性种族主义",
+      "url": "https://news.un.org/feed/view/zh/story/2026/10/1142966",
+      "publishedAtRaw": "Thu, 08 Oct 2026 12:00:00 +0000",
+      "rssText": "联合国人权事务高级专员蒂尔克周四在日内瓦举行的“非洲人和非洲裔人士的赔偿正义”高级别对话会上表示，奴隶制、非洲奴隶贸易和殖民主义的遗留问题至今仍在影响非洲人和非洲裔人士的平等权利，国际社会必须采取综合措施，解决历史和当前的不公正现象。",
+      "labels": null
+    },
+    {
+      "id": "W06",
+      "sourceId": "world-france24",
+      "title": "Spanish PM Sanchez kicks off election campaign amid housing crisis protests",
+      "url": "https://www.france24.com/en/europe/20261011-spanish-pm-sanchez-kicks-off-election-campaign-amid-housing-crisis-protests",
+      "publishedAtRaw": "Sun, 11 Oct 2026 07:46:57 GMT",
+      "rssText": "Spanish Prime Minister Pedro Sanchez launched his campaign for a snap November election on Saturday. The vote comes as a deepening housing crisis is driving protests and putting pressure on his left-wing coalition.",
+      "labels": null
+    },
+    {
+      "id": "W07",
+      "sourceId": "world-france24",
+      "title": "Riyadh airport strike kills 12, Saudi Arabia threatens 'decisive' response",
+      "url": "https://www.france24.com/en/middle-east/20261011-riyadh-airport-strike-kills-12-saudi-arabia-threatens-decisive-response",
+      "publishedAtRaw": "Sun, 11 Oct 2026 06:21:50 GMT",
+      "rssText": "Saudi Arabia vowed to retaliate against Yemen’s Houthi rebels on Sunday after a strike on Riyadh’s international airport killed a dozen people and wounded more than 300, marking the kingdom's deadliest strike in a decade.",
+      "labels": null
+    },
+    {
+      "id": "W08",
+      "sourceId": "world-france24",
+      "title": "India court orders release of 'cockroach' movement leaders after detention",
+      "url": "https://www.france24.com/en/asia-pacific/20261011-india-court-orders-release-of-cockroach-movement-leaders-after-detention",
+      "publishedAtRaw": "Sun, 11 Oct 2026 05:45:41 GMT",
+      "rssText": "An Indian court ordered the release of three leaders of the viral \"cockroach\" movement on Sunday, a day after their detention ahead of protests over alleged irregularities in voter-roll revisions. Upon his release, founder Abhijeet Dipke called Narendra Modi an \"embarassment to India\" in a social media post.",
+      "labels": null
+    },
+    {
+      "id": "W09",
+      "sourceId": "world-france24",
+      "title": "Middle East live: Riyadh airport attack 'not acceptable', Trump says",
+      "url": "https://www.france24.com/en/middle-east/20261011-live-saudi-arabia-vows-decisive-response-after-deadly-houthi-strike-on-riyadh-airport",
+      "publishedAtRaw": "Sun, 11 Oct 2026 05:04:26 GMT",
+      "rssText": "US President Donald Trump said Saturday that a deadly strike on Riyadh's international airport was \"not acceptable\". Meanwhile, Saudi Arabia vowed to retaliate against Yemen's Houthi rebels after the attack killed at least 12 people and wounded more than 300. Follow our liveblog for the latest developments.",
+      "labels": null
+    },
+    {
+      "id": "W10",
+      "sourceId": "world-france24",
+      "title": "SPOTLIGHT",
+      "url": "https://www.france24.com/en/tv-shows/spotlight/20261010-spotlight",
+      "publishedAtRaw": "Sat, 10 Oct 2026 18:22:23 GMT",
+      "rssText": "Adam Barron is an independent Middle East political analyst and consultant, specialising primarily in Yemen, where he has reported from the capital, Sanaa, for The Economist. He writes for Foreign Policy and The Atlantic.",
+      "labels": null
+    },
+    {
+      "id": "W11",
+      "sourceId": "world-npr",
+      "title": "Attack on Riyadh airport killed 12 people and wounded over 300 more, Saudi authorities say",
+      "url": "https://www.npr.org/2026/10/10/g-s1-147682/attack-on-riyadh-airport-killed-12-people-and-wounded-over-300-more-saudi-authorities-say",
+      "publishedAtRaw": "Sat, 10 Oct 2026 19:44:15 -0400",
+      "rssText": "Saudi authorities say the latest attack on the international airport in the capital, Riyadh, has killed 12 people and injured over 300. Their statement says the dead on Saturday included four Saudi citizens as well as two Bangladeshi nationals, a Palestinian, a U.S. citizen, an Egyptian, a Jordanian, a Syrian and a Sudanese. It said some of those injured were in critical condition. The attack — the latest of several in the past week on King Khalid International Airport — is expected to increase Saudi pressure on allies including the United States to provide military support for the kingdom.",
+      "labels": null
+    },
+    {
+      "id": "W12",
+      "sourceId": "world-npr",
+      "title": "Bayeux Tapestry's London tour spurs enthusiasts to Battle of Hastings reenactment",
+      "url": "https://www.npr.org/2026/10/10/nx-s1-5993847/bayeux-tapestrys-london-tour-spurs-enthusiasts-to-battle-of-hastings-re-enactment",
+      "publishedAtRaw": "Sat, 10 Oct 2026 17:40:58 -0400",
+      "rssText": "A reenactment of the Battle of Hastings, which took place almost a millennium ago, is drawing crowds of enthusiasts in the UK.",
+      "labels": null
+    },
+    {
+      "id": "W13",
+      "sourceId": "world-npr",
+      "title": "Trump weighs joining the fight against Houthis after Riyadh airport attack",
+      "url": "https://www.npr.org/2026/10/10/nx-s1-5997512/saudi-arabia-riyadh-airport-bombing-attack",
+      "publishedAtRaw": "Sat, 10 Oct 2026 17:32:53 -0400",
+      "rssText": "The surge in attacks, including against other Saudi airports, military facilities and oil infrastructure, has come in the week since a Saudi-led coalition launched a major military offensive against the Houthis.",
+      "labels": null
+    },
+    {
+      "id": "W14",
+      "sourceId": "world-npr",
+      "title": "Protests against voter roll revisions rock capital of world's largest democracy",
+      "url": "https://www.npr.org/2026/10/10/nx-s1-5995118/protests-against-voter-roll-revisions-rock-capital-of-worlds-largest-democracy",
+      "publishedAtRaw": "Sat, 10 Oct 2026 17:19:57 -0400",
+      "rssText": "Parts of the capital city of India, the world's largest democracy, are on lockdown. Protests over sweeping revisions to the voter rolls were met with a massive police crackdown.",
+      "labels": null
+    },
+    {
+      "id": "W15",
+      "sourceId": "world-npr",
+      "title": "U.S. and Russia tout diesel deal to ease sanctions and reopen fuel flows",
+      "url": "https://www.npr.org/2026/10/10/nx-s1-5996938/u-s-and-russia-tout-diesel-deal-to-ease-sanctions-and-reopen-fuel-flows",
+      "publishedAtRaw": "Sat, 10 Oct 2026 07:40:53 -0400",
+      "rssText": "Moscow and Washington tout a diesel deal to ease sanctions and reopen fuel flows, but few details leave questions on price impacts and U.S. policy, sparking anger from Ukraine and allies.",
+      "labels": null
+    },
+    {
+      "id": "W16",
+      "sourceId": "world-fed",
+      "title": "Federal Reserve Board releases results of the 2025 Survey of Consumer Finances, which provides the public and policymakers with detailed insights into the economic condition of American families",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/other20261009a.htm",
+      "publishedAtRaw": "Fri, 9 Oct 2026 14:00:00 GMT",
+      "rssText": "Federal Reserve Board releases results of the 2025 Survey of Consumer Finances, which provides the public and policymakers with detailed insights into the economic condition of American families",
+      "labels": null
+    },
+    {
+      "id": "W17",
+      "sourceId": "world-fed",
+      "title": "Federal Reserve Board announces enforcement action against American Express Company to address, among other things, the firm’s failure to sufficiently detect and report certain suspicious activity related to money laundering",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261008a.htm",
+      "publishedAtRaw": "Thu, 8 Oct 2026 20:30:00 GMT",
+      "rssText": "Federal Reserve Board announces enforcement action against American Express Company to address, among other things, the firm’s failure to sufficiently detect and report certain suspicious activity related to money laundering",
+      "labels": null
+    },
+    {
+      "id": "W18",
+      "sourceId": "world-fed",
+      "title": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261007a.htm",
+      "publishedAtRaw": "Wed, 7 Oct 2026 18:00:00 GMT",
+      "rssText": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+      "labels": null
+    },
+    {
+      "id": "W19",
+      "sourceId": "world-fed",
+      "title": "Federal Reserve Board announces approval of application by Isabella Bank Corporation",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20261005a.htm",
+      "publishedAtRaw": "Mon, 5 Oct 2026 20:30:00 GMT",
+      "rssText": "Federal Reserve Board announces approval of application by Isabella Bank Corporation",
+      "labels": null
+    },
+    {
+      "id": "W20",
+      "sourceId": "world-fed",
+      "title": "Federal Reserve Board announces approval of application by Fleur Capital Corporation",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20261002a.htm",
+      "publishedAtRaw": "Fri, 2 Oct 2026 20:45:00 GMT",
+      "rssText": "Federal Reserve Board announces approval of application by Fleur Capital Corporation",
+      "labels": null
+    },
+    {
+      "id": "W21",
+      "sourceId": "world-ecb",
+      "title": " Meeting of 9-10 September 2026",
+      "url": "https://www.ecb.europa.eu//press/accounts/2026/html/ecb.mg261008~a10153d090.en.html",
+      "publishedAtRaw": "Thu, 08 Oct 2026 13:30:00 +0200",
+      "rssText": "",
+      "labels": null
+    },
+    {
+      "id": "W22",
+      "sourceId": "world-ecb",
+      "title": " Piero Cipollone: Interview with Corriere della Sera",
+      "url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in261008~3184e7d0d0.en.html",
+      "publishedAtRaw": "Thu, 08 Oct 2026 08:00:00 +0200",
+      "rssText": "",
+      "labels": null
+    },
+    {
+      "id": "W23",
+      "sourceId": "world-ecb",
+      "title": " Results of the September 2026 survey on credit terms and conditions in euro-denominated securities financing and OTC derivatives markets (SESFOD)",
+      "url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261007~6447350434.en.html",
+      "publishedAtRaw": "Wed, 07 Oct 2026 10:00:00 +0200",
+      "rssText": "",
+      "labels": null
+    },
+    {
+      "id": "W24",
+      "sourceId": "world-ecb",
+      "title": " Frank Elderson: Effective supervision through timely remediation",
+      "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261006_1~0df91e4e44.en.html",
+      "publishedAtRaw": "Tue, 06 Oct 2026 15:00:00 +0200",
+      "rssText": "",
+      "labels": null
+    },
+    {
+      "id": "W25",
+      "sourceId": "world-ecb",
+      "title": " Piero Cipollone: Money in the digital age: digital euro, tokenisation and the role of central banks",
+      "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261006~0da978f159.en.html",
+      "publishedAtRaw": "Tue, 06 Oct 2026 15:00:00 +0200",
+      "rssText": "",
+      "labels": null
+    },
+    {
+      "id": "W26",
+      "sourceId": "world-wto",
+      "title": "AI boom and trade resilience to Middle East crisis lift outlook, but gains to be uneven",
+      "url": "https://www.wto.org/english/news_e/news26_e/stat_08oct26_510_e.htm",
+      "publishedAtRaw": "Thu, 08 Oct 2026 00:00:00 GMT",
+      "rssText": "Global trade proved more resilient than expected in the first half of 2026 despite the disruption caused by the Middle East conflict, as supply chains adapted and strong investment in artificial intelligence provided a powerful boost to goods trade. However, the resilience was not uniform, with services trade and some regions more exposed to the effects of the conflict. WTO economists have therefore raised the forecast for merchandise trade growth in 2026 while lowering the outlook for services trade.",
+      "labels": null
+    },
+    {
+      "id": "W27",
+      "sourceId": "world-wto",
+      "title": "General Council addresses WTO reform, ministerial follow-ups, ongoing negotiations",
+      "url": "https://www.wto.org/english/news_e/news26_e/gc_05oct26_508_e.htm",
+      "publishedAtRaw": "Mon, 05 Oct 2026 00:00:00 GMT",
+      "rssText": "WTO members meeting at the General Council on 5-6 October addressed issues related to the ongoing discussions on WTO reform, follow-up to outcomes of past ministerial conferences, and the state of ongoing negotiations on various topics. Members also discussed issues related to the Agreement on Electronic Commerce, emerging agricultural trade issues, and optimizing the outcome of future ministerial conferences, among other issues.",
+      "labels": null
+    },
+    {
+      "id": "W28",
+      "sourceId": "world-wto",
+      "title": "Co-sponsors of sustainability initiative advance work plan towards MC15",
+      "url": "https://www.wto.org/english/news_e/news26_e/tessd_02oct26_507_e.htm",
+      "publishedAtRaw": "Fri, 02 Oct 2026 00:00:00 GMT",
+      "rssText": "At a meeting on 2 October, co-sponsors of the Trade and Environmental Sustainability Structured Discussions (TESSD) discussed a work plan for 2026-27 in preparation for the 15th WTO Ministerial Conference (MC15). They identified priorities, working methods and potential deliverables for each work area, and expressed broad support for a transition towards more flexible and outcome-oriented work.",
+      "labels": null
+    },
+    {
+      "id": "W29",
+      "sourceId": "world-wto",
+      "title": "WTO MSME Group explores IP's role in trade, hears success stories and updates",
+      "url": "https://www.wto.org/english/news_e/news26_e/igmsm_02oct26_505_e.htm",
+      "publishedAtRaw": "Fri, 02 Oct 2026 00:00:00 GMT",
+      "rssText": "The Informal Working Group on Micro, Small and Medium-sized Enterprises (MSMEs) met on 2 October, with a focus on the practical role of intellectual property (IP) in helping small businesses innovate, grow and reach international markets. The meeting included an information session on IP tools and thematic presentations from members, international organizations and stakeholders. Several members reported on MSME initiatives in formal WTO committees.",
+      "labels": null
+    },
+    {
+      "id": "W30",
+      "sourceId": "world-wto",
+      "title": "DDG Nordquist: Trade continues apace, showing resiliency",
+      "url": "https://www.wto.org/english/news_e/news26_e/ddgjn_01oct26_506_e.htm",
+      "publishedAtRaw": "Thu, 01 Oct 2026 00:00:00 GMT",
+      "rssText": "Speaking at a panel on leadership in global trade at the 17th Swiss Coffee Trade Association (SCTA) Forum on 1 October in Montreux, Deputy Director-General DJ Nordquist said that the WTO and its basic functions are increasingly important as geopolitics and economic security now play a much bigger role in trade decisions, with companies having to think more about geopolitical exposure, security of supply, regulatory risk and resilience.",
+      "labels": null
+    }
+  ]
+}

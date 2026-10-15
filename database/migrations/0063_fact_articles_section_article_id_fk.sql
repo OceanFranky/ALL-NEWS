@@ -1,0 +1,1 @@
+ALTER TABLE fact_articles VALIDATE CONSTRAINT fact_articles_section_article_id_fk;

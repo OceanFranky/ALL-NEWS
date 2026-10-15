@@ -90,3 +90,16 @@ test("failed bookmark writes and damaged existing data do not report a successfu
   window.localStorage.setItem = () => { throw new Error("quota"); };
   assert.equal(state.toggleStar(item), false);
 });
+
+test("world bookmarks preserve their destination across reload, export and import without changing AI bookmarks", async () => {
+  const { state } = await reader([{ id: 'legacy-ai', title: 'Existing AI bookmark' }]);
+  state.toggleStar({ id: 'world-item', sectionId: 'world', title: 'World bookmark', summary: null,
+    sourceName: 'Source', publishedAt: null, score: null, aiSelected: false });
+  const bundle = state.exportBundle();
+  const reopened = await reader(bundle.starred);
+  assert.equal(reopened.state.getStarred().find(s => s.id === 'world-item')?.sectionId, 'world');
+  assert.equal(reopened.state.getStarred().find(s => s.id === 'legacy-ai')?.sectionId, undefined);
+  const imported = await reader();
+  imported.state.importBundle(JSON.stringify(bundle));
+  assert.deepEqual(imported.state.getStarred(), reopened.state.getStarred());
+});

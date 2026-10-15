@@ -7,7 +7,7 @@ import { stripTagMarkup } from "../lib/text.ts";
 import { proxyBodyImages } from "../media/imgproxy.ts";
 import { textToHtml } from "../content/sanitize.ts";
 import { exportTranslation, isChineseBody, ITEM_COLUMNS, ITEM_FROM, seatHolders, showsPost, toItemSummary, xView, type ItemRow } from "./items.ts";
-import { evidenceCondition, listedCondition } from "./scope.ts";
+import { evidenceCondition, listedCondition, sectionCondition } from "./scope.ts";
 import { itemUrl, siteUrl } from "./links.ts";
 import { hasItemPage, publicSourceName } from "./rules.ts";
 import { topicLinks, topicMembership } from "./topics.ts";
@@ -44,7 +44,7 @@ async function loadRow(id: string): Promise<DetailRow | null> {
     SELECT ${ITEM_COLUMNS}, a.body_html, a.body_text, a.body_status, tr.body_html AS tr_html, tr.complete AS tr_complete,
       ${topicMembership()} AS topics
     ${ITEM_FROM}
-    WHERE p.article_id = ${id}`;
+    WHERE p.article_id = ${id} AND ${sectionCondition()}`;
   return row ?? null;
 }
 

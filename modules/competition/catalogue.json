@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "recordedDate": "2026-10-13",
+  "source": "使用者提供的两页学校名录照片，学校名称与认定有效年份未提供",
+  "entries": [
+    {
+      "id": "competition-001",
+      "sourcePage": 1,
+      "sourceRow": 1,
+      "name": "中国大学生服务外包创新创业大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-002",
+      "sourcePage": 1,
+      "sourceRow": 2,
+      "name": "“中国软件杯”大学生软件设计大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-003",
+      "sourcePage": 1,
+      "sourceRow": 3,
+      "name": "ACM-ICPC 国际大学生程序设计竞赛（含区域赛）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-004",
+      "sourcePage": 1,
+      "sourceRow": 4,
+      "name": "中国高校计算机大赛（大数据挑战赛、团体程序设计天梯赛、移动应用创新赛、网络技术挑战赛）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-005",
+      "sourcePage": 1,
+      "sourceRow": 5,
+      "name": "“蓝桥杯”全国软件和信息技术专业人才大赛（常规赛事，有省级选拔的）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-006",
+      "sourcePage": 1,
+      "sourceRow": 6,
+      "name": "全国大学生信息安全竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-007",
+      "sourcePage": 1,
+      "sourceRow": 7,
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-008",
+      "sourcePage": 1,
+      "sourceRow": 8,
+      "name": "百度之星·程序设计大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-009",
+      "sourcePage": 1,
+      "sourceRow": 9,
+      "name": "全国大学生计算机系统能力大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-010",
+      "sourcePage": 1,
+      "sourceRow": 10,
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-011",
+      "sourcePage": 1,
+      "sourceRow": 11,
+      "name": "全球校园人工智能算法精英大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-012",
+      "sourcePage": 1,
+      "sourceRow": 12,
+      "name": "CCF 大数据和计算智能竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-013",
+      "sourcePage": 1,
+      "sourceRow": 13,
+      "name": "CCF 大学生计算机系统与程序设计竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-014",
+      "sourcePage": 1,
+      "sourceRow": 14,
+      "name": "国产 CPU 并行应用挑战赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-015",
+      "sourcePage": 1,
+      "sourceRow": 15,
+      "name": "中国大学生程序设计竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-016",
+      "sourcePage": 1,
+      "sourceRow": 16,
+      "name": "江苏省大学生数字素养与技能大赛",
+      "sourceOriginalName": "江苏省青少年网络信息安全应用能力竞赛",
+      "collectionScope": "仅收录学生网络信息安全赛项；排除教师组及人工智能应用赛项。使用者于2026-10-14确认更名，学校认定仍为B2。",
+      "schoolLevel": "B2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-017",
+      "sourcePage": 1,
+      "sourceRow": 17,
+      "name": "全国大学生网络安全精英赛",
+      "schoolLevel": "B2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-018",
+      "sourcePage": 2,
+      "sourceRow": 1,
+      "name": "中国国际大学生创新大赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "scope": "主体赛事",
+          "level": "A1"
+        },
+        {
+          "scope": "国际赛道",
+          "level": "A2"
+        }
+      ],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-019",
+      "sourcePage": 2,
+      "sourceRow": 2,
+      "name": "“挑战杯”全国大学生课外学术科技作品竞赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "scope": "主体赛事",
+          "level": "A1"
+        },
+        {
+          "scope": "揭榜挂帅专项、红色专项、黑科技展示活动",
+          "level": "A2"
+        }
+      ],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-020",
+      "sourcePage": 2,
+      "sourceRow": 3,
+      "name": "“挑战杯”中国大学生创业计划大赛",
+      "schoolLevel": null,
+      "schoolLevelByScope": [
+        {
+          "scope": "主体赛事",
+          "level": "A1"
+        },
+        {
+          "scope": "配套活动赛事",
+          "level": "A3"
+        }
+      ],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-021",
+      "sourcePage": 2,
+      "sourceRow": 4,
+      "name": "全国大学生职业规划大赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-022",
+      "sourcePage": 2,
+      "sourceRow": 5,
+      "name": "全国大学生数学建模竞赛",
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-023",
+      "sourcePage": 2,
+      "sourceRow": 6,
+      "name": "全国大学生创新创业计划年会展示",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-024",
+      "sourcePage": 2,
+      "sourceRow": 7,
+      "name": "国际遗传工程机器竞赛（iGEM）",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-025",
+      "sourcePage": 2,
+      "sourceRow": 8,
+      "name": "华为 ICT 大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-026",
+      "sourcePage": 2,
+      "sourceRow": 9,
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-027",
+      "sourcePage": 2,
+      "sourceRow": 10,
+      "name": "美国大学生数学建模竞赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-028",
+      "sourcePage": 2,
+      "sourceRow": 11,
+      "name": "中国大学生计算机设计大赛",
+      "schoolLevel": "A3",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-029",
+      "sourcePage": 2,
+      "sourceRow": 12,
+      "name": "全国大学生英语竞赛（NECCS）",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-030",
+      "sourcePage": 2,
+      "sourceRow": 13,
+      "name": "全国大学生数学竞赛",
+      "schoolLevel": "B1",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    {
+      "id": "competition-031",
+      "sourcePage": 2,
+      "sourceRow": 14,
+      "name": "CCF CSP 认证",
+      "schoolLevel": null,
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": "计算机软件能力"
+    }
+  ]
+}

@@ -3,6 +3,10 @@
   "private": true,
   "type": "module",
   "sideEffects": false,
+  "dependencies": {
+    "@aihot/world-news": "*",
+    "@aihot/competition": "*"
+  },
   "exports": {
     ".": "./site.ts",
     "./models": "./models.ts",

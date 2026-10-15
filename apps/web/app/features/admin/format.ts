@@ -31,7 +31,7 @@ export function num(n: number | string | null | undefined, digits = 0): string {
 export function money(n: number | string | null | undefined, currency = "CNY"): string {
   if (n === null || n === undefined) return "—";
   const v = Number(n);
-  const sign = currency === "USD" ? "$" : "¥";
+  const sign = currency === "USD" ? "$" : currency === "CNY" ? "¥" : "";
   return `${sign}${v.toLocaleString("zh-CN", { maximumFractionDigits: v < 10 ? 3 : 2, minimumFractionDigits: 2 })}`;
 }
 

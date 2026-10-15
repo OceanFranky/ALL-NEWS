@@ -1,0 +1,8 @@
+[
+  { "id":"world-un-zh","name":"联合国中文新闻","kind":"rss","tier":"T1","config":{"feedUrl":"https://news.un.org/feed/subscribe/zh/news/all/rss.xml"} },
+  { "id":"world-france24","name":"France 24","kind":"rss","tier":"T2","config":{"feedUrl":"https://www.france24.com/en/rss"} },
+  { "id":"world-npr","name":"NPR 世界新闻","kind":"rss","tier":"T2","config":{"feedUrl":"https://feeds.npr.org/1004/rss.xml"} },
+  { "id":"world-fed","name":"美联储公告","kind":"rss","tier":"T1","config":{"feedUrl":"https://www.federalreserve.gov/feeds/press_all.xml"} },
+  { "id":"world-ecb","name":"欧洲央行新闻","kind":"rss","tier":"T1","config":{"feedUrl":"https://www.ecb.europa.eu/rss/press.html"} },
+  { "id":"world-wto","name":"WTO 新闻","kind":"rss","tier":"T1","config":{"feedUrl":"https://www.wto.org/library/rss/latest_news_e.xml"} }
+]

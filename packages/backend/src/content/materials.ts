@@ -7,6 +7,7 @@ import { collapseWhitespace } from "../lib/text.ts";
 import { publishArticleTx } from "../publication/publish.ts";
 import { groupingReset, reconcileMaterialSource } from "./provenance.ts";
 import { emit } from "../modules.ts";
+import { assertSameSection, requireSectionId, type SectionId } from "@aihot/contracts/sections";
 
 export interface MediaItem {
   kind: "image" | "video";
@@ -30,6 +31,8 @@ export interface XPostData {
 }
 
 export interface MaterialInput {
+  /** Omitted only by legacy AI entrances; source ownership is still checked. */
+  sectionId?: SectionId;
   sourceId: string;
   url: string;
   title: string;
@@ -94,10 +97,11 @@ export function decideTimeline(claimed: Date | null | undefined, discoveredAt: D
  * time. Explicit imports stay backfills. The caller holds the article lock and revises the material
  * with this change, so analysis and grouping cannot retain a decision made on an undated input.
  */
-export async function fillPublicationTime(db: Db, articleId: string, claimed: Date | null | undefined): Promise<TimelineDecision | null> {
+export async function fillPublicationTime(db: Db, articleId: string, claimed: Date | null | undefined, sectionId: SectionId = "ai"): Promise<TimelineDecision | null> {
+  requireSectionId(sectionId);
   if (!claimed || !Number.isFinite(claimed.getTime())) return null;
   const [a] = await db<{ published_at: Date | null; discovered_at: Date; backfill_reason: string | null }[]>`
-    SELECT published_at, discovered_at, backfill_reason FROM articles WHERE id = ${articleId}`;
+    SELECT published_at, discovered_at, backfill_reason FROM articles WHERE id = ${articleId} AND section_id = ${sectionId}`;
   if (!a || a.published_at) return null;
   const explicit = a.backfill_reason === "unknown-publication-time" ? null : a.backfill_reason;
   const next = decideTimeline(claimed, a.discovered_at, explicit);
@@ -154,14 +158,19 @@ export async function upsertMaterial(m: MaterialInput, db: Db = sql): Promise<Ma
   return "begin" in db ? (db as typeof sql).begin(run) : run(db);
 }
 
-async function lockMaterial(db: Db, identityKey: string) {
+async function lockMaterial(db: Db, identityKey: string, sectionId: SectionId) {
   const [existing] = await db<{ id: string; source_id: string; revision: number; content_hash: string | null; backfill: boolean; published_at: Date | null; title: string; body_text: string | null; excerpt: string | null; participation_mode: string }[]>`
     SELECT a.id, a.source_id, a.revision, a.content_hash, a.backfill, a.published_at, a.title, a.body_text, a.excerpt, s.participation_mode
-    FROM articles a JOIN sources s ON s.id = a.source_id WHERE a.identity_key = ${identityKey} FOR UPDATE OF a`;
+    FROM articles a JOIN sources s ON s.id = a.source_id
+    WHERE a.identity_key = ${identityKey} AND a.section_id = ${sectionId} FOR UPDATE OF a`;
   return existing;
 }
 
 async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
+  const sectionId = m.sectionId === undefined ? "ai" : requireSectionId(m.sectionId);
+  const [source] = await db<{ section_id: SectionId }[]>`SELECT section_id FROM sources WHERE id = ${m.sourceId} FOR SHARE`;
+  if (!source) throw new Error("material source not found");
+  assertSameSection(sectionId, requireSectionId(source.section_id));
   m = { ...m,
     publishedAt: m.publishedAt && Number.isFinite(m.publishedAt.getTime()) ? m.publishedAt : null,
     sourceUpdatedAt: m.sourceUpdatedAt && Number.isFinite(m.sourceUpdatedAt.getTime()) ? m.sourceUpdatedAt : null,
@@ -174,32 +183,38 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   // Most listing entries are already stored. Lock and reuse those rows without attempting an
   // insert of their body and raw payload on every collection. The unique key still arbitrates
   // concurrent first discoveries; after losing that insert, read and lock its winner.
-  let existing = await lockMaterial(db, identityKey);
+  let existing = await lockMaterial(db, identityKey, sectionId);
+  if (!existing) {
+    // First discoveries have no row to lock. Serialise their identity within this section;
+    // another section may store the same original independently.
+    await db`SELECT pg_advisory_xact_lock(hashtextextended(${`material:${sectionId}:${identityKey}`}, 0))`;
+    existing = await lockMaterial(db, identityKey, sectionId);
+  }
   if (!existing) {
     const newId = m.id ?? newArticleId();
     const hash = contentHash({ title, bodyText: m.bodyText, excerpt: m.excerpt });
     const [inserted] = await db<{ id: string }[]>`
-      INSERT INTO articles (id, source_id, identity_key, url, title, author, language, published_at, published_at_claim,
+      INSERT INTO articles (section_id, id, source_id, identity_key, url, title, author, language, published_at, published_at_claim,
         discovered_at, source_updated_at, timeline_at, backfill, backfill_reason, revision, content_hash, excerpt,
         body_text, body_html, body_status, media, x_post, raw)
-      VALUES (${newId}, ${m.sourceId}, ${identityKey}, ${m.url}, ${title}, ${m.author ?? null}, ${m.language ?? null},
+      VALUES (${sectionId}, ${newId}, ${m.sourceId}, ${identityKey}, ${m.url}, ${title}, ${m.author ?? null}, ${m.language ?? null},
         ${t.publishedAt}, ${m.publishedAt ?? null}, ${discoveredAt}, ${m.sourceUpdatedAt ?? null}, ${t.timelineAt},
         ${t.backfill}, ${t.backfillReason}, 1, ${hash}, ${m.excerpt ?? null}, ${m.bodyText ?? null}, ${m.bodyHtml ?? null},
         ${m.bodyStatus ?? (m.bodyText ? "ok" : "pending")}, ${db.json((m.media ?? []) as never)},
         ${m.xPost ? db.json(m.xPost as never) : null}, ${m.raw === undefined ? null : db.json(m.raw as never)})
-      ON CONFLICT (identity_key) DO NOTHING RETURNING id`;
+      ON CONFLICT (section_id, identity_key) DO NOTHING RETURNING id`;
     if (inserted) {
       await db`INSERT INTO article_revisions (article_id, revision, content_hash, title, body_text)
                VALUES (${newId}, 1, ${hash}, ${title}, ${m.bodyText ?? null})`;
-      await db`INSERT INTO article_discoveries (article_id, source_id, via, discovered_at)
-               VALUES (${newId}, ${m.sourceId}, ${m.via}, ${discoveredAt}) ON CONFLICT DO NOTHING`;
+      await db`INSERT INTO article_discoveries (section_id, article_id, source_id, via, discovered_at)
+               VALUES (${sectionId}, ${newId}, ${m.sourceId}, ${m.via}, ${discoveredAt}) ON CONFLICT DO NOTHING`;
       await reconcileMaterialSource(db, newId, { sourceId: m.sourceId, author: m.author });
       return { articleId: newId, created: true, revised: false, backfill: t.backfill };
     }
-    existing = await lockMaterial(db, identityKey);
+    existing = await lockMaterial(db, identityKey, sectionId);
   }
-  await db`INSERT INTO article_discoveries (article_id, source_id, via, discovered_at)
-           VALUES (${existing!.id}, ${m.sourceId}, ${m.via}, ${discoveredAt}) ON CONFLICT DO NOTHING`;
+  await db`INSERT INTO article_discoveries (section_id, article_id, source_id, via, discovered_at)
+           VALUES (${sectionId}, ${existing!.id}, ${m.sourceId}, ${m.via}, ${discoveredAt}) ON CONFLICT DO NOTHING`;
   const unchanged: MaterialResult = { articleId: existing!.id, created: false, revised: false, backfill: existing!.backfill };
   // Configuration may have gained a verified publisher since this same discovery channel last
   // saw the URL. Reconcile before accepting any of that channel's material changes.
@@ -218,7 +233,13 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
   if (existing!.source_id !== m.sourceId) {
     return unchanged;
   }
-  const time = existing!.published_at ? null : await fillPublicationTime(db, existing!.id, m.publishedAt);
+  // Listing media is descriptive metadata, not editorial text. A feed may add an enclosure after
+  // the article was first seen; fill the empty slot without forcing a new analysis revision.
+  if (m.media?.length) {
+    await db`UPDATE articles SET media = ${db.json(m.media as never)}, updated_at = now()
+      WHERE id = ${existing!.id} AND jsonb_array_length(media) = 0`;
+  }
+  const time = existing!.published_at ? null : await fillPublicationTime(db, existing!.id, m.publishedAt, sectionId);
   // What the row will hold after this report: a listing without body keeps the stored (extracted) body.
   const bodyText = m.bodyText ?? existing!.body_text;
   const excerpt = m.excerpt ?? existing!.excerpt;
@@ -252,6 +273,7 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
       media = CASE WHEN ${media}::jsonb IS NULL THEN media ELSE ${media}::jsonb END,
       x_post = coalesce(${m.xPost ? sql.json(m.xPost as never) : null}, x_post)`,
     hash: next, title, bodyText,
+    sectionId,
   });
   return { articleId: existing!.id, created: false, revised: true, backfill: time?.backfill ?? existing!.backfill };
 }
@@ -261,17 +283,19 @@ async function upsertIn(db: Db, m: MaterialInput): Promise<MaterialResult> {
  * content, and everything decided on the old content starts over (analysis and its retry count,
  * grouping, the "adds value" check). The caller holds the row lock and has found the content changed.
  */
-export async function reviseMaterial(db: Db, articleId: string, revision: { set: ReturnType<typeof sql>; hash: string; title: string; bodyText: string | null }): Promise<void> {
+export async function reviseMaterial(db: Db, articleId: string, revision: { set: ReturnType<typeof sql>; hash: string; title: string; bodyText: string | null; sectionId?: SectionId }): Promise<void> {
+  const sectionId = revision.sectionId === undefined ? "ai" : requireSectionId(revision.sectionId);
   const [row] = await db<{ revision: number }[]>`
     UPDATE articles SET ${revision.set}, revision = revision + 1, content_hash = ${revision.hash}, ${groupingReset()},
       processing_state = 'new', processing_attempts = 0, processing_retry_at = NULL, processing_error = NULL, processing_queued_at = NULL,
       updated_at = now()
-    WHERE id = ${articleId}
+    WHERE id = ${articleId} AND section_id = ${sectionId}
     RETURNING revision`;
+  if (!row) throw new Error("material revision section mismatch or missing article");
   await db`INSERT INTO article_revisions (article_id, revision, content_hash, title, body_text)
            VALUES (${articleId}, ${row!.revision}, ${revision.hash}, ${revision.title}, ${revision.bodyText})`;
   // Only withdraw an existing projection; the first publication still belongs to completed analysis.
-  if ((await db`SELECT 1 FROM publications WHERE article_id = ${articleId}`).length) {
+  if (sectionId === "ai" && (await db`SELECT 1 FROM publications WHERE article_id = ${articleId}`).length) {
     const published = await publishArticleTx(db as Tx, articleId);
     await emit("articleChanged", { id: articleId, kind: "content", reduced: published?.reduced, reason: "material revision" }, db);
   }

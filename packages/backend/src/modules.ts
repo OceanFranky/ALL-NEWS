@@ -10,6 +10,8 @@ import type { Db } from "./db.ts";
 import type { QueueOptions } from "./jobs/queue.ts";
 import type { Finding } from "./notify/feishu.ts";
 import type { Topic, TopicMember } from "./publication/topics.ts";
+import type { SectionRules } from "./sections/rules.ts";
+import { freezeSectionRules } from "./sections/rules.ts";
 
 /** A cron schedule (Asia/Shanghai), recorded in job_runs like the engine's (apps/worker/src/schedules.ts). */
 export interface Scheduled {
@@ -197,8 +199,11 @@ export interface RequestNotices {
 export interface ServerModule {
   /** Its folder under modules/. */
   name: string;
+  /** Independent content domains (sections/context.ts); never a process-wide current section. */
+  sections?: readonly SectionRules[];
   /** Its HTTP routes, and hooks on the app such as what to flush when it closes, registered before the engine's v1 fallbacks (apps/api/src/app.ts). */
   http?: (app: FastifyInstance) => void;
+  publications?: Record<string, (input: unknown) => Promise<unknown>>;
   agent?: {
     abilities?: AgentAbility[];
     /** The guide's "目前查不到的" list, after the engine's first entry. */
@@ -288,7 +293,16 @@ let installed: readonly ServerModule[] = [];
 
 /** Called once by each process's entry point, and by a module's tests for that module. */
 export function installModules(modules: readonly ServerModule[]): void {
-  installed = modules;
+  const ids = new Set<string>(["ai"]);
+  const next = modules.map((module) => {
+    const sections = module.sections?.map((rules) => {
+      if (ids.has(rules.id)) throw new Error(`duplicate content section: ${rules.id}`);
+      ids.add(rules.id);
+      return freezeSectionRules(rules);
+    });
+    return Object.freeze({ ...module, ...(sections ? { sections: Object.freeze(sections) } : {}) });
+  });
+  installed = Object.freeze(next);
 }
 
 export function serverModules(): readonly ServerModule[] {

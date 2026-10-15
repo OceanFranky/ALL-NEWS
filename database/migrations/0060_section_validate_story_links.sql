@@ -1,0 +1,1 @@
+ALTER TABLE story_links VALIDATE CONSTRAINT story_links_section_check;

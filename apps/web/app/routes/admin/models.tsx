@@ -70,7 +70,7 @@ export default function ModelsAdmin({ loaderData: m }: Route.ComponentProps) {
                 <DataTable
                   dense
                   rows={c.usage}
-                  rowKey={(u) => `${u.purpose}|${u.model}|${u.promptVersion}`}
+                  rowKey={(u) => `${u.purpose}|${u.model}|${u.promptVersion}|${u.currency ?? ''}`}
                   columns={[
                     { key: "m", label: "模型", render: (u) => <span className="whitespace-nowrap font-mono text-[12px]">{u.model}</span> },
                     { key: "v", label: "提示版本", render: (u) => <span className="whitespace-nowrap font-mono text-[11.5px] text-ink-3">{u.promptVersion ?? "—"}</span> },
@@ -93,9 +93,9 @@ export default function ModelsAdmin({ loaderData: m }: Route.ComponentProps) {
                       align: "right",
                       render: (u) =>
                         u.actualCost !== null ? (
-                          `${money(u.actualCost)}${u.currency && u.currency !== "CNY" ? ` ${u.currency}` : ""}`
+                          `${money(u.actualCost,u.currency ?? '')}${u.currency && u.currency !== "CNY" ? ` ${u.currency}` : ""}`
                         ) : u.estimate ? (
-                          <span title="按用量 × 单价推算">≈ {money(u.estimate.amount)}{u.estimate.currency !== "CNY" ? ` ${u.estimate.currency}` : ""}</span>
+                          <span title="按用量 × 单价推算">≈ {money(u.estimate.amount,u.estimate.currency)}{u.estimate.currency !== "CNY" ? ` ${u.estimate.currency}` : ""}</span>
                         ) : (
                           <Unpriced />
                         ),

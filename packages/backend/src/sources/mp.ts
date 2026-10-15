@@ -38,7 +38,7 @@ interface MpSource {
 }
 
 export async function checkMpAccount(sourceId: string, reason: "schedule" | "manual") {
-  const [source] = await sql<MpSource[]>`SELECT id, name, config, cursor, enabled, participation_mode FROM sources WHERE id = ${sourceId} AND kind = 'mp_account'`;
+  const [source] = await sql<MpSource[]>`SELECT id, name, config, cursor, enabled, participation_mode FROM sources WHERE section_id='ai' AND id = ${sourceId} AND kind = 'mp_account'`;
   if (!source) return { sourceId, status: "missing" as const };
   if (!source.enabled && reason !== "manual") return { sourceId, status: "paused" as const };
   const ghid = source.config.ghid ?? source.config.wxid;
@@ -61,7 +61,7 @@ export async function checkMpAccount(sourceId: string, reason: "schedule" | "man
       const key = identityKeyForUrl(p.url);
       const [known] = key
         ? await sql<{ id: string; body_status: string; discovered_at: Date; retry: { attempts: number } | null }[]>`
-            SELECT id, body_status, discovered_at, raw->'dajiala'->'bodyRetry' AS retry FROM articles WHERE identity_key = ${key} LIMIT 1`
+            SELECT id, body_status, discovered_at, raw->'dajiala'->'bodyRetry' AS retry FROM articles WHERE section_id='ai' AND identity_key = ${key} LIMIT 1`
         : [];
       const retryBody = !!known?.retry && known.body_status === "none" && known.retry.attempts < BODY_RETRIES && Date.now() - known.discovered_at.getTime() < BODY_RETRY_WINDOW_MS;
       if (known && !retryBody) continue;
@@ -127,7 +127,7 @@ export async function scheduleMpReconcile(now = new Date()) {
   // Without Dajiala there is nothing to check the accounts with.
   if (!dajialaConfigured()) return { enqueued: 0 };
   const rows = await sql<{ id: string; last: string | null; interval_minutes: number }[]>`
-    SELECT id, cursor->>'lastCheckedAt' AS last, interval_minutes FROM sources WHERE kind = 'mp_account' AND enabled`;
+    SELECT id, cursor->>'lastCheckedAt' AS last, interval_minutes FROM sources WHERE section_id='ai' AND kind = 'mp_account' AND enabled`;
   let enqueued = 0;
   for (const s of rows) {
     const since = s.last ? now.getTime() - Date.parse(s.last) : Infinity;

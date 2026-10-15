@@ -26,17 +26,17 @@ function storyStatusFor(latestAt: Date | null, now: number): "active" | "watchin
 
 export async function resolveStory(publicId: string): Promise<StoryLookup> {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(publicId)) return { kind: "not_found" };
-  const [s] = await sql<{ id: number; merged_into: number | null }[]>`SELECT id, merged_into FROM stories WHERE public_id = ${publicId}`;
+  const [s] = await sql<{ id: number; merged_into: number | null }[]>`SELECT id, merged_into FROM stories WHERE section_id = 'ai' AND public_id = ${publicId}`;
   let targetId: number | null = s ? (s.merged_into ?? null) : null;
   if (!s) {
-    const [alias] = await sql<{ story_id: number }[]>`SELECT story_id FROM story_aliases WHERE public_id = ${publicId}`;
+    const [alias] = await sql<{ story_id: number }[]>`SELECT sa.story_id FROM story_aliases sa JOIN stories st ON st.id = sa.story_id WHERE st.section_id = 'ai' AND sa.public_id = ${publicId}`;
     if (!alias) return { kind: "not_found" };
     targetId = alias.story_id;
   }
   if (targetId) {
     // Follow merge chains to the surviving story.
     for (let i = 0; i < 10; i++) {
-      const rows: Array<{ id: number; public_id: string; merged_into: number | null }> = await sql`SELECT id, public_id::text, merged_into FROM stories WHERE id = ${targetId}`;
+      const rows: Array<{ id: number; public_id: string; merged_into: number | null }> = await sql`SELECT id, public_id::text, merged_into FROM stories WHERE section_id = 'ai' AND id = ${targetId}`;
       const t = rows[0];
       if (!t) return { kind: "not_found" };
       if (!t.merged_into) return { kind: "merged", target: t.public_id };
@@ -95,7 +95,7 @@ function reportView(r: ReportRow): StoryReportView {
 
 /** The story's reports newest first, its developments, and its latest and first non-mention reports. */
 async function storyContent(storyId: number, now: Date) {
-  const [s] = await sql<{ public_id: string; title: string }[]>`SELECT public_id::text, title FROM stories WHERE id = ${storyId}`;
+  const [s] = await sql<{ public_id: string; title: string }[]>`SELECT public_id::text, title FROM stories WHERE section_id = 'ai' AND id = ${storyId}`;
   if (!s) return null;
   const reports = await storyReports(storyId, now);
   if (reports.length === 0) return null;
@@ -126,7 +126,7 @@ async function storyContent(storyId: number, now: Date) {
 async function relatedStories(storyId: number, now: Date) {
   return sql<{ public_id: string; title: string; relation: "storyline" | "related" }[]>`
     SELECT st.public_id::text, st.title, l.relation FROM story_links l JOIN stories st ON st.id = l.other_id
-    WHERE l.story_id = ${storyId} AND st.merged_into IS NULL AND EXISTS (
+    WHERE l.section_id = 'ai' AND l.story_id = ${storyId} AND st.merged_into IS NULL AND EXISTS (
       SELECT 1 FROM facts f JOIN fact_articles fa ON fa.fact_id = f.id JOIN publications p ON p.article_id = fa.article_id
       JOIN sources s ON s.id = p.source_id
       WHERE f.story_id = st.id AND ${evidenceCondition()} AND ${storyReportCondition(now)}

@@ -6,6 +6,7 @@ import { ITEM_COPY, withSubject } from '@aihot/site';
 import type { OgCard } from '../media/og.ts';
 import { sql } from '../db.ts';
 import { hasItemPage, publicSourceName } from './rules.ts';
+import { sectionCondition } from './scope.ts';
 
 export async function loadItemShare(id: string) {
   const [row] = await sql<{
@@ -13,7 +14,7 @@ export async function loadItemShare(id: string) {
     score: number | null; timeline_at: Date; source_name: string; source_mode: string; visibility: string;
   }[]>`SELECT p.article_id AS id, p.title, p.summary, p.category, p.selected, p.score, p.timeline_at,
       s.name AS source_name, s.participation_mode AS source_mode, p.visibility
-    FROM publications p JOIN sources s ON s.id = p.source_id WHERE p.article_id = ${id}`;
+    FROM publications p JOIN sources s ON s.id = p.source_id WHERE p.article_id = ${id} AND ${sectionCondition()}`;
   if (!row || !hasItemPage({ visibility: row.visibility, sourceMode: row.source_mode })) return null;
   const summaryOnly = row.visibility === 'summary-only';
   return { id: row.id, title: row.title, summary: row.summary, category: summaryOnly ? null : row.category, selected: !summaryOnly && row.selected,

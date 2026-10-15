@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-14T15:00:47.792Z",
+  "runId": "2ac0ca7f-e158-4ffc-ae6a-fb1ca04b1c0a",
+  "competitionId": "competition-017",
+  "status": "completed",
+  "researchOnly": true,
+  "modelCalled": false,
+  "unchanged": false,
+  "parentOfficialNotice": "https://www.nisp.org.cn/NewsDetail/6033708.html",
+  "manualSourceAssistance": true,
+  "results": [
+    {
+      "url": "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281241483e4f18.jpg",
+      "materialId": "eab093ed16537742fc529bb9036565073baf29af0d80255a1013ee993fadba17",
+      "contentType": "image/jpeg; extracted=ocr; confidence=89",
+      "error": null,
+      "blocks": 1
+    },
+    {
+      "url": "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345091e2f64.jpg",
+      "materialId": "4d92fc887e20c9c82e9fffbb4df64ae9d791c652e7ae73f16e448d31a400146c",
+      "contentType": "image/jpeg; extracted=ocr; confidence=88",
+      "error": null,
+      "blocks": 1
+    },
+    {
+      "url": "https://gcdn.meidianbang.cn/comdata/92938/202507/20250728134509cd4760.jpg",
+      "materialId": "832abcd7bfe4cb4ef766ef9991b1b644d65d0e2c1f9347b0dbef15eaec8f421d",
+      "contentType": "image/jpeg; extracted=ocr; confidence=88",
+      "error": null,
+      "blocks": 1
+    },
+    {
+      "url": "https://gcdn.meidianbang.cn/comdata/92938/202507/202507281345092a5f59.jpg",
+      "materialId": "11b88fe9338618bb487d0684e04c8aeea2ee7b024b9aa6d89a5ed2f73ce54f6b",
+      "contentType": "image/jpeg; extracted=ocr; confidence=85",
+      "error": null,
+      "blocks": 1
+    }
+  ],
+  "candidateCreated": false,
+  "needsTableReview": true
+}

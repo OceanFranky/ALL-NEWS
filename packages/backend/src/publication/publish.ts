@@ -235,7 +235,7 @@ export async function publishArticleTx(tx: Tx, articleId: string, options: Publi
   const [article] = await tx<ArticleRow[]>`
     SELECT id, source_id, url, title, language, published_at, discovered_at, timeline_at, backfill, body_status,
            body_text, x_post, x_article, grouped_at, grouping_status, selection_adds_value
-    FROM articles WHERE id = ${articleId} FOR UPDATE`;
+    FROM articles WHERE id = ${articleId} AND section_id = 'ai' FOR UPDATE`;
   if (!article) return null;
   // Explicit imports carry an already-public editorial decision, not a new pending judgement.
   if (options.releasedAt && article.grouping_status === "pending") {

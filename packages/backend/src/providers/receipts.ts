@@ -9,6 +9,9 @@
 import { sql, type Db } from "../db.ts";
 import { sha256, stableJson } from "../lib/ids.ts";
 import { shutdownSignal } from "../lib/shutdown.ts";
+import { requireSectionId, assertSameSection, type SectionId } from "@aihot/contracts/sections";
+import { assertSectionResource, type SectionResource } from "../sections/resources.ts";
+import { checkSectionMoney, dailyMoneyRetryAfter } from './section-money.ts';
 
 /** The text of a spent budget's error; with `%` for both parts it is the LIKE pattern that finds every saved one. */
 export const budgetMessage = (service: string, window: string) => `Budget for ${service} exhausted (${window})`;
@@ -61,6 +64,9 @@ export interface CallOutcome {
 }
 
 export interface ReceiptRequest {
+  /** Missing is the legacy AI domain. World requests always identify their persisted resource. */
+  sectionId?: SectionId;
+  resource?: SectionResource;
   service: string;
   model?: string | null;
   purpose: string;
@@ -71,6 +77,8 @@ export interface ReceiptRequest {
   requestSummary?: Record<string, unknown>;
   /** Distinguishes an explicit re-run (e.g. admin "re-evaluate") from recovery of the same request. */
   attemptTag?: string;
+  /** A section monetary policy requires a price bound for each paid attempt. */
+  reservedCostCny?: number;
 }
 
 export interface ReceiptResult {
@@ -82,14 +90,18 @@ export interface ReceiptResult {
 const PENDING_STALE_MS = 10 * 60 * 1000;
 
 export function logicalKeyFor(req: ReceiptRequest): string {
+  const sectionId = requireSectionId(req.sectionId === undefined ? "ai" : req.sectionId);
   const identity = sha256(stableJson(req.identity));
-  return [req.service, req.purpose, req.model ?? "-", identity, req.attemptTag ?? "0"].join(":");
+  const legacy = [req.service, req.purpose, req.model ?? "-", identity, req.attemptTag ?? "0"].join(":");
+  return sectionId === "ai" ? legacy : `${sectionId}:${sha256(stableJson(req.resource ?? null))}:${legacy}`;
 }
 
 interface ReceiptRow {
   id: number;
+  section_id: string;
   status: string;
   response: unknown;
+  request: { reservedCostCny?:number };
   created_at: Date;
   updated_at: Date;
 }
@@ -115,18 +127,41 @@ async function checkBudget(tx: Db, service: string): Promise<void> {
   if (c.day >= budget.per_day) throw new BudgetExceededError(service, "day", 3600);
 }
 
+/** Both domains share the service lock; the world's own allowance never borrows AI capacity. */
+async function checkSectionBudget(tx: Db, service: string, sectionId: SectionId): Promise<void> {
+  const [budget] = await tx<{ per_minute: number; per_hour: number; per_day: number }[]>`
+    SELECT per_minute, per_hour, per_day FROM section_budgets WHERE section_id = ${sectionId} AND service = ${service}`;
+  if (!budget) {
+    if (sectionId === "ai") return; // unchanged for deployed AI without a section-specific limit
+    throw new BudgetExceededError(service, `${sectionId}:unconfigured`, 3600);
+  }
+  const [counts] = await tx<{ minute: number; hour: number; day: number }[]>`
+    SELECT count(*) FILTER (WHERE a.started_at > now() - interval '1 minute') AS minute,
+      count(*) FILTER (WHERE a.started_at > now() - interval '1 hour') AS hour, count(*) AS day
+    FROM receipt_attempts a JOIN receipts r ON r.id = a.receipt_id
+    WHERE r.section_id = ${sectionId} AND a.service = ${service} AND a.origin = 'live' AND a.started_at > now() - interval '1 day'`;
+  if (budget.per_minute <= 0 || budget.per_hour <= 0 || budget.per_day <= 0) throw new BudgetExceededError(service, `${sectionId}:stopped`, 3600);
+  if (counts!.minute >= budget.per_minute) throw new BudgetExceededError(service, `${sectionId}:minute`, 60);
+  if (counts!.hour >= budget.per_hour) throw new BudgetExceededError(service, `${sectionId}:hour`, 600);
+  if (counts!.day >= budget.per_day) throw new BudgetExceededError(service, `${sectionId}:day`, 3600);
+}
+
 /**
  * Runs a paid request at most once per logical key and returns its raw response.
  * A caller persisting business results completes the receipt in the same transaction.
  */
 export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallOutcome>): Promise<ReceiptResult> {
+  const sectionId = requireSectionId(req.sectionId === undefined ? "ai" : req.sectionId);
+  if (sectionId === "world" && !req.resource) throw new Error("world paid request requires a section resource");
   const logicalKey = logicalKeyFor(req);
 
   const claimed = await sql.begin(async (tx) => {
     // Serialise budget checks per service so concurrent workers cannot overshoot.
     await tx`SELECT pg_advisory_xact_lock(hashtext(${"budget:" + req.service}))`;
+    if (req.resource) await assertSectionResource(tx, sectionId, req.resource);
     const [existing] = await tx<ReceiptRow[]>`
-      SELECT id, status, response, created_at, updated_at FROM receipts WHERE logical_key = ${logicalKey} FOR UPDATE`;
+      SELECT id, section_id, status, response, request, created_at, updated_at FROM receipts WHERE logical_key = ${logicalKey} FOR UPDATE`;
+    if (existing) assertSameSection(sectionId, requireSectionId(existing.section_id));
     if (existing?.status === "received" || existing?.status === "completed") return { kind: "reuse" as const, row: existing };
     // Finish business writes from saved answers during shutdown, but never reserve or send the
     // next paid page/batch. An answer already in flight still saves below, without this check.
@@ -140,16 +175,31 @@ export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallO
       if (existing.status === "unknown") return { kind: "unknown" as const, row: existing };
       // failed: the provider did not take the request, or its answer was unusable; a new attempt is allowed.
       await checkBudget(tx, req.service);
+      await checkSectionBudget(tx, req.service, sectionId);
+      if(existing.request.reservedCostCny!==undefined && (req.reservedCostCny ?? Infinity)>existing.request.reservedCostCny)
+        throw new Error('stored monetary reservation is insufficient for retry');
+      const reservation=existing.request.reservedCostCny ?? req.reservedCostCny;
+      const retryAfter=await dailyMoneyRetryAfter(tx,req.service,req.model,reservation);
+      if(retryAfter!==null) throw new BudgetExceededError(req.service,'daily-money',retryAfter);
+      await checkSectionMoney(tx,sectionId,req.service,req.model,reservation);
       const [r] = await tx<{ attempts: number }[]>`
-        UPDATE receipts SET status = 'pending', attempts = attempts + 1, error = NULL, updated_at = now() WHERE id = ${existing.id} RETURNING attempts`;
+        UPDATE receipts SET status = 'pending', attempts = attempts + 1, error = NULL,
+          request=request || ${tx.json(reservation!==undefined ? { reservedCostCny:reservation } : {})},updated_at = now()
+        WHERE id = ${existing.id} RETURNING attempts`;
       const attemptId = await startAttempt(tx, existing.id, r!.attempts, req);
       return { kind: "call" as const, id: existing.id, attemptId };
     }
     await checkBudget(tx, req.service);
+    await checkSectionBudget(tx, req.service, sectionId);
+    const retryAfter=await dailyMoneyRetryAfter(tx,req.service,req.model,req.reservedCostCny);
+    if(retryAfter!==null) throw new BudgetExceededError(req.service,'daily-money',retryAfter);
+    await checkSectionMoney(tx,sectionId,req.service,req.model,req.reservedCostCny);
     const [row] = await tx<{ id: number }[]>`
-      INSERT INTO receipts (logical_key, service, model, purpose, subject, status, request, attempts)
-      VALUES (${logicalKey}, ${req.service}, ${req.model ?? null}, ${req.purpose}, ${req.subject ?? null}, 'pending',
-              ${tx.json((req.requestSummary ?? {}) as never)}, 1)
+      INSERT INTO receipts (section_id, logical_key, service, model, purpose, subject, status, request, attempts)
+      VALUES (${sectionId}, ${logicalKey}, ${req.service}, ${req.model ?? null}, ${req.purpose}, ${req.subject ?? null}, 'pending',
+              ${tx.json({ ...req.requestSummary,
+                ...(sectionId==='world' ? { resource:req.resource,attemptTag:req.attemptTag ?? null } : {}),
+                ...(req.reservedCostCny!==undefined ? { reservedCostCny:req.reservedCostCny } : {}) } as never)}, 1)
       RETURNING id`;
     const attemptId = await startAttempt(tx, row!.id, 1, req);
     return { kind: "call" as const, id: row!.id, attemptId };
@@ -237,18 +287,23 @@ export async function markStalePendingReceipts(): Promise<number> {
  * Releases an unknown receipt: marked failed, so the next attempt of its request calls again (who
  * releases and when: operations/recover.ts). Null when the receipt is not, or no longer, unknown.
  */
-export async function releaseUnknownReceipt(db: Db, id: number, error: string): Promise<{ subject: string | null; purpose: string } | null> {
+export async function releaseUnknownReceipt(db: Db, id: number, error: string, sectionId: SectionId = "ai"): Promise<{ subject: string | null; purpose: string } | null> {
+  requireSectionId(sectionId);
   const [released] = await db<{ subject: string | null; purpose: string }[]>`
-    UPDATE receipts SET status = 'failed', error = ${error}, updated_at = now() WHERE id = ${id} AND status = 'unknown' RETURNING subject, purpose`;
+    UPDATE receipts SET status = 'failed', error = ${error}, updated_at = now() WHERE id = ${id} AND section_id = ${sectionId} AND status = 'unknown' RETURNING subject, purpose`;
   if (released) await db`UPDATE receipt_attempts SET status = 'failed', error = ${error} WHERE receipt_id = ${id} AND status = 'unknown'`;
   return released ?? null;
 }
 
-export async function completeReceipt(db: Db, receiptId: number): Promise<void> {
-  await db`UPDATE receipts SET status = 'completed', completed_at = coalesce(completed_at, now()), updated_at = now() WHERE id = ${receiptId}`;
+export async function completeReceipt(db: Db, receiptId: number, sectionId: SectionId = "ai"): Promise<void> {
+  const rows = await db`UPDATE receipts SET status = 'completed', completed_at = coalesce(completed_at, now()), updated_at = now()
+    WHERE id = ${receiptId} AND section_id = ${requireSectionId(sectionId)} RETURNING id`;
+  if (!rows.length) throw new Error("receipt section mismatch or missing receipt");
 }
 
 /** Marks a received response that could not be used (e.g. unparsable) so a fresh attempt can be made. */
-export async function rejectReceivedResponse(receiptId: number, reason: string): Promise<void> {
-  await sql`UPDATE receipts SET status = 'failed', error = ${reason.slice(0, 2000)}, updated_at = now() WHERE id = ${receiptId}`;
+export async function rejectReceivedResponse(receiptId: number, reason: string, sectionId: SectionId = "ai"): Promise<void> {
+  const rows = await sql`UPDATE receipts SET status = 'failed', error = ${reason.slice(0, 2000)}, updated_at = now()
+    WHERE id = ${receiptId} AND section_id = ${requireSectionId(sectionId)} RETURNING id`;
+  if (!rows.length) throw new Error("receipt section mismatch or missing receipt");
 }

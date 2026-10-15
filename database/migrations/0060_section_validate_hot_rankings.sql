@@ -1,0 +1,1 @@
+ALTER TABLE hot_rankings VALIDATE CONSTRAINT hot_rankings_section_check;

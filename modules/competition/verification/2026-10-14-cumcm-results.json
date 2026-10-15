@@ -1,0 +1,452 @@
+{
+  "checkedAt": "2026-10-14T13:50:30.801Z",
+  "competitionId": "competition-022",
+  "scan": {
+    "id": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b",
+    "url": "https://www.csiam.org.cn/upload/shuxue/69c3870950b04.pdf",
+    "contentType": "application/pdf; extracted=ocr; confidence=page-1:81,page-2:72,page-3:69,page-4:75,page-5:80,page-6:81,page-7:84,page-8:79,page-9:84,page-10:83,page-11:82",
+    "blocks": [
+      {
+        "id": "page-1-ocr-block-1",
+        "characters": 1447
+      },
+      {
+        "id": "page-2-ocr-block-1",
+        "characters": 672
+      },
+      {
+        "id": "page-3-ocr-block-1",
+        "characters": 2000
+      },
+      {
+        "id": "page-3-ocr-block-2",
+        "characters": 196
+      },
+      {
+        "id": "page-4-ocr-block-1",
+        "characters": 2000
+      },
+      {
+        "id": "page-4-ocr-block-2",
+        "characters": 63
+      },
+      {
+        "id": "page-5-ocr-block-1",
+        "characters": 422
+      },
+      {
+        "id": "page-6-ocr-block-1",
+        "characters": 2000
+      },
+      {
+        "id": "page-6-ocr-block-2",
+        "characters": 378
+      },
+      {
+        "id": "page-7-ocr-block-1",
+        "characters": 1210
+      },
+      {
+        "id": "page-8-ocr-block-1",
+        "characters": 2000
+      },
+      {
+        "id": "page-8-ocr-block-2",
+        "characters": 489
+      },
+      {
+        "id": "page-9-ocr-block-1",
+        "characters": 1911
+      },
+      {
+        "id": "page-10-ocr-block-1",
+        "characters": 2000
+      },
+      {
+        "id": "page-10-ocr-block-2",
+        "characters": 125
+      },
+      {
+        "id": "page-11-ocr-block-1",
+        "characters": 1068
+      }
+    ],
+    "visualCheckedPages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "initialFailure": "PDF exceeds competition OCR page limit",
+    "limits": {
+      "pages": 16,
+      "inputBytes": 8388608,
+      "longestRenderedEdge": 2400,
+      "workerTimeoutMs": 180000
+    }
+  },
+  "runs": {
+    "initial": "f61f27d4-87b7-43c1-963d-329966ed953f",
+    "initialRevision": "aeb906b3-f148-4317-8869-9685f8795373",
+    "firstReview": "b890e919-633b-48f5-a939-1784a880aec3",
+    "focusedReview": "fdc2ae7f-8961-47e2-9150-8ca277c1fcce",
+    "stageReview": {
+      "run": "41768fac-96c6-46b9-8156-b9e00541cf97",
+      "revisionId": "e8e3d709-dc3e-4f8a-9131-6bcec60d4690",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      },
+      "stages": {
+        "value": [
+          "报名",
+          "竞赛",
+          "作品提交",
+          "赛区评阅",
+          "全国评阅"
+        ],
+        "status": "known",
+        "reason": "材料中明确出现报名、竞赛、作品提交，以及赛区评阅专家组和全国评阅专家组两个评阅阶段。",
+        "evidence": [
+          {
+            "materialId": "cf438ec1acf6e7cf11b318a68bff0702cf41ff58baa98c34fc0bc3614cba6651",
+            "blockId": "block-1",
+            "quote": "报名时间和流程"
+          },
+          {
+            "materialId": "cf438ec1acf6e7cf11b318a68bff0702cf41ff58baa98c34fc0bc3614cba6651",
+            "blockId": "block-1",
+            "quote": "竞赛时间为9月10日18时至9月13日20时。"
+          },
+          {
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b",
+            "blockId": "page-4-ocr-block-1",
+            "quote": "二 、 关 于 参赛 作品 的 提交"
+          },
+          {
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b",
+            "blockId": "page-6-ocr-block-2",
+            "quote": "赛区 评阅 专家 组 , 评选 本 赛区 的 一 等 奖 , 二 等 奖"
+          },
+          {
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b",
+            "blockId": "page-6-ocr-block-2",
+            "quote": "全 国 评阅 专家 组 ， 按 蚁 一 标准 从 备 赛区 和 送 区 的 优秀 答卷 中 评选 出 全 国 一 等 奖 、 二 等 奖"
+          }
+        ]
+      }
+    }
+  },
+  "latest": {
+    "id": "competition-022",
+    "name": "全国大学生数学建模竞赛",
+    "recognition": {
+      "schoolLevel": "A2",
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    "revision_id": "e8e3d709-dc3e-4f8a-9131-6bcec60d4690",
+    "status": "needs_review",
+    "year": 2026,
+    "data": {
+      "name": {
+        "value": "2026高教社杯全国大学生数学建模竞赛",
+        "reason": "官方通知标题明确包含届次年份和赛事名称。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "2026 高 教 社 杯 全 国 大 学 生 数学 建 模 竞赛 第 一 次 通知",
+            "blockId": "page-1-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "year": {
+        "value": {
+          "primary": 2026,
+          "officialText": "2026年竞赛时间定为9月10日（周四）18时至9月13日（周日）20时"
+        },
+        "reason": "官方通知明确为2026年竞赛。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "2026 年 竞赛 时 间 定 为 9 月 10 日",
+            "blockId": "page-1-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "files": {
+        "value": [
+          {
+            "url": "https://www.csiam.org.cn/upload/shuxue/69c3870950b04.pdf",
+            "title": "2026高教社杯全国大学生数学建模竞赛第一次通知"
+          },
+          {
+            "url": "https://www.mcm.edu.cn/upload_en/node/89/OqjMivDSb537fc6d9032d1020adc42c06dc0cb66.pdf",
+            "title": "Welcome to join CUMCM-2026.pdf"
+          }
+        ],
+        "reason": "材料中出现的官方通知附件链接。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "2026 高 教 社 杯 全 国 大 学 生 数学 建 模 竞赛 第 一 次 通知",
+            "blockId": "page-1-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          },
+          {
+            "quote": "Welcome to join CUMCM-2026.pdf (421.3K)",
+            "blockId": "block-1",
+            "materialId": "c239ad61b57d51033f36c8f3e44ced0e5ee17aa042266ad84f65f0d8c2840ed2"
+          }
+        ]
+      },
+      "stages": {
+        "value": [
+          "报名",
+          "竞赛",
+          "作品提交",
+          "赛区评阅",
+          "全国评阅"
+        ],
+        "reason": "材料中明确出现报名、竞赛、作品提交，以及赛区评阅专家组和全国评阅专家组两个评阅阶段。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "报名时间和流程",
+            "blockId": "block-1",
+            "materialId": "cf438ec1acf6e7cf11b318a68bff0702cf41ff58baa98c34fc0bc3614cba6651"
+          },
+          {
+            "quote": "竞赛时间为9月10日18时至9月13日20时。",
+            "blockId": "block-1",
+            "materialId": "cf438ec1acf6e7cf11b318a68bff0702cf41ff58baa98c34fc0bc3614cba6651"
+          },
+          {
+            "quote": "二 、 关 于 参赛 作品 的 提交",
+            "blockId": "page-4-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          },
+          {
+            "quote": "赛区 评阅 专家 组 , 评选 本 赛区 的 一 等 奖 , 二 等 奖",
+            "blockId": "page-6-ocr-block-2",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          },
+          {
+            "quote": "全 国 评阅 专家 组 ， 按 蚁 一 标准 从 备 赛区 和 送 区 的 优秀 答卷 中 评选 出 全 国 一 等 奖 、 二 等 奖",
+            "blockId": "page-6-ocr-block-2",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "categories": {
+        "value": [
+          "数学与建模"
+        ],
+        "reason": "竞赛内容为数学建模，属于数学与建模方向。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "The teams are challenged to develop mathematical and/or computational models to solve simplified real-world problems in fields such as engineering and management.",
+            "blockId": "page-2-block-1",
+            "materialId": "4bf896c56fb6ff5905284a9ae30e2582508b9127c1671e35b39880f401c4dbf6"
+          }
+        ]
+      },
+      "schoolLevel": "A2",
+      "introduction": {
+        "value": "全国大学生数学建模竞赛是面向全国大学生的群众性科技活动，旨在激励学生学习数学的积极性，提高学生通过数学模型和运用计算机技术解决实际问题的综合能力。竞赛题目一般来源于科学与工程技术、经济管理等领域经过适当简化加工的实际问题，参赛者需完成包括模型假设、建立和求解、计算方法设计、结果分析检验等内容的论文。",
+        "reason": "章程和通知中明确竞赛宗旨和内容。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "旨 在 激励 学 生 学 习 数 学 的 积极 性 ， 提 高 学 生 建 过 数学 模型 和 运用 计算 机 技术 解 决 实际 问题 的 综合 能 力",
+            "blockId": "page-6-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "teacherLimit": {
+        "value": [
+          {
+            "text": "每队最多可设一名指导教师或教师组",
+            "scope": "每队",
+            "counts": "teacher_group",
+            "maximum": null,
+            "minimum": null
+          }
+        ],
+        "reason": "章程明确每队最多可设一名指导教师或教师组，未规定教师组实际人数上限。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "每 队 最 多 可 设 一 名 指导 教师 薄 教 师 组",
+            "blockId": "page-6-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "promotionImage": {
+        "value": null,
+        "reason": "材料中未发现可证明属于2026届赛事的宣传图片URL。",
+        "status": "unknown",
+        "evidence": []
+      },
+      "officialWebsite": {
+        "value": "http://www.mcm.edu.cn",
+        "reason": "官方通知中给出竞赛官网。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "欢迎 访问 竞赛 官网 (http:/wrwwimcneducn)",
+            "blockId": "page-2-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "competitionTimes": {
+        "value": [
+          {
+            "end": "2026-09-13T20:00+08:00",
+            "label": "正式竞赛",
+            "scope": "全国",
+            "start": "2026-09-10T18:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "precision": "minute",
+            "officialText": "The contest will start at 18:00, 10 September, 2026, and end at 20:00, 13 September, 2026 (Beijing Time)."
+          }
+        ],
+        "reason": "官方2026 Welcome网页明确竞赛起止时间。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "The contest will start at 18:00, 10 September, 2026, and end at 20:00, 13 September, 2026 (Beijing Time).",
+            "blockId": "block-1",
+            "materialId": "c239ad61b57d51033f36c8f3e44ced0e5ee17aa042266ad84f65f0d8c2840ed2"
+          }
+        ]
+      },
+      "participantLimit": {
+        "value": [
+          {
+            "text": "每队由1-3名大学生组成（鼓励不填写指导教师）",
+            "scope": "每队",
+            "counts": "students",
+            "maximum": 3,
+            "minimum": 1
+          }
+        ],
+        "reason": "官方通知明确每队由1-3名大学生组成。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "爷 赛 队 由 1-3 名 大 学 后 组 成 〈 鼓 励 不 填写 指导 教师 )",
+            "blockId": "page-1-ocr-block-1",
+            "materialId": "71f2f8a68bd10c4f2d111a13e325193d449a9d1b5a93c79b0e5441520012850b"
+          }
+        ]
+      },
+      "registrationTimes": {
+        "value": [
+          {
+            "end": "2026-09-07T20:00+08:00",
+            "label": "报名截止",
+            "scope": "境内院校",
+            "start": null,
+            "timezone": "Asia/Shanghai",
+            "precision": "minute",
+            "officialText": "竞赛报名截止时间为2026年9月7日20时。境内院校通过本竞赛管理系统报名。"
+          },
+          {
+            "end": "2026-09-09T18:00+08:00",
+            "label": "报名截止",
+            "scope": "海外高校",
+            "start": null,
+            "timezone": "Asia/Shanghai",
+            "precision": "minute",
+            "officialText": "All registrations must be completed by 6:00 PM on 09 September 2026 (Beijing Time). Note: The information in this document is applicable only to participants from overseas higher education institutions, and their registration fees will be waived."
+          }
+        ],
+        "reason": "平台清晰原文明确境内院校报名截止2026年9月7日20时；英文PDF明确海外高校报名截止2026年9月9日18时（北京时间）且仅适用于海外高校。",
+        "status": "known",
+        "evidence": [
+          {
+            "quote": "竞赛报名截止时间为2026年9月7日20时。境内院校通过本竞赛管理系统报名。",
+            "blockId": "block-1",
+            "materialId": "cf438ec1acf6e7cf11b318a68bff0702cf41ff58baa98c34fc0bc3614cba6651"
+          },
+          {
+            "quote": "All registrations must be completed by 6:00 PM on 09 September 2026 (Beijing Time). Note: The information in this document is applicable only to participants from overseas higher education institutions, and their registration fees will be waived.",
+            "blockId": "page-2-block-1",
+            "materialId": "4bf896c56fb6ff5905284a9ae30e2582508b9127c1671e35b39880f401c4dbf6"
+          }
+        ]
+      },
+      "schoolLevelByScope": [],
+      "schoolRecognitionText": null
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "missing": [
+        "promotionImage:unknown"
+      ],
+      "readyForReview": true
+    },
+    "revision_created_at": "2026-10-14T13:50:17.285Z",
+    "materials": 14,
+    "runs": 6
+  },
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 23,
+    "completeKnownFields": 0
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 2.051274,
+      "known_upper_cny": 2.051274,
+      "unsettled_calls": 0
+    }
+  ],
+  "independentReadback": {
+    "checked": 30,
+    "errors": [],
+    "articles": 0
+  },
+  "nispResearch": {
+    "run": "160e54ea-cdeb-4e2f-aadc-1f5e03f89838",
+    "probes": [
+      {
+        "url": "https://www.nisp.org.cn/NewsList/14.html",
+        "error": "Dynamic material HTTP 404"
+      },
+      {
+        "url": "https://www.nisp.org.cn/NewsDetail/6185251.html",
+        "error": "Dynamic material HTTP 404"
+      },
+      {
+        "url": "https://www.nisp.org.cn/NewsDetail/7451951.html",
+        "error": "Dynamic material HTTP 404"
+      }
+    ],
+    "candidateCreated": false,
+    "indexFactsUsed": false,
+    "externalReaderContainsMixedOldTemplates": true
+  }
+}

@@ -21,6 +21,7 @@ const IMPORT_MAX_CHARS = 2_000_000;
 const ID_PATTERN = /^[a-zA-Z0-9_-]{1,80}$/;
 
 export interface LocalStarredItem {
+  sectionId?: "world";
   id: string;
   title: string;
   summary: string | null;
@@ -154,6 +155,7 @@ function isDisplayableDate(value: unknown): value is string {
 function normalizeStarred(v: Record<string, unknown>): LocalStarredItem {
   return {
     id: String(v.id),
+    ...(v.sectionId === "world" ? { sectionId: "world" as const } : {}),
     title: String(v.title),
     summary: typeof v.summary === "string" ? v.summary : null,
     sourceName: typeof v.sourceName === "string" ? v.sourceName : "",

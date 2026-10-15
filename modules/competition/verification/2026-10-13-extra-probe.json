@@ -1,0 +1,281 @@
+{
+  "kind": "bounded-live-http-probe",
+  "warning": "Keyword signals, image candidates and links do not prove field completeness, poster identity, official identity or daily stability. Only advertised feeds and explicit feed links checked; no guessed feed paths.",
+  "results": [
+    {
+      "catalogueId": "competition-021",
+      "url": "https://www.moe.gov.cn/srcsite/A15/s7063/202610/t20261010_1453481.html",
+      "checkedAt": "2026-10-13T13:16:45.787Z",
+      "status": 200,
+      "finalUrl": "http://www.moe.gov.cn/srcsite/A15/s7063/202610/t20261010_1453481.html",
+      "contentType": "text/html",
+      "bytes": 25013,
+      "sha256": "9318a11e1645c3d105b1a497c9ab76570db49dcf94fa6217d595d4f5e1764d29",
+      "title": "教育部关于举办第四届全国大学生职业规划大赛的通知 - 中华人民共和国教育部政府门户网站",
+      "textPreview": " 教育部关于举办第四届全国大学生职业规划大赛的通知 - 中华人民共和国教育部政府门户网站 登录 Languages English Русский 日本語 Deutsch Français Español العربية 搜索 无障碍浏览 Languages English Русский 日本語 Deutsch Français Español العرب",
+      "rssItemCount": 0,
+      "rssItems": [],
+      "textLength": 3918,
+      "yearMentions": [
+        "2026",
+        "2026年",
+        "2027年",
+        "2020"
+      ],
+      "fieldKeywordSignals": {
+        "registration": true,
+        "competitionTime": true,
+        "team": false,
+        "teacher": true,
+        "stage": true
+      },
+      "advertisedFeeds": [],
+      "feedLinks": [],
+      "documentLinks": [
+        "http://www.moe.gov.cn/srcsite/A15/s7063/202610/W020261010465563639882.docx",
+        "http://www.moe.gov.cn/srcsite/A15/s7063/202610/W020261010465563631809.docx",
+        "http://www.moe.gov.cn/srcsite/A15/s7063/202610/W020261010419003414028.docx"
+      ],
+      "imageCandidates": [
+        "http://www.moe.gov.cn/srcsite/images/scy_jyb_lgo_03.png",
+        "http://www.moe.gov.cn/srcsite/images/m_top_logo.png",
+        "http://www.moe.gov.cn/srcsite/images/tmp_pc_cas_icon01.png",
+        "http://www.moe.gov.cn/srcsite/images/tmp_pc_cas_icon01.png",
+        "http://www.moe.gov.cn/images/red.png",
+        "http://www.moe.gov.cn/images/moe_icon_jiucuo.png?v=bm05000001"
+      ],
+      "noticeCandidates": [
+        "http://bszs.conac.cn/sitename?method=show&amp;id=05FDD4B7206C29B0E053012819AC4C18"
+      ],
+      "elapsedMs": 283
+    },
+    {
+      "catalogueId": "competition-030",
+      "url": "https://www.cms.org.cn/index.php/Home/comp/comp/cid/16.html",
+      "checkedAt": "2026-10-13T13:16:46.030Z",
+      "status": 200,
+      "finalUrl": "https://www.cms.org.cn/index.php/Home/comp/comp/cid/16.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 33573,
+      "sha256": "282a8ead399da753233cfe928a9e030b81fa1f690e3c85246adf9af0c7fe26b0",
+      "title": "数学竞赛 - 中国数学会",
+      "textPreview": " 数学竞赛 - 中国数学会 中文 English 手机站 回到旧版 登录 入会申请 首 页 关于学会 数学会简介 数学会章程 监事会条例 学会档案 组织机构 省市数学会 联系我们 历年年会 历年文化论坛 中国数学会是中国数学工作者的学术性法人社会团体，是中国科学技术协会的组成部分。中国数学会的宗旨是团结广大数学工作者，为促进数学的发展，繁荣我国的科学技术事业",
+      "rssItemCount": 0,
+      "rssItems": [],
+      "textLength": 2629,
+      "yearMentions": [
+        "2026",
+        "2026年"
+      ],
+      "fieldKeywordSignals": {
+        "registration": false,
+        "competitionTime": false,
+        "team": true,
+        "teacher": false,
+        "stage": true
+      },
+      "advertisedFeeds": [],
+      "feedLinks": [],
+      "documentLinks": [
+        "https://www.cms.org.cn/Uploads/20260702/35e54e88a20625150d47ca69b6aff1c6.pdf",
+        "https://www.cms.org.cn/Uploads/20260702/35e54e88a20625150d47ca69b6aff1c6.pdf"
+      ],
+      "imageCandidates": [
+        "https://www.cms.org.cn/static/home/images/logo.png?v=1.0",
+        "https://www.cms.org.cn/static/home/images/zhongwen.png",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg",
+        "https://www.cms.org.cn/static/home/images/slideDown_pic.jpg"
+      ],
+      "noticeCandidates": [
+        "https://www.cms.org.cn/Home/news/news.html",
+        "https://www.cms.org.cn/Home/news/news/cid/1.html",
+        "https://www.cms.org.cn/Home/news/news/cid/2.html",
+        "https://www.cms.org.cn/Home/news/news.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1458.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1456.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1453.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1452.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1451.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1450.html",
+        "https://www.cms.org.cn/Home/news/news_details/id/1444.html",
+        "https://www.cms.org.cn/Home/news/news.html"
+      ],
+      "elapsedMs": 451
+    },
+    {
+      "catalogueId": "competition-010",
+      "url": "https://www.isclab.org.cn/feed/",
+      "checkedAt": "2026-10-13T13:16:45.959Z",
+      "status": 200,
+      "finalUrl": "https://www.isclab.org.cn/feed/",
+      "contentType": "application/rss+xml; charset=UTF-8",
+      "bytes": 46734,
+      "sha256": "1b3667b71d27e2329e46d1347b092451ad35c9a75223574a51a6b1d705f00d38",
+      "title": "信息系统及安全对抗实验中心（ISCC）",
+      "textPreview": " 信息系统及安全对抗实验中心（ISCC） https://www.isclab.org.cn Information System and Security &#38; Countermeatures Experimental Center Mon, 12 Oct 2026 13:02:23 +0000 zh-Hans hourly 1 https://wo",
+      "rssItemCount": 10,
+      "rssItems": [
+        {
+          "title": "Adversarial Attack Detection Methods for Large Language Models",
+          "link": "https://www.isclab.org.cn/2026/10/12/adversarial-attack-detection-methods-for-large-language-models/",
+          "published": "Mon, 12 Oct 2026 13:02:23 +0000"
+        },
+        {
+          "title": "图序列预训练与黎曼图基础模型",
+          "link": "https://www.isclab.org.cn/2026/10/12/%e5%9b%be%e5%ba%8f%e5%88%97%e9%a2%84%e8%ae%ad%e7%bb%83%e4%b8%8e%e9%bb%8e%e6%9b%bc%e5%9b%be%e5%9f%ba%e7%a1%80%e6%a8%a1%e5%9e%8b/",
+          "published": "Mon, 12 Oct 2026 12:57:58 +0000"
+        },
+        {
+          "title": "认知扭曲干预策略研究",
+          "link": "https://www.isclab.org.cn/2026/09/28/%e8%ae%a4%e7%9f%a5%e6%89%ad%e6%9b%b2%e5%b9%b2%e9%a2%84%e7%ad%96%e7%95%a5%e7%a0%94%e7%a9%b6/",
+          "published": "Mon, 28 Sep 2026 08:15:19 +0000"
+        },
+        {
+          "title": "文稿评骘系统：AI检测与智能评审",
+          "link": "https://www.isclab.org.cn/2026/09/21/%e6%96%87%e7%a8%bf%e8%af%84%e9%aa%98%e7%b3%bb%e7%bb%9f%ef%bc%9aai%e6%a3%80%e6%b5%8b%e4%b8%8e%e6%99%ba%e8%83%bd%e8%af%84%e5%ae%a1/",
+          "published": "Mon, 21 Sep 2026 08:27:51 +0000"
+        }
+      ],
+      "textLength": 10950,
+      "yearMentions": [
+        "2026",
+        "2026年"
+      ],
+      "fieldKeywordSignals": {
+        "registration": true,
+        "competitionTime": true,
+        "team": true,
+        "teacher": true,
+        "stage": true
+      },
+      "advertisedFeeds": [],
+      "feedLinks": [],
+      "documentLinks": [
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf"
+      ],
+      "imageCandidates": [
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092108233367-1024x449.png",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/image-1-1024x292.png",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/image-1024x284.png"
+      ],
+      "noticeCandidates": [
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/Adversarial-Attack-Detection-Methods-for-Large-Language-Models-sana.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/10/2026101212570068.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092808105372.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf",
+        "https://www.isclab.org.cn/wp-content/uploads/2026/09/2026092102073092.pdf"
+      ],
+      "elapsedMs": 378
+    },
+    {
+      "catalogueId": "competition-011",
+      "url": "https://www.aicomp.cn/feed/",
+      "checkedAt": "2026-10-13T13:16:46.019Z",
+      "status": 200,
+      "finalUrl": "https://www.aicomp.cn/feed",
+      "contentType": "application/rss+xml; charset=UTF-8",
+      "bytes": 114571,
+      "sha256": "3bdde34592974d28118dfec9b3ca3bf7c66727ec04489782cb6aac0d3d7de6e0",
+      "title": "全球校园人工智能算法精英大赛",
+      "textPreview": " 全球校园人工智能算法精英大赛 https://www.aicomp.cn 智青春·算未来 Tue, 13 Oct 2026 01:10:07 +0000 zh-Hans hourly 1 https://wordpress.org/?v=6.8.1 https://www.aicomp.cn/wp-content/uploads/2025/06/cropp",
+      "rssItemCount": 18,
+      "rssItems": [
+        {
+          "title": "2026第八届AIC大赛算法应用赛“智慧社区”赛题复赛通知",
+          "link": "https://www.aicomp.cn/notice/5472.html",
+          "published": "Mon, 12 Oct 2026 07:15:22 +0000"
+        },
+        {
+          "title": "关于第八届全球校园人工智能算法精英大赛算法主题赛赛程调整的通知",
+          "link": "https://www.aicomp.cn/notice/notice-3/5435.html",
+          "published": "Sat, 10 Oct 2026 09:53:12 +0000"
+        },
+        {
+          "title": "数智阅读创新创意",
+          "link": "https://www.aicomp.cn/aic-4/5397.html",
+          "published": "Thu, 08 Oct 2026 02:06:16 +0000"
+        },
+        {
+          "title": "关于举办第八届AIC算法大赛算法主题赛（AI+力学）的通知（第二轮）",
+          "link": "https://www.aicomp.cn/notice/notice-3/5381.html",
+          "published": "Sat, 03 Oct 2026 13:53:39 +0000"
+        }
+      ],
+      "textLength": 34515,
+      "yearMentions": [
+        "2026",
+        "2025",
+        "2026年",
+        "2025年"
+      ],
+      "fieldKeywordSignals": {
+        "registration": true,
+        "competitionTime": true,
+        "team": true,
+        "teacher": true,
+        "stage": true
+      },
+      "advertisedFeeds": [],
+      "feedLinks": [],
+      "documentLinks": [
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E8%B5%9B%E6%99%BA%E6%85%A7%E7%A4%BE%E5%8C%BA%E8%B5%9B%E9%A2%98%E5%A4%8D%E8%B5%9B%E9%80%9A%E7%9F%A5.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E5%85%B3%E4%BA%8E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%E8%B5%9B%E7%A8%8B%E8%B0%83%E6%95%B4%E7%9A%84%E9%80%9A%E7%9F%A5261010.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%EF%BC%88AI%E5%8A%9B%E5%AD%A6%EF%BC%89%E7%9A%84%E9%80%9A%E7%9F%A5%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%BD%AE%EF%BC%89.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B61.AI%E5%8A%9B%E5%AD%A6-%E5%BC%80%E6%94%BE%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B62.%E5%9B%BD%E4%BA%A7AI%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%BE%85%E5%8A%A9%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6%E4%B8%8E%E6%9D%90%E6%96%99%E5%8A%9B%E5%AD%A6%E8%A7%A3%E9%A2%98%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B63.%E7%94%9F%E7%89%A9%E6%9B%B2%E9%9D%A2%E6%89%A9%E6%95%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%8F%8A%E5%9B%BE%E7%81%B5%E6%96%91%E5%9B%BE%E7%94%9F%E6%88%90%E3%80%81%E6%BC%94%E5%8C%96%E4%B8%8E%E8%B0%83%E6%8E%A7%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E4%BA%A7%E4%B8%9A%E5%91%BD%E9%A2%98%E8%B5%9B%E9%81%93%C2%B7AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E8%B5%9B%E6%80%BB%E5%86%B3%E8%B5%9B%E7%9A%84%E9%80%9A%E7%9F%A5-1.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E9%99%84%E4%BB%B6-2026%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E4%BA%A7%E4%B8%9A%E5%91%BD%E9%A2%98%E8%B5%9B%E9%81%93%C2%B7AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E8%B5%9B%E6%80%BB%E5%86%B3%E8%B5%9B%E5%8F%82%E8%B5%9B%E9%A1%BB%E7%9F%A5-1.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%EF%BC%88%E6%95%B0%E6%99%BA%E9%98%85%E8%AF%BB%E5%88%9B%E6%96%B0%E5%88%9B%E6%84%8F%E8%B5%9B%EF%BC%89%E7%9A%84%E9%80%9A%E7%9F%A5260930.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E9%99%84%E4%BB%B6-AIC%C2%B7%E6%95%B0%E6%99%BA%E9%98%85%E8%AF%BB%E5%88%9B%E6%96%B0%E5%88%9B%E6%84%8F%E7%AB%9E%E8%B5%9B%E8%A7%84%E5%88%99%E5%8F%8A%E4%BD%9C%E5%93%81%E6%8F%90%E4%BA%A4%E8%A6%81%E6%B1%82.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/2026AIC%C2%B7%E6%95%B0%E6%99%BA%E9%98%85%E8%AF%BB%E5%88%9B%E6%96%B0%E5%88%9B%E6%84%8F%E4%B8%BB%E9%A2%98%E8%B5%9B%E7%BB%84%E5%A7%94%E4%BC%9A%E5%B7%B2%E6%8E%88%E6%9D%83%E5%86%85%E5%AE%B9%E6%B8%85%E5%8D%95.doc",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%EF%BC%88%E6%95%B0%E6%99%BA%E9%98%85%E8%AF%BB%E5%88%9B%E6%96%B0%E5%88%9B%E6%84%8F%E8%B5%9B%EF%BC%89%E7%9A%84%E9%80%9A%E7%9F%A5260930.pdf"
+      ],
+      "imageCandidates": [
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%9B%BE%E7%89%871.png",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E7%BD%91%E9%A1%B5%E6%A8%AA%E5%9B%BE-3.png",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/8ce904acb5fd226aae5641c1674c9945.jpg",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/6G%E5%A4%A7%E8%B5%9B.png",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/home_title_img_10.webp",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/home_title_img_9.webp"
+      ],
+      "noticeCandidates": [
+        "https://www.aicomp.cn/notice/5472.html",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E8%B5%9B%E6%99%BA%E6%85%A7%E7%A4%BE%E5%8C%BA%E8%B5%9B%E9%A2%98%E5%A4%8D%E8%B5%9B%E9%80%9A%E7%9F%A5.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E5%85%B3%E4%BA%8E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%E8%B5%9B%E7%A8%8B%E8%B0%83%E6%95%B4%E7%9A%84%E9%80%9A%E7%9F%A5261010.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%EF%BC%88AI%E5%8A%9B%E5%AD%A6%EF%BC%89%E7%9A%84%E9%80%9A%E7%9F%A5%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%BD%AE%EF%BC%89.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B61.AI%E5%8A%9B%E5%AD%A6-%E5%BC%80%E6%94%BE%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B62.%E5%9B%BD%E4%BA%A7AI%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%BE%85%E5%8A%A9%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6%E4%B8%8E%E6%9D%90%E6%96%99%E5%8A%9B%E5%AD%A6%E8%A7%A3%E9%A2%98%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/10/%E9%99%84%E4%BB%B63.%E7%94%9F%E7%89%A9%E6%9B%B2%E9%9D%A2%E6%89%A9%E6%95%A3%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%8F%8A%E5%9B%BE%E7%81%B5%E6%96%91%E5%9B%BE%E7%94%9F%E6%88%90%E3%80%81%E6%BC%94%E5%8C%96%E4%B8%8E%E8%B0%83%E6%8E%A7%E8%B5%9B%E9%A2%98%E8%A7%84%E5%88%99.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%9B%BE%E7%89%871.png",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E4%BA%A7%E4%B8%9A%E5%91%BD%E9%A2%98%E8%B5%9B%E9%81%93%C2%B7AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E8%B5%9B%E6%80%BB%E5%86%B3%E8%B5%9B%E7%9A%84%E9%80%9A%E7%9F%A5-1.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E9%99%84%E4%BB%B6-2026%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E4%BA%A7%E4%B8%9A%E5%91%BD%E9%A2%98%E8%B5%9B%E9%81%93%C2%B7AI%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E8%B5%9B%E6%80%BB%E5%86%B3%E8%B5%9B%E5%8F%82%E8%B5%9B%E9%A1%BB%E7%9F%A5-1.pdf",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E7%BD%91%E9%A1%B5%E6%A8%AA%E5%9B%BE-3.png",
+        "https://www.aicomp.cn/wp-content/uploads/2026/09/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8A%E5%85%A8%E7%90%83%E6%A0%A1%E5%9B%AD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95%E7%B2%BE%E8%8B%B1%E5%A4%A7%E8%B5%9B%E7%AE%97%E6%B3%95%E4%B8%BB%E9%A2%98%E8%B5%9B%EF%BC%88%E6%95%B0%E6%99%BA%E9%98%85%E8%AF%BB%E5%88%9B%E6%96%B0%E5%88%9B%E6%84%8F%E8%B5%9B%EF%BC%89%E7%9A%84%E9%80%9A%E7%9F%A5260930.pdf"
+      ],
+      "elapsedMs": 436
+    }
+  ]
+}

@@ -80,7 +80,7 @@ export async function reportIndexRows(kind: ReportKind, limit: number) {
          FROM jsonb_array_elements(jsonb_path_query_array(content,
            CASE WHEN kind = 'daily' THEN '$.sections[*].items[*]'::jsonpath ELSE '$.themes[*].storyRefs[*]'::jsonpath END
          )) WITH ORDINALITY AS cited(item, ord))))) AS content
-    FROM reports WHERE kind = ${kind} ORDER BY key DESC LIMIT ${limit}`;
+    FROM reports WHERE section_id = 'ai' AND kind = ${kind} ORDER BY key DESC LIMIT ${limit}`;
 }
 
 /** The entries an issue cites in reading order: a daily's sections, a weekly's or monthly's themes. */
@@ -155,7 +155,7 @@ async function dailyLeads(rows: Array<{ key: string; content: Record<string, any
     SELECT r.key, (SELECT i->>'summary' FROM jsonb_path_query(r.content, '$.sections[*].items[*]') i
       WHERE i->>'itemId' = wanted.item_id LIMIT 1) AS summary
     FROM reports r JOIN jsonb_to_recordset(${sql.json(replacements)}) AS wanted(key text, item_id text) ON wanted.key = r.key
-    WHERE r.kind = 'daily'`;
+    WHERE r.section_id = 'ai' AND r.kind = 'daily'`;
   for (const p of paragraphs) leads.get(p.key)!.leadParagraph = p.summary;
   return leads;
 }
@@ -317,16 +317,16 @@ function readingMinutes(text: string): number {
 
 async function neighbors(kind: ReportKind, key: string): Promise<{ prev: string | null; next: string | null }> {
   const [row] = await sql<{ prev: string | null; next: string | null }[]>`
-    SELECT (SELECT key FROM reports WHERE kind = ${kind} AND key < ${key} ORDER BY key DESC LIMIT 1) AS prev,
-      (SELECT key FROM reports WHERE kind = ${kind} AND key > ${key} ORDER BY key ASC LIMIT 1) AS next`;
+    SELECT (SELECT key FROM reports WHERE section_id = 'ai' AND kind = ${kind} AND key < ${key} ORDER BY key DESC LIMIT 1) AS prev,
+      (SELECT key FROM reports WHERE section_id = 'ai' AND kind = ${kind} AND key > ${key} ORDER BY key ASC LIMIT 1) AS next`;
   return { prev: row?.prev ?? null, next: row?.next ?? null };
 }
 
 export async function loadReport(kind: ReportKind, key: string): Promise<ReportDetail | null> {
   // Its number counts every issue of the kind up to it, as the index numbers them (reportIndexRows).
   const [r] = await sql<(Pick<ReportRow, "content" | "generated_at"> & { issue_number: number })[]>`
-    SELECT r.content, r.generated_at, (SELECT count(*)::int FROM reports earlier WHERE earlier.kind = r.kind AND earlier.key <= r.key) AS issue_number
-    FROM reports r WHERE r.kind = ${kind} AND r.key = ${key}`;
+    SELECT r.content, r.generated_at, (SELECT count(*)::int FROM reports earlier WHERE earlier.section_id = 'ai' AND earlier.kind = r.kind AND earlier.key <= r.key) AS issue_number
+    FROM reports r WHERE r.section_id = 'ai' AND r.kind = ${kind} AND r.key = ${key}`;
   if (!r) return null;
   const c = r.content;
   const entries: Array<Record<string, any>> = [
@@ -458,8 +458,8 @@ export interface DailyNote {
 /** The v1 daily (its fields never change) and the notes the Agent answer adds to it. */
 export async function dailyWithNotes(date: string | "latest") {
   const [r] = date === "latest"
-    ? await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE kind = 'daily' ORDER BY key DESC LIMIT 1`
-    : await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE kind = 'daily' AND key = ${date}`;
+    ? await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE section_id = 'ai' AND kind = 'daily' ORDER BY key DESC LIMIT 1`
+    : await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE section_id = 'ai' AND kind = 'daily' AND key = ${date}`;
   if (!r) return null;
   const c = r.content;
   const raw = [...(c.sections ?? []).flatMap((s: any) => s.items ?? []), ...(c.flashes ?? [])];
@@ -533,7 +533,7 @@ export async function feedIssues(kind: ReportKind, limit: number): Promise<FeedI
           (SELECT coalesce(jsonb_agg(jsonb_build_object('itemId', i->'itemId', 'title', i->'title') ORDER BY ord), '[]'::jsonb)
            FROM jsonb_array_elements(coalesce(s->'items', '[]'::jsonb)) WITH ORDINALITY AS e(i, ord))) ORDER BY sord), '[]'::jsonb)
           FROM jsonb_array_elements(coalesce(content->'sections', '[]'::jsonb)) WITH ORDINALITY AS x(s, sord))) AS content
-      FROM reports WHERE kind = 'daily' ORDER BY key DESC LIMIT ${limit}`
+      FROM reports WHERE section_id = 'ai' AND kind = 'daily' ORDER BY key DESC LIMIT ${limit}`
     : await sql<{ key: string; generated_at: Date; content: Record<string, any> }[]>`
       SELECT key, generated_at, jsonb_build_object(
         'headline', content->'headline', 'title', content->'title', 'overview', content->'overview',
@@ -542,7 +542,7 @@ export async function feedIssues(kind: ReportKind, limit: number): Promise<FeedI
           (SELECT coalesce(jsonb_agg(jsonb_build_object('itemId', i->'itemId', 'title', i->'title') ORDER BY ord), '[]'::jsonb)
            FROM jsonb_array_elements(coalesce(t->'storyRefs', '[]'::jsonb)) WITH ORDINALITY AS e(i, ord))) ORDER BY tord), '[]'::jsonb)
           FROM jsonb_array_elements(coalesce(content->'themes', '[]'::jsonb)) WITH ORDINALITY AS x(t, tord))) AS content
-      FROM reports WHERE kind = ${kind} ORDER BY key DESC LIMIT ${limit}`;
+      FROM reports WHERE section_id = 'ai' AND kind = ${kind} ORDER BY key DESC LIMIT ${limit}`;
   const shape = kind === "daily" ? "daily" : "periodic";
   const gone = await unavailableIds(rows.flatMap((r) => entriesOf(r.content, shape).map((i) => i.itemId)));
   const leads = kind === "daily" ? await dailyLeads(rows, gone) : null;
@@ -601,8 +601,8 @@ export async function v1Periods(kind: PeriodKind, limit: number) {
  */
 export async function v1Period(kind: PeriodKind, key: string | "latest") {
   const [r] = key === "latest"
-    ? await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE kind = ${kind} ORDER BY key DESC LIMIT 1`
-    : await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE kind = ${kind} AND key = ${key}`;
+    ? await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE section_id = 'ai' AND kind = ${kind} ORDER BY key DESC LIMIT 1`
+    : await sql<ReportRow[]>`SELECT kind, key, window_start, window_end, content, generated_at FROM reports WHERE section_id = 'ai' AND kind = ${kind} AND key = ${key}`;
   if (!r) return null;
   const c = r.content;
   const raw: Array<Record<string, any>> = (c.themes ?? []).flatMap((t: any) => t.storyRefs ?? []);

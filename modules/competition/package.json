@@ -1,0 +1,29 @@
+{
+  "name": "@aihot/competition",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./web.tsx": "./web.tsx",
+    "./*": "./*.ts"
+  },
+  "dependencies": {
+    "@aihot/web": "*",
+    "@aihot/api": "*",
+    "@napi-rs/canvas": "1.0.11",
+    "@aihot/backend": "*",
+    "@aihot/contracts": "*",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
+    "@types/word-extractor": "1.0.6",
+    "cheerio": "1.2.0",
+    "fast-xml-parser": "5.11.1",
+    "fflate": "0.7.5",
+    "mammoth": "1.13.0",
+    "pdfjs-dist": "6.4.299",
+    "playwright": "1.61.1",
+    "sharp": "0.35.5",
+    "tesseract.js": "7.0.0",
+    "word-extractor": "1.0.4",
+    "zod": "4.6.5"
+  }
+}

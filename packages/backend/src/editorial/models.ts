@@ -6,6 +6,8 @@ import { DEFAULTS } from "@aihot/site/models";
 import { sql } from "../db.ts";
 import { serverModules } from "../modules.ts";
 import { MODELS } from "../providers/llm.ts";
+import type { SectionRules } from "../sections/rules.ts";
+import { configuredSectionModel, type SectionModelStep } from "../sections/rules.ts";
 
 export interface Capability {
   /** The step's name on the admin page, with an explanation in full-width brackets if it needs one; alerts use the name alone. */
@@ -49,6 +51,7 @@ export function stepsOnService(service: string): string[] {
 }
 
 let cache: { at: number; overrides: Record<string, string> } | null = null;
+const sectionCaches = new Map<string, { at: number; overrides: Record<string, string> }>();
 
 async function overrides(): Promise<Record<string, string>> {
   if (cache && Date.now() - cache.at < 60_000) return cache.overrides;
@@ -61,6 +64,7 @@ async function overrides(): Promise<Record<string, string>> {
 
 export function invalidateModelCache() {
   cache = null;
+  sectionCaches.clear();
 }
 
 /** Whether a registered model explicitly declares image input support. Unspecified means text-only. */
@@ -79,6 +83,28 @@ export async function modelFor(capability: CapabilityKey | (string & {})): Promi
   if (!c) throw new Error(`unknown model step: ${capability}`);
   const chosen = (await overrides())[capability] ?? process.env[c.env] ?? c.default;
   return MODELS[chosen] ? chosen : c.default;
+}
+
+/** A world choice may reuse a provider, never the AI capability override or environment. */
+export async function sectionModelFor(rules: SectionRules, step: SectionModelStep): Promise<string> {
+  if (rules.id === "ai") return modelFor(step);
+  const configured = configuredSectionModel(rules, step);
+  const prefix = `sections.${rules.id}.models.`;
+  let cached = sectionCaches.get(rules.id);
+  if (!cached || Date.now() - cached.at >= 60_000) {
+    const rows = await sql<{ key: string; value: { model?: string } }[]>`
+      SELECT key, value FROM settings WHERE key LIKE ${prefix + "%"}`;
+    const overrides: Record<string, string> = {};
+    for (const row of rows) {
+      if (typeof row.value?.model !== "string" || !MODELS[row.value.model]) throw new Error(`section ${rules.id}: invalid model setting`);
+      overrides[row.key.slice(prefix.length)] = row.value.model;
+    }
+    cached = { at: Date.now(), overrides };
+    sectionCaches.set(rules.id, cached);
+  }
+  const chosen = cached.overrides[step] ?? configured;
+  if (!MODELS[chosen]) throw new Error(`section ${rules.id}: unknown model for ${step}`);
+  return chosen;
 }
 
 /** Where the current choice comes from, for the admin page. */

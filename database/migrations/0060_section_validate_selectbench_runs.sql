@@ -1,0 +1,1 @@
+ALTER TABLE selectbench_runs VALIDATE CONSTRAINT selectbench_runs_section_check;

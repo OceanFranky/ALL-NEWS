@@ -1,0 +1,249 @@
+import { tag } from "../../../tests/setup.ts";
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { after, before, test } from "node:test";
+import { sql, closeDb } from "@aihot/backend/db";
+import { installModules } from "@aihot/backend/modules";
+import { sectionItem, sectionItems } from "@aihot/backend/publication/sections";
+import { projectSectionArticle, reviewSectionPublication, reviewSectionSourcePermission } from "@aihot/backend/publication/section-publish";
+import { worldNewsModule } from "../server.ts";
+import { WORLD_RULES } from "../rules.ts";
+import { freezeSectionRules } from "@aihot/backend/sections/rules";
+import Fastify from "fastify";
+import { config } from "@aihot/backend/config";
+import { registerWorldAdmin } from "../api/admin.ts";
+
+const T=tag(),source=`permission-${T}`;
+before(async()=>{
+  installModules([worldNewsModule]);
+  await sql`INSERT INTO sources (section_id,id,name,kind,enabled,site_fulltext)
+    VALUES ('world',${source},'Local world source','rss',false,true)`;
+});
+after(closeDb);
+let n=0;
+async function material(options:{ relevance?:string;category?:string;dated?:boolean;grouped?:boolean;timelineAt?:Date }={}) {
+  const id=`projection-${T}-${++n}`;
+  await sql`INSERT INTO articles (section_id,id,source_id,identity_key,url,title,excerpt,published_at,discovered_at,timeline_at,grouping_status)
+    VALUES ('world',${id},${source},${id},${`https://fixture.invalid/${id}`},'Bank announced policy','Evidence supplied by local fixture',
+      ${options.dated===false ? null : new Date()},now(),${options.timelineAt ?? new Date()},${options.grouped===false ? 'pending' : 'complete'})`;
+  await sql`INSERT INTO analyses (section_id,article_id,input_revision,origin,relevance,category,title_zh,summary_zh,reason_zh,score)
+    VALUES ('world',${id},1,'rule',${options.relevance ?? 'pass'},${options.category ?? 'economy'},'央行公布政策','机构表示新政策将于周一生效。','了解政策变化',90)`;
+  return id;
+}
+const approve=(id:string,revision=1)=>reviewSectionPublication('world',id,{ revision,action:'approve',actor:'test-admin',reason:'Reviewed local fixture only' });
+const permission=(allowed:boolean)=>reviewSectionSourcePermission('world',source,{ summaryAllowed:allowed,reference:'Local fixture license only',actor:'test-admin' });
+
+test('explicit automatic summaries require sufficient current material and preserve withdrawal and calibration boundaries',async()=>{
+  await permission(true);
+  await sql`INSERT INTO settings (key,value) VALUES ('sections.world.publication','{"automaticSummary":true}'::jsonb)`;
+  try {
+    const ready=await material(),insufficient=await material(),undated=await material({ dated:false }),ungrouped=await material({ grouped:false });
+    for(const id of [ready,undated,ungrouped]) await sql`UPDATE analyses SET output='{"materialSufficient":true}'::jsonb WHERE article_id=${id}`;
+    assert.equal((await projectSectionArticle('world',ready)).eligible,true);
+    assert.equal((await projectSectionArticle('world',ready)).selected,false);
+    assert.ok(await sectionItem('world',ready));
+    assert.equal((await sql`SELECT 1 FROM editorial_overrides WHERE article_id=${ready}`).length,0);
+    for(const id of [insufficient,undated,ungrouped]) assert.equal((await projectSectionArticle('world',id)).eligible,false);
+    await reviewSectionPublication('world',ready,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw fixture' });
+    await projectSectionArticle('world',ready);
+    assert.equal(await sectionItem('world',ready),null);
+    await permission(false);
+    const unlicensed=await material();
+    await sql`UPDATE analyses SET output='{"materialSufficient":true}'::jsonb WHERE article_id=${unlicensed}`;
+    assert.equal((await projectSectionArticle('world',unlicensed)).eligible,false);
+    await sql`UPDATE settings SET value='{"automaticSummary":"true"}'::jsonb WHERE key='sections.world.publication'`;
+    await permission(true);
+    assert.equal((await projectSectionArticle('world',unlicensed)).eligible,false);
+  } finally {
+    await sql`DELETE FROM settings WHERE key='sections.world.publication'`;
+    await permission(false);
+  }
+});
+
+test('uncalibrated results stay private; approval cannot bypass missing source permission',async()=>{
+  const id=await material();
+  assert.equal((await projectSectionArticle('world',id)).eligible,false);
+  await assert.rejects(approve(id),/not ready/);
+  assert.equal(await sectionItem('world',id),null);
+  assert.equal((await sql`SELECT 1 FROM editorial_overrides WHERE article_id=${id}`).length,0,'failed review rolls back');
+});
+
+test('reviewed summaries publish without exposing licensed full text, AI outputs, selection or sync',async()=>{
+  await permission(true);
+  const id=await material();
+  await sql`UPDATE articles SET media=${sql.json([{ kind:'image',url:'https://fixture.invalid/cover.jpg' }])} WHERE id=${id}`;
+  assert.equal((await projectSectionArticle('world',id)).eligible,false,'permission alone is not rule calibration');
+  const result=await approve(id);
+  assert.equal(result.eligible,true);
+  assert.equal(result.selected,false);
+  const item=await sectionItem('world',id);
+  assert.equal(item?.item.title,'央行公布政策');
+  assert.match(item?.item.image?.url ?? '',/^\/api\/img-proxy\?/);
+  assert.equal(await sectionItem('ai',id),null);
+  const [p]=await sql`SELECT body_mode,syndicate,indexable,selected FROM publications WHERE article_id=${id}`;
+  assert.deepEqual(p,{ body_mode:'summary',syndicate:false,indexable:false,selected:false });
+  assert.equal((await sql`SELECT 1 FROM selected_ledger WHERE article_id=${id}`).length,0);
+  assert.equal((await sql`SELECT 1 FROM audit_log WHERE subject=${`world:content:${id}`}`).length,1);
+});
+
+test('withdrawal survives rebuild; source permission revocation hides already projected content immediately',async()=>{
+  const id=await material();
+  await approve(id);
+  await reviewSectionPublication('world',id,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw fixture' });
+  await projectSectionArticle('world',id);
+  assert.equal(await sectionItem('world',id),null);
+  await approve(id);
+  await permission(false);
+  assert.equal(await sectionItem('world',id),null);
+  assert.ok(!(await sectionItems('world')).items.some(x=>x.id===id));
+  await permission(true);
+});
+
+test('material changes and new analysis invalidate old projection and revision-bound approval',async()=>{
+  const id=await material();
+  await approve(id);
+  await sql`INSERT INTO analyses (section_id,article_id,input_revision,origin,relevance,category,title_zh,summary_zh)
+    VALUES ('world',${id},1,'rule','pass','economy','政策更新','仅使用新增材料')`;
+  assert.equal(await sectionItem('world',id),null,'latest analysis must be the projected analysis');
+  assert.equal((await projectSectionArticle('world',id)).eligible,false,'approval does not carry to a different judgement');
+  await approve(id);
+  await sql`UPDATE articles SET revision=2 WHERE id=${id}`;
+  assert.equal(await sectionItem('world',id),null,'no stale original is public between tasks');
+  await assert.rejects(approve(id),/revision changed/);
+  assert.equal((await projectSectionArticle('world',id)).eligible,false);
+});
+
+test('unknown, undated, ungrouped and out-of-section category remain private even with manual review',async()=>{
+  for(const options of [{ relevance:'unknown' },{ dated:false },{ grouped:false },{ category:'model' }]) {
+    const id=await material(options);
+    await assert.rejects(approve(id),/not ready/);
+    assert.equal(await sectionItem('world',id),null);
+  }
+});
+
+test('wrong-section mutation is rejected without modifying AI projection or permissions',async()=>{
+  const id=`ai-projection-${T}`;
+  await sql`INSERT INTO sources (id,name,kind) VALUES (${id},'AI source','rss')`;
+  await sql`INSERT INTO articles (id,source_id,identity_key,url,title,discovered_at,timeline_at)
+    VALUES (${id},${id},${id},'https://fixture.invalid/ai','AI title',now(),now())`;
+  await assert.rejects(projectSectionArticle('world',id),/mismatch/);
+  await assert.rejects(reviewSectionSourcePermission('world',id,{ summaryAllowed:true,reference:'fixture',actor:'test' }),/mismatch/);
+  await assert.rejects(approve(id),/mismatch/);
+  await assert.rejects(projectSectionArticle('ai',id),/legacy/);
+  assert.equal((await sql`SELECT 1 FROM publications WHERE article_id=${id}`).length,0);
+});
+
+test('world review endpoints reuse session and CSRF guards, reject invalid payloads and mismatched ownership',async()=>{
+  const app=Fastify();
+  registerWorldAdmin(app);
+  const original=config.devAdmin;
+  try {
+    config.devAdmin=null;
+    const url=`/api/admin/world/sources/${source}/permission`;
+    const payload={ summaryAllowed:true,reference:'Local fixture only' };
+    assert.equal((await app.inject({ method:'POST',url,payload })).statusCode,401);
+    config.devAdmin={ displayName:'fixture admin' };
+    assert.equal((await app.inject({ method:'POST',url,payload })).statusCode,403);
+    const headers={ 'x-csrf-token':'dev' };
+    assert.equal((await app.inject({ method:'POST',url,payload:{ ...payload,sectionId:'ai' },headers })).statusCode,400);
+    assert.equal((await app.inject({ method:'POST',url,payload,headers })).statusCode,200);
+    const sourceView=await app.inject(`/api/admin/world/sources/${source}`);
+    assert.equal(sourceView.statusCode,200);
+    assert.equal(sourceView.json().sectionId,'world');
+    assert.equal(sourceView.json().permission.summary_allowed,true);
+    assert.equal(sourceView.json().permission.permission_reference,payload.reference);
+    assert.equal(sourceView.json().permission.reviewed_by,'dev:fixture admin');
+    assert.equal((await app.inject({ method:'POST',url,payload:{ summaryAllowed:false,reference:'Fixture revoked' },headers })).statusCode,200);
+    assert.equal((await app.inject(`/api/admin/world/sources/${source}`)).json().permission.summary_allowed,false);
+    assert.equal((await app.inject({ method:'POST',url,payload,headers })).statusCode,200);
+    const id=await material();
+    const reviewUrl=`/api/admin/world/items/${id}/review`;
+    assert.equal((await app.inject({ method:'POST',url:reviewUrl,payload:{ revision:1,action:'approve',reason:'Fixture review' },headers })).statusCode,200);
+    assert.equal((await app.inject({ method:'POST',url:reviewUrl,payload:{ revision:2,action:'withdraw',reason:'Stale fixture review' },headers })).statusCode,409);
+    assert.equal((await app.inject({ method:'POST',url:`/api/admin/world/items/ai-projection-${T}/review`,payload:{ revision:1,action:'approve',reason:'Wrong board' },headers })).statusCode,404);
+  } finally {
+    config.devAdmin=original;
+    await app.close();
+  }
+});
+
+test('parallel rebuilds and review serialize without upgrading shared article locks',async()=>{
+  const id=await material();
+  await approve(id);
+  const results=await Promise.all(Array.from({ length:12 },(_,i)=>i===0 ? approve(id) : projectSectionArticle('world',id)));
+  assert.ok(results.every(r=>r.eligible));
+  assert.ok(await sectionItem('world',id));
+  assert.equal((await sql`SELECT 1 FROM publications WHERE article_id=${id}`).length,1);
+});
+
+test('a digest enqueue failure rolls back the world publication review',async()=>{
+  await permission(true);
+  const id=await material();
+  const [story]=await sql<{ id:number }[]>`INSERT INTO stories (section_id,public_id,title,first_report_at,latest_at)
+    VALUES ('world',${randomUUID()},'Policy event',now(),now()) RETURNING id`;
+  const [fact]=await sql<{ id:number }[]>`INSERT INTO facts (section_id,public_id,story_id,title,occurred_at)
+    VALUES ('world',${`fact-${id}`},${story!.id},'Policy announced',now()) RETURNING id`;
+  await sql`INSERT INTO fact_articles (section_id,fact_id,article_id,role) VALUES ('world',${fact!.id},${id},'primary')`;
+  await assert.rejects(reviewSectionPublication('world',id,
+    { revision:1,action:'approve',actor:'test-admin',reason:'Fixture review' },
+    async()=>{ throw new Error('local digest queue failure'); }),/digest queue failure/);
+  assert.equal(await sectionItem('world',id),null);
+  assert.equal((await sql`SELECT 1 FROM editorial_overrides WHERE article_id=${id}`).length,0);
+  assert.equal((await sql`SELECT 1 FROM audit_log WHERE subject=${`world:content:${id}`}`).length,0);
+});
+
+test('world list pages and counts every visible article by Beijing calendar day',async()=>{
+  await permission(true);
+  const times=['2026-10-10T15:30:00Z','2026-10-10T16:30:00Z','2026-10-10T17:00:00Z'];
+  const ids=[];
+  for(const at of times) {
+    const id=await material({ category:'security',timelineAt:new Date(at) });
+    await approve(id);ids.push(id);
+  }
+  const first=await sectionItems('world',{ category:'security',limit:1,page:1 });
+  const last=await sectionItems('world',{ category:'security',limit:1,page:3 });
+  assert.equal(first.pagination.total,3);
+  assert.equal(first.pagination.hasMore,true);
+  assert.deepEqual(Array.from(first.days),[{ date:'2026-10-11',count:2 },{ date:'2026-10-10',count:1 }]);
+  assert.equal(last.items[0]?.id,ids[0]);
+  assert.equal(last.pagination.hasMore,false);
+  await reviewSectionPublication('world',ids[1]!,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw fixture' });
+  const after=await sectionItems('world',{ category:'security',limit:1,page:2 });
+  assert.equal(after.pagination.total,2);
+  assert.deepEqual(Array.from(after.days),[{ date:'2026-10-11',count:1 },{ date:'2026-10-10',count:1 }]);
+});
+
+test('calibrated world projection separates ordinary content from selection using exact dual scores, not AI tiers',async()=>{
+  installModules([{ ...worldNewsModule,sections:[freezeSectionRules({ ...WORLD_RULES,
+    selection:{ thresholds:{ default:69.5 },understandFloor:null } })] }]);
+  try {
+    await permission(true);
+    await sql`UPDATE sources SET tier='EXCLUDE_MP' WHERE section_id='world' AND id=${source}`;
+    const high=await material(),low=await material(),incomplete=await material();
+    for(const [id,scores] of [[high,[70,69]],[low,[70,68]],[incomplete,[100]]] as const) {
+      await sql`UPDATE analyses SET output=${sql.json({ materialSufficient:true,scores } as never)},score=99 WHERE section_id='world' AND article_id=${id}`;
+    }
+    assert.equal((await projectSectionArticle('world',high)).selected,true,'fractional mean on threshold is selected');
+    assert.equal((await projectSectionArticle('world',low)).selected,false,'below threshold stays ordinary');
+    assert.equal((await projectSectionArticle('world',incomplete)).selected,false,'one score is not two independent judgements');
+    for(const id of [high,low,incomplete]) assert.ok(await sectionItem('world',id),'ordinary related content remains readable');
+    assert.equal((await sectionItem('world',high))!.item.score,69.5,'cached single score cannot override the dual mean');
+    assert.equal((await sectionItem('world',high))!.item.selected,true,'selected release timestamp makes the item immediately readable');
+    const [before]=await sql`SELECT visible_after FROM publications WHERE section_id='world' AND article_id=${high}`;
+    await projectSectionArticle('world',high);
+    const [after]=await sql`SELECT visible_after FROM publications WHERE section_id='world' AND article_id=${high}`;
+    assert.deepEqual(after,before,'rebuild preserves the release time');
+    await reviewSectionPublication('world',high,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw calibrated fixture' });
+    assert.equal((await projectSectionArticle('world',high)).selected,false);
+    assert.equal(await sectionItem('world',high),null);
+    await sql`UPDATE analyses SET output=${sql.json({ materialSufficient:false,scores:[100,100] })} WHERE section_id='world' AND article_id=${low}`;
+    const insufficient=await projectSectionArticle('world',low);
+    assert.equal(insufficient.selected,false,'insufficient material never becomes selected');
+    assert.equal(insufficient.eligible,false);
+    assert.equal(await sectionItem('world',low),null,'insufficient material never becomes ordinary public content either');
+    assert.equal((await sql`SELECT 1 FROM selected_ledger WHERE article_id IN (${high},${low},${incomplete})`).length,0,'world does not enter AI syndication');
+    assert.equal((await sql`SELECT 1 FROM receipts`).length,0);
+  } finally {
+    installModules([worldNewsModule]);
+  }
+});
