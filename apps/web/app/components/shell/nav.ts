@@ -22,7 +22,6 @@ const SECTIONS: Array<{ title: string; items: NavItem[] }> = [
     title: "内容",
     items: [
       { to: "/", label: "行业信息", icon: IconList },
-      { to: "/starred", label: "收藏", icon: IconBookmark },
     ],
   },
   {
@@ -50,6 +49,7 @@ export function sidebar(): Array<{ title: string; items: NavItem[] }> {
     if (section) section.items.push(...m.sidebar.items);
     else sections.push({ title: m.sidebar.section, items: [...m.sidebar.items] });
   }
+  sections[0]!.items.push({ to: "/starred", label: "收藏", icon: IconBookmark });
   return [...sections, more];
 }
 
