@@ -11,7 +11,7 @@ import { sha256, stableJson } from "../lib/ids.ts";
 import { shutdownSignal } from "../lib/shutdown.ts";
 import { requireSectionId, assertSameSection, type SectionId } from "@aihot/contracts/sections";
 import { assertSectionResource, type SectionResource } from "../sections/resources.ts";
-import { checkSectionMoney } from './section-money.ts';
+import { checkSectionMoney, dailyMoneyRetryAfter } from './section-money.ts';
 
 /** The text of a spent budget's error; with `%` for both parts it is the LIKE pattern that finds every saved one. */
 export const budgetMessage = (service: string, window: string) => `Budget for ${service} exhausted (${window})`;
@@ -178,20 +178,28 @@ export async function paidRequest(req: ReceiptRequest, call: () => Promise<CallO
       await checkSectionBudget(tx, req.service, sectionId);
       if(existing.request.reservedCostCny!==undefined && (req.reservedCostCny ?? Infinity)>existing.request.reservedCostCny)
         throw new Error('stored monetary reservation is insufficient for retry');
-      await checkSectionMoney(tx,sectionId,req.service,req.model,existing.request.reservedCostCny ?? req.reservedCostCny);
+      const reservation=existing.request.reservedCostCny ?? req.reservedCostCny;
+      const retryAfter=await dailyMoneyRetryAfter(tx,req.service,req.model,reservation);
+      if(retryAfter!==null) throw new BudgetExceededError(req.service,'daily-money',retryAfter);
+      await checkSectionMoney(tx,sectionId,req.service,req.model,reservation);
       const [r] = await tx<{ attempts: number }[]>`
-        UPDATE receipts SET status = 'pending', attempts = attempts + 1, error = NULL, updated_at = now() WHERE id = ${existing.id} RETURNING attempts`;
+        UPDATE receipts SET status = 'pending', attempts = attempts + 1, error = NULL,
+          request=request || ${tx.json(reservation!==undefined ? { reservedCostCny:reservation } : {})},updated_at = now()
+        WHERE id = ${existing.id} RETURNING attempts`;
       const attemptId = await startAttempt(tx, existing.id, r!.attempts, req);
       return { kind: "call" as const, id: existing.id, attemptId };
     }
     await checkBudget(tx, req.service);
     await checkSectionBudget(tx, req.service, sectionId);
+    const retryAfter=await dailyMoneyRetryAfter(tx,req.service,req.model,req.reservedCostCny);
+    if(retryAfter!==null) throw new BudgetExceededError(req.service,'daily-money',retryAfter);
     await checkSectionMoney(tx,sectionId,req.service,req.model,req.reservedCostCny);
     const [row] = await tx<{ id: number }[]>`
       INSERT INTO receipts (section_id, logical_key, service, model, purpose, subject, status, request, attempts)
       VALUES (${sectionId}, ${logicalKey}, ${req.service}, ${req.model ?? null}, ${req.purpose}, ${req.subject ?? null}, 'pending',
-              ${tx.json((sectionId==='world' ? { ...req.requestSummary,resource:req.resource,attemptTag:req.attemptTag ?? null,
-                ...(req.reservedCostCny!==undefined ? { reservedCostCny:req.reservedCostCny } : {}) } : req.requestSummary ?? {}) as never)}, 1)
+              ${tx.json({ ...req.requestSummary,
+                ...(sectionId==='world' ? { resource:req.resource,attemptTag:req.attemptTag ?? null } : {}),
+                ...(req.reservedCostCny!==undefined ? { reservedCostCny:req.reservedCostCny } : {}) } as never)}, 1)
       RETURNING id`;
     const attemptId = await startAttempt(tx, row!.id, 1, req);
     return { kind: "call" as const, id: row!.id, attemptId };

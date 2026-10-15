@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineQueue } from "@aihot/backend/modules";
+import { defineQueue, type ModuleQueue } from "@aihot/backend/modules";
 import { enqueueOn, recordRun } from "@aihot/backend/jobs/queue";
 import { analyzeSectionArticle } from "@aihot/backend/editorial/section-analyze";
 import { assertSectionResource } from "@aihot/backend/sections/resources";
@@ -8,6 +8,23 @@ import { groupSectionArticle } from "@aihot/backend/events/section-group";
 import { projectSectionArticle } from "@aihot/backend/publication/section-publish";
 import { collectSectionSource } from "@aihot/backend/sources/section-collect";
 import { composeWorldStoryDigest } from "@aihot/backend/events/section-digest";
+import { BudgetExceededError } from "@aihot/backend/providers/receipts";
+import { createHash } from "node:crypto";
+
+export async function runWorldBudgeted<T extends object>(queue:ModuleQueue<T>,tasks:T[],run:(task:T)=>Promise<unknown>) {
+  const results=[];
+  for(const task of tasks) {
+    try { results.push(await run(task)); }
+    catch(error) {
+      if(!(error instanceof BudgetExceededError)) throw error;
+      const startAfter=new Date(Date.now()+error.retryAfterSeconds*1000);
+      const identity=createHash('sha256').update(JSON.stringify(task)).digest('hex');
+      const jobId=await enqueueOn(queue,task,{ startAfter,singletonKey:`budget:${identity}:${startAfter.toISOString().slice(0,16)}` });
+      results.push({ deferred:true,retryAt:startAfter.toISOString(),jobId });
+    }
+  }
+  return results;
+}
 
 export const WorldCollectTask=z.strictObject({ sectionId:z.literal('world'),sourceId:z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/),force:z.boolean().optional() });
 export async function runWorldCollectTask(raw:unknown) {
@@ -56,18 +73,14 @@ export async function runWorldAnalysisTask(raw: unknown) {
   return recordRun("world-news.analyze", () => analyzeSectionArticle(task.sectionId, task.articleId, task.attemptTag), "world");
 }
 
-export const worldAnalysisQueue = defineQueue<WorldAnalysisTaskData>({
+export const worldAnalysisQueue:ModuleQueue<WorldAnalysisTaskData> = defineQueue<WorldAnalysisTaskData>({
   name: "world-news.analyze", options: { policy: "short", retryLimit: 2, retryDelay: 60, expireInSeconds: 900 },
   worker: { batchSize: 1, pollingIntervalSeconds: 2 },
-  run: async tasks => {
-    const results = [];
-    for (const task of tasks) {
+  run: tasks => runWorldBudgeted(worldAnalysisQueue,tasks,async task=>{
       const result=await runWorldAnalysisTask(task);
       if (result.relevance==="pass" && !result.stale) await queueWorldGroup({ sectionId:"world",articleId:task.articleId });
-      results.push(result);
-    }
-    return results;
-  },
+      return result;
+  }),
 });
 
 export const WorldGroupTask=WorldAnalysisTask.omit({ attemptTag:true });
@@ -80,10 +93,10 @@ export async function runWorldGroupTask(raw:unknown) {
     return result;
   },"world");
 }
-export const worldGroupQueue=defineQueue<z.infer<typeof WorldGroupTask>>({
+export const worldGroupQueue:ModuleQueue<z.infer<typeof WorldGroupTask>>=defineQueue<z.infer<typeof WorldGroupTask>>({
   name:"world-news.group",options:{ policy:"short",retryLimit:2,retryDelay:60,expireInSeconds:900 },
   worker:{ batchSize:1,localConcurrency:1,pollingIntervalSeconds:2 },
-  run:async tasks=>{ const results=[]; for(const task of tasks) results.push(await runWorldGroupTask(task)); return results; },
+  run:tasks=>runWorldBudgeted(worldGroupQueue,tasks,runWorldGroupTask),
 });
 export async function queueWorldGroup(raw:unknown) {
   const task=WorldGroupTask.parse(raw);
@@ -92,10 +105,10 @@ export async function queueWorldGroup(raw:unknown) {
 }
 
 export const WorldDigestTask=z.strictObject({ sectionId:z.literal("world"),storyId:z.number().int().positive() });
-export const worldDigestQueue=defineQueue<z.infer<typeof WorldDigestTask>>({
+export const worldDigestQueue:ModuleQueue<z.infer<typeof WorldDigestTask>>=defineQueue<z.infer<typeof WorldDigestTask>>({
   name:"world-news.digest",options:{ policy:"short",retryLimit:2,retryDelay:60,expireInSeconds:900 },
   worker:{ batchSize:1,localConcurrency:1,pollingIntervalSeconds:2 },
-  run:async tasks=>{ const results=[];for(const task of tasks) results.push(await runWorldDigestTask(task));return results; },
+  run:tasks=>runWorldBudgeted(worldDigestQueue,tasks,runWorldDigestTask),
 });
 export async function runWorldDigestTask(raw:unknown) {
   const task=WorldDigestTask.parse(raw);

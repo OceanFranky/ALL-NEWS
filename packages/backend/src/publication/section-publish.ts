@@ -59,11 +59,14 @@ export async function projectSectionArticleTx(tx: Tx, sectionId: SectionId, arti
   const approved = override?.fields.sectionApprovedRevision === a.revision && override?.fields.sectionApprovedAnalysisId === analysis?.id;
   const threshold = sectionSelectionThreshold(rules);
   const calibrated = threshold !== null;
+  const [publicationPolicy]=await tx<{ value:{ automaticSummary?:boolean } }[]>`
+    SELECT value FROM settings WHERE key=${`sections.${sectionId}.publication`}`;
+  const automaticSummary=publicationPolicy?.value.automaticSummary===true;
   const eligible=!!analysis && isPoolEligible({ participationMode:source!.participation_mode,relevance:analysis.relevance,
     title:analysis.title_zh,summary:analysis.summary_zh }) && !!a.published_at && a.published_at<=new Date()
     && a.grouping_status==="complete" && source!.summary_allowed===true
     && analysis.output?.materialSufficient!==false
-    && rules.categories.some(c=>c.key===analysis.category) && (approved || calibrated && analysis.output?.materialSufficient===true);
+    && rules.categories.some(c=>c.key===analysis.category) && (approved || (calibrated || automaticSummary) && analysis.output?.materialSufficient===true);
   // Selection is intentionally separate: source-tier AI thresholds never nominate world news.
   const visibility=override?.visibility ?? "public";
   const scores=analysis?.output?.scores;

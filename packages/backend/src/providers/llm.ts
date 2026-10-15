@@ -9,7 +9,7 @@ import { PRESETS } from "@aihot/site/models";
 import { config, credential } from "../config.ts";
 import { sha256 } from "../lib/ids.ts";
 import { assertAccepted, paidRequest, ProviderRejectedError, rejectReceivedResponse } from "./receipts.ts";
-import { reserveSectionModelCost } from './section-money.ts';
+import { dailyMoneyPolicy, reserveSectionModelCost } from './section-money.ts';
 
 export interface ModelSpec {
   key: string;
@@ -144,7 +144,8 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
   const temperature = opts.temperature ?? 0.2;
   const maxTokens = Math.max(opts.maxTokens ?? 1500, 512) + (spec.reasoningTokens ?? 0);
   const userText = typeof opts.user === "string" ? opts.user : JSON.stringify(opts.user);
-  if(opts.sectionId==='world' && Array.isArray(opts.user)) throw new Error('world calls require text-only materials');
+  const bounded=opts.sectionId==='world' || await dailyMoneyPolicy()!==null;
+  if(bounded && Array.isArray(opts.user)) throw new Error('monetary-bounded calls require text-only materials');
   const body: Record<string, unknown> = {
     model: spec.model,
     messages: [
@@ -158,7 +159,7 @@ export async function chatJson<S extends z.ZodType>(opts: ChatJsonOptions<S>): P
     ...(spec.jsonMode && opts.json !== false ? { response_format: { type: "json_object" } } : {}),
     ...(spec.extra ?? {}),
   };
-  if(opts.sectionId==='world' && (spec.extra?.messages!==undefined || body.model!==spec.model
+  if(bounded && (spec.extra?.messages!==undefined || body.model!==spec.model
     || typeof body.max_tokens!=='number' || body.max_tokens>maxTokens || body.max_tokens<=0))
     throw new Error('world request overrides unbounded model/input/output fields');
   const reservedCostCny=await reserveSectionModelCost(opts.sectionId,{ service:spec.service,model:spec.model,endpoint:baseUrl,

@@ -33,6 +33,33 @@ async function material(options:{ relevance?:string;category?:string;dated?:bool
 const approve=(id:string,revision=1)=>reviewSectionPublication('world',id,{ revision,action:'approve',actor:'test-admin',reason:'Reviewed local fixture only' });
 const permission=(allowed:boolean)=>reviewSectionSourcePermission('world',source,{ summaryAllowed:allowed,reference:'Local fixture license only',actor:'test-admin' });
 
+test('explicit automatic summaries require sufficient current material and preserve withdrawal and calibration boundaries',async()=>{
+  await permission(true);
+  await sql`INSERT INTO settings (key,value) VALUES ('sections.world.publication','{"automaticSummary":true}'::jsonb)`;
+  try {
+    const ready=await material(),insufficient=await material(),undated=await material({ dated:false }),ungrouped=await material({ grouped:false });
+    for(const id of [ready,undated,ungrouped]) await sql`UPDATE analyses SET output='{"materialSufficient":true}'::jsonb WHERE article_id=${id}`;
+    assert.equal((await projectSectionArticle('world',ready)).eligible,true);
+    assert.equal((await projectSectionArticle('world',ready)).selected,false);
+    assert.ok(await sectionItem('world',ready));
+    assert.equal((await sql`SELECT 1 FROM editorial_overrides WHERE article_id=${ready}`).length,0);
+    for(const id of [insufficient,undated,ungrouped]) assert.equal((await projectSectionArticle('world',id)).eligible,false);
+    await reviewSectionPublication('world',ready,{ revision:1,action:'withdraw',actor:'test-admin',reason:'Withdraw fixture' });
+    await projectSectionArticle('world',ready);
+    assert.equal(await sectionItem('world',ready),null);
+    await permission(false);
+    const unlicensed=await material();
+    await sql`UPDATE analyses SET output='{"materialSufficient":true}'::jsonb WHERE article_id=${unlicensed}`;
+    assert.equal((await projectSectionArticle('world',unlicensed)).eligible,false);
+    await sql`UPDATE settings SET value='{"automaticSummary":"true"}'::jsonb WHERE key='sections.world.publication'`;
+    await permission(true);
+    assert.equal((await projectSectionArticle('world',unlicensed)).eligible,false);
+  } finally {
+    await sql`DELETE FROM settings WHERE key='sections.world.publication'`;
+    await permission(false);
+  }
+});
+
 test('uncalibrated results stay private; approval cannot bypass missing source permission',async()=>{
   const id=await material();
   assert.equal((await projectSectionArticle('world',id)).eligible,false);

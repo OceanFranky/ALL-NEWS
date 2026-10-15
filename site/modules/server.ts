@@ -4,3 +4,5 @@ import { worldNewsModule } from "@aihot/world-news/server";
 import competition from "@aihot/competition/server";
 
 export const SERVER_MODULES: readonly ServerModule[] = [worldNewsModule, competition];
+
+export const WORKER_MODULES: readonly ServerModule[] = [worldNewsModule];
