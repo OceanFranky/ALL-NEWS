@@ -2,6 +2,8 @@
 
 日期：2026-10-15。集成分支：`codex/world-competition`，目标：本仓库main。保留 `codex/world-news` 的180934b与 `codex/competition` 的2a76c41完整历史，不修改或合并原功能分支。
 
+后续本机数据统一部署已完成，最新运行结果见[统一部署记录](unified-local-deployment.md)。下文独立preview库／世界为空是初次代码集成时的历史验收，不是目前3000／3200的内容状态。
+
 ## 两块入口
 
 | 板块 | 读者页面 | 管理员接口 |
