@@ -11,7 +11,7 @@ import { runMigrations } from "../../../scripts/migrate.ts";
 after(closeDb);
 
 test("a populated pre-section database upgrades without rewriting AI identities, relations or publication", async () => {
-  assert.match(sql.options.database, /_f\d+_test$/);
+  assert.match(sql.options.database, /_f\d+_(?:test|ci)$/);
   const name = `${sql.options.database}_upgrade_test`;
   const serverUrl = new URL(process.env.DATABASE_URL!);
   serverUrl.pathname = "/postgres";

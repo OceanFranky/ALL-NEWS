@@ -38,7 +38,7 @@ const base=`http://127.0.0.1:${(server.address() as { port:number }).port}`;
 const sid=(kind:string)=>`world-collect-${T}-${kind}`;
 before(async()=>{
   installModules([worldNewsModule]);config.allowPrivateNetworkFetch=true;
-  assert.match(sql.options.database,/_f\d+_test$/);
+  assert.match(sql.options.database,/_f\d+_(?:test|ci)$/);
   // Exercise the shipped migrations, not a test-only identity cutover.
   assert.equal((await sql`SELECT 1 FROM pg_constraint WHERE conname='articles_identity_key_key' AND conrelid='articles'::regclass`).length,0);
   for(const [kind,cfg] of [

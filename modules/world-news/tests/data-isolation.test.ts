@@ -63,7 +63,7 @@ test("source mismatches reject material before any write", async () => {
 });
 
 test("shipped cutover: same link is independent across sections, concurrent repeats and revisions stay scoped", async () => {
-  assert.match(sql.options.database, /_f\d+_test$/);
+  assert.match(sql.options.database, /_f\d+_(?:test|ci)$/);
   aiId = (await upsertMaterial({ ...material, sectionId: undefined, sourceId: AI })).articleId;
   const results = await Promise.all(Array.from({ length: 12 }, () => upsertMaterial(material)));
   worldId = results[0]!.articleId;

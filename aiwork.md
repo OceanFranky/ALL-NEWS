@@ -4,6 +4,7 @@
 
 ## 2026-10-15
 
+- PR #2合并就绪复查：远端Docker构建／启动／smoke通过，check首次因7份世界测试只接受_test（CI合法使用_ci）及系统字体造成OCR合成素材误读失败。测试库防护改为仍要求隔离副本且接受test／ci，OCR改用固定PNG像素，未放宽识别断言或业务规则；本地_ci全量877/877、类型／Web构建／58前端／smoke／迁移／差异复验通过，提交推送同一集成分支等待远端复验，不自动合并main，原compose未动。
 - `codex/world-competition`：按使用者明确授权从最新main在独立托管工作区整合world-news 180934b与competition 2a76c41，保留两边完整历史。解决7处冲突，三个模块清单同时安装两块，Docker同时复制依赖；修复自动合并导致site/package.json重复dependencies，重建锁文件，手机补6列。日志按日期归并保留两分支原文，世界许可／审核及竞赛展示版本不变，不启用模型／采集。
 - 联合验收：typecheck、877后端、Web构建／58前端、服务就绪后smoke、迁移及差异检查通过。新增实际双模块HTTP隔离与1440／390浏览器导航／详情／独立收藏测试；独立preview库复制竞赛31项并应用世界迁移，读回一致、运行168／回执275未增，世界真实公开仍空。Docker命令缺失，未声称镜像本地通过；docs/world-competition-integration.md保存边界。原目录compose未动，预览3200保留；准备提交推送集成分支并向本仓库main提PR，不自动合并。
 

@@ -17,7 +17,7 @@ import { registerWorldAdmin } from '../api/admin.ts';
 
 const T=tag(),source=`correction-${T}`,actor='local-editor';let n=0;
 before(async()=>{
-  assert.match(sql.options.database,/_f\d+_test$/);installModules([worldNewsModule]);
+  assert.match(sql.options.database,/_f\d+_(?:test|ci)$/);installModules([worldNewsModule]);
   for(const section of ['ai','world']) await sql`INSERT INTO sources (section_id,id,name,kind,enabled)
     VALUES (${section},${`${source}-${section}`},'Synthetic fixture','rss',false)`;
   await reviewSectionSourcePermission('world',`${source}-world`,{ summaryAllowed:true,reference:'Synthetic local fixture only',actor });

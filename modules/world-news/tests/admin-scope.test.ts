@@ -23,7 +23,7 @@ import { releaseUnknownReceipt } from '@aihot/backend/providers/receipts';
 const T=tag(),actor='local-fixture',ids={ ai:`admin-ai-${T}`,world:`admin-world-${T}` };
 const sources={ ai:`source-ai-${T}`,world:`source-world-${T}` };
 before(async()=>{
-  assert.match(sql.options.database,/_f\d+_test$/);
+  assert.match(sql.options.database,/_f\d+_(?:test|ci)$/);
   installModules([{ ...worldNewsModule,admin:{ counts:{ worldOnly:async()=>999 },runs:async()=>({ leak:'world' }) },
     schedules:[{ name:'world.fixture',cron:'0 0 * * *',run:async()=>null }] }]);await getBoss();
   for(const section of ['ai','world'] as const) {

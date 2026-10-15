@@ -30,7 +30,7 @@ let worldStoryId: number;
 before(async () => {
   // Deliberately public world fixtures prove readers enforce isolation even before a world worker
   // exists. Only the runner's disposable per-file database is used, not production publication.
-  assert.match(sql.options.database, /_f\d+_test$/);
+  assert.match(sql.options.database, /_f\d+_(?:test|ci)$/);
   for (const section of ["ai", "world"] as const) {
     const id = section === "ai" ? AI : WORLD;
     const title = section === "ai" ? `AI-ONLY-${T}` : WORLD_TITLE;
