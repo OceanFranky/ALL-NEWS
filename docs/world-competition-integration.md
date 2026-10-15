@@ -11,7 +11,7 @@
 | 世界新闻 | /world、/world/timeline、/world/items/:id | /api/admin/world/*，后台页面继续保留 |
 | 大学生竞赛 | /competitions、/competitions/library、/competitions/:competitionId/editions/:editionId、/competitions/saved | /api/admin/competitions/* |
 
-site/modules/index.ts、server.ts、web.ts均同时安装world-news及competition。桌面侧栏两块入口同时存在，手机沿用六个入口：精选、热点、日报、世界、竞赛、我的；补齐6列布局，不删除任何一个板块来减少导航项。
+site/modules/index.ts、server.ts、web.ts均同时安装world-news及competition。初次集成手机使用六个入口；后续按使用者要求归并为行业信息、世界、竞赛、我的，原有五个行业视图放在行业信息内部，竞赛移入内容分组，见[行业信息导航](industry-navigation.md)。不删除任何板块功能。
 
 Dockerfile同时复制两模块依赖清单，site/package.json合并为唯一dependencies对象，package-lock.json按两个模块重新生成并经离线npm ci验证。部署文档与按日期合并的工作日志保留两分支记录。
 

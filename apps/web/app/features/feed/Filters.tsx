@@ -1,5 +1,5 @@
 // Feed filters: the channel and category choice (a row of tabs on desktop, a sheet behind the bar's filter
-// button on phones), the phone bar of 精选 and 全部, and search.
+// button on phones), the current feed's phone bar, and search.
 import { useEffect, useRef, useState } from "react";
 import { Form, Link, useNavigation, useSearchParams } from "react-router";
 import { CATEGORY_KEYS, CATEGORY_LABELS, CHANNEL_LABELS, type CategoryKey, type ChannelKey } from "@aihot/contracts/taxonomy";
@@ -48,13 +48,10 @@ export function CategoryTabs({ base, category, channel = "all", layoutId, classN
 }
 
 /**
- * The phone bar of 精选 and 全部: the brand, the 精选 | 全部 switch (a filter in use carries over), and
- * buttons for the filter sheet and search.
+ * The feed's phone bar: the brand, current view and buttons for the filter sheet and search.
  */
 export function FeedBar({ base, category, channel }: { base: "/" | "/all"; category: CategoryKey | null; channel: ChannelKey }) {
-  const [params] = useSearchParams();
   const [sheet, setSheet] = useState(false);
-  const scope = (to: string) => hrefWith(to, params, { q: null, tab: null, search: null });
   const filtered = filterKey(category, channel) !== "all";
   return (
     <>
@@ -65,16 +62,7 @@ export function FeedBar({ base, category, channel }: { base: "/" | "/all"; categ
           </Link>
         }
         center={
-          <PillTabs
-            size="sm"
-            layoutId="feed-scope"
-            label="看精选或全部"
-            active={base === "/" ? "featured" : "all"}
-            items={[
-              { key: "featured", label: "精选", to: scope("/"), resetScroll: true, prefetch: 'intent' },
-              { key: "all", label: "全部", to: scope("/all"), resetScroll: true, prefetch: 'intent' },
-            ]}
-          />
+          <span className="text-[15.5px] font-semibold text-ink">{base === "/" ? "精选" : "全部动态"}</span>
         }
         actions={
           <>

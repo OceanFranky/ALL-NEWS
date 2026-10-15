@@ -19,7 +19,7 @@ import { IconArrowLeft, IconChevronRight, IconClock, IconDoc, IconUsers } from "
 import { PhoneBar } from "../components/shell/PhoneBar";
 import type { Screen } from "../components/shell/screens";
 
-export const handle: Screen = { home: "hot" };
+export const handle: Screen = { home: "featured" };
 export { pageHeaders as headers } from "../lib/api.server";
 export const { clientLoader, shouldRevalidate } = pageReuse<typeof loader>();
 

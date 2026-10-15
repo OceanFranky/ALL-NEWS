@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { chromium, expect } from "@playwright/test";
 import { startWebServer } from "./web-server.ts";
 
-test("world and competition navigation coexist, including six mobile tabs and independent bookmarks", async () => {
+test("world and competition navigation coexist with industry navigation and independent bookmarks", async () => {
   const known = (value: unknown) => ({ value, status: "known", reason: "" });
   const unknown = { value: null, status: "unknown", reason: "资料不足，待核验" };
   const competition = {
@@ -58,7 +58,7 @@ test("world and competition navigation coexist, including six mobile tabs and in
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${web.origin}/world/timeline`);
     const navigation = page.getByRole("navigation", { name: "底部导航" });
-    await expect(navigation.getByRole("link")).toHaveCount(6);
+    await expect(navigation.getByRole("link")).toHaveCount(4);
     const boxes = await navigation.getByRole("link").evaluateAll(elements => elements.map(element => { const rect = element.getBoundingClientRect(); return { top: rect.top, left: rect.left, right: rect.right }; }));
     assert.ok(boxes.every(box => Math.abs(box.top - boxes[0].top) < 1 && box.left >= 0 && box.right <= 391));
     await navigation.getByRole("link", { name: "竞赛", exact: true }).click();

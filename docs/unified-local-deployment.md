@@ -2,6 +2,8 @@
 
 日期：2026-10-15。代码：`codex/world-competition` 的 `2330a57`；本记录不代表PR已合并main。
 
+后续按使用者要求仅更新前端导航，当前Web镜像为 `aihot-integrated:industry-navigation`，API及下述统一数据库不变；新版入口与回退见[行业信息导航](industry-navigation.md)。
+
 ## 数据来源与纠正
 
 此前把Docker库482条文章都称作AI文章、把世界数据仅描述为早期107条试跑，均不准确。实际只读核对：原Docker `aihot` 已有299条AI、183条world，以及世界来源的本机预览许可和56条eligible投影；旧3200预览库才只有竞赛。此次以现有站点库为底，不再让空新闻的竞赛副本作为集成展示库。

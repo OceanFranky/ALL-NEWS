@@ -145,7 +145,7 @@ test('SSR all-pages and report kinds return offline with their own content',asyn
     await context.setOffline(false);await page.goto(origin+'/daily');
     await page.getByRole('link',{name:'周报',exact:true}).click();
     await expect(page.locator('#report-start')).toContainText('周报');
-    await context.setOffline(true);await page.getByRole('link',{name:'日报',exact:true}).click();
+    await context.setOffline(true);await page.getByRole('navigation',{name:'行业信息切换'}).getByRole('link',{name:/日报/}).click();
     await expect(page.locator('#report-start')).toContainText('日报',{timeout:1500});
   }finally{await context.close();}
 });
