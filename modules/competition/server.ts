@@ -1,8 +1,12 @@
 import { defineServerModule } from "@aihot/backend/modules";
 import { competitionAutomationEnabled, competitionIngestQueue, scheduleCompetitionRefresh } from "./backend/daily.ts";
+import { competitionRoutes } from "./api/routes.ts";
+import { readCompetitionPublication, readCompetitionDetail, readCompetitionFilters } from "./backend/publication.ts";
 
 export default defineServerModule({
   name: "competition",
+  http: competitionRoutes,
+  publications: { list: readCompetitionPublication, detail: readCompetitionDetail, filters: readCompetitionFilters },
   queues: [competitionIngestQueue],
   schedules: [{
     name: "competition.refresh",

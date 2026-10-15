@@ -2,7 +2,9 @@
 
 下一阶段开发入口：[前后端数据对齐与开发指导](DEVELOPMENT-README.md)。明确三层页面的数据需求、现有字段映射、身份与展示版本、接口草案、状态计算、增量更新及分阶段验收；缺图不阻塞开发，未定发布规则不自动生效。
 
-日期：2026-10-14。分支：`codex/competition`。状态：官网到候选数据库阶段已跑通并验收，31项都有候选；已接入站点后台模块与定时任务声明，日常安全阀关闭，尚无竞赛前端或公开发布。字段缺口仍保留，不表示完整当届信息全部取得。
+2026-10-15：候选查询、稳定届次／展示版本和公开列表／详情／筛选接口已实现，使用者授权现有31项校验通过候选首次展示，后续修订另行选择。已实现契约见[API说明](API.md)；页面、总览及每日增量生产后续开发，下文“公开读取尚未实现”是候选入库阶段的历史说明。
+
+日期：2026-10-15。分支：`codex/competition`。状态：31项候选入库及首次展示已完成，候选查询、展示版本和公开列表／详情／筛选已实现；定时任务仅声明，日常安全阀关闭，尚无竞赛前端或常驻增量生产。字段缺口仍保留，不表示完整当届信息全部取得。
 
 使用者要求竞赛独立组织，参照世界新闻的三层浏览：竞赛总览 → 全部竞赛库 → 具体届次详情。首批31个目录条目及学校认定已保存至[名录说明](catalogue.md)和[名录JSON](catalogue.json)；分类按学科方向、允许重叠，11个标签于2026-10-14获使用者确认，见[分类配置](backend/taxonomy.ts)。重要性标准待讨论，学校名称与认定有效年份尚未提供。
 
@@ -63,7 +65,7 @@ COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true node --env-file=.env modules/compe
 
 已返回可信用量的调用按高峰未缓存价格结算并释放未使用预留；未结算／缺用量的调用继续占用全部预留。数据库锁串行化额度检查，并发测试保证有效占用不超过10元。后台运行进程加载代码后不热切换该规则，旧批次停止后才按新规则续跑。
 
-材料写入 `competition_materials`，任务写入 `competition_runs`，原名单写入 `competition_catalogue`，提取候选写入 `competition_revisions`，费用预留写入 `competition_model_allowance`。结果只入候选库；公开发布尚未实现。
+材料写入 `competition_materials`，任务写入 `competition_runs`，原名单写入 `competition_catalogue`，提取候选写入 `competition_revisions`，费用预留写入 `competition_model_allowance`。采集结果只入候选库；公开读取另外通过 `competition_editions`、`competition_edition_revisions`、`competition_displays` 固定展示版本，不自动使用最新候选。
 
 `ingest.ts --id competition-XXX --auto` 可使用此前Agent调查到的候选入口，运行搜索与官网身份核对、链接选择、采集、提取、校验和一轮缺口补查。无需再次手填官网；目前候选入口来自已保存的研究记录，完全陌生竞赛的搜索结果自动选址仍待验证。搜索摘要仅是线索，身份候选不确认时保留失败记录。
 

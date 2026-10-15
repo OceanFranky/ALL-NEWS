@@ -199,6 +199,7 @@ export interface ServerModule {
   name: string;
   /** Its HTTP routes, and hooks on the app such as what to flush when it closes, registered before the engine's v1 fallbacks (apps/api/src/app.ts). */
   http?: (app: FastifyInstance) => void;
+  publications?: Record<string, (input: unknown) => Promise<unknown>>;
   agent?: {
     abilities?: AgentAbility[];
     /** The guide's "目前查不到的" list, after the engine's first entry. */
