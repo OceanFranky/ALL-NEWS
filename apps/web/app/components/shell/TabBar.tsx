@@ -9,7 +9,7 @@ const subscribe = () => () => {};
 const serverTab = () => null;
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 /** One grid column per tab, as whole class names the stylesheet can see. */
-const COLUMNS: Record<number, string> = { 4: "grid-cols-4", 5: "grid-cols-5" };
+const COLUMNS: Record<number, string> = { 4: "grid-cols-4", 5: "grid-cols-5", 6: "grid-cols-6" };
 
 /**
  * The phone tab bar (below lg). A page lights the tab it declares; pages reached from several tabs keep

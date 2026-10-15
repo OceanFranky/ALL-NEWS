@@ -1,0 +1,1506 @@
+{
+  "checkedAt": "2026-10-15T04:01:34.684Z",
+  "publicRecords": 31,
+  "allFieldValuesAndStatusesMatch": true,
+  "allDetailsAndSearchesPassed": true,
+  "paginationPassed": true,
+  "publicFilters": {
+    "categories": [
+      "程序设计与算法",
+      "软件开发",
+      "网络安全",
+      "人工智能与数据",
+      "计算机系统与硬件",
+      "数学与建模",
+      "数字媒体",
+      "创新创业",
+      "语言能力",
+      "职业发展",
+      "生物工程"
+    ],
+    "schoolLevels": [
+      "A1",
+      "A2",
+      "A3",
+      "B1",
+      "B2"
+    ],
+    "years": [
+      2027,
+      2026,
+      2025,
+      2024,
+      2022
+    ],
+    "hasUnknownYear": true,
+    "activities": [
+      "registration_open",
+      "registration_upcoming",
+      "registration_closed",
+      "competition_ongoing",
+      "competition_upcoming",
+      "competition_finished",
+      "unknown"
+    ],
+    "sorts": [
+      "catalogue",
+      "year_desc",
+      "next_node"
+    ]
+  },
+  "noCollectionOrModelCalls": true,
+  "candidateCount": 31,
+  "protectedCandidateRoute": true,
+  "before": {
+    "receipts": 275,
+    "runs": 168
+  },
+  "after": {
+    "receipts": 275,
+    "runs": 168
+  },
+  "newsBusinessTables": {
+    "sources": 0,
+    "articles": 0,
+    "stories": 0,
+    "reports": 0,
+    "publications": 0,
+    "translations": 0
+  },
+  "entries": [
+    {
+      "competitionId": "competition-001",
+      "editionId": "27fc4d2a-902a-443c-8572-6d26b744a37d",
+      "revisionId": "891d0c1d-31dd-4c10-a76b-37e2e84c4e55",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 9,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全部参赛团队",
+          "label": "报名开始时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "全部参赛团队",
+          "label": "报名及选题截止时间（延长后）",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "B类及C类",
+          "label": "初赛作品提交时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "A类及D类D04、D05、D06赛题",
+          "label": "初赛作品提交时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "D类D01、D02、D03赛题",
+          "label": "初赛作品提交截止时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "全部参赛团队",
+          "label": "初赛线上评审时间",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-002",
+      "editionId": "f92cc3f7-a7ec-415f-9899-2dc052e971e0",
+      "revisionId": "547fa76a-38b2-477d-9995-d2f16719e729",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 10,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "第十五届",
+          "label": "报名阶段",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国总决赛第一轮线上评审",
+          "label": "第一轮线上评审",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国总决赛答辩",
+          "label": "总决赛答辩",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "A7赛题全国总决赛第一轮线上评审",
+          "label": "A7赛题第一轮线上评审",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "初赛评审",
+          "label": "初赛评审",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-003",
+      "editionId": "0a09faeb-e657-4ba9-8dc3-2216204e4fd7",
+      "revisionId": "2f8194d0-a2e7-4899-9e67-31a6276e1eb0",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "promotionImage",
+        "participantLimit",
+        "teacherLimit"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "网络预选赛第一场",
+          "label": "报名、缴费截止时间",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "registration",
+          "scope": "网络预选赛第二场",
+          "label": "报名、缴费截止时间",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "网络预选赛第一场",
+          "label": "比赛时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "网络预选赛第二场",
+          "label": "比赛时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "西安站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "成都站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "武汉站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "南京站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "沈阳站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "上海站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "南昌站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "香港站",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "杭州（EC Final）",
+          "label": "时间（拟）",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_start",
+          "scope": "西安站",
+          "label": "时间（拟）",
+          "officialText": "10 月17- 18 日",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-17",
+          "daysRemaining": 2
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-004",
+      "editionId": "c7c84d91-25cb-4a86-a22a-f69b6fc02b04",
+      "revisionId": "37a6f7c7-e119-45ea-8824-519546872e3d",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "大数据挑战赛",
+          "label": "报名&组队",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "大数据挑战赛",
+          "label": "线上赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "大数据挑战赛",
+          "label": "决赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-005",
+      "editionId": "cf707211-ecb9-4a24-951e-da08d8c33d38",
+      "revisionId": "419abe4b-97eb-4d60-930e-a6b063472e7b",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "promotionImage",
+        "competitionTimes"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "省赛",
+          "label": "报名时间",
+          "status": "registration_open"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "省赛",
+          "label": "报名时间",
+          "officialText": "报名时间：2026年10月8日10:00—2026年12月18日14:00",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-12-18T14:00+08:00",
+          "daysRemaining": 64
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-006",
+      "editionId": "8177d54f-7c3e-4ea5-87f7-9cd4c33b2874",
+      "revisionId": "e9b14c2e-b35b-4f49-8fd0-cfc8f80fb7ea",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 3,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全国大学生信息安全竞赛",
+          "label": "报名时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国大学生信息安全竞赛",
+          "label": "决赛时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "第十九届全国大学生信息安全竞赛（作品赛）",
+          "label": "举办时间",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-007",
+      "editionId": "3f860844-da99-4a41-b54a-fb6c496b7456",
+      "revisionId": "5204d28c-de4b-4a2a-85df-ba930070dac8",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 3,
+      "missing": [],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "大赛报名及提交作品",
+          "label": "报名及提交作品截止",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "第一阶段",
+          "label": "大赛报名及提交作品",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "第二阶段",
+          "label": "校级初赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "第三阶段",
+          "label": "赛区选拔赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "第四阶段",
+          "label": "入围名单公布",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "第五阶段",
+          "label": "全国总决赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "第六阶段",
+          "label": "颁奖典礼、作品展览(待定)",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_end",
+          "scope": "第一阶段",
+          "label": "大赛报名及提交作品",
+          "officialText": "2026年10月23日23:59:59截止",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-23T23:59:59+08:00",
+          "daysRemaining": 8
+        },
+        {
+          "kind": "registration_end",
+          "scope": "大赛报名及提交作品",
+          "label": "报名及提交作品截止",
+          "officialText": "2026年10月23日23:59:59截止",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-23T23:59:59+08:00",
+          "daysRemaining": 8
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-008",
+      "editionId": "97ecfef2-789f-4ef5-b0ab-e06a52f8c302",
+      "revisionId": "f500c249-bb51-43a6-8e1e-48f0fafe7cf4",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 6,
+      "missing": [
+        "promotionImage",
+        "categories",
+        "teacherLimit",
+        "registrationTimes"
+      ],
+      "activity": [
+        {
+          "kind": "competition",
+          "scope": "初赛第一场",
+          "label": "初赛第一场（线上）",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "初赛第二场",
+          "label": "初赛第二场（线上）",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "模拟赛",
+          "label": "模拟赛",
+          "status": "competition_ongoing"
+        },
+        {
+          "kind": "competition",
+          "scope": "总决赛",
+          "label": "总决赛",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_end",
+          "scope": "模拟赛",
+          "label": "模拟赛",
+          "officialText": "模拟赛时间： 2026年10月15日10:00—10月16日21:00",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-16T21:00:00+08:00",
+          "daysRemaining": 1
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-009",
+      "editionId": "1397abe9-1f0d-4a53-adc3-11663d930e37",
+      "revisionId": "eef323ed-0721-4c96-b564-792a99036955",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 1,
+      "missing": [
+        "promotionImage",
+        "participantLimit",
+        "teacherLimit",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-中西部与华南区域赛-功能挑战赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-中西部与华南区域赛-内核实现赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-西北区域赛",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-华北区域赛-内核实现赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-华北区域赛-功能挑战赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-东北区域赛-内核实现赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-东北区域赛-功能挑战赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-华东区域赛-操作系统原理赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-华东区域赛-操作系统应用开发赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "registration",
+          "scope": "操作系统设计赛-华东区域赛-鸿蒙操作系统专项赛道",
+          "label": "报名时间",
+          "status": "registration_open"
+        },
+        {
+          "kind": "competition",
+          "scope": "操作系统设计赛(全国)-OS内核实现赛道",
+          "label": "比赛时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "操作系统设计赛(全国)-OS功能挑战赛道",
+          "label": "比赛时间",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "操作系统设计赛-华北区域赛-内核实现赛道",
+          "label": "报名时间",
+          "officialText": "2026/10/10--2026/12/6",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-12-06",
+          "daysRemaining": 52
+        },
+        {
+          "kind": "registration_end",
+          "scope": "操作系统设计赛-华北区域赛-功能挑战赛道",
+          "label": "报名时间",
+          "officialText": "2026/10/10--2026/12/6",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-12-06",
+          "daysRemaining": 52
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-010",
+      "editionId": "e7c28bc9-63fb-491e-927a-55c4f550e72d",
+      "revisionId": "8a834417-43af-4449-a54c-08523c75dc23",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 6,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "密码安全赛",
+          "label": "报名时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "智能安全赛",
+          "label": "报名时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "密码安全赛",
+          "label": "校级赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "密码安全赛",
+          "label": "区域赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "密码安全赛",
+          "label": "总决赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "智能安全赛",
+          "label": "校级赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "智能安全赛",
+          "label": "区域赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "智能安全赛",
+          "label": "国赛预选赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "智能安全赛",
+          "label": "国赛总决赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "线上挑战赛",
+          "label": "线上挑战赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "密码安全赛",
+          "label": "报名时间",
+          "officialText": "报名时间：截至2026年10月23日",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-23",
+          "daysRemaining": 8
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-011",
+      "editionId": "9fa8a892-66a6-43f9-a569-462f3c64beb4",
+      "revisionId": "35ac72a4-7ea6-49de-8ebb-f0eafbbc42d3",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 3,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "大赛报名",
+          "label": "报名开始",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "赛区制省赛",
+          "label": "省赛报名截止",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "赛区制省赛",
+          "label": "省赛完成",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "总决赛",
+          "label": "总决赛计划",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "赛区制省赛",
+          "label": "省赛报名截止",
+          "officialText": "省赛报名截止时间为 2026 年 10 月 15 日 20:00",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-15T20:00+08:00",
+          "daysRemaining": 0
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-012",
+      "editionId": "54efaaee-8ecd-4407-a5e5-ac5b869e31f7",
+      "revisionId": "1742ee44-0e00-43b8-a5bc-3db3a789c099",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 1,
+      "missing": [
+        "promotionImage",
+        "participantLimit",
+        "teacherLimit",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "大赛",
+          "label": "开放报名",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "大赛",
+          "label": "开放数据下载，开启赛题评测",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "大赛",
+          "label": "截止初赛作品提交",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "大赛",
+          "label": "决赛答辩评审",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "大赛",
+          "label": "综合大奖路演评审、颁奖典礼、中国大数据技术大会",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-013",
+      "editionId": "9c96e05b-937c-413a-8dc4-e9cc5471c4cf",
+      "revisionId": "00fb835e-9612-4f1b-98e0-ea1d3e10adbb",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "teacherLimit"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "2026 CCF CCSP竞赛",
+          "label": "报名时间",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "2026 CCF CCSP竞赛",
+          "label": "竞赛时间",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "2026 CCF CCSP竞赛",
+          "label": "颁奖会时间",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_start",
+          "scope": "2026 CCF CCSP竞赛",
+          "label": "竞赛时间",
+          "officialText": "2026年10月21日9:00-21:00",
+          "precision": "minute",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-21T09:00:00+08:00",
+          "daysRemaining": 6
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-014",
+      "editionId": "13b78f90-a03c-4539-8143-674f522a2881",
+      "revisionId": "a8f1ce90-db46-48d9-b99a-f99b95cd39c4",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 5,
+      "missing": [
+        "year",
+        "promotionImage",
+        "categories",
+        "participantLimit",
+        "teacherLimit",
+        "registrationTimes",
+        "competitionTimes",
+        "stages",
+        "officialWebsite",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "",
+          "label": "时间待核验",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-015",
+      "editionId": "8e71bca5-a2e2-4040-af62-6380450afd3f",
+      "revisionId": "8ae61a8c-b0d0-4603-b047-2031129d8241",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "2026年CCPC网络预选赛",
+          "label": "报名网站队伍信息登记开放",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "2026年CCPC网络预选赛",
+          "label": "报名与缴费截止（延期后）",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "2026年CCPC网络预选赛",
+          "label": "正式比赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-016",
+      "editionId": "9998cd22-7d8c-45c2-b2d2-72341bb9f33a",
+      "revisionId": "ee48b79f-d998-426f-b12b-c24b5b3be15a",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 3,
+      "missing": [
+        "promotionImage",
+        "officialWebsite"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "网络信息安全赛项",
+          "label": "报名截止",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "网络信息安全赛项高职学生组线上初赛",
+          "label": "线上初赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "网络信息安全赛项本科学生组线上初赛",
+          "label": "线上初赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "网络信息安全赛项线下决赛",
+          "label": "线下决赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-017",
+      "editionId": "45d2e433-b8cb-42dd-a4a8-27b2d0808760",
+      "revisionId": "dcb0d8f9-07d7-4e7b-95c2-8d4ac243d75a",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage",
+        "teacherLimit",
+        "competitionTimes",
+        "officialWebsite",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全国大学生网络安全精英赛",
+          "label": "报名时间",
+          "status": "registration_closed"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-018",
+      "editionId": "ce50a098-e63b-465b-abbd-d6be05fb6c73",
+      "revisionId": "08aa8d05-fc14-4aa9-bd92-4d093b094682",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "中国大陆参赛项目",
+          "label": "参赛报名",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "校级初赛",
+          "label": "初赛复赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "省级复赛",
+          "label": "初赛复赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "总决赛",
+          "label": "总决赛",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_end",
+          "scope": "省级复赛",
+          "label": "初赛复赛",
+          "officialText": "各地应于10月25日前完成省级复赛",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-25",
+          "daysRemaining": 10
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-019",
+      "editionId": "46671c99-6501-4e26-bc1c-ba1e8cca75f2",
+      "revisionId": "e991f7f1-64e2-4d5d-ada9-cd4d0e0b87d3",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 8,
+      "missing": [
+        "promotionImage",
+        "categories",
+        "registrationTimes",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "competition",
+          "scope": "第十九届“挑战杯”全国大学生课外学术科技作品竞赛",
+          "label": "终审决赛",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-020",
+      "editionId": "d4c8550d-2696-4e25-affa-f07b6c0a0763",
+      "revisionId": "e5f0ec71-9373-49ef-8374-ec4eecd0cda8",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "promotionImage",
+        "categories",
+        "registrationTimes"
+      ],
+      "activity": [
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "校级初赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "省级复赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "全国决赛",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-021",
+      "editionId": "19c6f21c-2761-47af-9088-db42bf2c73e3",
+      "revisionId": "bd843755-cc80-458c-a40b-1eee6389075f",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage",
+        "categories",
+        "teacherLimit"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全国",
+          "label": "参赛报名",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "全国",
+          "label": "报名截止",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "校赛省赛",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "省赛完成",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "全国总决赛",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-022",
+      "editionId": "f8ec7dfc-6929-4908-b051-9bf39fc20de4",
+      "revisionId": "e8e3d709-dc3e-4f8a-9131-6bcec60d4690",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 6,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "境内院校",
+          "label": "报名截止",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "registration",
+          "scope": "海外高校",
+          "label": "报名截止",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "正式竞赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-023",
+      "editionId": "da45bd57-444a-4774-99e5-3539de6c268e",
+      "revisionId": "cd653eb2-564e-4666-906e-a78d167c60fe",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 5,
+      "missing": [
+        "promotionImage",
+        "teacherLimit"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "中央部委所属高校",
+          "label": "网上填报截止日期",
+          "status": "unknown"
+        },
+        {
+          "kind": "registration",
+          "scope": "各省（区、市）教育厅（教委）",
+          "label": "网上填报截止日期",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国大学生创新年会",
+          "label": "举办时间",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "中央部委所属高校",
+          "label": "网上填报截止日期",
+          "officialText": "各中央部委所属高校填报截止日期为10月23日",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-23",
+          "daysRemaining": 8
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-024",
+      "editionId": "9d0b9b85-d23c-40e0-85ac-0608d396c66c",
+      "revisionId": "5bae4fd1-876d-4c90-a55c-a9d5791c63fd",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 9,
+      "missing": [
+        "promotionImage",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "iGEM 2026 Competition",
+          "label": "Early Registration Deadline",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "registration",
+          "scope": "iGEM 2026 Competition",
+          "label": "Regular Registration Deadline",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "registration",
+          "scope": "iGEM 2026 Competition",
+          "label": "Late Registration Deadline",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "iGEM 2026 Competition",
+          "label": "Judging Session",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "competition_start",
+          "scope": "iGEM 2026 Competition",
+          "label": "Judging Session",
+          "officialText": "Judging SessionNov 13 - 15",
+          "precision": "day",
+          "timezone": "Europe/Paris",
+          "date": "2026-11-13",
+          "daysRemaining": 29
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-025",
+      "editionId": "ff49584c-7db5-458d-b9ef-fcf24bcfe069",
+      "revisionId": "b74be858-3c09-4401-a905-3d6297f310c1",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 5,
+      "missing": [
+        "promotionImage",
+        "categories",
+        "participantLimit",
+        "teacherLimit",
+        "registrationTimes",
+        "competitionTimes",
+        "officialWebsite"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "",
+          "label": "时间待核验",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-026",
+      "editionId": "b65219ab-fdbc-4f6e-97bd-ee8cb054e3cd",
+      "revisionId": "d88207c6-d938-4008-8b27-df3852023656",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 8,
+      "missing": [],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "应用赛道",
+          "label": "报名阶段",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "应用赛道",
+          "label": "作品设计时间",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "应用赛道",
+          "label": "作品提交截止",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "应用赛道",
+          "label": "分赛区初赛评审时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "应用赛道",
+          "label": "分赛区复赛评审时间",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "应用赛道",
+          "label": "全国总决赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-027",
+      "editionId": "3394df42-7a22-4869-88e2-138fac2d6893",
+      "revisionId": "f7cf510d-8291-475d-b377-a5e2cc984e66",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 7,
+      "missing": [
+        "promotionImage",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "team",
+          "label": "报名截止",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "contest",
+          "label": "竞赛时间",
+          "status": "competition_upcoming"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "team",
+          "label": "报名截止",
+          "officialText": "Registration Deadline: Before 3:00 p.m. EST on Thursday, January 28, 2027.",
+          "precision": "minute",
+          "timezone": "America/New_York",
+          "date": "2027-01-28T15:00:00-05:00",
+          "daysRemaining": 105
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-028",
+      "editionId": "c8408108-dd5d-415a-b570-92d5c0413f4b",
+      "revisionId": "ddf272cc-7174-4863-805f-3796c9d3ddb0",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage",
+        "teacherLimit"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "国赛竞赛平台信息填报和核查",
+          "label": "国赛信息填报和核查截止",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "上海决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "杭州决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "南京南决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "南京东2决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "济南决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "南京东1决赛区",
+          "label": "国赛决赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-029",
+      "editionId": "dbd915f2-bb57-47c3-96e9-01ededc8080b",
+      "revisionId": "caad6026-8d0c-4c19-a742-1ed7865ddf23",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 3,
+      "missing": [
+        "promotionImage"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全国",
+          "label": "报名时间",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "初赛",
+          "status": "competition_finished"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "决赛",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    },
+    {
+      "competitionId": "competition-030",
+      "editionId": "de281986-afbd-4c64-9b08-c6d423ee6e7c",
+      "revisionId": "4dd183c7-4db5-4c6a-8b54-c4aa52938581",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 2,
+      "missing": [
+        "promotionImage",
+        "teacherLimit",
+        "officialWebsite"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "全国",
+          "label": "报名截止",
+          "status": "unknown"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "初赛",
+          "status": "competition_upcoming"
+        },
+        {
+          "kind": "competition",
+          "scope": "全国",
+          "label": "决赛",
+          "status": "unknown"
+        }
+      ],
+      "nextNodes": [
+        {
+          "kind": "registration_end",
+          "scope": "全国",
+          "label": "报名截止",
+          "officialText": "2026 年 1 0 月 1 9 日前，按所在省、自治区、直辖市数学会、军队院校数学教 学联席会或学会委托的承办单位的要求报名",
+          "precision": "day",
+          "timezone": "Asia/Shanghai",
+          "date": "2026-10-19",
+          "daysRemaining": 4
+        }
+      ]
+    },
+    {
+      "competitionId": "competition-031",
+      "editionId": "05e60ea7-a9b9-4ad5-a29e-cc95d2b61229",
+      "revisionId": "f3b63ac1-2497-491f-aa7b-0442f4c41e4e",
+      "version": 1,
+      "fieldsMatch": true,
+      "sourceCount": 4,
+      "missing": [
+        "promotionImage",
+        "participantLimit",
+        "teacherLimit",
+        "stages",
+        "files"
+      ],
+      "activity": [
+        {
+          "kind": "registration",
+          "scope": "第43次CCF CSP认证",
+          "label": "报名时间",
+          "status": "registration_closed"
+        },
+        {
+          "kind": "competition",
+          "scope": "第43次CCF CSP认证",
+          "label": "考试时间",
+          "status": "competition_finished"
+        }
+      ],
+      "nextNodes": []
+    }
+  ]
+}

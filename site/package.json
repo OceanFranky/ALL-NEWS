@@ -4,7 +4,8 @@
   "type": "module",
   "sideEffects": false,
   "dependencies": {
-    "@aihot/world-news": "*"
+    "@aihot/world-news": "*",
+    "@aihot/competition": "*"
   },
   "exports": {
     ".": "./site.ts",

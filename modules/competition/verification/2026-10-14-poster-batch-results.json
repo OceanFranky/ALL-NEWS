@@ -1,0 +1,253 @@
+{
+  "checkedAt": "2026-10-14T14:05:28.466Z",
+  "researchBatch": [
+    {
+      "id": "competition-001",
+      "run": "2debf988-3430-407b-ba6e-c2a95cf4f88b",
+      "url": "https://www.fwwb.org.cn/",
+      "materialId": "a51bdc48addad399f0eed78dd2f2e9a34eaa7926c47a11a45d383098d98dd549",
+      "captionCount": 30,
+      "imageCount": 30
+    },
+    {
+      "id": "competition-005",
+      "run": "cb4f2f35-a4d9-47a4-a94e-c913734a6f19",
+      "url": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html",
+      "materialId": "228bb703160ecc3d07f68d0dc511824f568f168685750415ddc5385f48152c1b",
+      "captionCount": 4,
+      "imageCount": 16
+    },
+    {
+      "id": "competition-006",
+      "run": "d9bd592e-8b67-40d6-bba4-eef1ca39659e",
+      "url": "http://www.ciscn.cn/",
+      "materialId": "938c5917b5f3bf68ac76c1f0a2bc8a6c4da923b095e2a9c99874e66b9034fce2",
+      "captionCount": 0,
+      "imageCount": 27
+    },
+    {
+      "id": "competition-007",
+      "run": "fc9fe7d2-445d-4830-82d5-a60e831e4b15",
+      "url": "https://www.cmit.cn/wap/index.html",
+      "materialId": "fbf292111bc63781699b826bcf905dc4d13889081fcd1290eab7da620d6e9c54",
+      "captionCount": 22,
+      "imageCount": 30
+    },
+    {
+      "id": "competition-010",
+      "run": "56bf2734-bfbc-4524-b748-89f7a1e5050f",
+      "url": "https://www.isclab.org.cn/",
+      "materialId": "67dbb48b163917cdb4b99f571aec98b7ee97114a5f11cd7aab4c8ec9296e4583",
+      "captionCount": 22,
+      "imageCount": 22
+    },
+    {
+      "id": "competition-011",
+      "run": "b7cadcd9-af3b-46aa-a67b-20cb25f5027b",
+      "url": "https://www.aicomp.cn/",
+      "materialId": "64e8c7c634a5231869b3906d22a7e7c4346b08e0d6f2ddb6d232c7b81f8f4cd9",
+      "captionCount": 0,
+      "imageCount": 30
+    },
+    {
+      "id": "competition-026",
+      "run": "8422e52f-d3ef-43fc-8f6d-3a01195077af",
+      "url": "https://www.socchina.net/home?trackType=1",
+      "materialId": "d0a850b5ba23492e2553c7a5b55a6f666ef9623dfb8475433f0356a2e0fd1e61",
+      "captionCount": 0,
+      "imageCount": 30
+    },
+    {
+      "id": "competition-028",
+      "run": "542f5ab5-76ec-4140-aaa9-240d1a162f3c",
+      "url": "https://jsjds.blcu.edu.cn/",
+      "materialId": "1aeb8e2a111f09859821599dbb139256579321a6e37b1c7e546e9d002baa355f",
+      "captionCount": 0,
+      "imageCount": 2
+    }
+  ],
+  "initialReviews": [
+    {
+      "id": "competition-007",
+      "run": "a7675a9e-dd59-4797-b189-b52364944856",
+      "revisionId": "8f5d5cbd-f514-448b-a104-618101142131",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "categories:unknown",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": true
+      },
+      "promotionImage": {
+        "value": "https://static.cmit.cn/uploadfile/2026/0924/thumb_332_192_20260924121251.jpg",
+        "status": "known",
+        "reason": "该图片URL出现在首页赛事动态列表中，其外层链接指向第十四届竞赛正式总通知，且alt/标题为“关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知”，与本届正式公告交叉证明其所属届次。",
+        "evidence": [
+          {
+            "materialId": "fbf292111bc63781699b826bcf905dc4d13889081fcd1290eab7da620d6e9c54",
+            "blockId": "image-8-metadata",
+            "quote": "https://static.cmit.cn/uploadfile/2026/0924/thumb_332_192_20260924121251.jpg\n关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知\nhttps://www.cmit.cn/wap/tongzhigonggao/show-144-45826-1.html"
+          },
+          {
+            "materialId": "1df16e65f98ddc50de992713d76097bbdc0cbb1f2ba7b8d197aa00ccec55ad72",
+            "blockId": "block-1",
+            "quote": "关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知"
+          }
+        ]
+      }
+    },
+    {
+      "id": "competition-026",
+      "run": "73102a66-15a3-4baf-bcb6-aaa26e909b95",
+      "revisionId": "37b81296-9216-42ee-bf4d-f530f6f2ad2a",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [],
+        "readyForReview": true
+      },
+      "promotionImage": {
+        "value": "http://socoss.socchina.net/file/banner/2026-7-15/1a73a04b8ec44621b3fb5127a3977d46.png",
+        "status": "known",
+        "reason": "该图片为官网首页实际发现的横幅，OCR识别出“第九届全国大学生嵌入式芯片与系统设计竞赛全国总决赛”“2026”等文字，且官网正文公告明确出现“第九届（2026）全国大学生嵌入式芯片与系统设计竞赛芯片应用赛道全国总决赛获奖名单公布”，可交叉证明该图片属于第九届（2026）本届赛事宣传图。",
+        "evidence": [
+          {
+            "materialId": "8b177f2c88ae7c931e67417f011a2590988dc2d60967ff88d6384f2abad1a8ef",
+            "blockId": "ocr-block-1",
+            "quote": "第 九 届 全 国 大 学 生 骨 入 陈 芯 片 半 和 与 系统 设计 竞赛 全 国 总 决赛 二 2OD6 2026.8.10-8.15 | 南京 江北 新 区 全 0"
+          },
+          {
+            "materialId": "d0a850b5ba23492e2553c7a5b55a6f666ef9623dfb8475433f0356a2e0fd1e61",
+            "blockId": "block-1",
+            "quote": "第九届（2026）全国大学生嵌入式芯片与系统设计竞赛芯片应用赛道全国总决赛获奖名单公布"
+          }
+        ]
+      }
+    }
+  ],
+  "corrected": {
+    "results": [
+      {
+        "id": "competition-007",
+        "run": "34daca22-ff77-473b-bea5-1a89727c3300",
+        "revisionId": "014c14e5-a0e2-4fa6-b900-3a6022e84a89",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [
+            "categories:unknown",
+            "officialWebsite:unknown"
+          ],
+          "readyForReview": true
+        },
+        "promotionImage": {
+          "value": "https://static.cmit.cn/uploadfile/2026/0924/thumb_332_192_20260924121251.jpg",
+          "status": "known",
+          "reason": "该图片URL出现在首页赛事动态列表中，其外层链接指向第十四届竞赛正式总通知，且alt/标题为“关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知”，与本届正式公告交叉证明其所属届次。",
+          "evidence": [
+            {
+              "materialId": "fbf292111bc63781699b826bcf905dc4d13889081fcd1290eab7da620d6e9c54",
+              "blockId": "image-8-metadata",
+              "quote": "https://static.cmit.cn/uploadfile/2026/0924/thumb_332_192_20260924121251.jpg\n关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知\nhttps://www.cmit.cn/wap/tongzhigonggao/show-144-45826-1.html"
+            },
+            {
+              "materialId": "deb1a08ed953a1c1ee9bb7ff199947863d0c2fb91454c03afe4460d1e658f0b5",
+              "blockId": "block-1",
+              "quote": "关于举办2026年第十四届全国大学生数字媒体科技作品及创意竞赛的通知"
+            }
+          ]
+        }
+      },
+      {
+        "id": "competition-026",
+        "run": "879c83d7-f9db-49a8-9371-593723f86355",
+        "revisionId": "d88207c6-d938-4008-8b27-df3852023656",
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "missing": [],
+          "readyForReview": true
+        },
+        "promotionImage": {
+          "value": "http://socoss.socchina.net/file/banner/2026-7-15/1a73a04b8ec44621b3fb5127a3977d46.png",
+          "status": "known",
+          "reason": "官网实际发现本届全国总决赛横幅；人工像素核对第九届、2026及赛事全称，并与官网本届公告交叉核验。OCR有赛事名和日期误读，原样保留，不用其错误日期更新时间字段。",
+          "evidence": [
+            {
+              "materialId": "8b177f2c88ae7c931e67417f011a2590988dc2d60967ff88d6384f2abad1a8ef",
+              "blockId": "ocr-block-1",
+              "quote": "第 九 届 全 国 大 学 生 骨 入 陈 芯 片 半 和 与 系统 设计 竞赛 全 国 总 决赛 二 2OD6 2026.8.10-8.15 | 南京 江北 新 区 全 0"
+            },
+            {
+              "materialId": "d0a850b5ba23492e2553c7a5b55a6f666ef9623dfb8475433f0356a2e0fd1e61",
+              "blockId": "block-1",
+              "quote": "第九届（2026）全国大学生嵌入式芯片与系统设计竞赛芯片应用赛道全国总决赛获奖名单公布"
+            }
+          ]
+        }
+      }
+    ],
+    "lazyReview": {
+      "run": "1c991156-b966-4310-a3d9-a43f792fd643",
+      "materialId": "2106ce12ade75c9e8b6cf7e1323d829a91e75cfa65aa1d62ba8ab455df2b1287",
+      "images": [
+        "https://www.isclab.org.cn/wp-content/uploads/2023/12/ISCC2024-480x300.png",
+        "https://www.isclab.org.cn/wp-content/uploads/2023/12/ISCC2024-480x300.png",
+        "https://www.isclab.org.cn/wp-content/uploads/2023/12/ISCC2024-480x300.png",
+        "https://www.isclab.org.cn/wp-content/uploads/2023/12/ISCC2024-480x300.png"
+      ]
+    }
+  },
+  "ocrChecks": [
+    {
+      "url": "http://socoss.socchina.net/file/banner/2026-7-15/1a73a04b8ec44621b3fb5127a3977d46.png",
+      "id": "8b177f2c88ae7c931e67417f011a2590988dc2d60967ff88d6384f2abad1a8ef",
+      "contentType": "image/png; extracted=ocr; confidence=64"
+    },
+    {
+      "url": "https://www.isclab.org.cn/wp-content/uploads/2023/12/ISCC2024-480x300.png",
+      "error": "Image OCR has insufficient readable text or confidence"
+    }
+  ],
+  "cmitImageOcr": {
+    "url": "https://static.cmit.cn/uploadfile/2026/0924/thumb_332_192_20260924121251.jpg",
+    "error": "Image OCR has insufficient readable text or confidence"
+  },
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 23,
+    "completeKnownFields": 1
+  },
+  "imageCoverage": {
+    "known": 3,
+    "total": 30,
+    "rate": 0.1,
+    "statuses": {
+      "unknown": 27,
+      "known": 3
+    }
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 2.134672,
+      "known_upper_cny": 2.134672,
+      "unsettled_calls": 0
+    }
+  ],
+  "independentReadback": {
+    "checked": 30,
+    "errors": [],
+    "articles": 0
+  },
+  "caveat": "Known-field count is not a completed semantic acceptance; 27 latest candidate images unknown and NISP still has no candidate."
+}

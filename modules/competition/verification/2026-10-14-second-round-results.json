@@ -1,0 +1,514 @@
+{
+  "checkedAt": "2026-10-14T13:10:30.312Z",
+  "scope": "31 approved catalogue items; latest candidate, not approved publication",
+  "totals": {
+    "catalogue": 31,
+    "withRevisions": 30,
+    "readyForReview": 21,
+    "completeKnownFields": 0
+  },
+  "budgetRounds": [
+    {
+      "batch": "first-live-acceptance",
+      "allocated_cny": 9.883816,
+      "known_upper_cny": 6.531002,
+      "unsettled_calls": 15
+    },
+    {
+      "batch": "second-live-acceptance",
+      "allocated_cny": 1.492588,
+      "known_upper_cny": 1.492588,
+      "unsettled_calls": 0
+    }
+  ],
+  "integrity": {
+    "revision_run_mismatches": 0,
+    "missing_revision_materials": 0,
+    "normalized_duplicate_names": 0,
+    "future_materials": 0,
+    "newest_material_at": "2026-10-14T13:08:04.787Z"
+  },
+  "fieldCoverage": {
+    "name": {
+      "known": 30,
+      "total": 30,
+      "rate": 1,
+      "statuses": {
+        "known": 30
+      }
+    },
+    "year": {
+      "known": 29,
+      "total": 30,
+      "rate": 0.9667,
+      "statuses": {
+        "known": 29,
+        "unknown": 1
+      }
+    },
+    "promotionImage": {
+      "known": 0,
+      "total": 30,
+      "rate": 0,
+      "statuses": {
+        "unknown": 30
+      }
+    },
+    "categories": {
+      "known": 23,
+      "total": 30,
+      "rate": 0.7667,
+      "statuses": {
+        "known": 23,
+        "unknown": 7
+      }
+    },
+    "participantLimit": {
+      "known": 23,
+      "total": 30,
+      "rate": 0.7667,
+      "statuses": {
+        "known": 23,
+        "unknown": 5,
+        "not_stated": 2
+      }
+    },
+    "teacherLimit": {
+      "known": 17,
+      "total": 30,
+      "rate": 0.5667,
+      "statuses": {
+        "known": 17,
+        "unknown": 7,
+        "not_stated": 6
+      }
+    },
+    "registrationTimes": {
+      "known": 22,
+      "total": 30,
+      "rate": 0.7333,
+      "statuses": {
+        "known": 22,
+        "unknown": 8
+      }
+    },
+    "competitionTimes": {
+      "known": 27,
+      "total": 30,
+      "rate": 0.9,
+      "statuses": {
+        "known": 27,
+        "not_stated": 1,
+        "unknown": 2
+      }
+    },
+    "stages": {
+      "known": 27,
+      "total": 30,
+      "rate": 0.9,
+      "statuses": {
+        "known": 27,
+        "unknown": 2,
+        "not_stated": 1
+      }
+    },
+    "officialWebsite": {
+      "known": 25,
+      "total": 30,
+      "rate": 0.8333,
+      "statuses": {
+        "known": 25,
+        "unknown": 5
+      }
+    },
+    "files": {
+      "known": 23,
+      "total": 30,
+      "rate": 0.7667,
+      "statuses": {
+        "known": 23,
+        "unknown": 7
+      }
+    },
+    "introduction": {
+      "known": 30,
+      "total": 30,
+      "rate": 1,
+      "statuses": {
+        "known": 30
+      }
+    }
+  },
+  "batchReviews": [
+    {
+      "competitionId": "competition-002",
+      "runId": "655d54bb-0cd1-47f2-9fc6-eac6ac0c7d95",
+      "revisionId": "efd9d25e-cd94-475c-8cb8-03dc8340749d",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-003",
+      "runId": "c0c0ab38-a634-4ae6-9407-ab437a38250f",
+      "revisionId": "2f8194d0-a2e7-4899-9e67-31a6276e1eb0",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-005",
+      "runId": "8d8329de-8f1d-4335-94dd-78fa1dc63b6a",
+      "revisionId": "419abe4b-97eb-4d60-930e-a6b063472e7b",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "competitionTimes:not_stated"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-008",
+      "runId": "f61e412e-2fc0-4cb6-b16f-3f5c316539c2",
+      "revisionId": "f500c249-bb51-43a6-8e1e-48f0fafe7cf4",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-009",
+      "runId": "98d65070-bc9e-43e0-8e12-cafb08d43dce",
+      "revisionId": "eef323ed-0721-4c96-b564-792a99036955",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-010",
+      "runId": "d53f4301-fa72-453c-b5d4-442cb80cb556",
+      "revisionId": "8a834417-43af-4449-a54c-08523c75dc23",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-012",
+      "runId": "b0f50b75-9626-42f5-976d-f8cbb4cbdfc6",
+      "revisionId": "1742ee44-0e00-43b8-a5bc-3db3a789c099",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:not_stated",
+          "teacherLimit:not_stated",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-013",
+      "runId": "cf37de70-916b-4c48-9ed3-3b2d0da34316",
+      "revisionId": "2b527aed-1464-4db6-b42b-de983d0ce58d",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-014",
+      "runId": "af4bf679-57c5-4dfb-8c84-802406ecb71e",
+      "revisionId": "a8f1ce90-db46-48d9-b99a-f99b95cd39c4",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "year:unknown",
+          "promotionImage:unknown",
+          "categories:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown",
+          "competitionTimes:unknown",
+          "stages:unknown",
+          "officialWebsite:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-015",
+      "runId": "0144ec5d-2b03-4766-9066-89dc8e1621cd",
+      "revisionId": "3b053ead-5c63-404c-9062-5e7ca75717e7",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-018",
+      "runId": "ed649ecb-0c87-4f3e-bb4c-785079d68fd8",
+      "revisionId": "08aa8d05-fc14-4aa9-bd92-4d093b094682",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-019",
+      "runId": "6911a9c4-1c36-43a5-9619-03970e76c8a8",
+      "revisionId": "e991f7f1-64e2-4d5d-ada9-cd4d0e0b87d3",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "registrationTimes:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-020",
+      "runId": "d1bd6be5-ef9d-4028-be06-9771e1585aaa",
+      "revisionId": "e5f0ec71-9373-49ef-8374-ec4eecd0cda8",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "registrationTimes:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-021",
+      "runId": "f7d6c30f-b8d8-41e2-b337-fd5ec1646eed",
+      "revisionId": "bd843755-cc80-458c-a40b-1eee6389075f",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-022",
+      "runId": "5a56e4a2-0c58-4802-b866-a1cc1f281495",
+      "revisionId": "51262469-d0f8-4b92-a6db-ccf5fc1dcf66",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "registrationTimes:unknown",
+          "stages:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-023",
+      "runId": "2e33d70a-a71a-4b83-8241-6744cbdd6a2c",
+      "revisionId": "cd653eb2-564e-4666-906e-a78d167c60fe",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-024",
+      "runId": "d366f21b-77a4-45ac-bfe8-11b4a52b5a42",
+      "revisionId": "e6565cec-ec89-440d-a1b3-4b56ccc23dec",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown",
+          "competitionTimes:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-025",
+      "runId": "f4c876c9-b0f0-46cd-b1c2-b9d63996f22b",
+      "revisionId": "b74be858-3c09-4401-a905-3d6297f310c1",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "categories:unknown",
+          "participantLimit:unknown",
+          "teacherLimit:unknown",
+          "registrationTimes:unknown",
+          "competitionTimes:unknown",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": false
+      }
+    },
+    {
+      "competitionId": "competition-026",
+      "runId": "d0ee4074-18ba-4e5c-bbcf-00406c072715",
+      "revisionId": "645b0909-9206-4de5-ba36-d91df5273cb3",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-027",
+      "runId": "6e5a6a93-0c02-49c0-ae62-71d138cd337d",
+      "revisionId": "f7cf510d-8291-475d-b377-a5e2cc984e66",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-028",
+      "runId": "85748de9-bc38-4b0e-862c-ce612dd518fe",
+      "revisionId": "ddf272cc-7174-4863-805f-3796c9d3ddb0",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-030",
+      "runId": "09557b08-02e7-4064-966c-506cc00e710b",
+      "revisionId": "4dd183c7-4db5-4c6a-8b54-c4aa52938581",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "teacherLimit:not_stated",
+          "officialWebsite:unknown"
+        ],
+        "readyForReview": true
+      }
+    },
+    {
+      "competitionId": "competition-031",
+      "runId": "bc20002e-fa17-4d77-8dac-b07592f82d2d",
+      "revisionId": "f3b63ac1-2497-491f-aa7b-0442f4c41e4e",
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "missing": [
+          "promotionImage:unknown",
+          "participantLimit:not_stated",
+          "teacherLimit:not_stated",
+          "stages:not_stated",
+          "files:unknown"
+        ],
+        "readyForReview": true
+      }
+    }
+  ],
+  "igem": {
+    "ingestionRun": "bb26b309-e75e-40d6-8c17-ca4bfa885109",
+    "rejectedCandidate": "f02e45cf-72c5-4b57-a724-861b18ad5852",
+    "semanticReviewRun": "d353a45d-ddda-478b-a000-9cfb28eb3218",
+    "latestRevision": "5bae4fd1-876d-4c90-a55c-a9d5791c63fd"
+  },
+  "noRevision": [
+    "competition-017"
+  ],
+  "invalidLatest": [],
+  "readback": {
+    "checked": 30,
+    "validationMismatches": 0,
+    "articles": 0
+  }
+}

@@ -3,5 +3,6 @@
 // pages' parts. Each list keeps the order its entries appear in on the site.
 import type { ModuleDeclaration } from "@aihot/contracts/modules";
 import { worldNewsDeclaration } from "@aihot/world-news/module";
+import competition from "@aihot/competition/module";
 
-export const MODULES: readonly ModuleDeclaration[] = [worldNewsDeclaration];
+export const MODULES: readonly ModuleDeclaration[] = [worldNewsDeclaration, competition];

@@ -1,0 +1,338 @@
+{
+  "date": "2026-10-13",
+  "method": "人工结合实际HTTP与公开官方网页核对，未执行真实LLM；仅研究草稿，不是已审核当前完整数据。",
+  "samples": [
+    {
+      "catalogueId": "competition-007",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "2026年第十四届全国大学生数字媒体科技作品及创意竞赛",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": "A3",
+        "participantLimit": {
+          "maximum": 5,
+          "scope": "参赛团队"
+        },
+        "teacherLimit": {
+          "minimum": 1,
+          "maximum": 2,
+          "scope": "每支团队"
+        },
+        "registrationTimes": [
+          {
+            "type": "报名及作品提交截止",
+            "value": "2026-10-23 23:59:59",
+            "timezone": "Asia/Shanghai",
+            "scope": "官网赛事进程，需核对专项是否例外"
+          }
+        ],
+        "competitionTimes": [
+          {
+            "stage": "校级初赛",
+            "start": "2026-10-24",
+            "end": "2026-10-28"
+          },
+          {
+            "stage": "赛区选拔赛",
+            "start": "2026-11-02",
+            "end": "2026-11-15"
+          },
+          {
+            "stage": "全国总决赛",
+            "start": "2026-11-27",
+            "end": "2026-11-29"
+          }
+        ],
+        "stages": [
+          "报名及作品提交",
+          "校级初赛",
+          "赛区选拔赛",
+          "全国总决赛"
+        ],
+        "officialWebsite": "https://www.cmit.cn/",
+        "documents": [
+          {
+            "url": "https://static.cmit.cn/uploadfile/2026/0924/2026%E7%AC%AC%E5%8D%81%E5%9B%9B%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0%E5%AD%97%E5%AA%92%E4%BD%93%E7%A7%91%E6%8A%80%E4%BD%9C%E5%93%81%E5%8F%8A%E5%88%9B%E6%84%8F%E7%AB%9E%E8%B5%9B%E9%80%9A%E7%9F%A5.pdf",
+            "verification": "仅通知 PDF 已实际 GET 并校验 %PDF-，其余只找到链接"
+          },
+          {
+            "url": "https://static.cmit.cn/uploadfile/2026/0924/%E9%99%84%E4%BB%B61%202026%E5%B9%B4%E7%AC%AC%E5%8D%81%E5%9B%9B%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0%E5%AD%97%E5%AA%92%E4%BD%93%E7%A7%91%E6%8A%80%E4%BD%9C%E5%93%81%E5%8F%8A%E5%88%9B%E6%84%8F%E7%AB%9E%E8%B5%9B%E5%8F%82%E8%B5%9B%E6%8C%87%E5%8D%97.pdf",
+            "verification": "仅通知 PDF 已实际 GET 并校验 %PDF-，其余只找到链接"
+          },
+          {
+            "url": "https://static.cmit.cn/uploadfile/2026/0924/%E9%99%84%E4%BB%B62%202026%E5%B9%B4%E7%AC%AC%E5%8D%81%E5%9B%9B%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0%E5%AD%97%E5%AA%92%E4%BD%93%E7%A7%91%E6%8A%80%E4%BD%9C%E5%93%81%E5%8F%8A%E5%88%9B%E6%84%8F%E7%AB%9E%E8%B5%9B%E8%AF%84%E5%88%86%E6%A0%87%E5%87%86%E5%8F%8A%E5%A5%96%E9%A1%B9%E8%AE%BE%E7%BD%AE.pdf",
+            "verification": "仅通知 PDF 已实际 GET 并校验 %PDF-，其余只找到链接"
+          }
+        ],
+        "introduction": "围绕数字媒体科技与创意作品开展的高校竞赛。"
+      },
+      "evidence": {
+        "fields": "https://www.cmit.cn/wap/index.html",
+        "editionAndDocuments": "https://admin1.cmit.cn/html/tongzhigonggao/show-144-45826-1.html",
+        "method": "人工核对网页形成样例，非运行 Agent 输出"
+      },
+      "gaps": [
+        "分类标签未定",
+        "对应本届宣传图未逐张核验",
+        "报名开始时间未确认",
+        "图片展示许可未核验",
+        "下载通知 PDF 可用但文字抽取未通过验证"
+      ]
+    },
+    {
+      "catalogueId": "competition-011",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "第八届全球校园人工智能算法精英大赛",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": "A3",
+        "participantLimit": {
+          "maximum": null,
+          "scope": "人数上限依赛道赛题规则，允许单人建队"
+        },
+        "teacherLimit": {
+          "maximum": 2,
+          "scope": "每支团队"
+        },
+        "registrationTimes": [
+          {
+            "type": "报名开放",
+            "value": "2026-04-28",
+            "scope": "总通知"
+          },
+          {
+            "type": "省赛报名截止",
+            "value": "2026-10-15 20:00",
+            "timezone": "Asia/Shanghai",
+            "scope": "赛区制；赛马制按赛题通知"
+          }
+        ],
+        "competitionTimes": [
+          {
+            "stage": "省赛",
+            "value": "最迟2026-11-01前完成",
+            "scope": "赛区制，各赛区具体安排不同"
+          },
+          {
+            "stage": "总决赛",
+            "value": "2026年11月中下旬，部分赛题可调整",
+            "precision": "period",
+            "scope": "总通知，需结合后续通知"
+          }
+        ],
+        "stages": [
+          "校赛／初赛",
+          "省赛／复赛",
+          "总决赛"
+        ],
+        "officialWebsite": "https://www.aicomp.cn/",
+        "documents": [
+          {
+            "url": "https://www.aicomp.cn/wp-content/uploads/2026/04/%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E%E7%AC%AC%E5%85%AB%E5%B1%8AAIC%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E7%9A%84%E9%80%9A%E7%9F%A5-2.pdf",
+            "verification": "GET200，PDF文件头有效，web已提取7页文本"
+          }
+        ],
+        "introduction": "以算法创新与应用为核心，按不同赛道组织的校园人工智能竞赛。"
+      },
+      "evidence": {
+        "fields": "https://www.aicomp.cn/notice/notice-1/3618.html",
+        "updates": "https://www.aicomp.cn/feed/",
+        "method": "总通知样例，尚未合入所有后续赛题与调整公告"
+      },
+      "gaps": [
+        "分类标签未定",
+        "宣传图仅有候选，未逐张核验",
+        "队伍人数须选定赛题",
+        "后续时间调整未全部合入，不能作为当前完整日程"
+      ]
+    },
+    {
+      "catalogueId": "competition-013",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "2026 CCF 大学生计算机系统与程序设计竞赛",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": "B1",
+        "participantLimit": null,
+        "teacherLimit": null,
+        "registrationTimes": [
+          {
+            "start": "2026-09-09",
+            "end": "2026-10-11",
+            "precision": "date"
+          }
+        ],
+        "competitionTimes": [
+          {
+            "stage": "竞赛",
+            "start": "2026-10-21 09:00",
+            "end": "2026-10-21 21:00",
+            "timezone": "Asia/Shanghai"
+          }
+        ],
+        "stages": [
+          "初赛（CSP，依章程）",
+          "决赛（CCSP）"
+        ],
+        "officialWebsite": "https://ccsp.ccf.org.cn/",
+        "documents": [],
+        "introduction": "考察算法、编程及计算机系统能力的大学生竞赛。"
+      },
+      "evidence": {
+        "fields": "https://ccsp.ccf.org.cn/ccsp/tzgg/2026-09-09/931080.shtml",
+        "stage": "https://www.ccf.org.cn/ccsp/jszc/2026-09-14/776043.shtml",
+        "stageNote": "章程搜索索引可见，本次 web 直接读取失败，阶段待复核"
+      },
+      "gaps": [
+        "分类标签未定",
+        "人数与老师限制未核验",
+        "宣传图候选未逐张核验",
+        "未读取具体文件"
+      ]
+    },
+    {
+      "catalogueId": "competition-022",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "2026年全国大学生数学建模竞赛",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": "A2",
+        "participantLimit": {
+          "maximum": 3,
+          "scope": "每队"
+        },
+        "teacherLimit": {
+          "maximum": 1,
+          "unit": "指导教师或教师组",
+          "scope": "赛前辅导，竞赛期间不得指导"
+        },
+        "registrationTimes": [],
+        "competitionTimes": [
+          {
+            "type": "比赛开始",
+            "value": "2026-09-10 18:00",
+            "timezone": "Asia/Shanghai"
+          }
+        ],
+        "stages": [],
+        "officialWebsite": "https://www.mcm.edu.cn/",
+        "documents": [],
+        "introduction": "通过建立数学模型、计算与分析解决实际问题的团队竞赛。"
+      },
+      "evidence": {
+        "nameAndDate": "https://www.mcm.edu.cn/",
+        "limits": "https://www.mcm.edu.cn/html_cn/block/44e92058f537729c6b6a62a3662ee417.html",
+        "limitsVersion": "2023年修订章程，当前网站展示，不代表已排除本届特殊规则"
+      },
+      "gaps": [
+        "分类标签未定",
+        "报名时间和结束时间未核验",
+        "本届宣传图未核验",
+        "文件链接未核验",
+        "限制来自通用章程，需检查当届补充通知"
+      ]
+    },
+    {
+      "catalogueId": "competition-023",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "第十九届全国大学生创新年会",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": "A3",
+        "participantLimit": null,
+        "teacherLimit": null,
+        "registrationTimes": [
+          {
+            "type": "项目报送截止",
+            "value": "2026-10-23",
+            "scope": "中央部委所属高校，非个人报名"
+          },
+          {
+            "type": "项目报送截止",
+            "value": "2026-10-30",
+            "scope": "省级教育行政部门，非个人报名"
+          }
+        ],
+        "competitionTimes": [
+          {
+            "stage": "年会",
+            "value": "2026年12月，具体日期另行通知",
+            "precision": "month"
+          }
+        ],
+        "stages": [
+          "项目报送与遴选",
+          "年会展示交流"
+        ],
+        "officialWebsite": "https://www.gjcxcy.cn/Index",
+        "documents": [],
+        "introduction": "展示交流大学生创新项目成果、学术论文和创业项目的年会。"
+      },
+      "evidence": {
+        "fields": "https://www.gjcxcy.cn/PublicColumn/Notice/ea09170e-3609-4ca3-9b9d-aaa79fc04d68"
+      },
+      "gaps": [
+        "原名录与当前官方用名存在差异，映射待审",
+        "分类标签未定",
+        "个人／队伍人数和老师限制未核验",
+        "宣传图未核验",
+        "存在文件下载接口但未证实文件实际可下载"
+      ]
+    },
+    {
+      "catalogueId": "competition-031",
+      "reviewStatus": "research-draft-not-published",
+      "data": {
+        "name": "第43次 CCF CSP 认证",
+        "year": 2026,
+        "promotionImage": null,
+        "categories": [],
+        "schoolLevel": null,
+        "participantLimit": null,
+        "teacherLimit": null,
+        "registrationTimes": [
+          {
+            "start": "2026-08-17 09:00",
+            "end": "2026-09-06 23:59",
+            "timezone": "Asia/Shanghai"
+          }
+        ],
+        "competitionTimes": [
+          {
+            "stage": "认证考试",
+            "start": "2026-09-13 13:30",
+            "end": "2026-09-13 17:30",
+            "timezone": "Asia/Shanghai"
+          }
+        ],
+        "stages": [
+          "报名",
+          "认证考试"
+        ],
+        "officialWebsite": "https://www.cspro.org/",
+        "documents": [],
+        "introduction": "通过上机编程考察算法和程序设计能力的认证。"
+      },
+      "evidence": {
+        "fields": "https://www.cspro.org/cms/show.action?channelid=0000000103&code=publish_8ac21fad9d27f22a019f7e5a821c0129&newsid=1cc1a98caa94481a8a6473ca339230a4",
+        "schoolRecognition": "名录标注计算机软件能力，不存在A/B级别"
+      },
+      "gaps": [
+        "仅历史一次认证样例，非最新场次保证",
+        "分类标签未定",
+        "人数及老师限制未核验，不写为不限或0",
+        "宣传图与文件未核验"
+      ]
+    }
+  ]
+}
