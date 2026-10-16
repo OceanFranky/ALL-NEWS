@@ -4,6 +4,7 @@
 
 ## 2026-10-16
 
+- 四板块需求已提交0d96dba、格式复核ccdb17a，功能分支已推送并按使用者授权快进合入远端main（8b5fa62→ccdb17a）；README提供协作入口。仅文档，差异／引用／需求覆盖检查通过，未运行业务测试或改变服务；后续按文档认领工作包，原目录compose改动仍保留。
 - `codex/student-platform-requirements`：按使用者明确要求整理并合并main的四板块需求，新增docs/student-platform-requirements.md及README协作入口；明确竞赛经验／视频、保研与新增考研、UI重构、手机QQ／微信，附资源契约、工作包、验收及待确认项。以main 8b5fa62为基线，文档不代表功能完成，不启用服务／采集／模型／推送；原目录docker-compose.yml改动保留。7处本地引用及四板块覆盖检查通过；暂存检查发现Markdown行尾空格，后续提交清除后重新差异检查，通过后按本次授权合入main。
 
 ## 2026-10-15
