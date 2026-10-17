@@ -23,6 +23,15 @@
     "turndown": "7.2.4",
     "undici": "8.11.2",
     "uqr": "0.1.3",
-    "zod": "4.6.5"
+    "zod": "4.6.5",
+    "@napi-rs/canvas": "1.0.11",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
+    "@types/word-extractor": "1.0.6",
+    "fflate": "0.7.5",
+    "mammoth": "1.13.0",
+    "pdfjs-dist": "6.4.299",
+    "tesseract.js": "7.0.0",
+    "word-extractor": "1.0.4"
   }
 }

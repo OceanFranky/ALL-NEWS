@@ -5,7 +5,8 @@
   "sideEffects": false,
   "dependencies": {
     "@aihot/world-news": "*",
-    "@aihot/competition": "*"
+    "@aihot/competition": "*",
+    "@aihot/admission": "*"
   },
   "exports": {
     ".": "./site.ts",
