@@ -8,7 +8,7 @@ import { useStars, toggleStar, useChecklist } from "./stars.ts";
 
 export const inputClass = "min-h-11 w-full min-w-0 rounded-xl border border-line-strong bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 export function AdmissionNav() {
-  return <nav aria-label="升学导航" className="mb-7 flex flex-wrap gap-x-6 border-b border-line text-sm">{[["/admissions", "机会看板"], ["/admissions/schools", "院校目录"], ["/admissions/saved", "我的收藏"], ["/admissions/sources", "我的来源"], ["/admissions/updates", "收录动态"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `border-b-2 py-3 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3"}`}>{label}</NavLink>)}</nav>;
+  return <nav aria-label="升学导航" className="mb-7 flex flex-wrap gap-x-6 border-b border-line text-sm">{[["/admissions", "机会看板"], ["/admissions/schools", "院校目录"], ["/admissions/saved", "我的收藏"], ["/admissions/sources", "我的来源"], ["/admissions/agent", "升学简报"], ["/admissions/updates", "收录动态"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `border-b-2 py-3 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3"}`}>{label}</NavLink>)}</nav>;
 }
 export function DemoNote() { return <div role="note" className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-relaxed text-ink"><strong>流程演示 · 非真实招生信息</strong><p className="mt-1 text-ink-2">学校名称仅用于演示关联。院系、条件与日期均为虚构，不能据此报名或判断录取资格。</p></div>; }
 export function SaveButton({ id }: { id: string }) {

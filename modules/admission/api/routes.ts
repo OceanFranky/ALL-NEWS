@@ -8,7 +8,8 @@ import { config } from "@aihot/backend/config";
 import { querySchema } from "../backend/domain.ts";
 import { adminNotices, saveNotice, changePublication } from "../backend/store.ts";
 import { submitImport, commandImport } from "../backend/imports.ts";
-import { readImports } from "../backend/publication.ts";
+import { readImports, readAgents } from "../backend/publication.ts";
+import { submitAgent, commandAgent } from "../backend/agent.ts";
 
 export function admissionRoutes(app: FastifyInstance) {
   const publicRoute = (resource: string, input: (req: FastifyRequest) => unknown) => async (req: FastifyRequest, reply: FastifyReply) => {
@@ -26,6 +27,20 @@ export function admissionRoutes(app: FastifyInstance) {
   app.get("/api/v1/admissions/monitor", publicRoute("monitor", req => { strictQuery(req, []); return undefined; }));
   app.get("/api/v1/admissions/daily", publicRoute("daily", req => strictQuery(req, ["date"])));
   app.get("/api/v1/admissions/imports", publicRoute("imports", req => strictQuery(req, ["ids"])));
+  app.get("/api/v1/admissions/agents", publicRoute("agents", req => strictQuery(req, ["ids"])));
+  app.post("/api/v1/admissions/agents", { bodyLimit: 4096 }, async (req, reply) => {
+    reply.header("Cache-Control", "no-store");
+    if (!req.headers["content-type"]?.startsWith("application/json") || req.headers["sec-fetch-site"] === "cross-site"
+      || (req.headers.origin && req.headers.origin !== new URL(config.siteUrl).origin)) return sendProblem(req, reply, { status: 403, code: "forbidden", detail: "请从本站创建目标任务。" });
+    try { return reply.code(202).send(await submitAgent(req.body)); }
+    catch (error) {
+      const status = error instanceof ZodError ? 400 : (error as { statusCode?: number }).statusCode;
+      if (status === 400 || status === 429) return sendProblem(req, reply, { status, code: "agent_rejected", detail: error instanceof ZodError ? "请核对学校、方向、入学年份和关注阶段。" : (error as Error).message });
+      throw error;
+    }
+  });
+  app.get("/api/admin/admissions/agents", adminHandler(async () => readAgents({}, true)));
+  app.post("/api/admin/admissions/agents/:taskId", adminHandler(async (req, _reply, admin) => commandAgent((req.params as { taskId: string }).taskId, req.body, actorOf(admin))));
   app.post("/api/v1/admissions/imports", { bodyLimit: 4096 }, async (req, reply) => {
     reply.header("Cache-Control", "no-store");
     // This public endpoint accepts explicit JSON submissions; visiting a page never creates work.

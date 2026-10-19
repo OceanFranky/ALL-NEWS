@@ -7,8 +7,9 @@ export default defineModule({
     { path: "admissions/saved", file: "web/saved.tsx" },
     { path: "admissions/updates", file: "web/updates.tsx" },
     { path: "admissions/sources", file: "web/imports.tsx" },
+    { path: "admissions/agent", file: "web/agent.tsx" },
     { path: "admissions/:noticeId", file: "web/detail.tsx" },
   ],
-  adminPages: [{ path: "admin/admissions", file: "web/admin.tsx" }, { path: "admin/admissions/imports", file: "web/admin-imports.tsx" }],
+  adminPages: [{ path: "admin/admissions", file: "web/admin.tsx" }, { path: "admin/admissions/imports", file: "web/admin-imports.tsx" }, { path: "admin/admissions/agents", file: "web/admin-agent.tsx" }],
   apiPaths: [/^\/api\/v1\/admissions(?:\/|$)/, /^\/api\/admin\/admissions(?:\/|$)/],
 });

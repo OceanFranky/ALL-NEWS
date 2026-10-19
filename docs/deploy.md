@@ -319,3 +319,7 @@ cd apps/web && NODE_ENV=production node --env-file=../../.env server.ts   # 网�
 ## 升学用户来源版升级（2026-10-17）
 
 应用0079迁移，先停止专用升学worker并备份数据库。新`admission.import`取代旧`admission.refresh`队列；用pg-boss `deleteQueue("admission.refresh")`清理旧任务及执行记录。此操作删除旧队列状态，不删除公告、材料、费用、审计或历史官方入口；备份保留可恢复。原每分钟cron改调度用户提交来源，不重新启用固定39校采集。API/Web只写任务及读公开结果，采集／模型阀继续关闭；专用worker仍受原5元累计上限。部署和回退详见[升学预览](admission-preview.md)。
+
+## 保研Agent待部署更新（2026-10-19）
+
+新增0080／0081目标与步骤表，增加`admission.agent`及每分钟调度，保留原用户来源队列。此版本尚未部署。升级先停止专用升学worker、备份、迁移和构建，再切换应用；不新增环境变量，不重置原累计5元批次。回退先停新worker，切回旧release，新表与队列数据保留且不执行，避免丢失用户目标。实际行为、验证与边界见[保研Agent工作流](admission-agent-workflow.md)。

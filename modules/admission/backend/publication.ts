@@ -5,6 +5,10 @@ import { demoNotices } from "./demo.ts";
 import { detailIdSchema, noticeStatus, querySchema } from "./domain.ts";
 import { importIds } from "./imports.ts";
 import { admissionCost } from "./model.ts";
+import type { AgentTasks, AgentGoal, AgentStatus, AgentStep } from "@aihot/contracts/admission-agent";
+import { agentIdsSchema } from "./agent.ts";
+import { matchesAgentGoal, specificAgentMatch, type AgentState } from "./agent-planner.ts";
+import { buildAgentBrief } from "./agent-brief.ts";
 
 interface PublishedRow { id: string; published: AdmissionNotice; published_version: number; published_at: Date }
 function fromRow(row: PublishedRow, now: Date): PublicNotice {
@@ -15,6 +19,30 @@ function demos(now: Date): PublicNotice[] {
   return demoNotices.map(notice => ({ ...notice, version: 1, updatedAt: "2026-10-17T00:00:00Z", school: schoolById.get(notice.schoolId)!, status: noticeStatus(notice, now), demo: true }));
 }
 export async function readSchools() { return schools; }
+export async function readAgents(input: unknown, admin = false): Promise<AgentTasks> {
+  const { ids } = agentIdsSchema.parse(input);
+  interface TaskRow { id: string; goal: AgentGoal; state: AgentState; enabled: boolean; status: AgentStatus; created_at: Date; checked_at: Date | null; next_check_at: Date }
+  const rows = admin ? await sql<TaskRow[]>`SELECT * FROM admission_agent_tasks ORDER BY created_at DESC LIMIT 100`
+    : ids.length ? await sql<TaskRow[]>`SELECT * FROM admission_agent_tasks WHERE id IN ${sql(ids)} ORDER BY created_at DESC` : [];
+  const items: AgentTasks["items"] = [];
+  for (const row of rows) {
+    const steps = await sql<{ id: string; cycle: number; stage: string; status: string; created_at: Date; url: string | null; title: string; detail: string }[]>`SELECT * FROM admission_agent_steps WHERE task_id=${row.id} AND cycle=${row.state.cycle} ORDER BY id DESC LIMIT 100`;
+    const docIds = row.state.pages.filter(p => p.candidate && ["published", "unchanged"].includes(p.status)).map(p => p.documentId);
+    const docs = docIds.length ? await sql<{ notice_ids: string[] }[]>`SELECT notice_ids FROM admission_documents WHERE id IN ${sql(docIds)}` : [];
+    const notices = (await Promise.all([...new Set(docs.flatMap(d => d.notice_ids))].map(readNotice))).filter((n): n is PublicNotice => n !== null && matchesAgentGoal(n, row.goal));
+    const changes = notices.length ? await sql<{ notice_id: string; kind: string; fields: string[]; created_at: Date }[]>`SELECT notice_id,kind,fields,created_at FROM admission_changes WHERE notice_id IN ${sql(notices.map(n => n.id))} ORDER BY created_at DESC LIMIT 10` : [];
+    const mapped: AgentStep[] = steps.reverse().map(s => ({ id: Number(s.id), cycle: s.cycle, stage: s.stage, status: s.status, at: s.created_at.toISOString(), url: s.url, title: s.title, detail: s.detail }));
+    items.push({ id: row.id, goal: row.goal, school: schoolById.get(row.goal.schoolId)!, enabled: row.enabled, status: row.status, cycle: row.state.cycle,
+      createdAt: row.created_at.toISOString(), checkedAt: row.checked_at?.toISOString() ?? null, nextCheckAt: row.next_check_at.toISOString(),
+      stats: { pages: row.state.pages.length, candidates: row.state.pages.filter(p => p.candidate).length,
+        processed: row.state.pages.filter(p => ["published", "unchanged", "irrelevant"].includes(p.status)).length, remaining: row.state.frontier.length, failed: row.state.pages.filter(p => p.status === "read-failed").length },
+      gaps: row.state.gaps, steps: mapped, notices: notices.filter(n => specificAgentMatch(n, row.goal)), references: notices.filter(n => !specificAgentMatch(n, row.goal)),
+      search: row.state.search,
+      brief: buildAgentBrief(row.goal, schoolById.get(row.goal.schoolId)!.name, notices, row.checked_at?.toISOString() ?? null, row.status),
+      changes: changes.map(c => ({ noticeId: c.notice_id, title: notices.find(n => n.id === c.notice_id)!.title, kind: c.kind, fields: c.fields, at: c.created_at.toISOString() })) });
+  }
+  return { items, budget: await admissionCost() };
+}
 export async function readNotices(input: unknown): Promise<NoticeList> {
   const query = querySchema.parse(input);
   const now = new Date();

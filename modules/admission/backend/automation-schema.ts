@@ -8,6 +8,14 @@ export const extractedNoticeSchema = z.strictObject({ ...extractedFields,
 });
 export const extractionSchema = z.strictObject({ relevant: z.boolean(), reason: z.string().max(500), notices: z.array(extractedNoticeSchema).max(4) });
 export type ExtractedNotice = z.infer<typeof extractedNoticeSchema>;
+export function validateScopeEvidence(notice: ExtractedNotice) {
+  for (const field of ["department", "programme", "batch"] as const) {
+    const value = notice[field];
+    if (/^(全校（具体范围见原文）|适用专业见官方目录|校级通知)$/.test(value)) continue;
+    const quotes = notice.evidence.filter(e => e.field === field).map(e => e.quote.replace(/\s/g, "")).join(" ");
+    if (!quotes.includes(value.replace(/\s/g, ""))) throw new Error(`具体招生范围缺少原文逐字依据：${field}`);
+  }
+}
 export function explicitSourceDate(value: string, context: string) {
   const text = context.replace(/\s/g, "");
   for (const match of text.matchAll(/(20\d{2})[年./-](\d{1,2})[月./-](\d{1,2})(?:日|号)?/g)) {
@@ -27,6 +35,11 @@ export function alignEvidence(notice: ExtractedNotice, materials: Material[]) {
     // Correct only a unique position in the very same source; never rewrite the quote or search other documents.
     if (matches.length === 1) e.blockId = matches[0].id;
   }
+  // “某专业硕士研究生” names a subject, not necessarily a professional degree.
+  const degreeQuotes = notice.evidence.filter(e => e.field === "degree").map(e => e.quote.replace(/\s/g, "")).join(" ");
+  const academic = /学术(?:型|学位)|学硕/.test(degreeQuotes), professional = /专业(?:型|学位)|专硕/.test(degreeQuotes);
+  if (notice.degree === "academic" && !academic || notice.degree === "professional" && !professional
+    || notice.degree === "both" && !(academic && professional)) notice.degree = "unknown";
 }
 export function validateEvidence(notice: ExtractedNotice, materials: Material[]) {
   const errors: string[] = [];

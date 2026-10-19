@@ -4,6 +4,22 @@ import { sql } from "@aihot/backend/db";
 import { enqueueOn } from "@aihot/backend/jobs/queue";
 import { automationEnabled } from "./backend/automation.ts";
 import { runImport } from "./backend/imports.ts";
+import { runAgent } from "./backend/agent.ts";
+
+export const agentTask = z.strictObject({ taskId: z.uuid() });
+export const agentQueue = defineQueue<z.infer<typeof agentTask>>({
+  name: "admission.agent", options: { policy: "short", retryLimit: 0, expireInSeconds: 900 },
+  worker: { batchSize: 1, localConcurrency: 1, pollingIntervalSeconds: 5 },
+  run: async tasks => { for (const task of tasks) await runAgent(agentTask.parse(task).taskId); },
+});
+export async function scheduleAdmissionAgents() {
+  if (!automationEnabled()) return { enqueued: 0 };
+  const due = await sql<{ id: string }[]>`SELECT id FROM admission_agent_tasks WHERE enabled AND next_check_at<=now()
+    AND status NOT IN ('budget-paused','awaiting-model','needs-review') ORDER BY next_check_at,id LIMIT 20`;
+  let enqueued = 0;
+  for (const task of due) if (await enqueueOn(agentQueue, { taskId: task.id }, { singletonKey: task.id })) enqueued++;
+  return { enqueued };
+}
 
 export const importTask = z.strictObject({ importId: z.uuid() });
 export const importQueue = defineQueue<z.infer<typeof importTask>>({

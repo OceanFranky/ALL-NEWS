@@ -154,7 +154,7 @@ export function htmlMaterial(html: string, url: string): Material {
   const contentHash = hash(JSON.stringify({ blocks, links: links.filter(l => /\.(pdf|docx?|zip)(?:[?#]|$)/i.test(l.url)) }));
   return { id: hash(url + contentHash), url, hash: contentHash, fetchedAt: new Date().toISOString(), contentType: "text/html", blocks, links, images: [] };
 }
-export async function readMaterials(schoolId: string, link: Link) {
+export async function readMaterials(schoolId: string, link: Link, options: { first?: Material; maxAttachments?: number } = {}) {
   async function read(url: string): Promise<Material> {
     if (!officialUrl(schoolId, url)) throw new Error("non-official material host");
     const response = await guardedFetch(url, { timeoutMs: 25000, maxBytes: 16 * 1024 * 1024, headers: admissionHeaders });
@@ -164,11 +164,12 @@ export async function readMaterials(schoolId: string, link: Link) {
     return response.body.subarray(0, 5).toString() === "%PDF-" || /\.(pdf|docx?|zip)(?:[?#]|$)/i.test(response.url)
       ? parseFile(response.url, response.body, type, true, 16 * 1024 * 1024) : htmlMaterial(response.text(), response.url);
   }
-  const first = await read(link.url); const materials = [first];
+  const first = options.first ?? await read(link.url); const materials = [first];
   const attachments = [...new Set(first.links.filter(l => /\.(pdf|docx?)(?:[?#]|$)/i.test(l.url) && officialUrl(schoolId, l.url)
     && !/宣传册|brochure|清华概览|专业目录|通讯录|学费标准/i.test(l.title + decodeURI(l.url))).map(l => l.url))];
-  if (attachments.length > 12) throw new Error(`附件${attachments.length}个，需缩小到具体公告，未将未读附件冒充完整材料`);
-  for (const url of attachments) {
+  const maxAttachments = options.maxAttachments ?? 12;
+  if (options.maxAttachments === undefined && attachments.length > maxAttachments) throw new Error(`附件${attachments.length}个，需缩小到具体公告，未将未读附件冒充完整材料`);
+  for (const url of attachments.slice(0, maxAttachments)) {
     try { materials.push(await read(url)); }
     catch (error) {
       // A substantive HTML notice remains usable on its own. Expose the unread file explicitly;

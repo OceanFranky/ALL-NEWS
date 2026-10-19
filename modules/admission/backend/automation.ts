@@ -7,11 +7,12 @@ import type { Material } from "@aihot/backend/documents/types";
 import { schoolById } from "../schools.ts";
 import { sourceConfigs, discover, documentId, readMaterials, readDirectoryIndexes, readDirectoryPages, officialUrl, type Link, type AdmissionSource } from "./sources.ts";
 import { extractAdmission, AdmissionBudgetError } from "./model.ts";
-import { alignEvidence, validateEvidence, type ExtractedNotice } from "./automation-schema.ts";
+import { alignEvidence, validateEvidence, validateScopeEvidence, extractionSchema, type ExtractedNotice } from "./automation-schema.ts";
 import { saveNotice, changePublication } from "./store.ts";
 import { identityKey } from "./domain.ts";
+import { doctoralOnly, outgoingRecommendation } from "./agent-planner.ts";
 
-interface DocumentRow { id: string; school_id: string; url: string; title: string; published_on: string | null; content_hash: string | null; processed_hash: string | null; notice_ids: string[]; status: string }
+interface DocumentRow { id: string; school_id: string; url: string; title: string; published_on: string | null; content_hash: string | null; processed_hash: string | null; notice_ids: string[]; status: string; result: unknown }
 export const automationEnabled = () => process.env.ADMISSION_AUTOMATION_ENABLED === "true" && process.env.COLLECT_ENABLED === "true";
 export async function syncSources() {
   for (const source of sourceConfigs) await sql`INSERT INTO admission_sources(school_id,config) VALUES(${source.schoolId},${sql.json(source)}) ON CONFLICT(school_id) DO UPDATE SET config=EXCLUDED.config`;
@@ -53,7 +54,8 @@ function toNotice(schoolId: string, row: Pick<DocumentRow, "url" | "published_on
   return noticeSchema.parse({ ...fields, schoolId, resources, source: { title: fields.title, url: row.url, publishedOn: row.published_on, checkedOn, verified: false, verification: "machine",
     evidence: `机器提取并经程序核对原文引用，尚未经人工复核。${unread ? `${unread}份补充附件未解析，摘要仅依据已读取正文。` : ""}${evidence.slice(0, 5).map(e => `【${e.field}】${e.quote}`).join("；")}`.slice(0, 2000) } });
 }
-export async function publishResult(row: Pick<DocumentRow, "id" | "school_id" | "url" | "title" | "published_on" | "notice_ids">, extractions: ExtractedNotice[], materials: Material[], contentHash: string) {
+export async function publishResult(row: Pick<DocumentRow, "id" | "school_id" | "url" | "title" | "published_on" | "notice_ids">, extractions: ExtractedNotice[], materials: Material[], contentHash: string, receiptId?: number) {
+  if (extractions.length && (doctoralOnly(row.title) || outgoingRecommendation(row.title))) throw new Error("仅博士或本校推荐资格通知不属于硕士接收招生机会");
   const notices = extractions.map(item => toNotice(row.school_id, row, item, materials));
   return sql.begin(async tx => {
   const old = row.notice_ids.length ? await tx<{ id: string; draft: AdmissionNotice; published: AdmissionNotice | null; version: number }[]>`SELECT id,draft,published,version FROM admission_notices WHERE id IN ${tx(row.notice_ids)} FOR UPDATE` : [];
@@ -83,10 +85,15 @@ export async function publishResult(row: Pick<DocumentRow, "id" | "school_id" | 
   }
   // Commit every extracted notice and its document links together, or publish none of this revision.
   await tx`UPDATE admission_documents SET notice_ids=${tx.json(ids)} WHERE id=${row.id}`;
+  if (receiptId !== undefined) {
+    await tx`UPDATE admission_documents SET processed_hash=${contentHash},status=${ids.length ? "published" : "irrelevant"},error=NULL WHERE id=${row.id}`;
+    await completeReceipt(tx, receiptId);
+    await audit("worker.admission", "admission.process", `admission-document:${row.id}`, null, null, { contentHash, notices: ids, receiptId }, { db: tx });
+  }
   return ids;
   });
 }
-export async function processDocument(id: string, force = false) {
+export async function processDocument(id: string, force = false, suppliedMaterials?: Material[], requireScopeEvidence = false) {
   if (!automationEnabled()) return { status: "disabled" };
   const connection = await sql.reserve(); const key = `admission-document:${id}`;
   const [lock] = await connection<{ locked: boolean }[]>`SELECT pg_try_advisory_lock(hashtextextended(${key},0)) AS locked`;
@@ -95,7 +102,7 @@ export async function processDocument(id: string, force = false) {
     const [row] = await sql<DocumentRow[]>`SELECT * FROM admission_documents WHERE id=${id}`;
     if (!row) throw new Error("unknown document");
     const link: Link = { url: row.url, title: row.title, publishedOn: row.published_on };
-    const materials = await readMaterials(row.school_id, link);
+    const materials = suppliedMaterials ?? await readMaterials(row.school_id, link);
     if (row.title === "用户添加的官方公告") {
       row.title = materials[0]?.blocks.find(b => b.id === "title")?.text.slice(0, 200) || row.title;
       await sql`UPDATE admission_documents SET title=${row.title} WHERE id=${id}`;
@@ -103,18 +110,25 @@ export async function processDocument(id: string, force = false) {
     const contentHash = createHash("sha256").update(JSON.stringify(materials.map(m => [m.url, m.hash]))).digest("hex");
     await sql`INSERT INTO admission_snapshots(document_id,hash,material) VALUES(${id},${contentHash},${sql.json(materials as never)}) ON CONFLICT DO NOTHING`;
     await sql`UPDATE admission_documents SET content_hash=${contentHash},last_checked_at=now(),last_ok_at=now() WHERE id=${id}`;
-    if (row.processed_hash === contentHash) return { status: "unchanged" };
+    if (!force && row.processed_hash === contentHash) {
+      if (requireScopeEvidence) for (const notice of extractionSchema.parse(row.result).notices) { validateEvidence(notice, materials); validateScopeEvidence(notice); }
+      return { status: "unchanged" };
+    }
     if (!force && row.content_hash === contentHash && row.status === "needs-review") return { status: "needs-review" };
     if (process.env.MODEL_CALLS_ENABLED !== "true") { await sql`UPDATE admission_documents SET status='awaiting-model' WHERE id=${id}`; return { status: "awaiting-model" }; }
     let result = await extractAdmission(schoolById.get(row.school_id)!.name, row.title, row.id, materials);
     const prepare = () => {
       if (result.data.relevant !== (result.data.notices.length > 0)) throw new Error("相关性与提取条数不一致");
+      if (result.data.notices.length && (doctoralOnly(row.title) || outgoingRecommendation(row.title))) throw new Error("仅博士或本校推荐资格通知应返回relevant=false及空notices");
       // A prospectus often only links to separate recommendation rules. Do not create a second opportunity for that pointer.
       if (!row.notice_ids.length && result.data.notices.length > 1) {
         const primary = /推免|推荐免试|免试攻读/.test(row.title) ? "baoyan" : /硕士/.test(row.title) ? "kaoyan" : null;
         if (primary && result.data.notices.some(n => n.track === primary)) result.data.notices = result.data.notices.filter(n => n.track === primary);
       }
-      for (const notice of result.data.notices) { alignEvidence(notice, materials); toNotice(row.school_id, row, notice, materials); }
+      for (const notice of result.data.notices) {
+        alignEvidence(notice, materials); toNotice(row.school_id, row, notice, materials);
+        if (requireScopeEvidence) validateScopeEvidence(notice);
+      }
     };
     try { prepare(); }
     catch (error) {
@@ -123,12 +137,7 @@ export async function processDocument(id: string, force = false) {
       prepare();
     }
     await sql`UPDATE admission_documents SET result=${sql.json(result.data)} WHERE id=${id}`;
-    const ids = await publishResult(row, result.data.notices, materials, contentHash);
-    await sql.begin(async tx => {
-      await tx`UPDATE admission_documents SET processed_hash=${contentHash},status=${ids.length ? "published" : "irrelevant"},notice_ids=${tx.json(ids)},error=NULL WHERE id=${id}`;
-      await completeReceipt(tx, result.receiptId);
-      await audit("worker.admission", "admission.process", `admission-document:${id}`, null, null, { contentHash, notices: ids, receiptId: result.receiptId }, { db: tx });
-    });
+    const ids = await publishResult(row, result.data.notices, materials, contentHash, result.receiptId);
     return { status: ids.length ? "published" : "irrelevant", notices: ids };
   } catch (error) {
     const status = error instanceof AdmissionBudgetError ? "budget-paused" : "needs-review";

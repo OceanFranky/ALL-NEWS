@@ -30,6 +30,9 @@ test("machine publication, revision, manual withdrawal and live digest respect t
   await sql`INSERT INTO admission_sources(school_id,config) VALUES(${schoolId},'{}')`;
   const row = { id: "test-document", school_id: schoolId, url: material.url, title: "2027年推荐免试硕士招生通知", published_on: "2026-09-01", notice_ids: [] as string[] };
   await sql`INSERT INTO admission_documents(id,school_id,url,title) VALUES(${row.id},${schoolId},${row.url},${row.title})`;
+  for (const title of ["2027年接收推荐免试（直博）研究生说明", "关于推荐2027届优秀本科毕业生免试攻读研究生的办法"]) {
+    await assert.rejects(publishResult({ ...row, title }, [extraction], [material], "invalid-scope"), /不属于硕士接收/);
+  }
   const [id] = await publishResult(row, [extraction], [material], "revision-1");
   let notice = await readNotice(id); assert.equal(notice?.source.verification, "machine"); assert.equal(notice?.source.verified, false);
   assert.ok((await readDaily({})).changes.some(c => c.notice.id === id));
