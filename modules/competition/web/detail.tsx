@@ -1,17 +1,29 @@
 import { Link, data, useLoaderData, useLocation, useNavigate, type LoaderFunctionArgs } from "react-router";
 import type { CompetitionDetail, CompetitionField, CompetitionLimit, CompetitionTime } from "@aihot/contracts/competitions";
-import { loadOr404 } from "@aihot/web/lib/api.server";
+import type { CompetitionResources } from "@aihot/contracts/learning-resources";
+import { apiGet, loadOr404 } from "@aihot/web/lib/api.server";
 import { pageMeta } from "@aihot/web/lib/seo";
 import { PhoneBar } from "@aihot/web/components/shell/PhoneBar";
 import { buttonClass } from "@aihot/web/components/ui/Controls";
 import { Activity, CompetitionImage, CompetitionNav, ExternalLink, FieldNotice, NextNode, Recognition, SaveButton, SectionTitle } from "./components.tsx";
 import { activityLabels, competitionPath, displayDate, safeLink } from "./format.ts";
+import { LearningResources } from "./resources.tsx";
 
 export const handle = { tab: "competition", name: "竞赛详情" };
 export { CompetitionError as ErrorBoundary } from "./components.tsx";
 export const headers = () => ({ "Cache-Control": "no-store" });
 export async function loader({ request, params }: LoaderFunctionArgs) {
-  return data({ detail: await loadOr404<CompetitionDetail>(`/api/v1/competitions/${encodeURIComponent(params.competitionId ?? "")}/editions/${encodeURIComponent(params.editionId ?? "")}`, { signal: request.signal }) }, { headers: headers() });
+  const path = `/api/v1/competitions/${encodeURIComponent(params.competitionId ?? "")}/editions/${encodeURIComponent(params.editionId ?? "")}`;
+  const detail = await loadOr404<CompetitionDetail>(path, { signal: request.signal });
+  let resources: CompetitionResources | null = null;
+  try {
+    const result = await apiGet<CompetitionResources>(`${path}/resources`, { signal: request.signal });
+    if (!Array.isArray(result.experience) || !Array.isArray(result.video)) throw new Error("Invalid resource response");
+    resources = result;
+  } catch (error) {
+    if (request.signal.aborted) throw error;
+  }
+  return data({ detail, resources, resourceFailed: resources === null }, { headers: headers() });
 }
 export function meta({ loaderData }: { loaderData?: { detail: CompetitionDetail } }) {
   const item = loaderData?.detail.item;
@@ -27,7 +39,7 @@ function TimeList({ title, kind, field, activity }: { title: string; kind: "regi
   })}</ol> : <FieldNotice field={field} />}</div>;
 }
 export default function CompetitionDetailPage() {
-  const { detail } = useLoaderData<typeof loader>();
+  const { detail, resources, resourceFailed } = useLoaderData<typeof loader>();
   const { item } = detail;
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,6 +61,7 @@ export default function CompetitionDetailPage() {
         <div className="min-w-0 space-y-5 lg:col-start-1 lg:row-start-2">
           <section className="card p-5 lg:p-6"><SectionTitle title="竞赛简介" /><p className="whitespace-pre-line break-words text-[14px] leading-7 text-ink-2">{item.introduction.value ?? item.introduction.reason}</p></section>
           <section className="card p-5 lg:p-6"><SectionTitle title="已公布赛段" />{item.stages.value?.length ? <ol className="grid gap-3 sm:grid-cols-2">{item.stages.value.map((stage, index) => <li key={index} className="flex gap-3 rounded-control bg-bg-sunk p-3 text-[13px] leading-relaxed text-ink-2"><span className="num text-accent">{String(index + 1).padStart(2, "0")}</span>{stage}</li>)}</ol> : <FieldNotice field={item.stages} />}</section>
+          <LearningResources resources={resources} failed={resourceFailed} />
           <section className="card p-5 lg:p-6"><SectionTitle title="竞赛相关文件" description="查看对应届次的公开通知、规则与附件。" />{item.files.value?.length ? <ul className="divide-y divide-line-soft">{item.files.value.map((file, index) => <li key={index} className="py-3 first:pt-0"><ExternalLink href={file.url}>{file.title}</ExternalLink></li>)}</ul> : <FieldNotice field={item.files} />}
             <details className="mt-5 border-t border-line pt-4"><summary className="cursor-pointer text-[12px] font-medium text-ink-3">资料来源与读取时间（{item.sources.length}份）</summary><ul className="mt-3 space-y-3">{item.sources.map((source, index) => <li key={index} className="min-w-0 break-all"><ExternalLink href={source.url}>{safeLink(source.url) ? new URL(source.url).hostname : "公开材料"}</ExternalLink><p className="mt-1 text-[11px] text-ink-4">读取于 {displayDate(source.fetchedAt, "minute", "Asia/Shanghai")}（北京时间）</p></li>)}</ul></details>
           </section>
