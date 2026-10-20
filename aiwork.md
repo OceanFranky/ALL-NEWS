@@ -2,6 +2,10 @@
 
 供后续 AI 在开始任务前快速了解项目进度。记录应简短、可核对，不替代 Git 提交历史和正式需求文档。
 
+## 2026-10-20
+
+- `codex/admission-pr-readiness`：按使用者要求核对yeershi两分支，admission-agent 8511858包含admission 333da34，main 89ca543为祖先，合并树无冲突。保留作者分支和3次提交，以独立审查分支提单一PR；类型／构建、937后端／255独立／65Web、30smoke、MCP／迁移／差异通过，报告docs/admission-pr-readiness.md。未调用真实模型／采集／推送或部署，Docker留远端CI；原目录docker-compose.yml未提交改动保留。本次仅获提PR授权，不合并main。
+
 ## 2026-10-19
 
 - 用户审查后明确授权提交GitHub：本轮42个升学Agent／简报／工作台及测试文档文件提交到`codex/admission-agent`；已fetch核对`origin/main`为89ca543且为当前分支祖先，无合并冲突。沿用本轮937后端／65Web／255独立、类型构建和smoke30验证，diff及秘密模式检查通过；私有env、抓取快照与试跑脚本均被忽略。仅推送功能分支，不合并main或部署公网。
