@@ -4,6 +4,8 @@
 
 资源管理R1：新增 `learning-resources` 模块及0068／0069／0070三个新表，管理员入口 `/admin/resources`，迁移不导入或发布真实资源。接口、撤回及回退说明见[资源模块](../modules/learning-resources/README.md)，Windows本机环境见[本地开发](local-resource-development.md)。
 
+2026-10-17新增的保研／考研独立预览及操作边界见[升学预览](admission-preview.md)。这是单独数据库和服务，不替换下述历史服务器部署。
+
 本次main迁移到公网服务器的非root部署、数据核对、服务管理与运行限制见[服务器部署记录](server-deployment.md)。该记录不代表已核实第三方公网转载授权。
 
 本机AI／世界新闻自动更新与共享每日5元费用熔断的授权、账期、设置及停用方式见[新闻自动更新](news-automation.md)。该部署记录不修改仓库的默认或示例安全阀配置，也不授权竞赛自动采集或公网转载。
@@ -317,3 +319,11 @@ cd apps/web && NODE_ENV=production node --env-file=../../.env server.ts   # 网�
 三个进程要一直运行，生产环境用 systemd 或 pm2 守护（守护配置里同样设 `NODE_ENV=production`）。停止 worker 时至少给它 210 秒（systemd 的 `TimeoutStopSec`、pm2 的 `kill_timeout`），让进行中的付费调用收尾；被提前杀掉的调用结果不明，要等至少半小时自动放行后才会重试。
 
 开发时用带热更新的方式：`npm run dev:api`、`npm run dev:worker`、`npm run dev:web`。开发时想免登录进后台，在 `.env` 里设 `DEV_AUTH_ROLE=admin`（生产环境会拒绝启动）。
+
+## 升学用户来源版升级（2026-10-17）
+
+应用0079迁移，先停止专用升学worker并备份数据库。新`admission.import`取代旧`admission.refresh`队列；用pg-boss `deleteQueue("admission.refresh")`清理旧任务及执行记录。此操作删除旧队列状态，不删除公告、材料、费用、审计或历史官方入口；备份保留可恢复。原每分钟cron改调度用户提交来源，不重新启用固定39校采集。API/Web只写任务及读公开结果，采集／模型阀继续关闭；专用worker仍受原5元累计上限。部署和回退详见[升学预览](admission-preview.md)。
+
+## 保研Agent待部署更新（2026-10-19）
+
+新增0080／0081目标与步骤表，增加`admission.agent`及每分钟调度，保留原用户来源队列。此版本尚未部署。升级先停止专用升学worker、备份、迁移和构建，再切换应用；不新增环境变量，不重置原累计5元批次。回退先停新worker，切回旧release，新表与队列数据保留且不执行，避免丢失用户目标。实际行为、验证与边界见[保研Agent工作流](admission-agent-workflow.md)。

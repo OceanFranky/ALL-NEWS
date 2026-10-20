@@ -1,0 +1,328 @@
+[
+  {
+    "schoolId": "s001",
+    "urls": [
+      "https://admission.pku.edu.cn/zsxx/sszs/index.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s002",
+    "urls": [
+      "https://yz.tsinghua.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s003",
+    "urls": [
+      "https://pgs.ruc.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s004",
+    "urls": [
+      "https://yzb.buaa.edu.cn/",
+      "https://yzb.buaa.edu.cn/xlss.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s005",
+    "urls": [
+      "https://grd.bit.edu.cn/zsgz/ssyjs/tzgg_ss/index.htm",
+      "https://grd.bit.edu.cn/zsgz/ssyjs/gzzd_ss/6b1d8fd351f842058342d4d25e9c04cb.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s006",
+    "urls": [
+      "https://yz.cau.edu.cn/",
+      "https://cab.cau.edu.cn/art/2026/7/16/art_48176_1122696.html",
+      "https://yz.cau.edu.cn/col/col41740/index.html",
+      "https://yz.cau.edu.cn/art/2026/10/8/art_41740_1139718.html"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s007",
+    "urls": [
+      "https://yz.bnu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s008",
+    "urls": [
+      "https://grs.muc.edu.cn/yjsyzsw/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s027",
+    "urls": [
+      "https://yzb.nankai.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s028",
+    "urls": [
+      "https://yzb.tju.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s033",
+    "urls": [
+      "https://gs.dlut.edu.cn/yjszs.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s034",
+    "urls": [
+      "https://yz.neu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s037",
+    "urls": [
+      "https://yzb.jlu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s040",
+    "urls": [
+      "https://yzb.hit.edu.cn/",
+      "https://yzb.hit.edu.cn/22281/list.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s044",
+    "urls": [
+      "https://gsao.fudan.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s045",
+    "urls": [
+      "https://yzb.sjtu.edu.cn/",
+      "https://yzb.sjtu.edu.cn/post/3775"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s046",
+    "urls": [
+      "https://yz.tongji.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s047",
+    "urls": [
+      "https://yjszs.ecnu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s054",
+    "urls": [
+      "https://yzb.nju.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s055",
+    "urls": [
+      "https://yzb.seu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s065",
+    "urls": [
+      "http://www.grs.zju.edu.cn/yjszs/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s066",
+    "urls": [
+      "https://yz.ustc.edu.cn/",
+      "https://yz.ustc.edu.cn/column/202?sourceType=0&navigationId=148&num=1"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s069",
+    "urls": [
+      "https://zs.xmu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s072",
+    "urls": [
+      "https://www.yz.sdu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s073",
+    "urls": [
+      "https://yz.ouc.edu.cn/",
+      "https://yz.ouc.edu.cn/tzgg/list.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s076",
+    "urls": [
+      "https://wdyz.whu.edu.cn/",
+      "https://gs.whu.edu.cn/zsgz/sszs/a2027n.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s077",
+    "urls": [
+      "https://gszs.hust.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s083",
+    "urls": [
+      "https://yjszs.nudt.edu.cn/index/new-index.view",
+      "https://yjszs.nudt.edu.cn/pubweb/homePageList/newRecruitStudents.view?keyId=8"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s084",
+    "urls": [
+      "https://yz.csu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s085",
+    "urls": [
+      "https://gra.hnu.edu.cn/",
+      "https://gra.hnu.edu.cn/info/1075/10560.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s087",
+    "urls": [
+      "https://graduate.sysu.edu.cn/zsw/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s088",
+    "urls": [
+      "https://yz.scut.edu.cn/sszs/list.htm"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s093",
+    "urls": [
+      "https://yz.cqu.edu.cn/",
+      "https://yz.cqu.edu.cn/sszyml/2027/index.html"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s095",
+    "urls": [
+      "https://yz.scu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s096",
+    "urls": [
+      "https://yz.uestc.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s103",
+    "urls": [
+      "https://yz.xjtu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s104",
+    "urls": [
+      "https://yzb.nwpu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s105",
+    "urls": [
+      "https://yz.nwafu.edu.cn/"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  },
+  {
+    "schoolId": "s111",
+    "urls": [
+      "https://yz.lzu.edu.cn/",
+      "https://ms.lzu.edu.cn/zsxx2"
+    ],
+    "intervalMinutes": 60,
+    "maxNewDocuments": 2
+  }
+]

@@ -1,0 +1,25 @@
+[Unit]
+Description=ALL-NEWS preview web
+After=network.target all-news-api.service
+
+[Service]
+User=allnews
+Group=allnews
+WorkingDirectory=/opt/all-news/current
+Environment=NODE_ENV=production
+Environment=API_BASE_URL=http://127.0.0.1:3101
+Environment=SITE_URL=http://1.92.71.135:8080
+Environment=WEB_HOST=127.0.0.1
+Environment=WEB_PORT=3100
+Environment=TRUST_PROXY=true
+ExecStart=/opt/node/bin/node apps/web/server.ts
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

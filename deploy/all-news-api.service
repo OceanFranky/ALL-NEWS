@@ -1,0 +1,22 @@
+[Unit]
+Description=ALL-NEWS preview API
+After=network.target postgresql.service
+
+[Service]
+User=allnews
+Group=allnews
+WorkingDirectory=/opt/all-news/current
+EnvironmentFile=/opt/all-news/shared/preview.env
+Environment=PATH=/opt/node/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+ExecStart=/opt/node/bin/node apps/api/src/main.ts
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/all-news/shared/data
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

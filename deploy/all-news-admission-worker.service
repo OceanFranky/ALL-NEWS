@@ -1,0 +1,24 @@
+[Unit]
+Description=ALL-NEWS admissions source and extraction worker
+After=network.target postgresql.service
+
+[Service]
+User=allnews
+Group=allnews
+WorkingDirectory=/opt/all-news/current
+EnvironmentFile=/opt/all-news/shared/preview.env
+Environment=PATH=/opt/node/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+# preview.env keeps API valves closed; override only for this dedicated worker.
+ExecStart=/usr/bin/env COLLECT_ENABLED=true MODEL_CALLS_ENABLED=true ADMISSION_AUTOMATION_ENABLED=true /opt/node/bin/node scripts/admission-worker.ts
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=210
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/all-news/shared/data
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

@@ -6,7 +6,8 @@
   "dependencies": {
     "@aihot/world-news": "*",
     "@aihot/competition": "*",
-    "@aihot/learning-resources": "*"
+    "@aihot/learning-resources": "*",
+    "@aihot/admission": "*"
   },
   "exports": {
     ".": "./site.ts",

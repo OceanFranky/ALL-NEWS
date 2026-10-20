@@ -58,7 +58,7 @@ test("world and competition navigation coexist with industry navigation and inde
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${web.origin}/world/timeline`);
     const navigation = page.getByRole("navigation", { name: "底部导航" });
-    await expect(navigation.getByRole("link")).toHaveCount(4);
+    await expect(navigation.getByRole("link")).toHaveCount(5);
     const boxes = await navigation.getByRole("link").evaluateAll(elements => elements.map(element => { const rect = element.getBoundingClientRect(); return { top: rect.top, left: rect.left, right: rect.right }; }));
     assert.ok(boxes.every(box => Math.abs(box.top - boxes[0].top) < 1 && box.left >= 0 && box.right <= 391));
     await navigation.getByRole("link", { name: "竞赛", exact: true }).click();
