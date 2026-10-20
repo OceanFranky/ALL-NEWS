@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS admission_directory (school_id text NOT NULL REFERENCES admission_sources(school_id), url text NOT NULL, title text NOT NULL, kind text NOT NULL CHECK (kind IN ('department','catalogue','rules-index')), parent_url text NOT NULL, checked_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (school_id,url));

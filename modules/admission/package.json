@@ -1,0 +1,17 @@
+{
+  "name": "@aihot/admission",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./web.tsx": "./web.tsx",
+    "./*": "./*.ts"
+  },
+  "dependencies": {
+    "@aihot/web": "*",
+    "@aihot/api": "*",
+    "@aihot/backend": "*",
+    "@aihot/contracts": "*",
+    "zod": "4.6.5",
+    "cheerio": "1.2.0"
+  }
+}

@@ -29,10 +29,10 @@ test("industry views share one page navigation while world and campus remain con
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(`${web.origin}/`);
       const sidebar = page.locator('nav[aria-label="主导航"]');
-      assert.deepEqual(await sidebar.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "收藏", "Agent 接入", "关于", "更新日志", "反馈"]);
+      assert.deepEqual(await sidebar.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "保研 · 考研", "收藏", "Agent 接入", "关于", "更新日志", "反馈"]);
       assert.equal(await sidebar.getByText("校园", { exact: true }).count(), 0);
       const content = sidebar.locator(":scope > div").first();
-      assert.deepEqual(await content.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "收藏"]);
+      assert.deepEqual(await content.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "保研 · 考研", "收藏"]);
       const navigation = page.getByRole("navigation", { name: "行业信息切换" });
       await expect(navigation.getByRole("link")).toHaveCount(5);
       for (const [label, path] of [["全部 AI 动态", "/all"], ["热点榜", "/hot"], ["AI 日报", "/daily"], ["主题", "/topics"], ["精选", "/"]]) {
@@ -43,7 +43,7 @@ test("industry views share one page navigation while world and campus remain con
         await expect(sidebar.locator('a[href="/"]')).toHaveAttribute("aria-current", "page");
         if (width === 390) {
           const bottom = page.getByRole("navigation", { name: "底部导航" });
-          assert.deepEqual(await bottom.getByRole("link").allTextContents(), ["行业信息", "世界", "竞赛", "我的"]);
+          assert.deepEqual(await bottom.getByRole("link").allTextContents(), ["行业信息", "世界", "竞赛", "升学", "我的"]);
           await expect(bottom.getByRole("link", { name: "行业信息", exact: true })).toHaveAttribute("aria-current", "page");
         }
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
