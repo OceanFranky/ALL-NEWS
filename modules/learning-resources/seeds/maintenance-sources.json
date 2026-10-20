@@ -1,0 +1,653 @@
+{
+  "enabled": false,
+  "competitionAgentEnabled": true,
+  "intervalDays": 1,
+  "maxSources": 5,
+  "maxChecks": 20,
+  "maxCandidates": 10,
+  "maxRequests": 40,
+  "sources": [
+    {
+      "competitionId": "competition-001",
+      "name": "中国大学生服务外包创新创业大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.fwwb.org.cn/",
+        "https://www.fwwb.org.cn/news/show/598"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-002",
+      "name": "“中国软件杯”大学生软件设计大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.cnsoftbei.com/content-1-1250-1.html",
+        "https://www.cnsoftbei.com/content-74-1287-1.html",
+        "https://www.cnsoftbei.com/content-1-1357-1.html",
+        "https://www.cnsoftbei.com/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-003",
+      "name": "ACM-ICPC 国际大学生程序设计竞赛（含区域赛）",
+      "enabled": false,
+      "urls": [
+        "https://icpc.pku.edu.cn/ssxx/index.htm"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-004",
+      "name": "中国高校计算机大赛（大数据挑战赛、团体程序设计天梯赛、移动应用创新赛、网络技术挑战赛）",
+      "enabled": false,
+      "urls": [
+        "https://nercbds.tsinghua.edu.cn/bdc.html",
+        "https://gplt.patest.cn/",
+        "https://www.appcontest.net/",
+        "http://net.c4best.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-005",
+      "name": "“蓝桥杯”全国软件和信息技术专业人才大赛（常规赛事，有省级选拔的）",
+      "enabled": false,
+      "urls": [
+        "https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-006",
+      "name": "全国大学生信息安全竞赛",
+      "enabled": false,
+      "urls": [
+        "http://www.ciscn.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-007",
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "enabled": false,
+      "urls": [
+        "https://www.cmit.cn/wap/index.html"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-008",
+      "name": "百度之星·程序设计大赛",
+      "enabled": false,
+      "urls": [
+        "https://astar.baidu.com/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-009",
+      "name": "全国大学生计算机系统能力大赛",
+      "enabled": false,
+      "urls": [
+        "https://os.xtnl.org.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-010",
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "enabled": false,
+      "urls": [
+        "https://www.isclab.org.cn/",
+        "https://www.isclab.org.cn/feed/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-011",
+      "name": "全球校园人工智能算法精英大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.aicomp.cn/",
+        "https://www.aicomp.cn/feed/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-012",
+      "name": "CCF 大数据和计算智能竞赛",
+      "enabled": false,
+      "urls": [
+        "https://tc.ccf.org.cn/cde50f/xwdt/hdxw/2026-08-10/922056.shtml",
+        "https://www.xir.cn/competition/races/BDCI2026"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-013",
+      "name": "CCF 大学生计算机系统与程序设计竞赛",
+      "enabled": false,
+      "urls": [
+        "https://ccsp.ccf.org.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-014",
+      "name": "国产 CPU 并行应用挑战赛",
+      "enabled": false,
+      "urls": [
+        "https://www.paratera.com/competition.html"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-015",
+      "name": "中国大学生程序设计竞赛",
+      "enabled": false,
+      "urls": [
+        "https://ccpc.io/post/388",
+        "https://ccpc.io/rules",
+        "https://ccpc.io/event",
+        "https://ccpc.io/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-016",
+      "name": "江苏省大学生数字素养与技能大赛",
+      "enabled": false,
+      "urls": [
+        "https://jyt.jiangsu.gov.cn/art/2025/10/27/art_93132_11691595.html",
+        "https://dic.nua.edu.cn/2025/0902/c829a116746/page.htm"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-017",
+      "name": "全国大学生网络安全精英赛",
+      "enabled": false,
+      "urls": [
+        "https://www.nisp.org.cn/NewsDetail/6033708.html",
+        "https://www.nisp.org.cn/NewsDetail/5998288.html",
+        "https://www.nisp.org.cn/wads"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-018",
+      "name": "中国国际大学生创新大赛",
+      "enabled": false,
+      "urls": [
+        "https://hudong.moe.gov.cn/srcsite/A08/s5672/202607/t20260731_1445670.html"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-019",
+      "name": "“挑战杯”全国大学生课外学术科技作品竞赛",
+      "enabled": false,
+      "urls": [
+        "https://www.tiaozhanbei.net/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-020",
+      "name": "“挑战杯”中国大学生创业计划大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.tiaozhanbei.net/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-021",
+      "name": "全国大学生职业规划大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/2025/2025_zt21/zxgz/zyghds/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-022",
+      "name": "全国大学生数学建模竞赛",
+      "enabled": false,
+      "urls": [
+        "https://cumcm.cnki.net/",
+        "https://www.mcm.edu.cn/html_en/node/0de2e3c659c5e64e9a2c7c3dd52e837c.html",
+        "https://www.mcm.edu.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-023",
+      "name": "全国大学生创新创业计划年会展示",
+      "enabled": false,
+      "urls": [
+        "https://www.gjcxcy.cn/Index"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-024",
+      "name": "国际遗传工程机器竞赛（iGEM）",
+      "enabled": false,
+      "urls": [
+        "https://competition.igem.org/registration/overview",
+        "https://competition.igem.org/about/starting-a-team",
+        "https://competition.igem.org/about/calendar",
+        "https://competition.igem.org/deliverables/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-025",
+      "name": "华为 ICT 大赛",
+      "enabled": false,
+      "urls": [
+        "https://www.huawei.com/minisite/ict-competition-2025-2026-global/cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-026",
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "enabled": false,
+      "urls": [
+        "https://www.socchina.net/home?trackType=1"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-027",
+      "name": "美国大学生数学建模竞赛",
+      "enabled": false,
+      "urls": [
+        "https://comap.org/contests/mcm-icm"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-028",
+      "name": "中国大学生计算机设计大赛",
+      "enabled": false,
+      "urls": [
+        "https://jsjds.blcu.edu.cn/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-029",
+      "name": "全国大学生英语竞赛（NECCS）",
+      "enabled": false,
+      "urls": [
+        "https://www.chinaneccs.cn/",
+        "https://neccs.saikr.com/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-030",
+      "name": "全国大学生数学竞赛",
+      "enabled": false,
+      "urls": [
+        "https://www.cms.org.cn/Home/comp/comp_details/id/1449.html"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    },
+    {
+      "competitionId": "competition-031",
+      "name": "CCF CSP 认证",
+      "enabled": false,
+      "urls": [
+        "https://www.cspro.org/"
+      ],
+      "keywords": [
+        "经验",
+        "复盘",
+        "培训",
+        "讲座",
+        "视频",
+        "教程",
+        "备赛",
+        "分享",
+        "workshop",
+        "tutorial"
+      ]
+    }
+  ]
+}

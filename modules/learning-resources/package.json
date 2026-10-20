@@ -1,0 +1,9 @@
+{
+  "name": "@aihot/learning-resources",
+  "private": true,
+  "type": "module",
+  "exports": { "./web.tsx": "./web.tsx", "./*": "./*.ts" },
+  "dependencies": {
+    "@aihot/api": "*", "@aihot/backend": "*", "@aihot/contracts": "*", "@aihot/web": "*", "cheerio": "1.2.0", "zod": "4.6.5"
+  }
+}

@@ -12,8 +12,8 @@ import { addEdition, selectDisplay } from "../modules/competition/backend/displa
 
 test.after(closeDb);
 test("the installed site serves world and competition routes together without publishing one into the other", async () => {
-  assert.deepEqual(MODULES.map(module => module.name), ["world-news", "competition"]);
-  assert.deepEqual(SERVER_MODULES.map(module => module.name), ["world-news", "competition"]);
+  assert.deepEqual(MODULES.map(module => module.name), ["world-news", "competition", "learning-resources"]);
+  assert.deepEqual(SERVER_MODULES.map(module => module.name), ["world-news", "competition", "learning-resources"]);
   installModules(SERVER_MODULES);
   const entry = { id: "competition-001", name: "集成竞赛", schoolLevel: "A2", schoolLevelByScope: [] };
   await saveCatalogue(entry);

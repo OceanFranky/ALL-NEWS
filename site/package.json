@@ -5,13 +5,15 @@
   "sideEffects": false,
   "dependencies": {
     "@aihot/world-news": "*",
-    "@aihot/competition": "*"
+    "@aihot/competition": "*",
+    "@aihot/learning-resources": "*"
   },
   "exports": {
     ".": "./site.ts",
     "./models": "./models.ts",
     "./modules": "./modules/index.ts",
     "./modules/server": "./modules/server.ts",
+    "./modules/competition-resources": "./modules/competition-resources.ts",
     "./modules/web": "./modules/web.ts",
     "./pages/*": "./pages/*",
     "./brand/*": "./brand/*"
