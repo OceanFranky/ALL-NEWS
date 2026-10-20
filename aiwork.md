@@ -4,6 +4,7 @@
 
 ## 2026-10-20
 
+- PR #4合并准备：使用者本次明确授权检查后合入main，替代上一条仅提PR的范围；main仍89ca543、PR业务代码仍8511858，合并树无冲突。原提交1c8d935的远端Docker构建／启动／smoke已通过，本机937后端／65Web／255独立等结果沿用；本提交仅补授权记录，待PR最新远端检查通过后用merge保留作者历史，不删除原分支、不部署或开启服务。
 - `codex/admission-pr-readiness`：按使用者要求核对yeershi两分支，admission-agent 8511858包含admission 333da34，main 89ca543为祖先，合并树无冲突。保留作者分支和3次提交，以独立审查分支提单一PR；类型／构建、937后端／255独立／65Web、30smoke、MCP／迁移／差异通过，报告docs/admission-pr-readiness.md。未调用真实模型／采集／推送或部署，Docker留远端CI；原目录docker-compose.yml未提交改动保留。本次仅获提PR授权，不合并main。
 
 ## 2026-10-19
