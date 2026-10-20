@@ -4,6 +4,7 @@
 
 ## 2026-10-20
 
+- `codex/local-main-preview`追加：使用者要求run升学Agent，确认目标稍后填写。启动独立all-news-main-admission-agent，仅Agent消费／分钟调度两队列，worker开启采集／模型／升学阀，API等原阀及所有推送仍关；官方DeepSeek配置可用，现有5元策略不改。ready／队列注册通过，任务0／尝试4138未增，未代选学校或付费试跑；部署文档追加启停与范围，私有配置不提交。
 - `codex/local-main-preview`：按使用者要求pull并本地部署main 8a9233d，原目录main已同步且compose注释改动保留。备份原库后复制独立all_news_main_preview_20261020，仅副本应用12升学迁移；镜像all-news-local:8a9233d运行本机3000 API／Web，旧容器保留停用，worker及采集／模型／推送全关。592材料／31竞赛／4100回执／4138尝试保留，真实升学0、示例4明确分开；smoke30／MCP和桌面手机14页面200无溢出／pageerror通过，读取无新增回执。docs/local-main-preview.md记录入口／数据／启停回退；只提交部署文档与日志到功能分支，不更新公网或擅自合并main。
 - PR #4已按使用者本次授权合并main，合并提交355a1b9，保留yeershi全部原始历史及分支。最新afddacc的远端Check／Docker两任务均success（运行39392348259），含完整Web／后端／生产smoke／MCP及容器启动；合并前无冲突。仅追加本条结果记录并差异检查后同步功能分支及main；不部署、不启用采集／模型／推送，原目录compose改动保留。
 - PR #4合并准备：使用者本次明确授权检查后合入main，替代上一条仅提PR的范围；main仍89ca543、PR业务代码仍8511858，合并树无冲突。原提交1c8d935的远端Docker构建／启动／smoke已通过，本机937后端／65Web／255独立等结果沿用；本提交仅补授权记录，待PR最新远端检查通过后用merge保留作者历史，不删除原分支、不部署或开启服务。

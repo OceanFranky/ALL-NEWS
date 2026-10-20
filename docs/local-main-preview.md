@@ -34,3 +34,13 @@ docker start aihot-db-1 aihot-integrated-api aihot-integrated-web
 ```
 
 不要用项目原目录普通compose up替代此预览升级：其默认数据库和worker与本次独立预览不同，可能启动未授权处理。本次仅创建预览容器，不改原compose。后续如需真实升学数据，应另确认来源数据库／备份与迁移范围，保留既有费用账本和审核记录。
+
+## 同日追加：按使用者要求启动升学Agent
+
+使用者要求运行Agent，随后明确目标稍后在页面填写。新增`all-news-main-admission-agent`容器，仍使用main镜像和本次独立预览库；仅消费`admission.agent`与每分钟`cron.admission.agent.schedule`，没有安装新闻、竞赛或来源导入消费者。启动命令保存在容器配置中，Docker restart可原样恢复，不依赖临时宿主进程。
+
+仅该worker的采集、升学自动化及模型阀开启；API和其他容器原阀继续关闭，全部推送关闭。模型名称与官方主机检查为deepseek-flash／api.deepseek.com，密钥存在但不输出；继续经过既有回执、新闻共享日上限及升学固定累计5元策略，不改限额或起算点。升学私有环境另存在同备份目录agent-worker.env（0600），不提交Git。
+
+启动后日志确认队列ready，两条队列已注册，目标仍0个、尝试仍4138，没有执行付费任务。用户可从`/admissions/agent`显式创建目标，约一分钟内开始处理；失败、材料不足、待复核及预算暂停均按原界面如实显示，不保证每所院校都能生成结果。本轮未替使用者选择学校或生成虚构目标。
+
+暂停付费与Agent处理：`docker stop -t 240 all-news-main-admission-agent`；恢复原配置：`docker start all-news-main-admission-agent`。需要整体停止或回退网页时，先停止此worker，避免后台继续处理；仅停Web不能停止模型调用。
