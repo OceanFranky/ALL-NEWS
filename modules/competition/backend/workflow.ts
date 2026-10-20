@@ -9,10 +9,13 @@ import { sql } from "@aihot/backend/db";
 import { completeReceipt } from "@aihot/backend/providers/receipts";
 import { CompetitionBudgetExhaustedError } from "./allowance.ts";
 import { repairMaterials } from "./repair.ts";
+import type { CompetitionResourceStage } from "@aihot/contracts/learning-resources";
+import { competitionResourceStage } from "./resource-stage.ts";
 
 export interface WorkflowTools {
   collect: (url: string) => Promise<Material>;
   extract: (entry: CatalogueEntry, materials: Material[], categories: string[], feedback?: ValidationReport) => Promise<{ data: Extracted; receiptId: number | null }>;
+  resources?: CompetitionResourceStage;
 }
 
 // The live worker supplies confirmed official URLs; source discovery is a separate recorded step.
@@ -23,8 +26,8 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
   await saveCatalogue(entry);
   const runId = await startRun(entry.id);
   const selected = tools ?? { collect: collectMaterial, extract: extractMaterials };
+  const materials: Material[] = [];
   try {
-    const materials: Material[] = [];
     const failures: Array<{ url: string; error: string }> = [];
     const attempted = new Set<string>();
     const collect = async (url: string) => {
@@ -119,5 +122,19 @@ export async function ingestCompetition(input: CatalogueEntry, urls: string[], c
     if (error instanceof CompetitionBudgetExhaustedError) await stopRunForBudget(runId, message);
     else await failRun(runId, message);
     throw error;
+  } finally {
+    // Every genuine ingest path (including unchanged or failed details) also checks resources.
+    // Injected test tools must opt in so existing fixtures never make external requests.
+    const resources = tools ? tools.resources : competitionResourceStage();
+    if (resources) {
+      await recordRunReport(runId, { resources: { status: "running" } });
+      let report;
+      try {
+        report = await resources({ competitionId: entry.id, runId, name: entry.name, collectionScope: entry.collectionScope }, materials);
+      } catch {
+        report = { status: "failed", maintenanceRunId: null, reason: "资源阶段异常，竞赛详情结果保留；请检查维护报告及服务日志" };
+      }
+      await recordRunReport(runId, { resources: report });
+    }
   }
 }

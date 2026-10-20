@@ -1,0 +1,3781 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-20",
+  "resources": [
+    {
+      "key": "01_school",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "以赛促学，创享未来 ——第十七届服创大赛参赛指导及经验交流会成功举办-湖南第一师范学院计算机学院网站",
+        "url": "http://itd.hnfnu.edu.cn/info/1348/10073.htm",
+        "author": "湖南第一师范学院计算机学院；智琪童",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2026年分享摘要；团队准备通用方法",
+        "summary": "国赛二等奖选手智琪童分享团队分工、时间规划、材料准备与答辩建议。高校报道摘要，未公开完整讲稿。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-03-27",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-001",
+          "editionId": null,
+          "year": null,
+          "scope": "2026年分享摘要；团队准备通用方法",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "http://itd.hnfnu.edu.cn/info/1348/10073.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "01_e",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "中国大学生服务外包创新创业大赛参赛经历分享",
+        "url": "https://zhuanlan.zhihu.com/p/676508570",
+        "author": null,
+        "platform": "原文网站",
+        "contentType": "retrospective",
+        "topic": "服创参赛经历，具体届次待核实",
+        "summary": "参赛经历文章候选，访问403，未核实全文，不据此生成经验总结。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-001",
+          "editionId": null,
+          "year": null,
+          "scope": "服创参赛经历，具体届次待核实",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://zhuanlan.zhihu.com/p/676508570",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "01_extra",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "2020十一届大学生服务外包大赛分析与经验分享",
+        "url": "https://blog.csdn.net/qq_38604355/article/details/103625214",
+        "author": null,
+        "platform": "CSDN",
+        "contentType": "retrospective",
+        "topic": "2020第十一届历史经验",
+        "summary": "旧届经验文章候选，正文连接失败，暂不发布。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-001",
+          "editionId": null,
+          "year": null,
+          "scope": "2020第十一届历史经验",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://blog.csdn.net/qq_38604355/article/details/103625214",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "01_v",
+      "decision": "draft",
+      "data": {
+        "kind": "video",
+        "title": "大学生服务外包创新创业大赛--第十一届大赛创新创业线上主题分享",
+        "url": "https://www.fwwb.org.cn/activity/show/16",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "第十一届旧届分享",
+        "summary": "官网保留线上主题分享页面，但未提取到可用回放，待人工核验。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "unverified",
+        "publishedDate": "2021-02-19",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-001",
+          "editionId": null,
+          "year": null,
+          "scope": "第十一届旧届分享",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.fwwb.org.cn/activity/show/16",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "02_final",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "第十三届软件杯A6金蝶赛道（国一）参赛总结与经验分享 - 哔哩哔哩",
+        "url": "https://www.bilibili.com/opus/969462410400235542",
+        "author": "Elpaaam",
+        "platform": "哔哩哔哩",
+        "contentType": "retrospective",
+        "topic": "2024第十三届A6金蝶赛道；历史经验",
+        "summary": "A6金蝶赛道选手记录初赛、线下评审、总决赛答辩及项目工具经验。国一为作者自述，未独立查询获奖名单。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-08-25",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-002",
+          "editionId": null,
+          "year": null,
+          "scope": "2024第十三届A6金蝶赛道；历史经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/opus/969462410400235542",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "02_e",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "第十二届中国软件杯参赛总结与经验分享【国一】",
+        "url": "https://www.bilibili.com/read/cv27505905/",
+        "author": null,
+        "platform": "哔哩哔哩",
+        "contentType": "retrospective",
+        "topic": "第十二届软件杯历史经验",
+        "summary": "第十二届参赛经验候选；请求遇验证码，未核实全文。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-002",
+          "editionId": null,
+          "year": null,
+          "scope": "第十二届软件杯历史经验",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/opus/860386325718630440",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "02_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "中国软件杯——龙架构赛题环境部署培训",
+        "url": "https://www.bilibili.com/video/BV19o4y1A7AD/",
+        "author": "龙芯中科",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2023龙架构命题方向；旧环境需核对",
+        "summary": "龙架构赛题环境部署培训；仅依据视频简介确认主题，不代表全部赛题的部署要求。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-06-19",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-002",
+          "editionId": null,
+          "year": null,
+          "scope": "2023龙架构命题方向；旧环境需核对",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av402448556/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "03_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "我的国赛之路——ACM-ICPC国际大学生程序设计竞赛经验分享-人工智能与机器人学院",
+        "url": "https://xkxy.xauat.edu.cn/info/1047/11307.htm",
+        "author": "陈碧辉；西安建筑科技大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "ICPC训练与区域赛；2024经验",
+        "summary": "高校发布陈碧辉的ICPC训练与参赛经验，可参考成长路径及训练安排。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-12-30",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-003",
+          "editionId": null,
+          "year": null,
+          "scope": "ICPC训练与区域赛；2024经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://xkxy.xauat.edu.cn/info/1047/11307.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "03_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2021年ICPC参赛总结 - euphria - 博客园",
+        "url": "https://www.cnblogs.com/jiayou-cdr/p/15590816.html",
+        "author": "euphria",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2021区域赛旧经验；团队沟通",
+        "summary": "个人记录2021年济南、沈阳站参赛，复盘算法储备、读题和队友沟通中的失误。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-11-23",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-003",
+          "editionId": null,
+          "year": null,
+          "scope": "2021区域赛旧经验；团队沟通",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/jiayou-cdr/p/15590816.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "03_training",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2021ACM-ICPC入门培训讲课",
+        "url": "https://www.bilibili.com/video/BV1P34112733/",
+        "author": "好的zech",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2021入门训练；基础算法跨届参考",
+        "summary": "页面注明武汉理工大学新生培训录屏，含贪心、前缀和、数据结构及DFS/BFS等9节入门内容。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-09-18",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-003",
+          "editionId": null,
+          "year": null,
+          "scope": "2021入门训练；基础算法跨届参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1P34112733/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "04_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2019第四届团体程序设计天梯赛CCCC经验、总结（转载）",
+        "url": "https://www.imspm.com/dev/585636.html",
+        "author": null,
+        "platform": "原文网站",
+        "contentType": "retrospective",
+        "topic": "仅团体程序设计天梯赛；2019旧经验",
+        "summary": "2019天梯赛选手感想与L1题分析转载，包含字符串熟练度、心态及时间安排反思。原始作者与原发日期未确认。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-004",
+          "editionId": null,
+          "year": null,
+          "scope": "仅团体程序设计天梯赛；2019旧经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.imspm.com/dev/585636.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "04_mobile",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2024移动应用创新赛线上分享第一场：获奖作品《汉字修复师》背后的故事",
+        "url": "https://www.bilibili.com/video/BV1pr421F7pc/",
+        "author": "CCCC-移动应用创新赛",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "仅移动应用创新赛；2024作品创作经验",
+        "summary": "移动应用创新赛账号发布上海交通大学季婕分享《汉字修复师》的创作经历；仅依据视频简介。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-06-19",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-004",
+          "editionId": null,
+          "year": null,
+          "scope": "仅移动应用创新赛；2024作品创作经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av1405760494/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "04_video",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2026大数据挑战赛：规程讲解与Baseline视频",
+        "url": "https://nercbds.tsinghua.edu.cn/bdc/dssp.html",
+        "author": null,
+        "platform": "高校网站",
+        "contentType": "tutorial",
+        "topic": "仅大数据挑战赛；2026规程与Baseline",
+        "summary": "官网列出竞赛规程讲解、Baseline说明等视频。适合大数据挑战赛具体任务入门，未完整播放。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-004",
+          "editionId": null,
+          "year": null,
+          "scope": "仅大数据挑战赛；2026规程与Baseline",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://nercbds.tsinghua.edu.cn/bdc/dssp.html",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "04_net",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "中国高校计算机大赛——网络技术挑战赛参加分享",
+        "url": "https://blog.csdn.net/kaituozhizzz/article/details/125803827",
+        "author": null,
+        "platform": "CSDN",
+        "contentType": "retrospective",
+        "topic": "仅网络技术挑战赛；具体届次待核实",
+        "summary": "明确指向网络技术挑战赛的参赛分享候选；正文521，未核实内容。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-004",
+          "editionId": null,
+          "year": null,
+          "scope": "仅网络技术挑战赛；具体届次待核实",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://blog.csdn.net/kaituozhizzz/article/details/125803827",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "05_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "蓝桥杯单片机设计与开发：深圳大学曾庆计经验分享",
+        "url": "https://www.saikr.com/a/430115",
+        "author": "曾庆计；赛氪发布",
+        "platform": "赛氪",
+        "contentType": "retrospective",
+        "topic": "仅单片机设计与开发；旧届训练经验",
+        "summary": "单片机方向选手介绍模块练习、限时真题和多模块组合训练。原始参赛届次未确认，文中涉及疫情时期。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-005",
+          "editionId": null,
+          "year": null,
+          "scope": "仅单片机设计与开发；旧届训练经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.saikr.com/a/430115",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "05_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "蓝桥杯单片机设计与开发：井冈山大学李伟经验分享",
+        "url": "https://www.saikr.com/a/430116",
+        "author": "李伟；赛氪发布",
+        "platform": "赛氪",
+        "contentType": "retrospective",
+        "topic": "仅单片机设计与开发；旧届经验",
+        "summary": "单片机方向选手分享备赛学习与练习体会。按原文作为个人经验参考，不视为当前赛规。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-005",
+          "editionId": null,
+          "year": null,
+          "scope": "仅单片机设计与开发；旧届经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.saikr.com/a/430116",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "05_replay",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "18届蓝桥杯备赛公开课回放",
+        "url": "https://www.lanqiao.cn/courses/67554",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "第18届备赛；具体科目以课程章节为准",
+        "summary": "官网课程介绍含大纲解读、备考经验和高频考点，标注免费，页面2026-10-18更新；未登录逐节检查。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-005",
+          "editionId": null,
+          "year": null,
+          "scope": "第18届备赛；具体科目以课程章节为准",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.lanqiao.cn/courses/67554",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "06_writeup",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2024-CISCN-长城杯-威胁检测与网络流量分析-zeroshell-WP - smileleooo - 博客园",
+        "url": "https://www.cnblogs.com/smileleooo/p/18612261",
+        "author": "smileleooo",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2024CISCN/长城杯流量分析；非作品赛",
+        "summary": "个人逐题回顾zeroshell威胁检测与网络流量分析题，包含数据包分析和解题过程。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-12-17",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-006",
+          "editionId": null,
+          "year": null,
+          "scope": "2024CISCN/长城杯流量分析；非作品赛",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/smileleooo/p/18612261",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "06_2026",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "[2026 CCB&ciscn] 半决赛AWDP复盘 - S1nyer - 博客园",
+        "url": "https://www.cnblogs.com/S1nyer/p/19788479",
+        "author": "S1nyer",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2026半决赛AWDP；二进制与比赛策略",
+        "summary": "作者记录2026半决赛AWDP的策略失误和MiniDB等题目分析，适合赛后反思；不将作者判断当作官方题解。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-03-28",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-006",
+          "editionId": null,
+          "year": null,
+          "scope": "2026半决赛AWDP；二进制与比赛策略",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/S1nyer/p/19788479",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "06_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CISCN 2024 reverse 国赛复盘 - harveyX - 博客园",
+        "url": "https://www.cnblogs.com/harveyX/p/18217266",
+        "author": "harveyX",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2024逆向专项历史题解",
+        "summary": "个人复盘2024逆向赛题，明确部分内容仍在学习，可对照其他题解核实。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-006",
+          "editionId": null,
+          "year": null,
+          "scope": "2024逆向专项历史题解",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/harveyX/p/18217266",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "06_2026b",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "19届ciscn复盘 - U005 - 博客园",
+        "url": "https://www.cnblogs.com/alinna/p/19824808",
+        "author": "U005",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "第十九届CISCN；历史技术复现",
+        "summary": "作者复现第十九届题目并记录修复过程，属于个人技术复盘。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-04-06",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-006",
+          "editionId": null,
+          "year": null,
+          "scope": "第十九届CISCN；历史技术复现",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/alinna/p/19824808",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "06_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2024年全国大学生信息安全竞赛暨长城杯铁人三项赛题详解Reverse-dump",
+        "url": "https://www.bilibili.com/video/BV1HskwYXERt/",
+        "author": "武汉网络安全CTF培训",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2024CISCN/长城杯逆向专项旧题",
+        "summary": "第三方培训账号发布Reverse-dump题讲解；依据视频页简介，非主办方课程。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-12-18",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-006",
+          "editionId": null,
+          "year": null,
+          "scope": "2024CISCN/长城杯逆向专项旧题",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1HskwYXERt/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "07_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "环境资讯 | 学院举办全国大学生数字媒体科技作品及创意竞赛备赛经验分享会-市政与环境工程学院",
+        "url": "https://www.sdjzu.edu.cn/szhjgc/info/1036/7761.htm",
+        "author": "宋敏；山东建筑大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2026分享摘要；作品选题与材料准备",
+        "summary": "国三选手宋敏建议结合专业特色选赛道，关注作品创新、实用和完整性。高校报道摘要，不是完整制作过程复盘。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-06-17",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-007",
+          "editionId": null,
+          "year": null,
+          "scope": "2026分享摘要；作品选题与材料准备",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.sdjzu.edu.cn/szhjgc/info/1036/7761.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "07_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "实践基地 | 建筑与艺术学院青承创客实践基地成功举办2025全国大学生数字媒体科技作品及创意竞赛经验分享会-学生工作部（研究生工作部、人民武装部）",
+        "url": "https://student.tyut.edu.cn/info/1294/26163.htm",
+        "author": "太原理工大学；高航、刘子瑜",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2025分享摘要；无完整讲稿或回放",
+        "summary": "太原理工大学报道选手高航、刘子瑜的创作与路演经验交流，摘要涉及构思、前期准备、作品打磨和误区。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-11-24",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-007",
+          "editionId": null,
+          "year": null,
+          "scope": "2025分享摘要；无完整讲稿或回放",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://student.tyut.edu.cn/info/1294/26163.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "08_final",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "百度之星2024总结 - 妖灵梦 - 博客园",
+        "url": "https://www.cnblogs.com/life-of-a-libertine/p/18378497",
+        "author": "妖灵梦",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "程序设计大赛2024决赛；旧题与临场经验",
+        "summary": "作者记录百度之星2024决赛的做题与临场思考，属于个人赛后总结。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-008",
+          "editionId": null,
+          "year": null,
+          "scope": "程序设计大赛2024决赛；旧题与临场经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/life-of-a-libertine/p/18378497",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "08_final2",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2024年百度之星程序设计大赛 - 决赛 游记 - 空気力学の詩 - 博客园",
+        "url": "https://www.cnblogs.com/cjjsb/p/18377806",
+        "author": "空気力学の詩",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "程序设计大赛2024决赛历史游记",
+        "summary": "作者回顾2024年百度之星程序设计决赛经历与题目思考，不与开发者AI赛混用。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-008",
+          "editionId": null,
+          "year": null,
+          "scope": "程序设计大赛2024决赛历史游记",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/cjjsb/p/18377806",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "08_learn",
+      "decision": "draft",
+      "data": {
+        "kind": "video",
+        "title": "百度之星官方学习资料入口",
+        "url": "https://star.baidu.com/#/learning-more?tab=4",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "仅选择程序设计相关条目",
+        "summary": "官网学习页列出“百度之星程序设计大赛入门秘籍”；单条视频和日期未核验，页面另混有AI宣传内容。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-008",
+          "editionId": null,
+          "year": null,
+          "scope": "仅选择程序设计相关条目",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://star.baidu.com/#/learning-more?tab=4",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "09_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2024全国大学生计算机系统能力大赛-OS功能挑战赛道全国总决赛答辩心得、教训 - Gold_stein - 博客园",
+        "url": "https://www.cnblogs.com/smartljy/p/18370758",
+        "author": "Gold_stein",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2024操作系统功能挑战赛；答辩经验",
+        "summary": "OS功能挑战赛选手复盘总决赛答辩，反思准备时间、表达清晰度和评委提问准备。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-08-21",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-009",
+          "editionId": null,
+          "year": null,
+          "scope": "2024操作系统功能挑战赛；答辩经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/smartljy/p/18370758",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "09_e",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "操作系统功能挑战赛赛程总结",
+        "url": "https://zhuanlan.zhihu.com/p/717672688",
+        "author": null,
+        "platform": "原文网站",
+        "contentType": "retrospective",
+        "topic": "2024操作系统赛道",
+        "summary": "操作系统功能挑战赛总结候选，正文访问403，待审核。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-009",
+          "editionId": null,
+          "year": null,
+          "scope": "2024操作系统赛道",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://zhuanlan.zhihu.com/p/717672688",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "09_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2022全国大学生计算机系统能力大赛操作系统设计赛技术交流",
+        "url": "https://www.bilibili.com/video/BV1hd4y1U7TH/",
+        "author": "计算机系统能力大赛",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2022操作系统设计赛技术；旧环境参考",
+        "summary": "赛事同名账号发布操作系统设计赛技术交流；只核验页面介绍，账号官方身份未独立认证。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2022-07-31",
+        "publishedYear": 2022,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-009",
+          "editionId": null,
+          "year": null,
+          "scope": "2022操作系统设计赛技术；旧环境参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1hd4y1U7TH/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "10_full",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "ISCC2025练武pwn题wp - 归海言诺 - 博客园",
+        "url": "https://www.cnblogs.com/resea/p/18861555",
+        "author": "归海言诺",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "ISCC2025练武Pwn专项旧题",
+        "summary": "个人记录ISCC2025练武Pwn题的环境准备与题目分析，适合对应题目赛后学习。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-05-06",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-010",
+          "editionId": null,
+          "year": null,
+          "scope": "ISCC2025练武Pwn专项旧题",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/resea/p/18861555",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "10_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "北京理工大学网络安全俱乐部培训视频5-ISCC简介及知识回顾",
+        "url": "https://www.bilibili.com/video/BV15V411J7VQ/",
+        "author": "BIT-NSC",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2021ISCC简介与基础知识；旧届参考",
+        "summary": "BIT-NSC账号介绍ISCC及安全基础知识；按高校社团名称记录，非主办方认证课程。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-04-18",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-010",
+          "editionId": null,
+          "year": null,
+          "scope": "2021ISCC简介与基础知识；旧届参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV15V411J7VQ/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "11_post",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "2024第六届全球校园人工智能算法精英大赛钢材缺陷检测与分割复盘",
+        "url": "https://blog.csdn.net/feifeikon/article/details/143411779",
+        "author": null,
+        "platform": "CSDN",
+        "contentType": "retrospective",
+        "topic": "2024第六届AIC检测与分割命题",
+        "summary": "钢材表面缺陷检测与分割比赛复盘候选，正文521，未核实方案与奖项。",
+        "summaryBasis": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-011",
+          "editionId": null,
+          "year": null,
+          "scope": "2024第六届AIC检测与分割命题",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://blog.csdn.net/feifeikon/article/details/143411779",
+          "checkedAt": "2026-10-19",
+          "method": "search_only",
+          "note": "2026-10-19检索到标题与链接，正文访问受限，未核实内容与作者身份；保留待审核。"
+        }
+      ]
+    },
+    {
+      "key": "11_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2026AIC视频高光剪辑：官方赛题与视频讲解",
+        "url": "https://www.aicomp.cn/tracks/tracks-6/4267.html",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "2026AIC具体产业命题；非全部赛道",
+        "summary": "组委会赛题页明确给出“视频讲解”网盘外链及代码库，主题为视频大模型高光剪辑。未验证网盘文件及播放权限。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2026-09-01",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-011",
+          "editionId": null,
+          "year": null,
+          "scope": "2026AIC具体产业命题；非全部赛道",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.aicomp.cn/tracks/tracks-6/4267.html",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "12_full",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CCF BDCI社区获奖方案与参赛总结合集",
+        "url": "https://discussion.datafountain.cn/topics/1077",
+        "author": "DataFountain社区及获奖团队",
+        "platform": "DataFountain",
+        "contentType": "retrospective",
+        "topic": "官方平台方案合集；2021及更早旧题",
+        "summary": "BDCI社区汇集获奖方案，能读到金融仿真图查询、新闻情感分析等方案摘要；具体长文从各条目进入。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-012",
+          "editionId": null,
+          "year": null,
+          "scope": "官方平台方案合集；2021及更早旧题",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://discussion.datafountain.cn/topics/1077",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "12_champion",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CCF BDCI2019金融信息负面及主体判定冠军方案与代码",
+        "url": "https://discussion.datafountain.cn/questions/2246",
+        "author": "迁移学习怎么学习队；DataFountain",
+        "platform": "DataFountain",
+        "contentType": "retrospective",
+        "topic": "2019BDCI金融信息文本分析；旧题方案",
+        "summary": "平台收录2019金融信息负面及主体判定冠军方案与代码，可学习具体命题解决思路。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-012",
+          "editionId": null,
+          "year": null,
+          "scope": "2019BDCI金融信息文本分析；旧题方案",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://discussion.datafountain.cn/questions/2246",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "12_sentiment",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "互联网新闻情感分析：线上1—5名方案分享",
+        "url": "https://discussion.datafountain.cn/questions/2231",
+        "author": "DataFountain社区及参赛团队",
+        "platform": "DataFountain",
+        "contentType": "retrospective",
+        "topic": "BDCI旧届新闻情感分析专项；非当前赛题",
+        "summary": "平台汇集新闻情感分析线上前五名团队方案，适合对照不同建模思路。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-012",
+          "editionId": null,
+          "year": null,
+          "scope": "BDCI旧届新闻情感分析专项；非当前赛题",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://discussion.datafountain.cn/questions/2231",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "12_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "【直播回放】CCF-BDCI百度Apollo星火自动驾驶大赛初赛提交培训",
+        "url": "https://www.bilibili.com/video/BV1Ub4y1u7rZ/",
+        "author": "Apollo开发者社区",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2023BDCI百度Apollo具体命题；旧流程参考",
+        "summary": "Apollo开发者社区发布初赛提交培训，适用于当届自动驾驶命题的提交操作。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-11-10",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-012",
+          "editionId": null,
+          "year": null,
+          "scope": "2023BDCI百度Apollo具体命题；旧流程参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1Ub4y1u7rZ/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "12_interview",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "CCF BDCI top1选手谈本科学习、读研、竞赛之路",
+        "url": "https://www.bilibili.com/video/BV1Sv41187Kb/",
+        "author": "重邮云互助学业辅导",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2021访谈；学习与竞赛成长经验",
+        "summary": "高校辅导同名账号发布BDCI选手学习、读研与竞赛经历访谈；奖项为标题自述，未独立核实。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-04-07",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-012",
+          "editionId": null,
+          "year": null,
+          "scope": "2021访谈；学习与竞赛成长经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av247377723/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "13_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CCSP金奖说 | 北京建筑大学朱智睿：CCSP参赛分享 - 经验分享-决赛CCSP - 中国计算机学会",
+        "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/jyfx-jsccsp/2025-11-28/853685.shtml",
+        "author": "朱智睿；CCF",
+        "platform": "CCF官网",
+        "contentType": "retrospective",
+        "topic": "2025CCSP历史参赛经验；非云安全认证",
+        "summary": "CCF官方刊登朱智睿金奖分享，涉及备赛资料、比赛决策与优化题策略。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2025-11-28",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-013",
+          "editionId": null,
+          "year": null,
+          "scope": "2025CCSP历史参赛经验；非云安全认证",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/jyfx-jsccsp/2025-11-28/853685.shtml",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "13_e2",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CCSP冠军说 | 西北工大龚熙尧：CCSP2024冠军经验分享 - 经验分享-决赛CCSP - 中国计算机学会",
+        "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/jyfx-jsccsp/2024-11-18/834401.shtml",
+        "author": "龚熙尧；CCF",
+        "platform": "CCF官网",
+        "contentType": "retrospective",
+        "topic": "2024CCSP历史经验",
+        "summary": "CCF官方刊登龚熙尧CCSP2024冠军经验，供训练和参赛方法参考。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2024-11-18",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-013",
+          "editionId": null,
+          "year": null,
+          "scope": "2024CCSP历史经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/jyfx-jsccsp/2024-11-18/834401.shtml",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "14_tsinghua",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "计算机系学生获得第7届国产CPU并行应用挑战赛特等奖-清华大学计算机科学与技术系",
+        "url": "https://www.cs.tsinghua.edu.cn/info/1088/5655.htm",
+        "author": "清华大学计算机系",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2023第七届CPC技术案例摘要；不与PAC混用",
+        "summary": "清华大学介绍特等奖团队对ROMS的编译、从核、掩盖策略和文件输出优化。属于技术案例摘要，不是完整代码复盘。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-08-30",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-014",
+          "editionId": null,
+          "year": null,
+          "scope": "2023第七届CPC技术案例摘要；不与PAC混用",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cs.tsinghua.edu.cn/info/1088/5655.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "14_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "CPC2023第二期培训：性能分析、优化与调试技术",
+        "url": "https://www.bilibili.com/video/BV12V4y1277u/",
+        "author": "并行科技",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "CPC2023专项技术培训；旧环境",
+        "summary": "并行科技账号发布性能分析、优化与调试技术培训。按2023年神威相关环境学习，当前平台需另核对。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-06-08",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-014",
+          "editionId": null,
+          "year": null,
+          "scope": "CPC2023专项技术培训；旧环境",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av869578164/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "15_post",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CCPC 2021 网络赛复赛 赛后总结 - Object_S - 博客园",
+        "url": "https://www.cnblogs.com/zbsy-wwx/p/15393361.html",
+        "author": "Object_S",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2021CCPC网络赛复赛；旧届经验",
+        "summary": "作者记录CCPC2021网络赛复赛的解题、比赛过程与反思，属于个人历史复盘。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-015",
+          "editionId": null,
+          "year": null,
+          "scope": "2021CCPC网络赛复赛；旧届经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/zbsy-wwx/p/15393361.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "15_training",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "【算法竞赛】南航学长讲算法之ICPC、CCPC专题",
+        "url": "https://www.bilibili.com/video/BV1Xi4y1u7AM/",
+        "author": "模小数",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2020通用算法竞赛学习方法",
+        "summary": "个人账号发布ICPC/CCPC算法竞赛专题，作为入门方向参考，不等于CCPC官方题解。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2020-08-06",
+        "publishedYear": 2020,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-015",
+          "editionId": null,
+          "year": null,
+          "scope": "2020通用算法竞赛学习方法",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av541637121/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "16_final",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "Dozer战队再创辉煌，斩获2025年“领航杯”网络信息安全赛项决赛一等奖-金陵科技学院",
+        "url": "https://www.jit.edu.cn/info/1006/133813.htm",
+        "author": "金陵科技学院网络安全学院",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "仅学生组网络信息安全；缺少具体经验",
+        "summary": "已确认高校本科组Dozer战队参加对应2025网络信息安全赛项；页面主要为获奖报道，不能作为完整经验帖发布。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": "2025-10-29",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-016",
+          "editionId": null,
+          "year": null,
+          "scope": "仅学生组网络信息安全；缺少具体经验",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.jit.edu.cn/info/1006/133813.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "16_extra",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "【CTF-WP】2023年江苏“领航杯”线上选拔赛MISC部分 WP - 汪汪家的碎冰冰 - 博客园",
+        "url": "https://www.cnblogs.com/bing17/p/17969553",
+        "author": "汪汪家的碎冰冰",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2023领航杯；具体参赛组别待核实",
+        "summary": "2023江苏领航杯MISC题解可读，但未确认与名录所指学生赛道的对应关系，暂不发布。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-016",
+          "editionId": null,
+          "year": null,
+          "scope": "2023领航杯；具体参赛组别待核实",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/bing17/p/17969553",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "17_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "大学生网络安全精英赛初赛-笔记3 - Kiritan - 博客园",
+        "url": "https://www.cnblogs.com/anyuyu/p/15229555.html",
+        "author": "Kiritan",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2021初赛基础学习笔记；历史方法参考",
+        "summary": "作者以网络安全精英赛初赛笔记整理攻击、防护和无线网络安全知识。属于2021学习笔记，不是获奖复盘，也不能视为当届题库。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-09-05",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-017",
+          "editionId": null,
+          "year": null,
+          "scope": "2021初赛基础学习笔记；历史方法参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/anyuyu/p/15229555.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "17_extra2",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "大学生网络安全精英赛初赛-笔记2 - Kiritan - 博客园",
+        "url": "https://www.cnblogs.com/anyuyu/p/15227561.html",
+        "author": "Kiritan",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2021初赛基础学习笔记；非官方题解",
+        "summary": "作者整理密码学、身份认证和安全审计等初赛学习知识；不代表现行赛纲。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2021-09-04",
+        "publishedYear": 2021,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-017",
+          "editionId": null,
+          "year": null,
+          "scope": "2021初赛基础学习笔记；非官方题解",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/anyuyu/p/15227561.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "18_share2",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "我校举办中国国际大学生创新大赛经验分享会",
+        "url": "https://www.ldxy.edu.cn/cxcyxy/2025/0924/c313a60469/page.htm",
+        "author": "陇东学院及获奖团队",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2025经验摘要；2026备赛方法参考",
+        "summary": "省金团队分享聚焦细分痛点、用数据与案例论证价值、模拟答辩等建议。高校经验摘要，面向2026备赛。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-09-24",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-018",
+          "editionId": null,
+          "year": null,
+          "scope": "2025经验摘要；2026备赛方法参考",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.ldxy.edu.cn/cxcyxy/2025/0924/c313a60469/page.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "18_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "中国国际大学生创新大赛（2025）重点项目训练营培训讲座（一）20241113_135700",
+        "url": "https://www.bilibili.com/video/BV1y7UTYsEKb/",
+        "author": "xiegangqingn_com",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2025创新大赛旧届项目训练；非官方",
+        "summary": "非官方账号发布2025重点项目训练营讲座；未确认发布者与主办方关系。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-11-13",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-018",
+          "editionId": null,
+          "year": null,
+          "scope": "2025创新大赛旧届项目训练；非官方",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1y7UTYsEKb/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "19_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "经验分享 | “挑战杯”参赛者的经验分享",
+        "url": "https://www.sohu.com/a/218216835_507546",
+        "author": "易保研（搜狐号）",
+        "platform": "原文网站",
+        "contentType": "retrospective",
+        "topic": "2018大挑旧文；规则与答辩说法须核对",
+        "summary": "文章讨论科技发明、社科作品的选题、组队和申报材料。末段答辩规则表述陈旧且有歧义，仅参考方法，不采信其中规则。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2018-01-22",
+        "publishedYear": 2018,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-019",
+          "editionId": null,
+          "year": null,
+          "scope": "2018大挑旧文；规则与答辩说法须核对",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.sohu.com/a/218216835_507546",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "19_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "“挑战杯”课外学术科技作品竞赛-教学辅导",
+        "url": "https://www.bilibili.com/video/BV1St411t7ru/",
+        "author": "创新创业实践",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2019大挑辅导；不替代现行规则",
+        "summary": "非官方账号发布课外学术科技作品竞赛辅导；内容较旧，作为选题与呈现方法参考。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2019-01-23",
+        "publishedYear": 2019,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-019",
+          "editionId": null,
+          "year": null,
+          "scope": "2019大挑辅导；不替代现行规则",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1St411t7ru/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "20_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "我院组织开展“挑战杯”大学生创业计划竞赛经验分享会",
+        "url": "https://www.htu.edu.cn/yyxy/_t2687/2025/1105/c13193a360533/page.htm",
+        "author": "门盈轩；河南师范大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2025小挑经验摘要；不与大挑混用",
+        "summary": "高校报道选手门盈轩关于选题、调研、团队及计划书的建议，为经验摘要。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-11-05",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-020",
+          "editionId": null,
+          "year": null,
+          "scope": "2025小挑经验摘要；不与大挑混用",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.htu.edu.cn/yyxy/_t2687/2025/1105/c13193a360533/page.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "20_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "“ 金奖顶层设计及孵化”挑战杯中国 大学生创业计划竞赛公益训练营0509",
+        "url": "https://www.bilibili.com/video/BV17t5J6dE8Q/",
+        "author": "xiegangqingn_com",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2026小挑项目孵化与呈现；非官方",
+        "summary": "非官方账号发布创业计划竞赛公益训练营录像；仅核验页面介绍，发布者官方身份未证实。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-05-10",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-020",
+          "editionId": null,
+          "year": null,
+          "scope": "2026小挑项目孵化与呈现；非官方",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV17t5J6dE8Q/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "21_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "全国大学生职业规划大赛：首届职规赛国赛选手经验分享！快来抄作业！-西安文理学院经济管理学院",
+        "url": "https://www.xawl.edu.cn/jingguan/info/1558/25061.htm",
+        "author": "徐铭辰；西安文理学院",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "成长赛道；2025发布的首届经验",
+        "summary": "高校发布徐铭辰成长赛道选手访谈，包含生涯定位、行动与展示准备。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-01-17",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-021",
+          "editionId": null,
+          "year": null,
+          "scope": "成长赛道；2025发布的首届经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.xawl.edu.cn/jingguan/info/1558/25061.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "21_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "以赛促成长，蓄力赴新程｜我校成功举办2026年福建省大学生职业生涯规划大赛获奖项目复盘暨国赛经验分享会！",
+        "url": "https://www.fjpit.edu.cn/cxcy/2026/0415/c2050a130014/page.htm",
+        "author": "福建信息职业技术学院",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2026职业规划大赛分享摘要",
+        "summary": "高校介绍2026省赛获奖项目复盘与国赛经验分享。活动报道摘要，不是完整讲座。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-04-15",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-021",
+          "editionId": null,
+          "year": null,
+          "scope": "2026职业规划大赛分享摘要",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.fjpit.edu.cn/cxcy/2026/0415/c2050a130014/page.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "21_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "【直播回放】全国首届大学生职业规划大赛校内赛培训大会",
+        "url": "https://www.bilibili.com/video/BV1Vw411T71o/",
+        "author": "HNCY双创学院",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2023首届职规赛旧培训",
+        "summary": "HNCY双创学院账号发布首届校内赛培训。首届标准可能变化，按方法资料参考。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-11-09",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-021",
+          "editionId": null,
+          "year": null,
+          "scope": "2023首届职规赛旧培训",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1Vw411T71o/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "22_post",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2023年全国大学生数学建模竞赛总结_全国数学建模大赛总结报告-CSDN博客",
+        "url": "https://blog.csdn.net/qq_62904883/article/details/134471067",
+        "author": "无你想你",
+        "platform": "CSDN",
+        "contentType": "retrospective",
+        "topic": "2023国赛历史经验；非美赛",
+        "summary": "作者以国二经历介绍组队、建模手、编程手和论文手的准备与比赛安排。奖项为作者自述，未单独核对名单。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-12-18",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-022",
+          "editionId": null,
+          "year": null,
+          "scope": "2023国赛历史经验；非美赛",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://blog.csdn.net/qq_62904883/article/details/134471067",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "22_lecture",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "回归分析方法与应用问题——北京工业大学薛毅 - 数模慕课微课 - 中国大学生在线",
+        "url": "https://dxs.moe.gov.cn/zx/a/hd_sxjm_smmkwk/230915/1766516.shtml",
+        "author": "薛毅；高等教育出版社",
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "数学建模通用方法；2023大讲堂",
+        "summary": "薛毅教授讲解回归分析方法与应用。页面含视频源，由中国大学生在线及高等教育出版社发布。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2023-09-15",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-022",
+          "editionId": null,
+          "year": null,
+          "scope": "数学建模通用方法；2023大讲堂",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://dxs.moe.gov.cn/zx/a/hd_sxjm_smmkwk/230915/1766516.shtml",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "22_course",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "爱课程|高校数学建模课程中心",
+        "url": "https://cumcm.icourses.cn/",
+        "author": "全国大学生数学建模竞赛组委会、高等教育出版社",
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "国赛相关共建基础课程；跨届方法",
+        "summary": "组委会与高教社共建课程中心，列出数学模型、建模公开课与MOOC；有旧资源，未逐课确认播放权限。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-022",
+          "editionId": null,
+          "year": null,
+          "scope": "国赛相关共建基础课程；跨届方法",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cumcm.icourses.cn/",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "23_e",
+      "decision": "draft",
+      "data": {
+        "kind": "experience",
+        "title": "我校国创项目参加第十七届全国大学生创新年会创新创业项目改革成果展示-成都信息工程大学",
+        "url": "https://www.cuit.edu.cn/info/1003/13489.htm",
+        "author": "成都信息工程大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2024创新年会展示；非一般创业比赛",
+        "summary": "高校创新年会参会报道，未展开选手完整经验，暂作待补线索，不计作已配齐经验。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": "2024-11-11",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-023",
+          "editionId": null,
+          "year": null,
+          "scope": "2024创新年会展示；非一般创业比赛",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cuit.edu.cn/info/1003/13489.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "23_v",
+      "decision": "draft",
+      "data": {
+        "kind": "video",
+        "title": "第十届全国大学生创新创业年会（视频新闻）-大连海事大学新闻网",
+        "url": "https://news.dlmu.edu.cn/info/1416/443917.htm",
+        "author": "大连海事大学",
+        "platform": "高校网站",
+        "contentType": "tutorial",
+        "topic": "2017创新年会新闻；无培训核验",
+        "summary": "2017年高校创新年会新闻视频线索，非教学视频，暂不发布到学习资源区域。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "unverified",
+        "publishedDate": "2017-11-22",
+        "publishedYear": 2017,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-023",
+          "editionId": null,
+          "year": null,
+          "scope": "2017创新年会新闻；无培训核验",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://news.dlmu.edu.cn/info/1416/443917.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "24_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "蝉联iGEM金奖三年，我们为什么行？",
+        "url": "http://news.xjtu.edu.cn/info/1219/127516.htm",
+        "author": "西安交通大学iGEM团队",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2020团队回顾；大学组历史经验",
+        "summary": "西安交通大学团队回顾连续参赛中的科研、实验和协作经历。旧届经验，当前评审标准需另查。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-024",
+          "editionId": null,
+          "year": null,
+          "scope": "2020团队回顾；大学组历史经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "http://news.xjtu.edu.cn/info/1219/127516.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "24_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "指导大学生iGEM大赛经验的分享 —— 生命科学技术学院举办第10期教学沙龙 - 综合新闻 - School of Life Sciences and Biotechnology, SJTU",
+        "url": "https://life.sjtu.edu.cn/En/Data/View/7483",
+        "author": "马钢、韦朝春；上海交通大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2022大学组；软件队与指导方法",
+        "summary": "指导教师马钢、韦朝春分享长期带队及软件队项目流程，涵盖调研、设计、实现和反馈。高校活动中的经验摘要。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2022-11-30",
+        "publishedYear": 2022,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-024",
+          "editionId": null,
+          "year": null,
+          "scope": "2022大学组；软件队与指导方法",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://life.sjtu.edu.cn/En/Data/View/7483",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "24_video",
+      "decision": "draft",
+      "data": {
+        "kind": "video",
+        "title": "iGEM Video Universe",
+        "url": "https://video.igem.org/videos/browse",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "iGEM视频库；具体组别与年份另核对",
+        "summary": "iGEM官方Video Universe视频库入口；本次未完整加载单条列表，暂留后台待核验。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-024",
+          "editionId": null,
+          "year": null,
+          "scope": "iGEM视频库；具体组别与年份另核对",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://video.igem.org/",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "25_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "自我成长，跨越非凡体验：我的ICT大赛经历",
+        "url": "https://www.huawei.com/cn/huaweitech/publication/202501/self-growth-leapfrog-extraordinary-experiences",
+        "author": "周子翔；华为",
+        "platform": "赛事官网",
+        "contentType": "retrospective",
+        "topic": "2019实践赛云赛道历史经验；2025文章",
+        "summary": "华为官方刊登周子翔回忆实践赛云赛道的理论学习、设备实验与团队备赛经历。2025发表，实际参加2019届。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-025",
+          "editionId": null,
+          "year": null,
+          "scope": "2019实践赛云赛道历史经验；2025文章",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.huawei.com/cn/huaweitech/publication/202501/self-growth-leapfrog-extraordinary-experiences",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "25_final",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "学风建设|信工学院举办华为 ICT 大赛备赛与实战经验分享会-景德镇学院信息工程学院",
+        "url": "https://xgxy.jdzu.edu.cn/info/1027/4531.htm",
+        "author": "何强、邱志强、彭国樑；景德镇学院",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "第九届ICT大赛团队经验；2025摘要",
+        "summary": "高校获奖团队分享按技术方向互补组队、原理学习、赛前休息和分工协作。读到具体选手发言。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-06-17",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-025",
+          "editionId": null,
+          "year": null,
+          "scope": "第九届ICT大赛团队经验；2025摘要",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://xgxy.jdzu.edu.cn/info/1027/4531.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "25_learning",
+      "decision": "draft",
+      "data": {
+        "kind": "video",
+        "title": "华为ICT公开课程",
+        "url": "https://e.huawei.com/cn/talent/learning/#/home",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "ICT课程入口；具体赛道待选",
+        "summary": "华为官方文章提供ICT公开课程入口，但具体赛道课程和播放权限未核验，暂留待审核。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "unverified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "temporarily_unreachable",
+        "availabilityReason": "正文受限或对应关系待核实，不计作已核验资源"
+      },
+      "links": [
+        {
+          "competitionId": "competition-025",
+          "editionId": null,
+          "year": null,
+          "scope": "ICT课程入口；具体赛道待选",
+          "reason": "搜索标题对应赛事，须人工核实原文与具体赛道后再审核。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://e.huawei.com/cn/talent/",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "26_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "信息科学与工程学院举办星光科创小讲堂第二期：“嵌入式芯片与系统设计竞赛”经验分享会-学生工作处",
+        "url": "http://xgc.ysu.edu.cn/info/1343/8432.htm",
+        "author": "李晓；燕山大学",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2025嵌赛经验摘要；应用赛道学习方法",
+        "summary": "国二选手李晓介绍硬件、标准库/HAL库学习及作品完整性和创新。高校分享摘要，非完整制作日志。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-10-15",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-026",
+          "editionId": null,
+          "year": null,
+          "scope": "2025嵌赛经验摘要；应用赛道学习方法",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "http://xgc.ysu.edu.cn/info/1343/8432.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "26_video",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2026嵌入式芯片与系统设计竞赛官方培训视频",
+        "url": "https://www.socchina.net/video",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "2026应用赛道；按企业芯片平台选择",
+        "summary": "官方栏目列出2026应用赛道介绍及海思、沁恒、ST等企业平台培训。微信外链未逐条播放。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-026",
+          "editionId": null,
+          "year": null,
+          "scope": "2026应用赛道；按企业芯片平台选择",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.socchina.net/video",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "27_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "数模竞赛经验心得｜亚洲历史上首位蝉联两届美赛O奖的数模天王,2015 MCM/ICM国际大学生数学建模竞赛特等奖（Outstanding Winner）,2014 MCM/ICM国际大学生数学建模竞赛特等奖（Outstanding Winner）,2013 MCM/ICM国际大学生数学建模竞赛一等奖,2013年全国大学生数学建模竞赛一等奖，并入选湖南省2013优秀论文集,2012年全国大学生数学建模竞赛一等奖，并入选湖南省2013优秀论文集-大学生社区-赛氪",
+        "url": "https://www.saikr.com/a/1595",
+        "author": "张胜；赛氪发布",
+        "platform": "赛氪",
+        "contentType": "retrospective",
+        "topic": "2014/2015美赛历史经验；不作当前规则",
+        "summary": "旧届O奖选手回顾入门、组队、赛前准备、时间分配与论文写作。平台作者介绍与正文有差异，奖项身份未另核实。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2015-06-29",
+        "publishedYear": 2015,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-027",
+          "editionId": null,
+          "year": null,
+          "scope": "2014/2015美赛历史经验；不作当前规则",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.saikr.com/a/1595",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "27_extra",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2018年美国大学生数学建模竞赛(MCM/ICM) 比赛心得 - Angel_Kitty - 博客园",
+        "url": "https://www.cnblogs.com/ECJTUACM-873284962/p/8448003.html",
+        "author": "Angel_Kitty",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2018美赛历史参赛经历",
+        "summary": "作者记录2018 MCM/ICM参赛体会和团队协作，旧题方法参考。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-027",
+          "editionId": null,
+          "year": null,
+          "scope": "2018美赛历史参赛经历",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/ECJTUACM-873284962/p/8448003.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "27_extra2",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "AI时代就业指南：数学建模比赛经验总结(MCM/ICM)-腾讯云开发者社区-腾讯云",
+        "url": "https://cloud.tencent.com/developer/article/1107533",
+        "author": "涛哥-AI架构师（平台发布）",
+        "platform": "原文网站",
+        "contentType": "retrospective",
+        "topic": "2018发布的美赛经验；原文旧规则不沿用",
+        "summary": "文章及访谈介绍美赛组队、模拟练习、模型算法准备、论文和时间安排，原始作者身份以文内说明为准。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2018-04-24",
+        "publishedYear": 2018,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-027",
+          "editionId": null,
+          "year": null,
+          "scope": "2018发布的美赛经验；原文旧规则不沿用",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cloud.tencent.com/developer/article/1107533",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "27_video",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "COMAP官方Video Library",
+        "url": "https://comap.org/resources/video-library",
+        "author": null,
+        "platform": "赛事官网",
+        "contentType": "tutorial",
+        "topic": "COMAP建模基础视频；非当届专项讲解",
+        "summary": "COMAP官网提供数学建模视频库与官方频道；并非每条都是MCM/ICM专项课程，部分资源可能需会员。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-027",
+          "editionId": null,
+          "year": null,
+          "scope": "COMAP建模基础视频；非当届专项讲解",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://comap.org/resources/video-library",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "28_full",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2017年全国大学生计算机设计大赛参赛感悟（1）---组队及选题 - 林灬 - 博客园",
+        "url": "https://www.cnblogs.com/jiasonglindeboke/p/7427381.html",
+        "author": "林灬",
+        "platform": "博客园",
+        "contentType": "retrospective",
+        "topic": "2017软件应用与开发方向旧经验",
+        "summary": "作者回顾2017组队及选题，涉及文档、展示视频、市场调研与测试分工。原文奖项比例等为旧届说法，不能沿用。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2017-08-25",
+        "publishedYear": 2017,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-028",
+          "editionId": null,
+          "year": null,
+          "scope": "2017软件应用与开发方向旧经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.cnblogs.com/jiasonglindeboke/p/7427381.html",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "28_video",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2025年（第18届）中国大学生计算机设计大赛大数据主题赛竞赛培训（视频回放）",
+        "url": "https://jsjds.dhu.edu.cn/2025/0311/c20379a359556/page.htm",
+        "author": "中国大学生计算机设计大赛上海决赛区、东华大学",
+        "platform": "高校网站",
+        "contentType": "tutorial",
+        "topic": "仅2025大数据主题赛；外链权限未全部核验",
+        "summary": "上海赛区官网列出2025大数据主题培训，以及国一选手和指导教师经验分享，提供和鲸回放外链。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2025-03-11",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-028",
+          "editionId": null,
+          "year": null,
+          "scope": "仅2025大数据主题赛；外链权限未全部核验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://jsjds.dhu.edu.cn/2025/0311/c20379a359556/page.htm",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "28_v2",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "【国一 | 经验分享】中国大学生计算机设计大赛",
+        "url": "https://www.bilibili.com/video/BV18X4y1U7fy/",
+        "author": "艾い晗",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2022微课作品经验；2023发布，非所有赛道",
+        "summary": "作者分享2022《边塞诗，家国情》微课项目经验；获奖为作者简介自述，未独立查询。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-05-02",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-028",
+          "editionId": null,
+          "year": null,
+          "scope": "2022微课作品经验；2023发布，非所有赛道",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av355703242/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "29_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "全国大学生英语竞赛历届获奖学生经验分享-燕山大学外国语学院",
+        "url": "http://foreign.ysu.edu.cn/info/2178/13930.htm",
+        "author": "燕山大学外国语学院及获奖学生",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "2026发布的历届经验合集；按A/B/C类别选择",
+        "summary": "燕山大学多位A/B/C类获奖学生分享真题、听力、写作、翻译和时间分配方法；2026发布，选手参赛年份不同。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-03-17",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-029",
+          "editionId": null,
+          "year": null,
+          "scope": "2026发布的历届经验合集；按A/B/C类别选择",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "http://foreign.ysu.edu.cn/info/2178/13930.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "29_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "【NECCS】全国大学生英语竞赛备考经验分享（保姆级攻略，含2022年真题解析及各题型复习策略）",
+        "url": "https://www.bilibili.com/video/BV1b24y1E7Fb/",
+        "author": "猫哥SEU",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "NECCS2022题型旧经验；2023发布",
+        "summary": "个人分享备考经验并分析2022真题。2026题型已有变化，应结合官方最新样题使用。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2023-03-21",
+        "publishedYear": 2023,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-029",
+          "editionId": null,
+          "year": null,
+          "scope": "NECCS2022题型旧经验；2023发布",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV1b24y1E7Fb/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "30_share3",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "【朋辈教育】我院举行全国大学生数学竞赛经验分享会",
+        "url": "https://math.hzu.edu.cn/2024/1104/c3153a261389/page.htm",
+        "author": "刘董斌、彭海源；惠州学院",
+        "platform": "高校网站",
+        "contentType": "retrospective",
+        "topic": "数学竞赛备赛方法；2024分享摘要",
+        "summary": "高校选手分享熟题稳分、难题争分及用已有导数知识分析题目的建议。报道摘要，没有完整讲稿。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-11-04",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-030",
+          "editionId": null,
+          "year": null,
+          "scope": "数学竞赛备赛方法；2024分享摘要",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://math.hzu.edu.cn/2024/1104/c3153a261389/page.htm",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "30_v",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "全网最详细！全国大学生数学竞赛非数学类经验交流分享大会！教你如何备战全国大学生数学竞赛！包含全国第六、第七的up主四年竞赛的全部经验，干货满满，确定不来听吗！",
+        "url": "https://www.bilibili.com/video/BV1Xw4m1m7kT/",
+        "author": "周老师带你学数竞",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "仅非数学类；2024历史经验",
+        "summary": "个人发布非数学类竞赛备考交流，标题奖项排名为自述，未独立核验。",
+        "summaryBasis": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2024-04-13",
+        "publishedYear": 2024,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-030",
+          "editionId": null,
+          "year": null,
+          "scope": "仅非数学类；2024历史经验",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/av1103246806/",
+          "checkedAt": "2026-10-19",
+          "method": "video_page",
+          "note": "2026-10-19核对视频页标题、发布账号、日期与简介；未播放、未读取字幕，介绍仅依据页面说明。账号身份未另行认证。"
+        }
+      ]
+    },
+    {
+      "key": "31_e",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CSP高分说 | 华中科技大学武琪峻：我的算法竞赛之旅与CSP备考经验 - 经验分享-初赛CSP - 中国计算机学会",
+        "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/zlfx/2026-05-20/895825.shtml",
+        "author": "武琪峻；CCF",
+        "platform": "CCF官网",
+        "contentType": "retrospective",
+        "topic": "2026专业级CSP备考；不是CSP-J/S",
+        "summary": "CCF官方刊登武琪峻备考经验，包含基础题、大模拟、后两题部分分与训练建议。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2026-05-20",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-031",
+          "editionId": null,
+          "year": null,
+          "scope": "2026专业级CSP备考；不是CSP-J/S",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/zlfx/2026-05-20/895825.shtml",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "31_post",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "CSP满分说 | 中南大学高雨涵：CCF见证我的算法竞赛成长之路 - 经验分享-初赛CSP - 中国计算机学会",
+        "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/zlfx/2025-03-14/839367.shtml",
+        "author": "高雨涵；CCF",
+        "platform": "CCF官网",
+        "contentType": "retrospective",
+        "topic": "2025专业级CSP经验；非CCSP决赛",
+        "summary": "CCF官方刊登高雨涵的算法竞赛成长与CSP经验，适合训练路径参考。",
+        "summaryBasis": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": "2025-03-14",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-031",
+          "editionId": null,
+          "year": null,
+          "scope": "2025专业级CSP经验；非CCSP决赛",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://ccsp.ccf.org.cn/ccsp/bkzq/zlfx/2025-03-14/839367.shtml",
+          "checkedAt": "2026-10-19",
+          "method": "article",
+          "note": "2026-10-19人工读取原页面正文并整理；只保存简短介绍与原文链接，未转载全文。"
+        }
+      ]
+    },
+    {
+      "key": "31_video",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "第27次CCF CSP认证题目精讲",
+        "url": "https://dl.ccf.org.cn/video/videoDetail.html?_ack=1&id=6153811454052352",
+        "author": "张艺缤；CCF",
+        "platform": "CCF官网",
+        "contentType": "tutorial",
+        "topic": "专业级CSP第27次旧题；2022",
+        "summary": "CCF数字图书馆第27次认证题目精讲。页面存在登录/购买控件，未确认免费播放权限。",
+        "summaryBasis": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。",
+        "official": true,
+        "verification": "verified",
+        "publishedDate": null,
+        "publishedYear": null,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-031",
+          "editionId": null,
+          "year": null,
+          "scope": "专业级CSP第27次旧题；2022",
+          "reason": "原文明确对应赛事；旧届仅用于学习方法与历史经验，当届规则需另核对。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://dl.ccf.org.cn/video/videoDetail.html?_ack=1&id=6153811454052352",
+          "checkedAt": "2026-10-19",
+          "method": "official_listing",
+          "note": "2026-10-19核对官网列出的培训/视频及外链；未逐节播放，登录与付费权限未全部核实。"
+        }
+      ]
+    },
+    {
+      "key": "07_data20261020",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2026数媒竞赛数据可视化备赛：长安大学培训摘要",
+        "url": "https://xfjy.chd.edu.cn/info/1044/18796.htm",
+        "author": "长安大学计算机协会",
+        "platform": "高校网站",
+        "contentType": "beginner",
+        "topic": "2026数据可视化方向；高校培训摘要",
+        "summary": "高校报道提炼“小切口、深挖掘”和“用数据讲故事”的选题建议，提及从选题到答辩的时间线。未公开工具清单、完整讲稿或案例制作步骤。",
+        "summaryBasis": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-05-11",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-007",
+          "editionId": null,
+          "year": null,
+          "scope": "2026数据可视化方向；高校培训摘要",
+          "reason": "原文明确对应竞赛；仅作为标注年份的方法与历史作品参考，不表示当届规则或全部赛道均适用。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://xfjy.chd.edu.cn/info/1044/18796.htm",
+          "checkedAt": "2026-10-20",
+          "method": "article",
+          "note": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。"
+        }
+      ]
+    },
+    {
+      "key": "07_topic20261020",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2026数媒竞赛专项选题：地域文化与技术落地的培训摘要",
+        "url": "https://xfjy.chd.edu.cn/info/1044/18660.htm",
+        "author": "长安大学计算机协会",
+        "platform": "高校网站",
+        "contentType": "beginner",
+        "topic": "2026专项赛道选题；方法摘要，不覆盖全部赛道",
+        "summary": "建议按兴趣与技能匹配赛道，将宏观背景与具体地域文化结合，避免主题空泛；报道提及技术落地、测试验证和成果转化。全文是高校培训摘要，未附完整案例或回放。",
+        "summaryBasis": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-04-26",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-007",
+          "editionId": null,
+          "year": null,
+          "scope": "2026专项赛道选题；方法摘要，不覆盖全部赛道",
+          "reason": "原文明确对应竞赛；仅作为标注年份的方法与历史作品参考，不表示当届规则或全部赛道均适用。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://xfjy.chd.edu.cn/info/1044/18660.htm",
+          "checkedAt": "2026-10-20",
+          "method": "article",
+          "note": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。"
+        }
+      ]
+    },
+    {
+      "key": "18_hsu20261020",
+      "decision": "publish",
+      "data": {
+        "kind": "experience",
+        "title": "2026国创赛模拟答辩备赛：黄山学院经验交流摘要",
+        "url": "https://cxcy.hsu.edu.cn/48/17/c3743a215063/page.htm",
+        "author": "黄山学院创新创业教育学院；郑磊",
+        "platform": "高校网站",
+        "contentType": "beginner",
+        "topic": "2026中国国际大学生创新大赛；模拟答辩方法摘要",
+        "summary": "指导教师分享用高频模拟答辩与施压训练提升应变能力，并提出开放实验资源、专家一对一辅导等建议。高校交流报道摘要，未公开完整训练方案或回放。",
+        "summaryBasis": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2026-07-20",
+        "publishedYear": 2026,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-018",
+          "editionId": null,
+          "year": null,
+          "scope": "2026中国国际大学生创新大赛；模拟答辩方法摘要",
+          "reason": "原文明确对应竞赛；仅作为标注年份的方法与历史作品参考，不表示当届规则或全部赛道均适用。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cxcy.hsu.edu.cn/48/17/c3743a215063/page.htm",
+          "checkedAt": "2026-10-20",
+          "method": "article",
+          "note": "2026-10-20读取高校网页正文，介绍仅整理其中明确写出的备赛建议；这是培训报道摘要，未取得完整讲稿或回放。"
+        }
+      ]
+    },
+    {
+      "key": "23_presentation20261020",
+      "decision": "publish",
+      "data": {
+        "kind": "video",
+        "title": "2024全国大学生创新年会：扶光无障碍文娱公益服务组织路演示例",
+        "url": "https://www.bilibili.com/video/BV13hZoYwEGG/",
+        "author": "Team-up（上传账号，机构身份未认证）",
+        "platform": "哔哩哔哩",
+        "contentType": "tutorial",
+        "topic": "2024年会历史项目路演示例；2025发布",
+        "summary": "上传者标注为第十七届全国大学生创新年会辽宁师范大学项目路演，可作为历史展示形式参考；2025年上传。只核对页面信息，未播放，不是完整备赛教程，也未独立认证上传者身份。",
+        "summaryBasis": "2026-10-20核对视频页标题、上传账号、发布日期及页面说明；未播放或读取字幕。作品身份依据上传者标题，未独立认证账号与获奖。",
+        "official": false,
+        "verification": "verified",
+        "publishedDate": "2025-04-04",
+        "publishedYear": 2025,
+        "durationSeconds": null,
+        "coverUrl": null,
+        "coverPermission": null,
+        "availability": "available",
+        "availabilityReason": ""
+      },
+      "links": [
+        {
+          "competitionId": "competition-023",
+          "editionId": null,
+          "year": null,
+          "scope": "2024年会历史项目路演示例；2025发布",
+          "reason": "原文明确对应竞赛；仅作为标注年份的方法与历史作品参考，不表示当届规则或全部赛道均适用。"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.bilibili.com/video/BV13hZoYwEGG/",
+          "checkedAt": "2026-10-20",
+          "method": "video_page",
+          "note": "2026-10-20核对视频页标题、上传账号、发布日期及页面说明；未播放或读取字幕。作品身份依据上传者标题，未独立认证账号与获奖。"
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "competitionId": "competition-001",
+      "note": "经验有2026高校摘要，完整复盘与可用回放仍待补。"
+    },
+    {
+      "competitionId": "competition-002",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-003",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-004",
+      "note": "四子赛分别检查；网络技术分享仍待核验，天梯赛及移动应用经验只有旧届。"
+    },
+    {
+      "competitionId": "competition-005",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-006",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-007",
+      "note": "已有2026数据可视化、专项选题高校摘要；仍缺完整制作教程及官方培训回放。"
+    },
+    {
+      "competitionId": "competition-008",
+      "note": "程序设计赛经验已补，官网混合视频栏目未按专项视频发布。"
+    },
+    {
+      "competitionId": "competition-009",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-010",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-011",
+      "note": "只有官方具体命题讲解，个人复盘受限；不混入机器人及人工智能大赛。"
+    },
+    {
+      "competitionId": "competition-012",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-013",
+      "note": "官方经验较完整，CCSP专项视频未确认，不以CSP精讲代替。"
+    },
+    {
+      "competitionId": "competition-014",
+      "note": "有旧技术培训和高校技术摘要，完整复盘及新届课程仍缺。"
+    },
+    {
+      "competitionId": "competition-015",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-016",
+      "note": "仅指定学生网络信息安全方向；获奖新闻不算经验，旧领航杯题解组别待核实。"
+    },
+    {
+      "competitionId": "competition-017",
+      "note": "仅2021初赛学习笔记；近期复盘及专项视频仍缺。"
+    },
+    {
+      "competitionId": "competition-018",
+      "note": "补入2026模拟答辩高校摘要；仍需近期完整个人复盘，不能把报道摘要当完整教程。"
+    },
+    {
+      "competitionId": "competition-019",
+      "note": "视频与文字均较旧，原文规则有歧义，最新赛规须另查。"
+    },
+    {
+      "competitionId": "competition-020",
+      "note": "有2026视频和2025经验摘要，完整个人复盘仍缺。"
+    },
+    {
+      "competitionId": "competition-021",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-022",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    },
+    {
+      "competitionId": "competition-023",
+      "note": "已补2024项目路演示例（2025上传）；仍缺完整个人经验及专项培训。2026官方准备通知另列，不计作经验帖。"
+    },
+    {
+      "competitionId": "competition-024",
+      "note": "有大学组经验，官方视频库单条列表未完成核验。"
+    },
+    {
+      "competitionId": "competition-025",
+      "note": "有官方历史经验与2025高校分享；已确认回放是活动，专项技术课程尚待选。"
+    },
+    {
+      "competitionId": "competition-026",
+      "note": "2026官方培训可用，文字经验仍以高校摘要为主。"
+    },
+    {
+      "competitionId": "competition-027",
+      "note": "经验较旧，官方基础视频不等于当届专项培训；会员资料不承诺免费。"
+    },
+    {
+      "competitionId": "competition-028",
+      "note": "已补具体赛道经验，不能覆盖所有作品类型。"
+    },
+    {
+      "competitionId": "competition-029",
+      "note": "有2026发布经验合集，视频含2022题型，须结合当届官方样题。"
+    },
+    {
+      "competitionId": "competition-030",
+      "note": "非数学类视频和高校摘要，数学类完整经验仍需补。"
+    },
+    {
+      "competitionId": "competition-031",
+      "note": "已有可核验资源，但不代表每个赛道或当届全覆盖；继续优先补近期完整复盘。"
+    }
+  ]
+}

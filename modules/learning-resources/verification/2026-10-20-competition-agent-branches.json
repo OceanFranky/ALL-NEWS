@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-20",
+  "base": "89ca54386637b96e6453f598794485d0fd08d523",
+  "order": [
+    "R1-resource-management.patch",
+    "R2-competition-resources.patch"
+  ],
+  "appliedWithoutConflict": true,
+  "verifiedSourceFiles": 1060,
+  "resultMatchesR2": true,
+  "normalization": "CRLF/LF only for text",
+  "mainWorktreeChanged": false,
+  "committed": false
+}

@@ -5,5 +5,6 @@ import type { ModuleDeclaration } from "@aihot/contracts/modules";
 import { worldNewsDeclaration } from "@aihot/world-news/module";
 import competition from "@aihot/competition/module";
 import admission from "@aihot/admission/module";
+import learningResources from "@aihot/learning-resources/module";
 
-export const MODULES: readonly ModuleDeclaration[] = [worldNewsDeclaration, competition, admission];
+export const MODULES: readonly ModuleDeclaration[] = [worldNewsDeclaration, competition, admission, learningResources];

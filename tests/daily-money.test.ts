@@ -85,7 +85,7 @@ test("uncovered, unbounded, future-dated policies and unknown prior reservations
 
 test("news worker excludes competition automation without removing its API module", () => {
   assert.deepEqual(WORKER_MODULES.map(module => module.name), ["world-news", "admission"]);
-  assert.deepEqual(SERVER_MODULES.map(module => module.name), ["world-news", "competition", "admission"]);
+  assert.deepEqual(SERVER_MODULES.map(module => module.name), ["world-news", "competition", "admission", "learning-resources"]);
 });
 
 test("successful bounded token usage settles conservatively while unresolved attempts retain full reservation", async () => {

@@ -1,5 +1,7 @@
 # 竞赛 Agent 工作流复用手册
 
+2026-10-20更新：每次 `ingestCompetition` 现在附带视频／经验资源阶段，详情unchanged或失败时也执行，并在 `competition_runs.report.resources` 保存关联维护报告。沿用已存材料真实链接、当前竞赛配置来源和复查上限，不增加模型调用；新资源先入未核验草稿。后台独立开关、停止方法及专用队列worker见[资源维护手册](../learning-resources/MAINTENANCE.md)。本地31项测试为夹具，不代表真实详情／资源全覆盖。
+
 版本V1.0，2026-10-14，分支`codex/competition`。记录实际实现与操作方法，不把人工调查包装成自动能力。目标设计见[流程规划](../../docs/competition-agent-workflow.md)，完成门槛见[验收标准](verification/acceptance.md)。
 
 最新候选库阶段结果见[最终验收报告](verification/2026-10-14-final-ingestion.md)：31项都有候选，31项schema与原文读回通过；以下23:20之前的统计是历史，不代表全部字段齐全或所有来源发现已经全自动。

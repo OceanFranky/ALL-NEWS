@@ -3,5 +3,6 @@ import type { WebModule } from "@aihot/web/modules";
 import { worldNewsWeb } from '../../modules/world-news/web.tsx';
 import competition from "@aihot/competition/web.tsx";
 import admission from "@aihot/admission/web.tsx";
+import learningResources from "@aihot/learning-resources/web.tsx";
 
-export const WEB_MODULES: readonly WebModule[] = [worldNewsWeb, competition, admission];
+export const WEB_MODULES: readonly WebModule[] = [worldNewsWeb, competition, admission, learningResources];

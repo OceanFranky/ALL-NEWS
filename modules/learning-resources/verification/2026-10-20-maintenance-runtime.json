@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-20",
+  "anonymous": 401,
+  "configuredCompetitions": 31,
+  "enabledSources": 0,
+  "scheduled": false,
+  "collection": false,
+  "previewOnly": true,
+  "viewports": [
+    1440,
+    390
+  ],
+  "pageErrors": [],
+  "before": {
+    "resources": 89,
+    "history": 164,
+    "receipts": 0,
+    "competition_runs": 0,
+    "maintenance_runs": 0
+  },
+  "after": {
+    "resources": 89,
+    "history": 164,
+    "receipts": 0,
+    "competition_runs": 0,
+    "maintenance_runs": 0
+  }
+}

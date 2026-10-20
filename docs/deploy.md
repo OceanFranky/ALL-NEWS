@@ -1,5 +1,9 @@
 # 部署
 
+竞赛资源Agent接入：升级时保留完整 `learning-resources` 模块、0071–0074维护迁移、契约及竞赛workspace依赖；执行迁移后再启动新版应用。原竞赛单次／批次CLI会在同一次运行内采集资源候选并记录维护结果。消费已排队竞赛／资源任务可单独运行 `node --env-file=.env modules/competition/scripts/worker.ts`；它不注册每日竞赛自动任务，也不改变新闻worker。模型配置、采集阀及当次预算沿用原约束；本次未启用生产获取。控制与回退见[资源维护](../modules/learning-resources/MAINTENANCE.md)，GitHub交付见[上传说明](competition-resource-agent-upload.md)。回退先关闭后台「竞赛Agent运行时接入资源」并停止专用消费者，再回退应用；保留资源、历史、维护报告与审计，不删数据。
+
+资源管理R1：新增 `learning-resources` 模块及0068／0069／0070三个新表，管理员入口 `/admin/resources`，迁移不导入或发布真实资源。接口、撤回及回退说明见[资源模块](../modules/learning-resources/README.md)，Windows本机环境见[本地开发](local-resource-development.md)。
+
 2026-10-17新增的保研／考研独立预览及操作边界见[升学预览](admission-preview.md)。这是单独数据库和服务，不替换下述历史服务器部署。
 
 本次main迁移到公网服务器的非root部署、数据核对、服务管理与运行限制见[服务器部署记录](server-deployment.md)。该记录不代表已核实第三方公网转载授权。

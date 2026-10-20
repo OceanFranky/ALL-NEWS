@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-20",
+  "maxRequests": 3,
+  "requests": 3,
+  "published": 0,
+  "databaseWrites": false,
+  "modelCalls": 0,
+  "results": [
+    {
+      "url": "https://xfjy.chd.edu.cn/info/1044/18796.htm",
+      "status": 200,
+      "outcome": "page_readable",
+      "note": "页面正文可读；未证明内容质量或视频可播放",
+      "title": "长安大学计算机协会全国大学生数字媒体科技作品及创意竞赛专题培训会 赛道分析与参赛指导——数据可视化顺利举办-长安大学团委新"
+    },
+    {
+      "url": "https://cxcy.hsu.edu.cn/48/17/c3743a215063/page.htm",
+      "status": 200,
+      "outcome": "page_readable",
+      "note": "页面正文可读；未证明内容质量或视频可播放",
+      "title": "创新创业教育学院召开中国国际大学生创新大赛（2026）经验交流会暨备赛工作推进会"
+    },
+    {
+      "url": "https://www.gjcxcy.cn/",
+      "status": 200,
+      "outcome": "page_readable",
+      "note": "页面正文可读；未证明内容质量或视频可播放",
+      "title": "首页 | 全国大学生创新年会"
+    }
+  ]
+}

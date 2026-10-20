@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-20",
+  "rows": [
+    {
+      "status": "draft",
+      "kind": "experience",
+      "n": 9
+    },
+    {
+      "status": "draft",
+      "kind": "video",
+      "n": 5
+    },
+    {
+      "status": "published",
+      "kind": "experience",
+      "n": 48
+    },
+    {
+      "status": "published",
+      "kind": "video",
+      "n": 27
+    }
+  ],
+  "state": {
+    "materials": 0,
+    "revisions": 0,
+    "displays": 0,
+    "runs": 0,
+    "receipts": 0,
+    "history": 164
+  },
+  "firstImport": {
+    "existing": 85,
+    "published": 4
+  },
+  "repeatImport": {
+    "existing": 89,
+    "writes": 0
+  }
+}

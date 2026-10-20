@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import "@aihot/site/modules/competition-resources";
 import { closeDb } from "@aihot/backend/db";
 import { ingestCompetition } from "../backend/workflow.ts";
 import { catalogueEntrySchema } from "../backend/schema.ts";
