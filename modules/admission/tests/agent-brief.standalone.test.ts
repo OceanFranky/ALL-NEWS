@@ -4,16 +4,16 @@ import type { PublicNotice } from "@aihot/contracts/admission";
 import type { AgentGoal } from "@aihot/contracts/admission-agent";
 import { buildAgentBrief } from "../backend/agent-brief.ts";
 import { schoolFromInput } from "../goal-input.ts";
-import { demoNotices } from "../backend/demo.ts";
+import { testNotices } from "./fixtures.ts";
 import { schools } from "../schools.ts";
 
 const goal: AgentGoal = { schoolId: "s002", keywords: ["计算机"], year: 2027, stages: ["pre"], urls: [] };
 const now = new Date("2026-10-19T02:00:00Z");
 const school = schools.find(s => s.id === goal.schoolId)!;
 function notice(id: string, fields: Partial<PublicNotice> = {}): PublicNotice {
-  return { ...demoNotices[0], id, demo: false, version: 1, updatedAt: now.toISOString(), school, status: "unknown",
+  return { ...testNotices[0], id, version: 1, updatedAt: now.toISOString(), school, status: "unknown",
     department: "计算机学院", programme: "计算机科学与技术", opensOn: null, deadline: null,
-    source: { ...demoNotices[0].source, verified: true, url: "https://yz.tsinghua.edu.cn/rules.htm", publishedOn: null }, ...fields };
+    source: { ...testNotices[0].source, verified: true, url: "https://yz.tsinghua.edu.cn/rules.htm", publishedOn: null }, ...fields };
 }
 const brief = (notices: PublicNotice[], input = goal, date = now) => buildAgentBrief(input, school.name, notices, null, "completed", date);
 
@@ -41,8 +41,8 @@ test("Beijing exact deadlines expire at the observed instant; date-only deadline
   assert.equal(report.timeline.find(event => event.noticeId === "date")?.time, null);
   assert.equal(brief([notice("date", { deadline: "2026-10-19" })], goal, new Date("2026-10-19T16:00:00Z")).closed, 1);
 });
-test("unverified, demo, other track and mismatched scopes cannot become requirements", () => {
-  const rows = [notice("demo", { demo: true }), notice("unverified", { source: { ...notice("x").source, verified: false } }),
+test("unverified, other track and mismatched scopes cannot become requirements", () => {
+  const rows = [notice("unverified", { source: { ...notice("x").source, verified: false } }),
     notice("kaoyan", { track: "kaoyan", stage: "prospectus" }), notice("wrong-year", { year: 2026 }), notice("school", { department: "全校（具体范围见原文）" })];
   const report = brief(rows);
   assert.equal(report.state, "empty"); assert.equal(report.items.length, 0); assert.equal(report.references.length, 1);

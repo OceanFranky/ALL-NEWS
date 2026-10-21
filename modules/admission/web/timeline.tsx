@@ -17,7 +17,7 @@ function TimelineFocus({ item }: { item: PublicNotice }) {
     <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2"><div><dt className="text-xs text-ink-3">开始日期</dt><dd className="mt-1 text-ink">{item.opensOn ?? "待确认"}</dd></div><div><dt className="text-xs text-ink-3">截止时间</dt><dd className="mt-1 text-ink"><Deadline item={item} /></dd></div></dl>
     {item.dateNote && <p className="mt-3 break-words text-xs leading-6 text-ink-3">{item.dateNote}</p>}
     <p className="mt-4 text-sm leading-7 text-ink-2">{!item.materials.length ? "材料尚未整理，先查阅该批次原文。" : pending.length ? `下一步核对材料：${pending.slice(0, 2).join("；")}${pending.length > 2 ? `等${pending.length}项` : ""}` : "已勾选当前版本全部材料，提交前请再核对模板与签章。"}</p>
-    <div className="mt-4 flex flex-wrap gap-3"><Link to={`/admissions/${item.id}`} className={buttonClass()}>公告与材料详情 ↗</Link><a href={item.source.url} target="_blank" rel="noopener noreferrer" className={buttonClass()}>{item.demo ? "官方查找入口（非示例依据）" : "核对官方原文"} ↗</a></div>
+    <div className="mt-4 flex flex-wrap gap-3"><Link to={`/admissions/${item.id}`} className={buttonClass()}>公告与材料详情 ↗</Link><a href={item.source.url} target="_blank" rel="noopener noreferrer" className={buttonClass()}>核对官方原文 ↗</a></div>
   </div>;
 }
 

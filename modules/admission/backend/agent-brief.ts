@@ -10,8 +10,7 @@ export function buildAgentBrief(goal: AgentGoal, schoolName: string, notices: Pu
   const today = beijingDate(now);
   const closed = (notice: PublicNotice) => notice.deadline ? notice.deadline < today || notice.deadline === today && !!notice.deadlineTime
     && Date.parse(`${notice.deadline}T${notice.deadlineTime}:00+08:00`) <= now.getTime() : false;
-  const relevant = [...new Map(notices.filter(notice => !notice.demo
-    && (notice.source.verified || notice.source.verification === "machine" && !!notice.source.evidence.trim())
+  const relevant = [...new Map(notices.filter(notice => (notice.source.verified || notice.source.verification === "machine" && !!notice.source.evidence.trim())
     && matchesAgentGoal(notice, goal)).map(notice => [notice.id, notice])).values()];
   const target = relevant.filter(notice => specificAgentMatch(notice, goal));
   const references = relevant.filter(notice => !specificAgentMatch(notice, goal));
