@@ -41,9 +41,9 @@ export const noticeSchema = z.object({
 export type AdmissionNotice = z.infer<typeof noticeSchema>;
 export interface AdmissionSchool { id: string; name: string; province: string; tier: "985" | "211" | "other"; family: string; website: string | null }
 export type NoticeStatus = "upcoming" | "open" | "closed" | "unknown";
-export interface PublicNotice extends AdmissionNotice { id: string; version: number; updatedAt: string; demo: boolean; school: AdmissionSchool; status: NoticeStatus }
+export interface PublicNotice extends AdmissionNotice { id: string; version: number; updatedAt: string; school: AdmissionSchool; status: NoticeStatus }
 export interface NoticeList {
-  items: PublicNotice[]; total: number; page: number; pages: number; dataset: "live" | "demo"; now: string;
+  items: PublicNotice[]; total: number; page: number; pages: number; dataset: "live"; now: string;
   departments: string[]; programmes: string[]; schoolRules: PublicNotice[]; directory: AdmissionDirectoryLink[];
   coverage: { schools: number; entries: number; schools985: number; publishedSchools: number; notices: number };
 }

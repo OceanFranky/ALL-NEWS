@@ -1,9 +1,9 @@
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { readRaw, writeRaw } from "@aihot/web/lib/local-state";
 
 const key = "admission-saved-v1";
 const changed = "admission-local-changed";
-export const validId = (id: unknown): id is string => typeof id === "string" && /^(demo-[1-4]|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(id);
+export const validId = (id: unknown): id is string => typeof id === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 function subscribe(listener: () => void) {
   window.addEventListener("storage", listener);
   window.addEventListener(changed, listener);
@@ -12,11 +12,22 @@ function subscribe(listener: () => void) {
 const snapshot = () => readRaw(key);
 const serverSnapshot = () => null;
 function decode(raw: string | null): string[] | null {
-  try { const value: unknown = JSON.parse(raw ?? "[]"); return Array.isArray(value) && value.every(validId) ? [...new Set(value)] : null; }
+  try { const value: unknown = JSON.parse(raw ?? "[]"); return Array.isArray(value) && value.every(id => validId(id) || typeof id === "string" && /^demo-[1-4]$/.test(id)) ? [...new Set(value.filter(validId))] : null; }
   catch { return null; }
 }
 export function useStars() {
   const raw = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  useEffect(() => {
+    const ids = decode(raw);
+    if (raw && ids && /"demo-[1-4]"/.test(raw) && writeRaw(key, JSON.stringify(ids))) {
+      try {
+        for (const storageKey of Object.keys(localStorage)) {
+          if (/^admission-checklist-v1:demo-[1-4]:\d+$/.test(storageKey)) localStorage.removeItem(storageKey);
+        }
+      } catch { /* Saved notices remain usable when storage cleanup is blocked. */ }
+      window.dispatchEvent(new Event(changed));
+    }
+  }, [raw]);
   return useMemo(() => ({ ids: decode(raw) ?? [], corrupt: decode(raw) === null }), [raw]);
 }
 export function toggleStar(id: string): boolean {

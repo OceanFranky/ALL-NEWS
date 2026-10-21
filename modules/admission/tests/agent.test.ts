@@ -17,7 +17,7 @@ import { readAgents } from "../backend/publication.ts";
 import { emptyAgentState, type AgentState } from "../backend/agent-planner.ts";
 import { admissionCost, reserveAdmission } from "../backend/model.ts";
 import { agentQueue, scheduleAdmissionAgents } from "../jobs.ts";
-import { demoNotices } from "../backend/demo.ts";
+import { testNotices } from "./fixtures.ts";
 import { stub } from "../../../tests/setup.ts";
 import type { Material } from "@aihot/backend/documents/types";
 import type { AgentGoal } from "@aihot/contracts/admission-agent";
@@ -133,7 +133,7 @@ test("queued agent walks faculty, parses attachments, supplements missing requir
     if (materials[0].url.endsWith("form.docx")) return { choices: [{ message: { content: JSON.stringify({ relevant: false, reason: "只是申请表参考附件", notices: [] }) } }], usage: { prompt_tokens: 100, completion_tokens: 50 } };
     const exam = materials[0].url.endsWith("/exam"), final = materials[0].url.endsWith("supplement"), text = exam ? examQuote : final ? finalQuote : quote;
     const material = materials.find(m => m.blocks.some(b => b.text.includes(text)))!, block = material.blocks.find(b => b.text.includes(text))!;
-    const { id: _id, schoolId: _schoolId, resources: _resources, source: _source, ...fields } = demoNotices[0];
+    const { id: _id, schoolId: _schoolId, resources: _resources, source: _source, ...fields } = testNotices[0];
     const notice = { ...fields, title: input.title, department: "计算机学院", programme: "计算机科学与技术", batch: final ? "补充批次" : "预推免批次", stage: "pre", year: 2027,
       summary: changed ? "学院官网文字已修订，具体申请要求以本批次官方通知为准。" : "学院公布了预推免接收要求，请核对对应批次的原文和附件。", opensOn: null, deadline: final ? "2026-09-20" : null, deadlineTime: final ? "17:00" : null,
       dateNote: final ? "以补充批次为准" : "日期另行公布", eligibility: ["优秀应届本科生"], materials: ["成绩单"],

@@ -4,7 +4,7 @@ import { mkdir } from "node:fs/promises";
 import test from "node:test";
 import { chromium, expect } from "@playwright/test";
 import { schools } from "../../../modules/admission/schools.ts";
-import { demoNotices } from "../../../modules/admission/backend/demo.ts";
+import { testNotices } from "../../../modules/admission/tests/fixtures.ts";
 import { startWebServer } from "./web-server.ts";
 import type { PublicNotice } from "@aihot/contracts/admission";
 import type { AgentTask, AgentGoal } from "@aihot/contracts/admission-agent";
@@ -14,7 +14,7 @@ test("brief-first flow submits names or URLs, keeps discovery collapsed, and lin
   let submissions = 0, ready = false;
   let submitted: { source: string; keywords: string[]; track: string; searchWeb: boolean; stages: string[] } | null = null;
   const goal: AgentGoal = { schoolId: school.id, keywords: [], year: 2027, track: "baoyan", stages: ["pre"], urls: [] };
-  const notice: PublicNotice = { ...demoNotices[0], id: "fixture-brief", school, version: 1, demo: false, status: "unknown", updatedAt: "2026-10-19T01:00:00Z", title: "【合成交互测试】计算机学院申请通知", department: "合成测试学院", programme: "合成计算机专业", summary: "【合成材料，非真实招生信息】这里用于验证简报阅读、时间轴联动与官方链接。", dateNote: "合成日期，不可据此申请", source: { ...demoNotices[0].source, verified: true, url: "https://yz.tsinghua.edu.cn/fixture.htm" } };
+  const notice: PublicNotice = { ...testNotices[0], id: "fixture-brief", school, version: 1, status: "unknown", updatedAt: "2026-10-19T01:00:00Z", title: "【合成交互测试】计算机学院申请通知", department: "合成测试学院", programme: "合成计算机专业", summary: "【合成材料，非真实招生信息】这里用于验证简报阅读、时间轴联动与官方链接。", dateNote: "合成日期，不可据此申请", source: { ...testNotices[0].source, verified: true, url: "https://yz.tsinghua.edu.cn/fixture.htm" } };
   const task = (): AgentTask => ({ id, school, goal, status: ready ? "completed" : "awaiting-model", enabled: true, cycle: 1, createdAt: "2026-10-19T00:00:00Z", checkedAt: "2026-10-19T01:00:00Z", nextCheckAt: "2026-10-20T01:00:00Z",
     stats: { pages: 4, candidates: 1, processed: ready ? 1 : 0, remaining: 2, failed: 0 }, gaps: [], notices: ready ? [notice] : [], references: [], changes: [],
     search: { provider: "360搜索", checkedAt: "2026-10-19T01:00:00Z", queries: [], links: [{ title: "合成搜索线索", url: "https://www.cs.tsinghua.edu.cn/new.htm" }] },

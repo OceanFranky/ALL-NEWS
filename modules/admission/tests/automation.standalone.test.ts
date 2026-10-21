@@ -3,7 +3,7 @@ import test from "node:test";
 import { sourceConfigs, listingLinks, htmlMaterial, officialUrl, directoryLinks } from "../backend/sources.ts";
 import { extractionSchema, validateEvidence, alignEvidence } from "../backend/automation-schema.ts";
 import { schools } from "../schools.ts";
-import { demoNotices } from "../backend/demo.ts";
+import { testNotices } from "./fixtures.ts";
 
 test("all 39 historical 985 schools have unique official sources", () => {
   assert.deepEqual(sourceConfigs.map(s => s.schoolId).sort(), schools.filter(s => s.tier === "985").map(s => s.id).sort());
@@ -57,7 +57,7 @@ test("material hashes ignore fetch time but change with revised text or attached
   assert.equal(heading.blocks[0].text, "中国科学技术大学2027年推免生接收办法");
 });
 test("fabricated evidence and missing date support cannot pass publication preparation", () => {
-  const { id: _id, schoolId: _school, source: _source, resources: _resources, ...fields } = demoNotices[0];
+  const { id: _id, schoolId: _school, source: _source, resources: _resources, ...fields } = testNotices[0];
   const quote = "2027年推荐免试硕士招生，报名从2026年9月1日至9月20日17:00。";
   const material = htmlMaterial(`<article>${quote.repeat(5)}</article>`, "https://yz.tsinghua.edu.cn/info/1.htm");
   const notice = { ...fields, opensOn: "2026-09-01", deadline: "2026-09-20", deadlineTime: "17:00", eligibility: [], materials: [], evidence: ["year", "track", "stage", "summary", "opensOn", "deadline", "deadlineTime"].map(field => ({ field, materialId: material.id, blockId: "block-1", quote })) };

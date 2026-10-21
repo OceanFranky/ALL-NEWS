@@ -9,10 +9,11 @@ export const querySchema = z.object({
   department: z.string().trim().max(150).default(""), programme: z.string().trim().max(150).default(""),
   tier: z.enum(["", "985", "211", "other"]).default(""), year: z.preprocess(value => value === "" ? undefined : value, z.coerce.number().int().min(2020).max(2100).optional()),
   status: z.enum(["", "upcoming", "open", "closed", "unknown"]).default(""),
-  dataset: z.enum(["live", "demo"]).default("live"), page: z.coerce.number().int().min(1).max(10000).default(1),
+  // Previously shared dataset URLs now always read the published collection.
+  dataset: z.enum(["live", "demo"]).transform(() => "live" as const).default("live"), page: z.coerce.number().int().min(1).max(10000).default(1),
 }).strict();
 export const idSchema = z.string().uuid();
-export const detailIdSchema = z.union([idSchema, z.string().regex(/^demo-[1-4]$/)]);
+export const detailIdSchema = idSchema;
 export const saveSchema = z.object({ id: idSchema.optional(), expectedVersion: z.number().int().min(1).optional(), notice: noticeSchema, reason: z.string().trim().min(1).max(500) }).strict();
 export const commandSchema = z.object({ expectedVersion: z.number().int().min(1), reason: z.string().trim().min(1).max(500) }).strict();
 
