@@ -1,7 +1,6 @@
 import { sql } from "@aihot/backend/db";
 import type { AdmissionNotice, PublicNotice, NoticeList, AdmissionDirectoryLink, AdmissionImports, AdmissionImport } from "@aihot/contracts/admission";
 import { schools, schoolById } from "../schools.ts";
-import { demoNotices } from "./demo.ts";
 import { detailIdSchema, noticeStatus, querySchema } from "./domain.ts";
 import { importIds } from "./imports.ts";
 import { admissionCost } from "./model.ts";
@@ -13,10 +12,7 @@ import { buildAgentBrief } from "./agent-brief.ts";
 interface PublishedRow { id: string; published: AdmissionNotice; published_version: number; published_at: Date }
 function fromRow(row: PublishedRow, now: Date): PublicNotice {
   return { ...row.published, id: row.id, version: row.published_version, updatedAt: row.published_at.toISOString(),
-    school: schoolById.get(row.published.schoolId)!, status: noticeStatus(row.published, now), demo: false };
-}
-function demos(now: Date): PublicNotice[] {
-  return demoNotices.map(notice => ({ ...notice, version: 1, updatedAt: "2026-10-17T00:00:00Z", school: schoolById.get(notice.schoolId)!, status: noticeStatus(notice, now), demo: true }));
+    school: schoolById.get(row.published.schoolId)!, status: noticeStatus(row.published, now) };
 }
 export async function readSchools() { return schools; }
 export async function readAgents(input: unknown, admin = false): Promise<AgentTasks> {
@@ -46,7 +42,7 @@ export async function readAgents(input: unknown, admin = false): Promise<AgentTa
 export async function readNotices(input: unknown): Promise<NoticeList> {
   const query = querySchema.parse(input);
   const now = new Date();
-  const all = query.dataset === "demo" ? demos(now) : (await sql<PublishedRow[]>`SELECT id, published, published_version, published_at FROM admission_notices WHERE published IS NOT NULL ORDER BY published_at DESC, id`).map(row => fromRow(row, now));
+  const all = (await sql<PublishedRow[]>`SELECT id, published, published_version, published_at FROM admission_notices WHERE published IS NOT NULL ORDER BY published_at DESC, id`).map(row => fromRow(row, now));
   const words = query.q.toLocaleLowerCase().split(/\s+/).filter(Boolean);
   const base = all.filter(item => (!query.track || item.track === query.track) && (!query.stage || item.stage === query.stage)
     && (!query.school || item.schoolId === query.school) && (!query.province || item.school.province === query.province)
@@ -61,7 +57,7 @@ export async function readNotices(input: unknown): Promise<NoticeList> {
   const schoolRules = query.school && (query.department || query.programme) ? all.filter(n => n.schoolId === query.school && n.department === "全校（具体范围见原文）"
     && (query.year ? n.year === query.year : filtered.some(item => item.year === n.year))
     && (query.track ? n.track === query.track : filtered.some(item => item.track === n.track))).slice(0, 12) : [];
-  const directory = query.school && query.dataset === "live" ? (await sql<{ school_id: string; url: string; title: string; kind: AdmissionDirectoryLink["kind"]; parent_url: string; checked_at: Date }[]>`SELECT * FROM admission_directory WHERE school_id=${query.school} ORDER BY kind,title,url LIMIT 300`)
+  const directory = query.school ? (await sql<{ school_id: string; url: string; title: string; kind: AdmissionDirectoryLink["kind"]; parent_url: string; checked_at: Date }[]>`SELECT * FROM admission_directory WHERE school_id=${query.school} ORDER BY kind,title,url LIMIT 300`)
     .map(row => ({ schoolId: row.school_id, url: row.url, title: row.title, kind: row.kind, parentUrl: row.parent_url, checkedAt: row.checked_at.toISOString() })) : [];
   const pages = Math.max(1, Math.ceil(filtered.length / 12));
   const page = Math.min(query.page, pages);
@@ -72,7 +68,6 @@ export async function readNotices(input: unknown): Promise<NoticeList> {
 export async function readNotice(input: unknown): Promise<PublicNotice | null> {
   const id = detailIdSchema.parse(input);
   const now = new Date();
-  if (id.startsWith("demo-")) return demos(now).find(item => item.id === id) ?? null;
   const [row] = await sql<PublishedRow[]>`SELECT id, published, published_version, published_at FROM admission_notices WHERE id = ${id} AND published IS NOT NULL`;
   return row ? fromRow(row, now) : null;
 }

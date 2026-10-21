@@ -4,11 +4,11 @@ import test from "node:test";
 import { chromium, expect } from "@playwright/test";
 import { startWebServer } from "./web-server.ts";
 import { schools } from "../../../modules/admission/schools.ts";
-import { demoNotices } from "../../../modules/admission/backend/demo.ts";
+import { testNotices } from "../../../modules/admission/tests/fixtures.ts";
 import type { AdminNotice, AdmissionNotice } from "@aihot/contracts/admission";
 
 test("admission reading, local preparation and admin form work independently on desktop and phone", async () => {
-  const { id: _id, ...notice } = demoNotices[0];
+  const { id: _id, ...notice } = testNotices[0];
   let record: AdminNotice = { id: "00000000-0000-4000-8000-000000000001", version: 1, draft: notice, published: null, updatedAt: new Date().toISOString() };
   const writes: Array<{ path: string; csrf: string | string[] | undefined; body: { notice?: AdmissionNotice; expectedVersion?: number; reason?: string } }> = [];
   const api = createServer(async (req, res) => {
@@ -32,7 +32,7 @@ test("admission reading, local preparation and admin form work independently on 
       directory: url.searchParams.get("school") ? [{ schoolId: "s002", url: "https://yz.tsinghua.edu.cn/catalogue.pdf", title: "测试专业目录入口", kind: "catalogue", parentUrl: "https://yz.tsinghua.edu.cn/", checkedAt: "2026-10-17T00:00:00Z" }] : [] });
     if (url.pathname === "/api/v1/admissions/daily") return send({ date: url.searchParams.get("date") ?? "2026-10-17", generatedAt: "2026-10-17T00:00:00Z", changes: [], deadlines: [] });
     if (url.pathname === "/api/v1/admissions/monitor") return send({ checkedAt: "2026-10-17T00:00:00Z", schools: schools.filter(s => s.tier === "985").map(school => ({ school, urls: [school.website], status: "pending", checkedAt: null, lastOkAt: null, candidates: 0, documents: {}, notices: 0, baoyan: 0, kaoyan: 0, errors: [] })) });
-    if (url.pathname === "/api/v1/admissions/demo-1") return send({ ...demoNotices[0], version: 1, updatedAt: "2026-10-17T00:00:00Z", demo: true, school: schools.find(s => s.id === notice.schoolId), status: "closed" });
+    if (url.pathname === `/api/v1/admissions/${testNotices[0].id}`) return send({ ...testNotices[0], version: 1, updatedAt: "2026-10-17T00:00:00Z", school: schools.find(s => s.id === notice.schoolId), status: "closed" });
     return send({}, 404);
   });
   const web = await startWebServer(api); const browser = await chromium.launch();
@@ -41,8 +41,9 @@ test("admission reading, local preparation and admin form work independently on 
     page.on("pageerror", error => errors.push(error.message));
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`${web.origin}/admissions/demo-1`);
-      await expect(page.getByText("流程演示 · 非真实招生信息", { exact: true })).toBeVisible();
+      await page.goto(`${web.origin}/admissions/${testNotices[0].id}`);
+      await expect(page.getByRole("heading", { name: notice.title, exact: true })).toBeVisible();
+      await expect(page.getByText("流程演示 · 非真实招生信息", { exact: true })).toHaveCount(0);
       await page.getByRole("checkbox").first().check(); await page.reload();
       await expect(page.getByRole("checkbox").first()).toBeChecked();
       if (width === 1440) await page.getByRole("button", { name: "收藏公告", exact: true }).click();
@@ -52,6 +53,8 @@ test("admission reading, local preparation and admin form work independently on 
       await page.goto(`${web.origin}/admissions/saved`); await expect(page.locator("[data-admission-card]")).toHaveCount(1);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       await page.goto(`${web.origin}/admissions`);
+      await expect(page.getByRole("link", { name: "体验示例", exact: true })).toHaveCount(0);
+      await expect(page.getByRole("link", { name: "添加官网链接", exact: true })).toBeVisible();
       await expect(page.locator('select[name="department"]')).toBeDisabled();
       await page.locator('select[name="school"]').selectOption("s002");
       await expect(page.locator('select[name="department"]')).toBeEnabled();

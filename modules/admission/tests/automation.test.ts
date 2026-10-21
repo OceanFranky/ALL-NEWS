@@ -10,7 +10,7 @@ import { saveNotice, changePublication } from "../backend/store.ts";
 import { readDaily } from "../backend/updates.ts";
 import { readNotice } from "../backend/publication.ts";
 import { htmlMaterial } from "../backend/sources.ts";
-import { demoNotices } from "../backend/demo.ts";
+import { testNotices } from "./fixtures.ts";
 test.after(closeDb);
 test("5 CNY allowance is durable, atomic under contention and retains unknown charges", async () => {
   const results = await Promise.allSettled(Array.from({ length: 7 }, () => reserveAdmission(randomUUID(), 1)));
@@ -23,7 +23,7 @@ test("5 CNY allowance is durable, atomic under contention and retains unknown ch
   assert.equal((await admissionCost()).attempts, 5);
 });
 test("machine publication, revision, manual withdrawal and live digest respect the public version", async () => {
-  const { id: _id, schoolId, source: _source, resources: _res, ...fields } = demoNotices[0];
+  const { id: _id, schoolId, source: _source, resources: _res, ...fields } = testNotices[0];
   const quote = "2027年推荐免试硕士招生通知。具体报名和申请材料要求另行公布，请以学院官方通知为准。";
   const material = htmlMaterial(`<article>${quote.repeat(4)}</article>`, "https://yz.tsinghua.edu.cn/info/1024/test.htm");
   const extraction = { ...fields, opensOn: null, deadline: null, deadlineTime: null, eligibility: [], materials: [], evidence: ["year", "track", "stage", "summary"].map(field => ({ field, materialId: material.id, blockId: "block-1", quote })) };

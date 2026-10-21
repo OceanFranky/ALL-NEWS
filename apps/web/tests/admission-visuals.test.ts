@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import test from "node:test";
 import { chromium, expect } from "@playwright/test";
-import { demoNotices } from "../../../modules/admission/backend/demo.ts";
+import { testNotices } from "../../../modules/admission/tests/fixtures.ts";
 import { schools } from "../../../modules/admission/schools.ts";
 import type { PublicNotice } from "@aihot/contracts/admission";
 import { startWebServer } from "./web-server.ts";
@@ -10,9 +10,9 @@ import { startWebServer } from "./web-server.ts";
 test("real date lanes and per-target material matrix stay truthful, accessible and in sync", async () => {
   const ids = [1, 2, 3].map(n => `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`);
   let version = 1; let writes = 0; let unknown = false;
-  const notices = (): PublicNotice[] => ids.map((id, i) => ({ ...demoNotices[0], id, title: `可视化测试目标${i + 1}`,
-    programme: `测试专业${i + 1}`, department: `测试院系${i + 1}`, demo: false, version, updatedAt: "2026-10-18T00:00:00Z",
-    school: schools.find(s => s.id === demoNotices[0].schoolId)!, status: "unknown",
+  const notices = (): PublicNotice[] => ids.map((id, i) => ({ ...testNotices[0], id, title: `可视化测试目标${i + 1}`,
+    programme: `测试专业${i + 1}`, department: `测试院系${i + 1}`, version, updatedAt: "2026-10-18T00:00:00Z",
+    school: schools.find(s => s.id === testNotices[0].schoolId)!, status: "unknown",
     opensOn: unknown ? null : i === 0 ? "2026-12-30" : null,
     deadline: unknown || i === 2 ? null : "2027-01-02", deadlineTime: i === 0 && !unknown ? "17:00" : null,
     dateNote: "本地假材料，仅作可视化验证。", materials: i === 0 ? ["成绩单", "个人陈述（1000字）"] : i === 1 ? ["成绩单", "个人陈述（2000字）"] : [],

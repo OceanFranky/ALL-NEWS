@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { planOfficialLinks, canonicalAgentUrl, noticeCandidate, specificAgentMatch, noticeGaps, AGENT_LIMITS } from "../backend/agent-planner.ts";
-import { demoNotices } from "../backend/demo.ts";
+import { testNotices } from "./fixtures.ts";
 import type { AgentGoal } from "@aihot/contracts/admission-agent";
 import { alignEvidence, validateScopeEvidence, type ExtractedNotice } from "../backend/automation-schema.ts";
 
@@ -46,13 +46,13 @@ test("observed onclick notices and redirect wrappers work without executing scri
   assert.deepEqual(new Set(links.map(l => new URL(l.url).pathname)), new Set(["/rules.pdf", "/pre"]));
 });
 test("school-wide, different year, stage and other programme notices never count as target requirements", () => {
-  const notice = { ...demoNotices[0], schoolId: goal.schoolId, year: 2027, stage: "pre" as const, department: "计算机学院", programme: "计算机科学与技术" };
+  const notice = { ...testNotices[0], schoolId: goal.schoolId, year: 2027, stage: "pre" as const, department: "计算机学院", programme: "计算机科学与技术" };
   assert.equal(specificAgentMatch(notice, goal), true);
   for (const changed of [{ ...notice, year: 2026 }, { ...notice, stage: "summer" as const }, { ...notice, department: "全校（具体范围见原文）" }, { ...notice, programme: "适用专业见官方目录" }, { ...notice, schoolId: "s001" }]) assert.equal(specificAgentMatch(changed, goal), false);
   assert.ok(noticeGaps([{ ...notice, department: "全校（具体范围见原文）" }], goal)[0].includes("仅作参考"));
 });
 test("concrete faculty, programme and batch names require their own literal source support", () => {
-  const { id: _id, schoolId: _school, source: _source, resources: _resources, ...fields } = demoNotices[0];
+  const { id: _id, schoolId: _school, source: _source, resources: _resources, ...fields } = testNotices[0];
   const notice = { ...fields, department: "计算机学院", programme: "计算机科学与技术", batch: "预推免批次", evidence: ["department", "programme", "batch"].map(field => ({ field, materialId: "m", blockId: "b", quote: "计算机学院计算机科学与技术预推免批次招生。" })) };
   assert.doesNotThrow(() => validateScopeEvidence(notice));
   assert.throws(() => validateScopeEvidence({ ...notice, programme: "软件工程" }), /具体招生范围/);
@@ -62,7 +62,7 @@ test("exam candidates and school-wide scope work with no required programme", ()
   const exam: AgentGoal = { ...goal, keywords: [], track: "kaoyan", stages: ["prospectus"] };
   assert.equal(noticeCandidate("2027年硕士研究生招生简章", "硕士研究生招生办法。".repeat(15), base, exam), true);
   assert.equal(noticeCandidate("2027年博士研究生招生简章", "博士招生办法。".repeat(15), base, exam), false);
-  assert.equal(specificAgentMatch({ ...demoNotices[1], schoolId: goal.schoolId, department: "全校（具体范围见原文）" }, exam), true);
+  assert.equal(specificAgentMatch({ ...testNotices[1], schoolId: goal.schoolId, department: "全校（具体范围见原文）" }, exam), true);
   assert.ok(planOfficialLinks('<a href="/exam.htm">2027年硕士研究生招生简章</a>', base, exam, parent, false).some(link => link.url.endsWith("exam.htm")));
 });
 test("observed admission explanations are candidates but outgoing undergraduate eligibility is excluded", () => {
