@@ -1,0 +1,287 @@
+{
+  "date": "2026-10-17",
+  "scope": "开发工程初版，页面验证使用明确标注的本地夹具，不代表真实内容覆盖",
+  "realExperienceCount": 0,
+  "realVideoCount": 0,
+  "entries": [
+    {
+      "competitionId": "competition-001",
+      "name": "中国大学生服务外包创新创业大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-002",
+      "name": "“中国软件杯”大学生软件设计大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-003",
+      "name": "ACM-ICPC 国际大学生程序设计竞赛（含区域赛）",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-004",
+      "name": "中国高校计算机大赛（大数据挑战赛、团体程序设计天梯赛、移动应用创新赛、网络技术挑战赛）",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-005",
+      "name": "“蓝桥杯”全国软件和信息技术专业人才大赛（常规赛事，有省级选拔的）",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-006",
+      "name": "全国大学生信息安全竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-007",
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-008",
+      "name": "百度之星·程序设计大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-009",
+      "name": "全国大学生计算机系统能力大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-010",
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-011",
+      "name": "全球校园人工智能算法精英大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-012",
+      "name": "CCF 大数据和计算智能竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-013",
+      "name": "CCF 大学生计算机系统与程序设计竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-014",
+      "name": "国产 CPU 并行应用挑战赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-015",
+      "name": "中国大学生程序设计竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-016",
+      "name": "江苏省大学生数字素养与技能大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-017",
+      "name": "全国大学生网络安全精英赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-018",
+      "name": "中国国际大学生创新大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-019",
+      "name": "“挑战杯”全国大学生课外学术科技作品竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-020",
+      "name": "“挑战杯”中国大学生创业计划大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-021",
+      "name": "全国大学生职业规划大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-022",
+      "name": "全国大学生数学建模竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-023",
+      "name": "全国大学生创新创业计划年会展示",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-024",
+      "name": "国际遗传工程机器竞赛（iGEM）",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-025",
+      "name": "华为 ICT 大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-026",
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-027",
+      "name": "美国大学生数学建模竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-028",
+      "name": "中国大学生计算机设计大赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-029",
+      "name": "全国大学生英语竞赛（NECCS）",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-030",
+      "name": "全国大学生数学竞赛",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    },
+    {
+      "competitionId": "competition-031",
+      "name": "CCF CSP 认证",
+      "realExperienceCount": 0,
+      "realVideoCount": 0,
+      "fixtureAreasVerified": true,
+      "realDetailVerified": false,
+      "reason": "未取得原详情数据库；经验／视频来源待确认，尚未人工收录"
+    }
+  ]
+}
