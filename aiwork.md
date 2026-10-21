@@ -4,6 +4,10 @@
 
 ## 2026-10-21
 
+- 用户本次审查后明确批准「新版关于页＋脱敏且验证的共享数据快照」一起提交 main 并推送；关于页与共享快照分开提交，排除原有 compose 修改和三个参赛文件，无公网部署。
+
+- `codex/about-platform`：关于页改为MyHOT认知提升平台，覆盖行业／世界／竞赛／升学，保留信息流视觉，改为汇集→整理→关联→应用示意；新增四板块入口及独立公开统计、可配置行业说明与Agent入口，站点简介同步。世界数量按真实接口pagination.total读取，未知与0区分；本机实测73行业精选／156世界动态／31竞赛届次／159升学公告。类型／构建、后端961/961、最终前端69/69、冒烟30/30及1440／390暗色页面跳转／无溢出／无控制台错误通过；一轮前端曾有无关世界后台弹框超时，完整重跑通过。仅本机API `all-news-main-api-about-platform-20261021`、Web `all-news-main-web-about-platform-v2-20261021`运行，旧容器保留、数据与关闭的采集／模型／推送不变；未提交推送，原compose及三个文档保留。更新说明在docs/deploy.md，截图／交互证据在 `/tmp/myhot-about-verification.json`。
+
 - 用户审查后明确授权提交main并推送origin：四板块Agent接入与隐藏更新日志／反馈入口一并交付；沿用已通过的类型／构建、后端961／前端68及本机MCP／移动端／冒烟验证。提交排除原有compose注释改动和三个参赛文档，保留本机数据与关闭的采集／模型／推送配置；无公网部署。
 
 - `codex/four-section-agent`：四板块Agent接入完成，原7行业工具＋14世界／竞赛／升学工具共21个，竞赛工具含经验帖与视频；`site/agent.ts`统一元数据，站点组合读取既有publication，不启采集／模型；接入页、Markdown指南、llms和OpenAPI同步，RSS如实限定行业。类型／构建、后端961/961、前端68/68及新增发现／OpenAPI专项通过；真实MCP45次读取31竞赛／159升学／48经验＋27视频关联，1440与390尺寸切换无错误／溢出，冒烟30/30。仅本机切换至 `all-news-main-api-platform-agent-20261021`／`all-news-main-web-platform-agent-20261021`，旧容器停止保留、数据不变、采集／模型／推送仍关；测试数据库隔离并停机，未提交／推送／公网。上一任务导航改动及原用户文件原样保留；实现说明 `docs/agent-access.md`，界面证据 `/tmp/all-news-platform-agent-verification.json`。

@@ -1,8 +1,8 @@
-import { Fragment, useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useRef, useState } from "react";
 import { IntentLink } from "../components/ui/IntentLink";
 import { Link, useLoaderData } from "react-router";
 import type { SiteContact, SiteStats } from "@aihot/contracts/site";
-import { ABOUT, POLICY, REPORTS, SITE, subjectAfter } from "@aihot/site";
+import { ABOUT, POLICY, SITE } from "@aihot/site";
 import { apiGet, cachedPage } from "../lib/api.server";
 import { pageReuse } from "../lib/page-reuse";
 import { organizationLd, pageMeta } from "../lib/seo";
@@ -18,11 +18,15 @@ export { pageHeaders as headers } from "../lib/api.server";
 export const { clientLoader, shouldRevalidate } = pageReuse<typeof loader>();
 
 export async function loader({ request }: { request: Request }) {
-  const [contact, stats] = await Promise.all([
+  const [contact, stats, world, competition, admission] = await Promise.all([
     apiGet<SiteContact>("/api/site/contact", { signal: request.signal }).catch(() => null),
     apiGet<SiteStats>("/api/site/stats", { signal: request.signal }).catch(() => null),
+    apiGet<{ pagination: { total: number } }>("/api/v1/world/items?limit=1", { signal: request.signal }).catch(() => null),
+    apiGet<{ total: number }>("/api/v1/competitions?pageSize=1", { signal: request.signal }).catch(() => null),
+    apiGet<{ total: number }>("/api/v1/admissions", { signal: request.signal }).catch(() => null),
   ]);
-  return cachedPage(300, { contact, stats });
+  return cachedPage(300, { contact, counts: { industry: stats?.selected ?? null, world: world?.pagination.total ?? null,
+    competition: competition?.total ?? null, admission: admission?.total ?? null } });
 }
 
 export function meta() {
@@ -49,14 +53,6 @@ function Figure({ n, unit }: { n: number; unit: string }) {
   );
 }
 
-const KIND_ORDER: Array<[string, string]> = [
-  ["x_search", "X"],
-  ["rss", "RSS"],
-  ["web_list", "网页"],
-  ["mp_account", "公众号"],
-  ["json_list", "接口"],
-];
-
 /**
  * The stage columns' rules: one column on phones, two by two from sm, and from lg four in a row whose
  * edges fall on the river's stage boundaries.
@@ -68,47 +64,12 @@ const STAGE_CELL = [
   "border-t sm:border-l sm:pl-6 lg:border-t-0 lg:px-6",
 ];
 
-interface Stage {
-  no: string;
-  title: string;
-  figure: ReactNode;
-  text: string;
-  note: ReactNode;
-}
-
-function stagesOf(stats: SiteStats | null): Stage[] {
-  const kinds = stats ? KIND_ORDER.filter(([k]) => stats.sourceKinds[k]).map(([k, label]) => `${label} ${stats.sourceKinds[k]}`).join(" · ") : null;
-  return [
-    {
-      no: "01",
-      title: "采集",
-      figure: stats && <Figure n={stats.sources} unit="个信源" />,
-      text: ABOUT.steps.collect,
-      note: kinds,
-    },
-    {
-      no: "02",
-      title: "收录",
-      figure: stats && <Figure n={stats.items} unit="条动态" />,
-      text: ABOUT.steps.store,
-      note: stats && <>过去 24 小时收进 {stats.day.collected.toLocaleString("en-US")} 条</>,
-    },
-    {
-      no: "03",
-      title: "精选",
-      figure: stats && <Figure n={stats.selected} unit={REPORTS.metricUnits.selectedCount} />,
-      text: ABOUT.steps.select,
-      note: stats && <>过去 24 小时 {stats.day.selected} 条进了精选</>,
-    },
-    {
-      no: "04",
-      title: "成刊",
-      figure: stats && <Figure n={stats.dailies} unit={REPORTS.metricUnits.reportsCovered} />,
-      text: ABOUT.steps.publish,
-      note: "也可以用 RSS、API、MCP 订阅",
-    },
-  ];
-}
+const PROCESS_STAGES = [
+  { no: "01", title: "汇集", text: ABOUT.steps.collect },
+  { no: "02", title: "整理", text: ABOUT.steps.store },
+  { no: "03", title: "关联", text: ABOUT.steps.select },
+  { no: "04", title: "应用", text: ABOUT.steps.publish },
+];
 
 /** The maker's round avatar before the greeting; it steps aside if the image fails. */
 function MakerFace({ src }: { src: string }) {
@@ -176,35 +137,31 @@ function Maker({ maker, contact }: { maker: NonNullable<typeof ABOUT.maker>; con
   );
 }
 
-/** The latest 精选 under the river's paper; it moves on each time an item reaches the paper. */
-function Latest({ item, className = "" }: { item: SiteStats["latest"][number] | undefined; className?: string }) {
-  if (!item) return null;
+/** The river connects the platform's different reading and planning scenarios. */
+function AreaPreview({ area, className = "" }: { area: (typeof ABOUT.areas)[number]; className?: string }) {
   return (
-    <IntentLink viewTransition to={`/items/${item.id}`} className={`group block ${className}`}>
-      <span className="text-[11px] font-semibold tracking-[0.2em] text-accent">最近精选</span>
-      <span key={item.id} className="animate-fade-up mt-1.5 block">
-        <span className="line-clamp-2 text-[13.5px] font-semibold leading-[1.55] text-ink transition-colors group-hover:text-accent">{item.title}</span>
-        <span className="mt-1 block truncate text-[12px] text-ink-4">{item.source}</span>
+    <IntentLink viewTransition to={area.to} className={`group block ${className}`}>
+      <span className="text-[11px] font-semibold tracking-[0.2em] text-accent">连接认知与行动</span>
+      <span key={area.key} className="animate-fade-up mt-1.5 block">
+        <span className="block text-[15px] font-semibold text-ink transition-colors group-hover:text-accent">{area.name}</span>
+        <span className="mt-1 block text-[12px] leading-[1.7] text-ink-4">{area.text}</span>
       </span>
     </IntentLink>
   );
 }
 
 export default function AboutPage() {
-  const { contact, stats } = useLoaderData<typeof loader>();
+  const { contact, counts } = useLoaderData<typeof loader>();
   const [focus, setFocus] = useState<number | null>(null);
   const [at, setAt] = useState(0);
   const shown = useRef(0);
-  const sources = useMemo(() => stats?.sampleSources ?? NO_SOURCES, [stats]);
-  const stages = useMemo(() => stagesOf(stats), [stats]);
-  const latest = stats?.latest ?? [];
   // A pulse reaches the paper every second or so; the headline under it changes at most every 2.8s.
   const onArrive = useCallback(() => {
     const now = Date.now();
-    if (now - shown.current < 2800 || latest.length < 2) return;
+    if (now - shown.current < 2800) return;
     shown.current = now;
-    setAt((i) => (i + 1) % latest.length);
-  }, [latest.length]);
+    setAt((i) => (i + 1) % ABOUT.areas.length);
+  }, []);
 
   return (
     <div className="mx-auto max-w-[var(--page-max-reading)] pb-14 lg:pt-3">
@@ -218,20 +175,15 @@ export default function AboutPage() {
             <span className="text-accent">{ABOUT.headline[1]}</span>
           </h1>
           <p className="mt-5 max-w-[36em] text-[15.5px] leading-[1.85] text-ink-3 xl:text-[17px]">
-            {ABOUT.lead.split("{sources}").map((part, i) => (
-              <Fragment key={i}>
-                {i > 0 && (stats ? <>{" "}<span className="num font-semibold text-ink">{stats.sources}</span>{" "}</> : ABOUT.sourcesFallback)}
-                {part}
-              </Fragment>
-            ))}
+            {ABOUT.lead}
           </p>
         </div>
         <div className="flex flex-wrap gap-3 lg:pb-2">
-          <IntentLink to="/" className={buttonClass("primary", "lg")}>
-            看今天的精选 <IconArrowRight size={15} />
-          </IntentLink>
-          <IntentLink to="/daily" className={buttonClass("secondary", "lg")}>
-            读最新日报
+          <a href="#platform-sections" className={buttonClass("primary", "lg")}>
+            探索四个板块 <IconArrowRight size={15} />
+          </a>
+          <IntentLink to="/agent" className={buttonClass("secondary", "lg")}>
+            接入我的 Agent
           </IntentLink>
         </div>
       </header>
@@ -240,13 +192,13 @@ export default function AboutPage() {
         <h2 id="how" className="sr-only">
           {`${SITE.name} 怎么工作`}
         </h2>
-        <SignalRiver sources={sources} focus={focus} onArrive={onArrive} className="h-[230px] sm:h-[300px] lg:h-[360px] 2xl:h-[420px]">
-          <Latest item={latest[at]} className="absolute left-[75%] top-[calc(42%+42px)] hidden w-[25%] px-6 lg:block" />
+        <SignalRiver sources={NO_SOURCES} focus={focus} onArrive={onArrive} className="h-[230px] sm:h-[300px] lg:h-[360px] 2xl:h-[420px]">
+          <AreaPreview area={ABOUT.areas[at]} className="absolute left-[75%] top-[calc(42%+42px)] hidden w-[25%] px-4 lg:block" />
         </SignalRiver>
-        <p className="sr-only">{`示意图：每条线是一个信源；线汇成一束束，代表同一件事的多篇报道；经过精选的闸门，只有少数几束通过，${subjectAfter("汇入每天的", "日报")}。`}</p>
-        <Latest item={latest[at]} className="mt-2 border-t border-line pt-4 lg:hidden" />
+        <p className="sr-only">示意图：不同来源的信息经过整理与关联，形成可追溯的阅读资料、主题脉络和行动线索；动效不代表实时采集进度。</p>
+        <AreaPreview area={ABOUT.areas[at]} className="mt-2 border-t border-line pt-4 lg:hidden" />
         <ol className="mt-4 grid grid-cols-1 border-t border-line-strong sm:grid-cols-2 lg:mt-0 lg:grid-cols-4">
-          {stages.map((s, i) => (
+          {PROCESS_STAGES.map((s, i) => (
             <li
               key={s.no}
               tabIndex={0}
@@ -260,12 +212,35 @@ export default function AboutPage() {
                 <span className="num text-[12px] font-bold tracking-[0.12em] text-accent">{s.no}</span>
                 <h3 className="text-[17px] font-bold text-ink">{s.title}</h3>
               </div>
-              {s.figure && <div className="mt-4">{s.figure}</div>}
               <p className="mt-3 text-[14px] leading-[1.8] text-ink-3">{s.text}</p>
-              {s.note && <p className="mt-3 text-[12px] text-ink-4">{s.note}</p>}
             </li>
           ))}
         </ol>
+      </section>
+
+      <section id="platform-sections" aria-labelledby="platform-title" className="mt-16 scroll-mt-6 xl:mt-24">
+        <Kicker>MYHOT · 认知地图</Kicker>
+        <h2 id="platform-title" className="mt-4 text-[26px] font-black tracking-[-0.02em] text-ink sm:text-[34px]">四个板块，拓展你的信息视野</h2>
+        <div className="mt-7 grid gap-4 sm:grid-cols-2">
+          {ABOUT.areas.map(area => <IntentLink key={area.key} to={area.to} className="group card min-w-0 p-5 transition-colors hover:border-accent/40 sm:p-6">
+            <div className="flex items-center justify-between gap-3"><h3 className="text-[19px] font-semibold text-ink">{area.name}</h3><IconArrowRight size={18} className="text-accent transition-transform group-hover:translate-x-1" /></div>
+            <div className="mt-5">{counts[area.key] === null ? <span className="text-[13px] text-ink-4">数量暂未取得</span> : <Figure n={counts[area.key]!} unit={area.unit} />}</div>
+            <p className="mt-4 text-[14px] leading-[1.85] text-ink-3">{area.text}</p>
+          </IntentLink>)}
+        </div>
+        <p className="mt-3 text-[12px] leading-[1.8] text-ink-4">数量对应各板块当前公开内容；比赛与公告的适用年份、截止状态和具体要求，以详情及原文为准。</p>
+      </section>
+
+      <section aria-labelledby="your-industry" className="mt-16 grid gap-8 border-t border-line pt-8 lg:grid-cols-2 lg:gap-12 xl:mt-24">
+        <div>
+          <Kicker>由关注点出发</Kicker>
+          <h2 id="your-industry" className="mt-4 text-[26px] font-black tracking-[-0.02em] text-ink sm:text-[32px]">你的行业，由你定义</h2>
+          <p className="mt-4 text-[15px] leading-[1.9] text-ink-3">MyHOT 的行业信源、分类与提示词可按关注领域配置。当前行业板块以 AI 为示例，也可以围绕其他行业构建自己的信息视野，让关注点决定你看到什么。</p>
+        </div>
+        <div className="space-y-6 lg:pt-1">
+          <div><h3 className="text-[17px] font-semibold text-ink">带着出处理解信息</h3><p className="mt-2 text-[14px] leading-[1.85] text-ink-3">新闻关注事件与多来源脉络，竞赛关注规则与备赛资源，升学关注院校条件和材料证据。保留原文与核验状态，帮助你判断信息是否适合当前目标。</p></div>
+          <div><h3 className="text-[17px] font-semibold text-ink">让信息进入自己的工作流</h3><p className="mt-2 text-[14px] leading-[1.85] text-ink-3">在网页浏览四个板块，也能通过 MCP、API 和 Agent Markdown 查询公开结果，接入自己的助手与工具；行业资讯另支持 RSS 订阅。</p><IntentLink to="/agent" className="mt-3 inline-flex items-center gap-2 text-[14px] font-medium text-accent hover:underline">查看 Agent 接入 <IconArrowRight size={15} /></IntentLink></div>
+        </div>
       </section>
 
       {ABOUT.maker && <Maker maker={ABOUT.maker} contact={contact} />}

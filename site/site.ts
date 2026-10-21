@@ -35,7 +35,7 @@ export const SITE = {
   /** 反馈表单邮箱框里的提示。 */
   feedbackEmailHint: "留下邮箱，我们可以回信联系你",
   /** 一句话介绍：搜索引擎、分享卡片、RSS、llms.txt 会用。 */
-  description: `从一批 AI 信源里挑出值得看的动态，把同一件事的多篇报道归到一起，${EDITION_WHEN.daily} 出一份日报。`,
+  description: "MyHOT 是面向学习与成长的认知提升平台，连接行业信息、世界新闻、大学生竞赛与保研考研，让有出处的信息成为理解变化与规划行动的依据。",
   /** llms.txt 里一句话介绍下面的一段详细介绍（选填）。 */
   llmsIntro: null as string | null,
   /** 一行小字：分享图、海报下方。 */
@@ -128,23 +128,27 @@ interface ContactCard {
   alias?: string;
 }
 
-/** 关于页的文案。数字（信源数、收录数、精选数、日报期数）来自站内实时统计，不用写在这里。 */
+/** 关于页的文案。各板块数量从公开接口读取，不在文案中写死。 */
 export const ABOUT = {
   kicker: `关于 ${SITE.name}`,
   /** 页面描述（搜索结果、分享卡片）。 */
   description: `关于 ${SITE.name}：${SITE.description}`,
   /** 大标题：第一行正常颜色，第二行强调色。 */
-  headline: ["AI 圈每天都有新动静，", "值得看的，只有几条。"] as [string, string],
-  /** 标题下面的一段话。{sources} 会换成实时的信源数（两边自动加空格，所以 {sources} 两边不写空格）；统计没取到时换成 sourcesFallback。 */
-  lead: `${SITE.name} 替你盯着{sources}个信源：抓取、归并、打分、精选，${EDITION_WHEN.daily} 出一份日报。免费，不用注册。`,
-  sourcesFallback: "十几",
+  headline: ["把信息连接起来，", "让认知持续进阶。"] as [string, string],
+  lead: `${SITE.name} 是面向学习与成长的多领域认知提升平台。连接行业洞察、世界动态、竞赛机会与升学信息，帮助你看懂变化、找到方向，把信息转化为下一步行动。`,
   /** 信源河动画下面的四个环节。 */
   steps: {
-    collect: "官方博客、媒体和个人的订阅源都在看；更新越勤的源看得越勤，最快 15 分钟看一次。",
-    store: "抓到的都存下来，同一件事的报道归到一起，热点榜就是从这里算出来的。",
-    select: `模型先看是不是这个行业的事、有没有实际信息，再写中文标题、摘要和${ITEM_COPY.reasonLabel}；营销稿和重复转发进不来。`,
-    publish: `${EDITION_WHEN.daily} 出日报，${EDITION_WHEN.weekly} 出周报，${EDITION_WHEN.monthly} 出月报。`,
+    collect: "从行业订阅、新闻媒体、竞赛官网和院校公告中汇集资料，为不同关注方向建立信息入口。",
+    store: "按内容特点提取摘要、时间节点、申请条件与材料要求，保留出处和核验状态。",
+    select: "将相关报道组织成事件，把比赛与备赛资源关联，让分散的信息有上下文、有适用范围。",
+    publish: "通过网页、阶段报告和 Agent 查询，支持日常研判、竞赛准备与升学规划。",
   },
+  areas: [
+    { key: "industry", name: "行业信息", to: "/", unit: "条行业精选", text: "从动态到趋势：围绕关注领域阅读精选、热点与事件脉络，通过日报、周报和月报建立持续的行业理解。" },
+    { key: "world", name: "世界新闻", to: "/world", unit: "条世界动态", text: "从事件到视野：关注政治、经济与安全动态，结合多来源报道和世界日报，理解更广阔的变化。" },
+    { key: "competition", name: "大学生竞赛", to: "/competitions", unit: "项竞赛届次", text: "从机会到备赛：查询比赛规则、报名节点和届次信息，关联经验帖与教学视频，为参赛准备找到路径。" },
+    { key: "admission", name: "保研 · 考研", to: "/admissions", unit: "条升学公告", text: "从目标到准备：按院校、院系、专业与阶段定位公告，核对申请条件、材料和截止时间，跟进招生变化。" },
+  ],
   /**
    * 作者块（选填），null 就不显示。
    * avatarSourceId：一个 X 账号信源的 id，头像取它的（选填）。
