@@ -12,6 +12,7 @@
   "exports": {
     ".": "./site.ts",
     "./models": "./models.ts",
+    "./agent": "./agent.ts",
     "./modules": "./modules/index.ts",
     "./modules/server": "./modules/server.ts",
     "./modules/competition-resources": "./modules/competition-resources.ts",

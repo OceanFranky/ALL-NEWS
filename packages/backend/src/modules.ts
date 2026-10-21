@@ -60,7 +60,9 @@ export interface AgentAbility {
   /** The guide's table row: what the user wants to know. */
   ask: string;
   /** The Markdown answer. */
-  answer: () => Promise<string>;
+  answer: (input?: Record<string, unknown>) => Promise<string>;
+  /** Optional GET query schema; the MCP tool uses the same parameter names. */
+  query?: z.ZodObject;
   etagPrefix: string;
   cacheControl: string;
   mcp: {

@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { IntentLink } from "../components/ui/IntentLink";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router";
 import type { Route } from "./+types/agent";
 import { PUBLIC_INTERFACE_VERSION } from "@aihot/contracts/http-policy";
+import { MCP_TOOLS } from "@aihot/contracts/mcp";
 import { SITE } from "@aihot/site";
+import { AGENT_SECTIONS, MODULE_AGENT_TOOLS } from "@aihot/site/agent";
 import { apiGet, cachedPage } from "../lib/api.server";
 import { pageReuse } from "../lib/page-reuse";
 import { listPath, pageMeta, siteUrl } from "../lib/seo";
-import { IconArrowUpRight, IconChevronRight, IconCode, IconPlug, IconRss } from "../components/icons";
+import { IconArrowUpRight, IconCode, IconPlug, IconRss } from "../components/icons";
+import { Ask } from "../features/agent/parts";
 import { Kicker } from "../components/ui/Kicker";
 import { AsideCard, ReadingLayout } from "../components/ui/Page";
 import { AGENT_PARTS, GUIDE_CLIENTS, TAG } from "../features/agent/module-parts";
@@ -32,8 +34,6 @@ const TRACKS: AgentTrack[] = [
 const FIRST = TRACKS[0]!.key;
 const tabKey = (key: string | null) => key && TRACKS.some(t => t.key === key) ? key : FIRST;
 const hrefOf = (key: string) => (key === FIRST ? "/agent" : `/agent?tab=${key}`);
-/** How many ways, as the copy counts them ("四种方式"). */
-const WAYS = ["零", "一", "两", "三", "四", "五", "六"][TRACKS.length];
 
 /** The modules' sections at the end of a panel. */
 const BLOCKS = AGENT_PARTS.flatMap((p) => p.blocks ?? []);
@@ -48,7 +48,7 @@ const anchorHref = (id: string) => `${hrefOf(ANCHORS.get(id)!)}#${id}`;
 const RESOURCES: Array<[label: string, href: string, note: string]> = [
   ["llms.txt", "/llms.txt", "给大模型读的站点说明"],
   ["Agent 使用说明", "/api/v1/agent", `Agent 读了就能查${GUIDE_CLIENTS ? `，${GUIDE_CLIENTS} 用的也是它` : ""}`],
-  ["OpenAPI 3.1", "/openapi-v1.json", `REST API 的完整定义 · ${V}`],
+  ["OpenAPI 3.1", "/openapi-v1.json", `公开 API 与四板块 Agent 查询 · ${V}`],
   ...AGENT_PARTS.flatMap((p) => p.resources ?? []),
 ];
 
@@ -80,7 +80,7 @@ export function meta({ location }: Route.MetaArgs) {
   const path = listPath("/agent", { tab: tab !== FIRST ? tab : null });
   return pageMeta({
     title: "Agent 接入",
-    description: `把 ${SITE.name} 接进你的 Agent：${TRACKS.map((t) => t.name).join("、")} ${WAYS}种方式，匿名只读，无需 API Key，一分钟接好。`,
+    description: `把 ${SITE.name} 的行业信息、世界新闻、大学生竞赛与保研考研接进 Agent。MCP、API 与 Markdown 查询，匿名只读，无需 API Key；RSS 订阅行业动态。`,
     path,
     image: "/og/pages/agent.png",
   });
@@ -161,10 +161,7 @@ export default function AgentPage() {
         </nav>
       </AsideCard>
       <AsideCard title="没接上？">
-        <p className="text-[13px] leading-[1.75] text-ink-3">把平台、版本和报错写在反馈页，别发 token 或本地文件。</p>
-        <IntentLink viewTransition to="/feedback" className="mt-3 inline-flex items-center gap-1 text-[13px] font-medium text-accent hover:underline">
-          去反馈 <IconChevronRight size={14} />
-        </IntentLink>
+        <p className="text-[13px] leading-[1.75] text-ink-3">确认服务地址可访问、客户端支持远程 MCP，并刷新工具列表。查询无结果时，先检查对应板块是否已有公开内容及筛选条件。</p>
       </AsideCard>
     </>
   );
@@ -175,8 +172,8 @@ export default function AgentPage() {
     <ReadingLayout aside={aside}>
       <header className="lg:pt-5">
         <Kicker>AGENT 接入</Kicker>
-        <h1 data-page-title="" className="mt-4 text-[28px] font-semibold leading-[1.3] text-ink sm:text-[32px]">{`把 ${SITE.name} 接进你的 Agent`}</h1>
-        <p className="mt-3 max-w-[40em] text-[15px] leading-[1.8] text-ink-3">{`${TRACKS.map((t) => t.short).join("、")} ${WAYS}种方式读的是同一份数据：精选、热点、日报、周报和月报，按你用的工具选一种就行。全部匿名只读，不用注册，也不用 API Key。`}</p>
+        <h1 data-page-title="" className="mt-4 text-[28px] font-semibold leading-[1.3] text-ink sm:text-[32px]">{`把 ${SITE.name} 的四个认知板块接进你的 Agent`}</h1>
+        <p className="mt-3 max-w-[40em] text-[15px] leading-[1.8] text-ink-3">行业信息、世界新闻、大学生竞赛、保研 · 考研，通过一个 MCP 地址查询，也可使用 REST API 和 Agent Markdown。读取已发布结果，保留原文出处与核验状态；匿名只读，无需 API Key。RSS 目前提供行业信息订阅。</p>
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className={`${chip} ${healthy ? "text-ok" : "text-hot"}`}>
             <span className={`size-1.5 rounded-full ${healthy ? "bg-ok" : "bg-hot"}`} aria-hidden="true" />
@@ -186,6 +183,18 @@ export default function AgentPage() {
           <span className={chip}>匿名只读 · 无需 Key</span>
         </div>
       </header>
+
+      <section aria-label="四个板块的 Agent 能力" className="mt-7 grid gap-3 sm:grid-cols-2">
+        {AGENT_SECTIONS.map(section => {
+          const count = section.id === "industry" ? MCP_TOOLS.length : MODULE_AGENT_TOOLS.filter(tool => tool.section === section.id).length;
+          return <article key={section.id} className="card min-w-0 p-4">
+            <div className="flex items-center justify-between gap-2"><h2 className="text-[17px] font-semibold text-ink">{section.name}</h2><span className="mono text-[12px] text-accent">{count} 个工具</span></div>
+            <p className="mt-2 text-[13px] leading-[1.8] text-ink-3">{section.description}</p>
+            <p className="my-3 text-[12px] leading-[1.8] text-accent">{section.workflow}</p>
+            <Ask text={section.ask} />
+          </article>;
+        })}
+      </section>
 
       {BANNERS.map((Banner, i) => <Banner key={i} base={base} tag={tag} now={now} href={anchorHref} open={open} />)}
 

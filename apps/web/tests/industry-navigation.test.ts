@@ -29,7 +29,7 @@ test("industry views share one page navigation while world and campus remain con
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(`${web.origin}/`);
       const sidebar = page.locator('nav[aria-label="主导航"]');
-      assert.deepEqual(await sidebar.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "保研 · 考研", "收藏", "Agent 接入", "关于", "更新日志", "反馈"]);
+      assert.deepEqual(await sidebar.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "保研 · 考研", "收藏", "Agent 接入", "关于"]);
       assert.equal(await sidebar.getByText("校园", { exact: true }).count(), 0);
       const content = sidebar.locator(":scope > div").first();
       assert.deepEqual(await content.locator("a").allTextContents(), ["行业信息", "世界新闻", "大学生竞赛", "保研 · 考研", "收藏"]);

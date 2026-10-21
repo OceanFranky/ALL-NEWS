@@ -105,8 +105,10 @@ export function registerAgent(app: FastifyInstance) {
   // The modules' abilities, each answered at its own address.
   for (const ability of serverModules().flatMap((m) => m.agent?.abilities ?? [])) {
     app.get(`/api/v1/agent${ability.path}`, publicHandler(async (req, reply) => {
-      strictQuery(req, []);
-      return markdown(req, reply, await ability.answer(), ability.etagPrefix, ability.cacheControl);
+      const input = strictQuery(req, Object.keys(ability.query?.shape ?? {}));
+      const parsed = ability.query?.safeParse(input);
+      if (parsed && !parsed.success) throw new QueryError("请按工具说明提供有效的筛选参数或结果编号。");
+      return markdown(req, reply, await ability.answer(parsed?.data), ability.etagPrefix, ability.cacheControl);
     }));
   }
 }

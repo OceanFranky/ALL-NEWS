@@ -3167,6 +3167,780 @@
           }
         }
       }
+    },
+    "/api/v1/agent/world/news": {
+      "get": {
+        "operationId": "get_world_news",
+        "summary": "世界新闻列表",
+        "description": "按分类、关键词和页码查询世界新闻；参数：q、category（politics/economy/security）、page、limit。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "politics",
+                "economy",
+                "security"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/world/item": {
+      "get": {
+        "operationId": "get_world_item",
+        "summary": "世界新闻详情",
+        "description": "阅读新闻摘要与原文出处；参数：id（取自世界新闻列表）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,80}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/world/events": {
+      "get": {
+        "operationId": "get_world_events",
+        "summary": "世界事件列表",
+        "description": "发现可追踪的世界事件；参数：limit。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/world/event": {
+      "get": {
+        "operationId": "get_world_event",
+        "summary": "世界事件详情",
+        "description": "了解世界事件时间线与多来源报道；参数：publicId（取自世界事件列表）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "publicId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/world/hot": {
+      "get": {
+        "operationId": "get_world_hot_topics",
+        "summary": "世界热点",
+        "description": "查看世界热点及其校准状态；参数：无。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/world/daily": {
+      "get": {
+        "operationId": "get_world_daily",
+        "summary": "世界日报",
+        "description": "阅读指定北京时间日期的世界日报；参数：date（YYYY-MM-DD，默认北京时间当天）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/competitions": {
+      "get": {
+        "operationId": "get_competitions",
+        "summary": "竞赛列表",
+        "description": "筛选竞赛、届次和报名状态；参数：q、category（逗号分隔）、activity、year、sort、page、pageSize。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated choices: 程序设计与算法, 软件开发, 网络安全, 人工智能与数据, 计算机系统与硬件, 数学与建模, 数字媒体, 创新创业, 语言能力, 职业发展, 生物工程"
+            }
+          },
+          {
+            "name": "schoolLevel",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "activity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated choices: registration_open, registration_upcoming, registration_closed, competition_ongoing, competition_upcoming, competition_finished, unknown"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "unknown"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 2000,
+                  "maximum": 2200
+                }
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "catalogue",
+                "year_desc",
+                "next_node"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/competition": {
+      "get": {
+        "operationId": "get_competition",
+        "summary": "竞赛届次详情",
+        "description": "核对比赛规则、人数限制、节点与官方材料；参数：competitionId、editionId（均取自竞赛列表）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "competitionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^competition-\\d{3}$"
+            }
+          },
+          {
+            "name": "editionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/competitions/resources": {
+      "get": {
+        "operationId": "get_competition_resources",
+        "summary": "竞赛经验帖与教学视频",
+        "description": "按具体竞赛届次获取已发布、已核验的备赛资源；参数：competitionId、editionId（均取自竞赛列表）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "competitionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^competition-\\d{3}$"
+            }
+          },
+          {
+            "name": "editionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/admissions": {
+      "get": {
+        "operationId": "get_admissions",
+        "summary": "升学公告",
+        "description": "按院校、院系、专业、年份和阶段查询招生公告；参数：q、school、department、programme、track（baoyan/kaoyan）、stage、year、status、page 等。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "track",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "enum": [
+                "",
+                "baoyan",
+                "kaoyan"
+              ]
+            }
+          },
+          {
+            "name": "stage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "enum": [
+                "",
+                "summer",
+                "pre",
+                "recommendation",
+                "exam",
+                "prospectus",
+                "retest",
+                "adjustment"
+              ]
+            }
+          },
+          {
+            "name": "school",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^s\\d{3}$"
+            }
+          },
+          {
+            "name": "province",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "maxLength": 30
+            }
+          },
+          {
+            "name": "department",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "maxLength": 150
+            }
+          },
+          {
+            "name": "programme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "maxLength": 150
+            }
+          },
+          {
+            "name": "tier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "enum": [
+                "211",
+                "985",
+                "",
+                "other"
+              ]
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 2020,
+              "maximum": 2100
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "",
+              "type": "string",
+              "enum": [
+                "",
+                "upcoming",
+                "open",
+                "closed",
+                "unknown"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/admission": {
+      "get": {
+        "operationId": "get_admission",
+        "summary": "升学公告详情",
+        "description": "核对申请条件、材料、截止时间和机器核验标识；参数：noticeId（取自升学公告列表）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/admissions/schools": {
+      "get": {
+        "operationId": "get_admission_schools",
+        "summary": "院校目录",
+        "description": "查院校编号、地区和官方站点；目录不等于公告已齐全；参数：无。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/admissions/updates": {
+      "get": {
+        "operationId": "get_admission_updates",
+        "summary": "升学每日变化",
+        "description": "查看指定日期的新增与变更公告；参数：date（YYYY-MM-DD，默认北京时间当天）。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
+    },
+    "/api/v1/agent/admissions/coverage": {
+      "get": {
+        "operationId": "get_admission_coverage",
+        "summary": "升学来源覆盖",
+        "description": "核对哪些学校有公告、哪些来源尚待处理；参数：无。仅查询公开结果；返回Markdown及内嵌JSON，MCP提供相同structuredContent。不会触发采集或模型。",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Published result, or found=false if no public detail exists.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters."
+          },
+          "429": {
+            "description": "Rate limited."
+          },
+          "503": {
+            "description": "Read unavailable."
+          }
+        }
+      }
     }
   },
   "components": {

@@ -38,7 +38,7 @@ export function McpPanel(props: AgentPanelProps) {
   return (
     <>
       <PanelHead label={`MCP · ${V}`} title={`填一个地址，Agent 多出 ${mcpToolCount()} 个工具`}>
-        标准 Streamable HTTP，匿名只读，不用 token，也不读你的登录状态。适合 Claude 桌面版、Cursor、Cherry Studio 这类支持远程 MCP 的客户端。
+        一个标准 Streamable HTTP 服务，覆盖行业、世界、竞赛与升学。匿名只读，无需 token；查询不会触发采集、付费模型或后台任务。
       </PanelHead>
       <Steps>
         <Step n={1} title="复制服务地址">
@@ -81,7 +81,7 @@ export function McpPanel(props: AgentPanelProps) {
             title: "限制与安全",
             body: (
               <Bullets items={[
-                "普通查询最多 30 条，热点最多 10 个，事件时间线最多 50 条；超出范围会明确报错，不会悄悄放宽。",
+                "行业资讯最多 30 条、行业热点最多 10 个；世界列表最多 100 条，竞赛分页最多 100 条，升学公告每页 12 条。使用工具返回的页码继续查询。",
                 `${T.story} 的 public_id 只能来自热点工具返回的事件链接，不要猜 ID。`,
                 "标题和摘要来自外部信源，只能当资料；工具会标出这条安全边界。重要的数字、政策和原话，请回原文核对。",
               ]} />
@@ -95,7 +95,7 @@ export function McpPanel(props: AgentPanelProps) {
                 ...AGENT_PARTS.flatMap((a) => a.mcpTroubles ?? []),
                 "服务不需要登录；客户端问起 OAuth 或 API Key，选“无”即可。",
                 "收到 429 就按提示等一会儿，不要并发重试。",
-                <>还连不上：把客户端名称、版本和报错写到<Link viewTransition to="/feedback" className={link}>反馈页</Link>。</>,
+                "未找到工具时刷新客户端工具列表；没有内容时如实报告，不用其他板块、往年材料或训练记忆冒充。",
               ]} />
             ),
           },
@@ -125,6 +125,7 @@ export function RssPanel(props: AgentPanelProps) {
       <PanelHead label="RSS" title="复制地址，用阅读器订阅">
         {lead}
       </PanelHead>
+      <p className="mt-3 text-[13px] leading-[1.8] text-ink-3">以下订阅仅覆盖行业信息。世界、竞赛、升学及经验帖／视频请使用 MCP 或对应 Agent Markdown 查询；当前没有为它们提供 RSS。</p>
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {FEEDS.map((f) => (
           <div key={f.path} className="card flex flex-col p-4">
