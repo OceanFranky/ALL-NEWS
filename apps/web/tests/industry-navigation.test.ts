@@ -38,7 +38,7 @@ test("industry views share one page navigation while world and campus remain con
       for (const [label, path] of [["全部 AI 动态", "/all"], ["热点榜", "/hot"], ["AI 日报", "/daily"], ["主题", "/topics"], ["精选", "/"]]) {
         await navigation.getByRole("link", { name: label, exact: true }).click();
         await expect(page).toHaveURL(web.origin + path);
-        await expect(page.getByRole("heading", { name: "行业信息", exact: true })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "行业信息", exact: true, level: 1 })).toBeVisible();
         await expect(navigation.getByRole("link", { name: label, exact: true })).toHaveAttribute("aria-current", "page");
         await expect(sidebar.locator('a[href="/"]')).toHaveAttribute("aria-current", "page");
         if (width === 390) {

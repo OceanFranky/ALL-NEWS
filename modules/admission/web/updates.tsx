@@ -17,7 +17,7 @@ export default function AdmissionUpdates() {
   const { daily, monitor } = useLoaderData<typeof loader>();
   const published = monitor.schools.filter(s => s.notices > 0).length;
   return <><PhoneBar title="升学动态" /><div className="pb-10 pt-3 lg:pt-0"><AdmissionNav />
-    <header className="mb-7 border-b border-line pb-6"><p className="text-sm text-accent">官方来源 → 自动整理 → 追溯原文</p><h1 data-page-title className="mt-3 font-serif text-3xl font-bold text-ink">升学动态与来源覆盖</h1><p className="mt-4 text-sm leading-7 text-ink-3">后台围绕用户添加的官网来源更新。当前{published}校有已发布公告；入口正常不代表已覆盖全部院系。机器整理通过格式与引用检查，仍需对照官方原文。</p></header>
+    <header className="mb-8 border-t-2 border-t-accent border-b border-b-line pb-6 pt-5 lg:pt-7"><p className="mono mb-3 text-[10px] tracking-[0.2em] text-accent">ADMISSIONS / UPDATES</p><h1 data-page-title className="font-serif text-[32px] font-semibold tracking-tight text-ink lg:text-[40px]">升学动态与来源覆盖</h1><p className="mt-4 text-sm leading-7 text-ink-3">后台围绕用户添加的官网来源更新。当前{published}校有已发布公告；入口正常不代表已覆盖全部院系。机器整理通过格式与引用检查，仍需对照官方原文。</p></header>
     <section className="mb-8"><div className="mb-4 flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold text-ink">每日升学简报</h2><Form className="flex items-center gap-2"><label className="sr-only" htmlFor="digest-date">简报日期</label><input id="digest-date" name="date" type="date" defaultValue={daily.date} className={inputClass} /><button className="shrink-0 px-3 py-2 text-sm text-accent">查看</button></Form></div>
       <p className="mb-4 text-xs leading-6 text-ink-3">按北京时间的首次收录／更新汇总，原文可能早于收录日期。展示当前有效版本，撤回内容即时移除；本简报自动编排，不额外调用模型。</p>
       {!daily.changes.length && <p className="card p-5 text-sm text-ink-3">这一天暂无已发布的收录或更新。</p>}

@@ -63,3 +63,14 @@ test("published machine summaries with checked citations remain distinct from hu
   assert.deepEqual(report.items.map(item => item.notice.id), ["machine"]);
   assert.equal(report.items[0].notice.source.verified, false);
 });
+
+test("saved, paused and review-required goals do not claim that preparation is running", () => {
+  for (const [status, expected] of [["queued", "等待后台执行"], ["paused", "暂停"], ["needs-review", "检查已结束"]] as const) {
+    const report = buildAgentBrief(goal, school.name, [], null, status, now);
+    assert.equal(report.state, "waiting"); assert.match(report.overview, new RegExp(expected));
+    assert.doesNotMatch(report.overview, /正在准备|正在查找/);
+    assert.deepEqual(report.items, []); assert.deepEqual(report.timeline, []);
+    const readable = buildAgentBrief(goal, school.name, [notice("existing")], null, status, now);
+    assert.equal(readable.state, "ready"); assert.equal(readable.items[0].notice.id, "existing");
+  }
+});

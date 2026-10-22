@@ -34,7 +34,7 @@ export default function SavedCompetitions() {
     });
     return () => controller.abort();
   }, [stars, retry]);
-  return <><PhoneBar title="竞赛收藏" back={{ to: "/competitions", label: "竞赛总览" }} /><div className="pb-10 pt-4 lg:pt-0"><CompetitionNav /><h1 data-page-title className="text-[26px] font-bold text-ink">竞赛收藏</h1><p className="mb-6 mt-2 text-[13px] leading-relaxed text-ink-3">保存在当前浏览器，按具体届次收藏，与新闻收藏分开。</p>
+  return <><PhoneBar title="竞赛收藏" back={{ to: "/competitions", label: "竞赛总览" }} /><div className="pb-10 pt-4 lg:pt-0"><CompetitionNav /><header className="border-t-2 border-accent pt-5 lg:pt-7"><p className="mono mb-2 text-[10px] tracking-[0.2em] text-accent">COMPETITIONS / SAVED</p><h1 data-page-title className="font-serif text-[32px] font-semibold text-ink">竞赛收藏</h1></header><p className="mb-6 mt-2 text-[13px] leading-relaxed text-ink-3">保存在当前浏览器，按具体届次收藏，与新闻收藏分开。</p>
     {loading ? <p role="status" className="py-10 text-center text-[13px] text-ink-3">正在读取收藏…</p> : <>
       {result.failed && <div role="alert" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-card border border-line p-4 text-[13px] text-ink-3">部分收藏暂时无法加载，记录仍保留。<button type="button" className={buttonClass()} onClick={() => setRetry(value => value + 1)}>重新加载</button></div>}
       <div className="space-y-3">{result.items.map(item => <CompetitionCard key={item.editionId} item={item} from="/competitions/saved" />)}{result.missing.map(star => <div key={star.editionId} className="card flex items-center justify-between gap-4 p-5"><div><p className="text-[14px] font-semibold text-ink-2">此届竞赛暂不可查看</p><p className="mt-1 text-[12px] text-ink-3">可能已撤回或尚未展示，可取消收藏。</p></div><SaveButton item={star} /></div>)}</div>

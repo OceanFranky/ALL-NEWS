@@ -30,8 +30,11 @@ export function buildAgentBrief(goal: AgentGoal, schoolName: string, notices: Pu
     : references.length ? `已整理${references.length}篇校级或其他专业参考，尚无符合关注方向的要求，暂不将参考内容写成你的申请条件。`
       : status === "awaiting-model" ? "官网材料已保存，摘要整理尚未启用。启用后将汇总相关公告、申请重点与日期；当前不根据搜索标题生成报告。"
         : status === "budget-paused" ? "官网材料已保存，模型额度不足，简报等待整理。不会自行追加费用。"
-          : waiting ? "正在准备这份简报。后台会查找官网、阅读相关文章，再整理有原文依据的要点。"
-            : "本轮尚未整理出符合条件的公告。可能存在读取限制或尚未定位到材料，不能据此认定学校没有发布。";
+          : status === "paused" ? "任务已由管理员暂停，尚无可写入简报的匹配公告；刷新不会恢复执行。"
+            : status === "needs-review" ? "本轮检查已结束，部分材料需要人工核对，尚无可写入简报的匹配公告。"
+              : status === "queued" ? "目标已保存，等待后台执行；尚无可写入简报的匹配公告。"
+                : waiting ? "后台上次记录正在查找或整理材料，尚无可写入简报的匹配公告，请结合最近活动与处理记录核对。"
+                  : "本轮尚未整理出符合条件的公告。可能存在读取限制或尚未定位到材料，不能据此认定学校没有发布。";
   const items = chosen.map(notice => {
     const days = notice.deadline ? daysUntil(notice.deadline, today) : null;
     const reason = closed(notice) ? "已截止 · 政策回顾" : days !== null && days <= 7 ? days === 0 ? "今日截止 · 核对原文时刻" : `${days}天内截止 · 优先核对`

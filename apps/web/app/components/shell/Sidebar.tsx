@@ -25,8 +25,8 @@ function SideLink({ item, dot }: { item: NavItem; dot: boolean }) {
       to={item.to}
       prefetch="intent"
       aria-current={isActive ? "page" : undefined}
-      className={`flex h-10 items-center gap-2.5 rounded-control px-2.5 text-[14px] transition-colors duration-150 ${
-        isActive ? "bg-accent/10 font-semibold text-ink dark:bg-accent-soft" : "font-medium text-ink-3 hover:bg-bg-sunk hover:text-ink"
+      className={`flex h-11 items-center gap-2.5 rounded-control border-l-2 pl-2 pr-2.5 text-[14px] transition-colors duration-150 ${
+        isActive ? "border-accent bg-accent/10 font-semibold text-ink dark:bg-accent-soft" : "border-transparent font-medium text-ink-3 hover:bg-bg-sunk hover:text-ink"
       }`}
     >
       <span className={`flex w-[22px] shrink-0 justify-center ${isActive ? "text-accent" : ""}`}>
@@ -45,6 +45,7 @@ export function Sidebar({ changelogVersion }: { changelogVersion: string | null 
       <Link to="/" className="mb-4 flex h-[50px] items-center px-1 text-ink" aria-label={`${SITE.name} 首页`}>
         <Wordmark size={26} />
       </Link>
+      <p className="mx-2 mb-3 border-b border-line pb-4 text-[11px] tracking-[0.12em] text-ink-4">阅读 · 理解 · 行动</p>
       <nav className="scrollbar-thin -mx-1 flex-1 overflow-y-auto px-1" aria-label="主导航">
         {sidebar().map((section) => (
           <div key={section.title}>

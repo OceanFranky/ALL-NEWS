@@ -9,9 +9,10 @@ import { categories, categoryLabel, itemHref, timelineHref, type WorldItem } fro
 export function ReaderHeader({ category = '', q = '', overview = false }: { category?: string; q?: string; overview?: boolean }) {
   return <>
     <PhoneBar title="世界新闻" />
-    <header className="pb-5 pt-3 lg:pt-0">
-      <h1 data-page-title="" className="text-[24px] font-semibold leading-[1.3] text-ink">世界新闻</h1>
-      {overview && <p className="mt-1.5 text-[13px] text-ink-3">看见事件，也看懂背景</p>}
+    <header className={`pb-5 pt-3 lg:pt-0 ${overview ? 'mt-3 border-t-2 border-accent lg:mt-0 lg:pt-5' : ''}`}>
+      {overview && <p className="mono mb-3 text-[10px] tracking-[0.2em] text-accent">WORLD / THE BIG PICTURE</p>}
+      <div className="flex flex-wrap items-end justify-between gap-3"><h1 data-page-title="" className={overview ? "font-[ui-serif,Georgia,'Songti_SC','SimSun',serif] text-[34px] leading-[1.3] tracking-tight text-ink lg:text-[44px]" : "text-[24px] font-semibold leading-[1.3] text-ink"}>世界新闻</h1>
+      {overview && <p className="pb-1 text-[13px] text-ink-3">看见事件，也看懂背景</p>}</div>
       <div className="mt-4 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <PillTabs label="世界新闻分类" layoutId="world-categories" active={overview ? 'all' : category} items={[
           { key: 'all', label: '全部', to: '/world', resetScroll: true },
@@ -27,7 +28,7 @@ export function ReaderHeader({ category = '', q = '', overview = false }: { cate
   </>;
 }
 export function SectionTitle({ children, to, linkText = '查看全部' }: { children: React.ReactNode; to?: string; linkText?: string }) {
-  return <div className="mb-3 flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-[16px] font-semibold text-ink"><span className="size-1.5 rounded-full bg-accent" />{children}</h2>{to && <Link to={to} className="inline-flex items-center gap-1 text-[12.5px] text-accent">{linkText}<IconArrowRight size={14} /></Link>}</div>;
+  return <div className="mb-3 flex items-center justify-between gap-3 border-b border-line pb-3"><h2 className="flex items-center gap-2 text-[16px] font-semibold text-ink"><span className="h-3 w-0.5 bg-accent" />{children}</h2>{to && <Link to={to} className="inline-flex min-h-8 items-center gap-1 text-[12.5px] text-accent">{linkText}<IconArrowRight size={14} /></Link>}</div>;
 }
 export function Empty({ children }: { children: React.ReactNode }) {
   return <p className="py-7 text-[13.5px] leading-7 text-ink-3">{children}</p>;

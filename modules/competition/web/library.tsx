@@ -76,7 +76,7 @@ export default function CompetitionLibrary() {
   return <>
     <PhoneBar title="全部竞赛库" back={{ to: "/competitions", label: "竞赛总览" }} />
     <div className="pb-10 pt-4 lg:pt-0"><CompetitionNav />
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-5"><div><h1 data-page-title className="text-[26px] font-bold tracking-tight text-ink">全部竞赛库</h1><p className="mt-2 text-[13px] leading-relaxed text-ink-3">从感兴趣的方向出发，找到竞赛与官方资料。</p></div><span className="num text-[13px] text-ink-3">共 {result.total} 项</span></div>
+      <div className="mb-7 flex flex-wrap items-end justify-between gap-5 border-t-2 border-accent pt-5 lg:pt-7"><div><h1 data-page-title className="font-serif text-[32px] font-semibold tracking-tight text-ink lg:text-[40px]">全部竞赛库</h1><p className="mt-2 text-[13px] leading-relaxed text-ink-3">从感兴趣的方向出发，找到竞赛与官方资料。</p></div><span className="num text-[13px] text-ink-3">共 {result.total} 项</span></div>
       <div className="mb-4 flex items-center gap-3"><Form key={params.get("q") ?? ""} method="get" className="flex min-w-0 flex-1 items-center gap-2">
         {queryKeys.filter(key => !["q", "page"].includes(key) && params.get(key)).map(key => <input key={key} type="hidden" name={key} value={params.get(key)!} />)}
         <label className="min-w-0 flex-1"><span className="sr-only">竞赛名称</span><input name="q" maxLength={200} defaultValue={params.get("q") ?? ""} placeholder="搜索竞赛名称" className="h-11 w-full rounded-full border border-line-strong bg-surface px-4 text-[14px] text-ink outline-none focus:border-accent" /></label><button type="submit" className={buttonClass("primary")}>搜索</button>

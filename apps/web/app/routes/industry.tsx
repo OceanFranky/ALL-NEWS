@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router";
 import { INDUSTRY_NAV, industryTab } from "../components/shell/nav";
 import { PillTabs } from "../components/ui/Tabs";
 import type { Screen } from "../components/shell/screens";
+import { PlatformGuide } from "../components/shell/PlatformGuide";
 
 export const handle: Screen = { tab: "featured", name: "行业信息" };
 
@@ -11,10 +12,12 @@ export default function IndustryPage() {
   const filters = new URLSearchParams(search);
   for (const key of [...filters.keys()]) if (!["category", "channel", "tag"].includes(key)) filters.delete(key);
   const query = filters.toString();
+  const showGuide = pathname === "/" && !search;
   return (
     <>
-      <section aria-label="行业信息" className="mb-5 border-b border-line pb-4 pt-3 lg:pt-0">
-        <h1 className="mb-4 text-[24px] font-semibold leading-[1.3] text-ink">行业信息</h1>
+      {showGuide && <div className="pt-5 lg:pt-0"><PlatformGuide /></div>}
+      <section id="industry-feed" aria-label="行业信息" className="mb-5 scroll-mt-16 border-b border-line pb-4 pt-3 lg:pt-0">
+        <div className="mb-4 flex items-baseline justify-between gap-3"><h1 className="text-[24px] font-semibold leading-[1.3] text-ink">行业信息</h1><span aria-hidden="true" className="mono text-[10px] tracking-[0.12em] text-ink-4">INDUSTRY / INSIGHTS</span></div>
         <PillTabs
           label="行业信息切换"
           size="xs"

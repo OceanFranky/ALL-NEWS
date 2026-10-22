@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, NavLink, useRouteError, isRouteErrorResponse, useRevalidator } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation, useRouteError, isRouteErrorResponse, useRevalidator } from "react-router";
 import { stages, statusLabels, tracks, type PublicNotice } from "@aihot/contracts/admission";
 import { PhoneBar } from "@aihot/web/components/shell/PhoneBar";
 import { IconBookmark } from "@aihot/web/components/icons";
@@ -8,7 +8,15 @@ import { useStars, toggleStar, useChecklist } from "./stars.ts";
 
 export const inputClass = "min-h-11 w-full min-w-0 rounded-xl border border-line-strong bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 export function AdmissionNav() {
-  return <nav aria-label="升学导航" className="mb-7 flex flex-wrap gap-x-6 border-b border-line text-sm">{[["/admissions", "机会看板"], ["/admissions/schools", "院校目录"], ["/admissions/saved", "我的收藏"], ["/admissions/sources", "我的来源"], ["/admissions/agent", "升学简报"], ["/admissions/updates", "收录动态"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `border-b-2 py-3 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3"}`}>{label}</NavLink>)}</nav>;
+  const navRef = useRef<HTMLElement>(null), { pathname } = useLocation();
+  useEffect(() => {
+    const nav = navRef.current, active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!nav || !active) return;
+    const bounds = nav.getBoundingClientRect(), item = active.getBoundingClientRect();
+    if (item.left < bounds.left) nav.scrollLeft += item.left - bounds.left;
+    else if (item.right > bounds.right) nav.scrollLeft += item.right - bounds.right;
+  }, [pathname]);
+  return <nav ref={navRef} aria-label="升学导航" className="scrollbar-none mb-6 flex gap-1 overflow-x-auto border-b border-line text-[13px] lg:mb-7 lg:gap-4 lg:text-sm">{[["/admissions", "机会看板"], ["/admissions/schools", "院校目录"], ["/admissions/saved", "我的收藏"], ["/admissions/sources", "我的来源"], ["/admissions/agent", "升学简报"], ["/admissions/updates", "收录动态"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `min-h-11 shrink-0 border-b-2 px-3 py-3 lg:px-1 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3"}`}>{label}</NavLink>)}</nav>;
 }
 export function SaveButton({ id }: { id: string }) {
   const { ids } = useStars(); const active = ids.includes(id); const [failed, setFailed] = useState(false);

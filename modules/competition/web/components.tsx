@@ -10,12 +10,12 @@ import { activityLabels, competitionPath, displayDate, nodeLabels, safeLink } fr
 import { toggleCompetitionStar, useCompetitionStars, type SavedCompetition } from "./stars.ts";
 
 export function CompetitionNav() {
-  return <nav aria-label="竞赛导航" className="mb-6 flex gap-6 border-b border-line text-[13px]">
-    {[["/competitions", "竞赛总览"], ["/competitions/library", "全部竞赛库"], ["/competitions/saved", "竞赛收藏"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `border-b-2 pb-3 pt-2 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3 hover:text-ink"}`}>{label}</NavLink>)}
+  return <nav aria-label="竞赛导航" className="scrollbar-none mb-6 flex snap-x gap-2 overflow-x-auto border-b border-line text-[13px] lg:gap-5">
+    {[["/competitions", "竞赛总览"], ["/competitions/library", "全部竞赛库"], ["/competitions/saved", "竞赛收藏"]].map(([to, label]) => <NavLink key={to} to={to} end className={({ isActive }) => `min-h-11 shrink-0 snap-start border-b-2 px-3 pb-3 pt-2 lg:px-1 ${isActive ? "border-accent font-semibold text-accent" : "border-transparent text-ink-3 hover:text-ink"}`}>{label}</NavLink>)}
   </nav>;
 }
 export function SectionTitle({ title, description, action }: { title: string; description?: string; action?: ReactNode }) {
-  return <div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div><h2 className="flex items-center gap-2.5 text-[18px] font-bold text-ink"><span className="h-5 w-1 rounded-full bg-accent" />{title}</h2>{description && <p className="mt-1.5 text-[12px] leading-relaxed text-ink-3">{description}</p>}</div>{action}</div>;
+  return <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3"><div><h2 className="flex items-center gap-2.5 text-[17px] font-semibold text-ink"><span className="h-4 w-0.5 bg-accent" />{title}</h2>{description && <p className="mt-1.5 text-[12px] leading-relaxed text-ink-3">{description}</p>}</div>{action}</div>;
 }
 export function FieldNotice({ field }: { field: CompetitionField<unknown> }) {
   return <span className="text-[13px] text-ink-3">{field.reason || "资料不足，待核验"}</span>;

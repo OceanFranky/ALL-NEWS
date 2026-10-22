@@ -57,6 +57,7 @@ test("admission reading, local preparation and admin form work independently on 
       await expect(page.getByRole("link", { name: "添加官网链接", exact: true })).toBeVisible();
       await expect(page.locator('select[name="department"]')).toBeDisabled();
       await page.locator('select[name="school"]').selectOption("s002");
+      await page.getByText("更多筛选 · 院系、专业、年份与地区", { exact: true }).click();
       await expect(page.locator('select[name="department"]')).toBeEnabled();
       await page.locator('select[name="department"]').selectOption(notice.department);
       await expect(page).toHaveURL(/department=/);
