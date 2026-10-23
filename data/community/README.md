@@ -1,22 +1,22 @@
-# MyHOT 共享运行结果
+# NEXUS 共享运行结果
 
 这份快照让贡献者直接查看已跑出的内容，无需重新抓取或调用模型。它是已经脱敏的公开数据集，不是生产库备份。
 
-当前文件：`myhot-2026-10-21.dump`，约 1.5 MB。完整表计数、时间和 SHA-256 校验值见同名 `.dump.json`。
+当前文件：`nexus-2026-10-23.dump`，约 1.8 MB。完整表计数、导出时间和 SHA-256 校验值见同名 `.dump.json`；配套格式为 `nexus-public-snapshot-v1`。
 
 | 内容 | 数量 |
 |---|---:|
-| 已公开新闻记录（含行业与世界） | 542 |
-| 行业精选（网页口径） | 73 |
-| 世界动态 | 156 |
+| 已公开新闻记录（含行业与世界） | 693 |
+| 行业精选（网页口径） | 94 |
+| 世界动态 | 169 |
 | 竞赛届次 | 31 |
 | 经验资源 | 48 |
 | 视频／培训资源入口 | 27 |
 | 升学公告 | 159 |
-| 行业日报／周报／月报已有报告 | 7 |
-| 世界已批准日报版本 | 3 |
+| 行业日报／周报／月报已有报告 | 8 |
+| 世界已批准日报版本 | 4 |
 
-数量采用 2026-10-21 的快照时点。时间窗、报名截止、内容更新会影响“今天”“最近一周”和热点展示；不修改原发布时间让历史数据冒充当天资讯。73 条行业精选包含网页阅读分组，机器同步快照按事实代表席位去重，数量可能不同。
+数量采用 2026-10-23 的快照时点。时间窗、报名截止、内容更新会影响“今天”“最近一周”和热点展示；不修改原发布时间让历史数据冒充当天资讯。94 条行业精选包含网页阅读分组，机器同步快照按事实代表席位去重，数量可能不同。
 
 保留摘要、公开事实／事件关联、报告、原文链接、竞赛届次、资源关联、升学核验标识与发布版本。已经验证恢复后的 159 条升学详情、31 条竞赛详情和 75 条资源关联与原库一致。
 
@@ -39,10 +39,10 @@
 3. 在 setup 第一次迁移前，导入快照：
 
    ```bash
-   docker compose run --rm --no-deps setup node scripts/community-snapshot.ts restore data/community/myhot-2026-10-21.dump
+   docker compose run --rm --no-deps setup node scripts/community-snapshot.ts restore data/community/nexus-2026-10-23.dump
    ```
 
-   如果提示数据库已有表，说明不是空库。请保留原库，改用新的独立部署目录与 Compose 项目（`docker compose -p myhot-contributor ...`，后续所有步骤保持同一项目名）；不要删除已有卷来强行导入。
+   如果提示数据库已有表，说明不是空库。请保留原库，改用新的独立部署目录与 Compose 项目（`docker compose -p nexus-contributor ...`，后续所有步骤保持同一项目名）；不要删除已有卷来强行导入。
 
 4. 再按常规顺序迁移与启动，只运行 API／Web 即可查看现成数据：
 
@@ -58,7 +58,7 @@
 先创建一个空的 PostgreSQL 数据库，把 `.env` 中的 `DATABASE_URL` 指向它；安装 Node.js 24 和 PostgreSQL 17+ 客户端，完成 `npm ci`，再运行：
 
 ```bash
-node --env-file=.env scripts/community-snapshot.ts restore data/community/myhot-2026-10-21.dump
+node --env-file=.env scripts/community-snapshot.ts restore data/community/nexus-2026-10-23.dump
 node --env-file=.env scripts/migrate.ts
 ```
 
@@ -70,7 +70,7 @@ node --env-file=.env scripts/migrate.ts
 
 ```bash
 # 在未跟踪的本机 .env 中设置 DATABASE_URL 和 SNAPSHOT_SCRATCH_URL
-node --env-file=.env scripts/community-snapshot.ts export data/community/myhot-2026-10-21.dump
+node --env-file=.env scripts/community-snapshot.ts export data/community/nexus-2026-10-23.dump
 ```
 
 更新前先审查脱敏规则，更新后重新恢复验证并同步本页计数与测试。共享文件只有 `.dump`、`.dump.json` 和本说明，临时原始备份不会写入仓库。此快照用于开发预览，不承诺恢复付费工作流历史或继续原有私有任务。

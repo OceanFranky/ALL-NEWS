@@ -2,7 +2,7 @@
 
 接入页面为 `/agent`，统一 MCP 地址为 `/api/mcp`。本机预览使用 `http://localhost:3000/api/mcp`；部署后的实际地址以接入页为准。全部工具匿名只读，查询不会创建采集、付费模型或个人升学任务。
 
-目前共 21 个工具，前缀来自 `site/site.ts` 的 `mcpPrefix`。现有配置为 `myhot_`。
+目前共 21 个工具，前缀来自 `site/site.ts` 的 `mcpPrefix`。现有配置为 `nexus_`。
 
 | 板块 | 工具后缀 | 使用顺序 |
 |---|---|---|

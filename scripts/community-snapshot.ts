@@ -21,7 +21,7 @@ function pg(program: string, url: string, args: string[]) {
   const env = { ...process.env,
     PGHOST: u.hostname, PGPORT: u.port || "5432", PGUSER: decodeURIComponent(u.username),
     PGPASSWORD: decodeURIComponent(u.password), PGDATABASE: decodeURIComponent(u.pathname.slice(1)) };
-  const tmp = mkdtempSync(path.join(tmpdir(), "myhot-restore-list-"));
+  const tmp = mkdtempSync(path.join(tmpdir(), "nexus-restore-list-"));
   try {
     if (program === "pg_restore" && !args.includes("--file")) {
       const list = execFileSync(program, ["--list", args.at(-1)!], { env, encoding: "utf8" });
@@ -35,7 +35,7 @@ function pg(program: string, url: string, args: string[]) {
 const digest = (file: string) => createHash("sha256").update(readFileSync(file)).digest("hex");
 async function restore(url: string) {
   const manifest = JSON.parse(readFileSync(file + ".json", "utf8"));
-  if (manifest.format !== "myhot-public-snapshot-v1" || digest(file) !== manifest.sha256) throw new Error("Snapshot format/checksum mismatch");
+  if (manifest.format !== "nexus-public-snapshot-v1" || digest(file) !== manifest.sha256) throw new Error("Snapshot format/checksum mismatch");
   const db = postgres(url, { max: 1, onnotice: () => {} });
   try {
     const [row] = await db`SELECT count(*)::int AS count FROM information_schema.tables WHERE table_schema='public'`;
@@ -108,7 +108,7 @@ async function exportSnapshot() {
   if (!/^[a-z][a-z0-9_]*_share_test$/.test(name) || u.pathname === new URL(source).pathname) throw new Error("Scratch must be a separate NEW database ending in _share_test");
   const adminUrl = new URL(scratch); adminUrl.pathname = "/postgres";
   const admin = postgres(adminUrl.toString(), { max: 1, onnotice: () => {} });
-  const tmp = mkdtempSync(path.join(tmpdir(), "myhot-private-export-")); let created = false;
+  const tmp = mkdtempSync(path.join(tmpdir(), "nexus-private-export-")); let created = false;
   try {
     await admin`CREATE DATABASE ${admin(name)}`; created = true;
     console.log("export: scratch database created");
@@ -148,7 +148,7 @@ async function exportSnapshot() {
         }
       }
       const migrations = (await db`SELECT name FROM schema_migrations ORDER BY name`).map(r => r.name);
-      writeFileSync(file + ".json", JSON.stringify({ format: "myhot-public-snapshot-v1", createdAt: now.toISOString(), sha256: digest(file), bytes: statSync(file).size, migrations, counts,
+      writeFileSync(file + ".json", JSON.stringify({ format: "nexus-public-snapshot-v1", createdAt: now.toISOString(), sha256: digest(file), bytes: statSync(file).size, migrations, counts,
         policy: "Published summaries and relationships only; no secrets, accounts, receipts, private tasks or raw article/attachment bodies. Collection disabled." }, null, 2) + "\n");
       console.log(JSON.stringify({ file, bytes: bytes.length, counts }));
     } finally { await db.end(); }

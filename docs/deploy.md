@@ -1,5 +1,21 @@
 # 部署
 
+## NEXUS 品牌升级（2026 年 10 月 23 日）
+
+站点名称、导航字标、页面标题、分享卡片、Feed／Agent 说明与抓取标识统一使用 NEXUS；行业示例仍为 AI，平台包含行业、世界、竞赛与升学四个板块。公开接口版本升为 `5.0.0`，21 个 MCP 工具统一使用 `nexus_` 前缀。升级后请重新发现 MCP 工具，并更新客户端中保存的旧工具名称；HTTP 路径和查询参数不变。
+
+已有部署升级前先备份，暂停 worker，保留原数据库、卷名、部署目录和密钥；不要为了改站名改数据库连接或重建数据卷。使用新版镜像对原库执行一次站点标签维护（参数为升级前站名）：
+
+```bash
+docker compose run --rm --no-deps setup node scripts/rename-site-data.ts MyHOT
+docker compose up -d --build
+```
+
+执行维护前先运行 `docker compose build`，确保 setup 使用新版脚本。脚本只替换报告标题开头的站名和精选同步记录中的站点署名，并同步内容哈希；不替换第三方正文、出处或审计历史，可重复执行。脚本不会采集或调用模型。完成后恢复原先已授权的 worker 配置。
+
+首次导入请使用 `data/community/nexus-2026-10-23.dump` 及配套 manifest（`nexus-public-snapshot-v1`）；内容统计时点保持原样，品牌更新时间单独记录。新版导入器验证新版格式与校验值，不接受旧格式文件。已有数据库无需重新导入共享快照。
+
+
 竞赛资源Agent接入：升级时保留完整 `learning-resources` 模块、0071–0074维护迁移、契约及竞赛workspace依赖；执行迁移后再启动新版应用。原竞赛单次／批次CLI会在同一次运行内采集资源候选并记录维护结果。消费已排队竞赛／资源任务可单独运行 `node --env-file=.env modules/competition/scripts/worker.ts`；它不注册每日竞赛自动任务，也不改变新闻worker。模型配置、采集阀及当次预算沿用原约束；本次未启用生产获取。控制与回退见[资源维护](../modules/learning-resources/MAINTENANCE.md)，GitHub交付见[上传说明](competition-resource-agent-upload.md)。回退先关闭后台「竞赛Agent运行时接入资源」并停止专用消费者，再回退应用；保留资源、历史、维护报告与审计，不删数据。
 
 资源管理R1：新增 `learning-resources` 模块及0068／0069／0070三个新表，管理员入口 `/admin/resources`，迁移不导入或发布真实资源。接口、撤回及回退说明见[资源模块](../modules/learning-resources/README.md)，Windows本机环境见[本地开发](local-resource-development.md)。
@@ -45,8 +61,8 @@
 需要一台装了 Docker（带 Compose）的机器。云服务器建议至少 2 核、4 GB 内存，构建镜像时要用到。
 
 ```bash
-git clone https://github.com/KKKKhazix/AIHOT.git myhot
-cd myhot
+git clone https://github.com/KKKKhazix/AIHOT.git nexus
+cd nexus
 node scripts/init-env.ts --llm-key <你的模型 API Key>
 ```
 
@@ -137,7 +153,7 @@ docker compose run --rm setup && docker compose up -d
 
 下面按时间从新到旧列出每次更新要注意的事。
 
-#### MyHOT 平台介绍（2026 年 10 月 21 日）
+#### NEXUS 平台介绍（2026 年 10 月 21 日）
 
 关于页改为介绍行业、世界、竞赛与升学四个板块。`ABOUT.lead` 现在直接显示完整介绍，不再替换 `{sources}`，移除 `ABOUT.sourcesFallback`；新增 `ABOUT.areas` 配置板块入口与说明。四个数量分别来自现有公开接口，无法取得时显示未知，不把行业信源数当作平台总量。无需数据库迁移或新环境变量，已有资料不受影响。
 
@@ -262,7 +278,7 @@ Docker 应用镜像已安装 PostgreSQL 客户端，数据库容器中也有 `pg
 下面的手动导出只包含数据库，不包含上述附件目录：
 
 ```bash
-docker compose exec -T db pg_dump -U aihot aihot | gzip > myhot-$(date +%F).sql.gz
+docker compose exec -T db pg_dump -U aihot aihot | gzip > nexus-$(date +%F).sql.gz
 ```
 
 数据都在三个 Docker 卷里：`db`（数据库）、`data`（上传的图片、图片缓存、本地备份）、`caddy`（证书）。`docker compose down` 不会删除它们；`docker compose down -v` 会。
@@ -296,13 +312,13 @@ docker compose logs -f --tail 100 api worker web
 ```bash
 npm ci
 node scripts/init-env.ts --llm-key <你的模型 API Key>
-createdb myhot
+createdb nexus
 ```
 
 在 `.env` 里加上：
 
 ```bash
-DATABASE_URL=postgres://你的用户名@127.0.0.1:5432/myhot
+DATABASE_URL=postgres://你的用户名@127.0.0.1:5432/nexus
 API_BASE_URL=http://127.0.0.1:3001
 ```
 

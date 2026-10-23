@@ -104,7 +104,7 @@ The same thing happens once: the official site posts it, ten outlets repeat it, 
   <img src="docs/assets/shots-light.png" alt="The daily selection on the home page, and the river of sources on the about page" width="100%">
 </picture>
 
-<p align="center"><sub>Screenshots from a local site running on the demo sources, under the default name MyHOT.</sub></p>
+<p align="center"><sub>Historical screenshots of a local site running on the demo sources; the current site name is NEXUS.</sub></p>
 
 ## Run it
 
@@ -115,8 +115,8 @@ You need [Docker](https://docs.docker.com/get-started/get-docker/), [Node.js 24]
 `init-env` configures DeepSeek by default. For another provider, change `LLM_BASE_URL`, `LLM_MODEL` and `LLM_EXTRA_JSON` in `.env`, following the examples in `.env.example`. With a reasoning model (one that thinks before answering), also set `LLM_REASONING_TOKENS` to leave output room for the reasoning.
 
 ```bash
-git clone https://github.com/KKKKhazix/AIHOT.git myhot
-cd myhot
+git clone https://github.com/KKKKhazix/AIHOT.git nexus
+cd nexus
 node scripts/init-env.ts --llm-key <your model API key>
 docker compose up -d --build
 ```

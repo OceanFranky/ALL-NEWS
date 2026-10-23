@@ -109,7 +109,7 @@
   <img src="docs/assets/shots-light.png" alt="首页的每日精选，关于页的信源河" width="100%">
 </picture>
 
-<p align="center"><sub>截图来自用示范信源跑起来的本地站，站名是默认的 MyHOT。</sub></p>
+<p align="center"><sub>截图为使用示范信源的历史界面；当前站名为 NEXUS。</sub></p>
 
 ## 跑起来
 
@@ -120,8 +120,8 @@
 `init-env` 默认按 DeepSeek 配置。用千问、智谱等别家，照 `.env.example` 里的例子改 `.env` 的 `LLM_BASE_URL`、`LLM_MODEL` 和 `LLM_EXTRA_JSON`；用推理模型（先想再答）时，还要设 `LLM_REASONING_TOKENS` 给推理留出输出额度。
 
 ```bash
-git clone https://github.com/KKKKhazix/AIHOT.git myhot
-cd myhot
+git clone https://github.com/KKKKhazix/AIHOT.git nexus
+cd nexus
 node scripts/init-env.ts --llm-key <你的模型 API Key>
 docker compose up -d --build
 ```

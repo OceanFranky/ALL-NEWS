@@ -219,7 +219,7 @@ export default function AboutPage() {
       </section>
 
       <section id="platform-sections" aria-labelledby="platform-title" className="mt-16 scroll-mt-6 xl:mt-24">
-        <Kicker>MYHOT · 认知地图</Kicker>
+        <Kicker>{SITE.name} · 认知地图</Kicker>
         <h2 id="platform-title" className="mt-4 text-[26px] font-black tracking-[-0.02em] text-ink sm:text-[34px]">四个板块，拓展你的信息视野</h2>
         <div className="mt-7 grid gap-4 sm:grid-cols-2">
           {ABOUT.areas.map(area => <IntentLink key={area.key} to={area.to} className="group card min-w-0 p-5 transition-colors hover:border-accent/40 sm:p-6">
@@ -235,7 +235,7 @@ export default function AboutPage() {
         <div>
           <Kicker>由关注点出发</Kicker>
           <h2 id="your-industry" className="mt-4 text-[26px] font-black tracking-[-0.02em] text-ink sm:text-[32px]">你的行业，由你定义</h2>
-          <p className="mt-4 text-[15px] leading-[1.9] text-ink-3">MyHOT 的行业信源、分类与提示词可按关注领域配置。当前行业板块以 AI 为示例，也可以围绕其他行业构建自己的信息视野，让关注点决定你看到什么。</p>
+          <p className="mt-4 text-[15px] leading-[1.9] text-ink-3">{SITE.name} 的行业信源、分类与提示词可按关注领域配置。当前行业板块以 AI 为示例，也可以围绕其他行业构建自己的信息视野，让关注点决定你看到什么。</p>
         </div>
         <div className="space-y-6 lg:pt-1">
           <div><h3 className="text-[17px] font-semibold text-ink">带着出处理解信息</h3><p className="mt-2 text-[14px] leading-[1.85] text-ink-3">新闻关注事件与多来源脉络，竞赛关注规则与备赛资源，升学关注院校条件和材料证据。保留原文与核验状态，帮助你判断信息是否适合当前目标。</p></div>
